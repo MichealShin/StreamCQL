@@ -18,40 +18,43 @@
 
 package com.huawei.streaming.storm;
 
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import org.apache.thrift7.TException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import backtype.storm.LocalCluster;
-import backtype.storm.StormSubmitter;
-import backtype.storm.generated.AlreadyAliveException;
-import backtype.storm.generated.AuthorizationException;
-import backtype.storm.generated.ClusterSummary;
-import backtype.storm.generated.InvalidTopologyException;
-import backtype.storm.generated.KillOptions;
-import backtype.storm.generated.NotAliveException;
-import backtype.storm.generated.StormTopology;
-import backtype.storm.generated.TopologySummary;
-import backtype.storm.topology.BoltDeclarer;
-import backtype.storm.topology.IRichBolt;
-import backtype.storm.topology.TopologyBuilder;
-import backtype.storm.tuple.Fields;
-import backtype.storm.utils.NimbusClient;
-
 import com.huawei.streaming.application.Application;
 import com.huawei.streaming.application.ApplicationResults;
 import com.huawei.streaming.application.DistributeType;
 import com.huawei.streaming.application.GroupInfo;
+import com.huawei.streaming.common.Pair;
 import com.huawei.streaming.config.StreamingConfig;
 import com.huawei.streaming.exception.ErrorCode;
 import com.huawei.streaming.exception.StreamingException;
-import com.huawei.streaming.operator.FunctionOperator;
-import com.huawei.streaming.operator.FunctionStreamOperator;
 import com.huawei.streaming.operator.IRichOperator;
+import com.huawei.streaming.storm.components.ComponentCreator;
+import org.apache.storm.LocalCluster;
+import org.apache.storm.StormSubmitter;
+import org.apache.storm.generated.AlreadyAliveException;
+import org.apache.storm.generated.AuthorizationException;
+import org.apache.storm.generated.ClusterSummary;
+import org.apache.storm.generated.InvalidTopologyException;
+import org.apache.storm.generated.KillOptions;
+import org.apache.storm.generated.Nimbus;
+import org.apache.storm.generated.NotAliveException;
+import org.apache.storm.generated.RebalanceOptions;
+import org.apache.storm.generated.StormTopology;
+import org.apache.storm.generated.SupervisorSummary;
+import org.apache.storm.generated.TopologySummary;
+import org.apache.storm.thrift.TException;
+import org.apache.storm.topology.BoltDeclarer;
+import org.apache.storm.topology.IRichBolt;
+import org.apache.storm.topology.IRichSpout;
+import org.apache.storm.topology.TopologyBuilder;
+import org.apache.storm.tuple.Fields;
+import org.apache.storm.utils.NimbusClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Storm应用管理
@@ -61,19 +64,16 @@ import com.huawei.streaming.operator.IRichOperator;
 public class StormApplication extends Application
 {
     private static final Logger LOG = LoggerFactory.getLogger(StormApplication.class);
-    
+
     private TopologyBuilder builder;
-    
+
     private StormConf stormConf;
-    
+
     private StreamingSecurity streamingSecurity = null;
 
     /**
      * <默认构造函数>
      *
-     * @param config 配置属性
-     * @param appName 应用名称
-     * @throws StreamingException 流处理异常
      */
     public StormApplication(StreamingConfig config, String appName)
         throws StreamingException
@@ -83,7 +83,7 @@ public class StormApplication extends Application
         stormConf = new StormConf(config);
         streamingSecurity = SecurityFactory.createSecurity(config);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -99,7 +99,7 @@ public class StormApplication extends Application
             LOG.error("Application already exists.");
             throw exception;
         }
-        
+
         if (stormConf.isSubmitLocal())
         {
             localLaunch();
@@ -109,7 +109,7 @@ public class StormApplication extends Application
             remoteLaunch();
         }
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -168,9 +168,9 @@ public class StormApplication extends Application
                 client.close();
             }
         }
-        
+
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -221,7 +221,7 @@ public class StormApplication extends Application
             }
         }
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -282,12 +282,12 @@ public class StormApplication extends Application
             {
                 throw (StreamingException)e;
             }
-            
+
             StreamingException exception = new StreamingException(ErrorCode.UNKNOWN_SERVER_COMMON_ERROR);
             LOG.error("Failed to connect to application server.");
             throw exception;
         }
-        
+
         finally
         {
             try
@@ -315,6 +315,239 @@ public class StormApplication extends Application
         stormConf.setDefaultJarPath(userJar);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void deactiveApplication()
+        throws StreamingException
+    {
+        String appName = getAppName();
+        LOG.info("Start to deactive application {}.", appName);
+        NimbusClient nimbusClient = null;
+        try
+        {
+            streamingSecurity.initSecurity();
+
+            nimbusClient = NimbusClient.getConfiguredClient(stormConf.createStormConf());
+            Nimbus.Client client = nimbusClient.getClient();
+
+            List<TopologySummary> topologySummarys = client.getClusterInfo().get_topologies();
+            //获取应用程序当前状态
+            ApplicationStatus status = getAppStatus(topologySummarys, appName);
+            //执行deactive操作可用性检查，不可用则抛出异常
+            status.deactiveValidate(appName);
+
+            client.deactivate(getAppName());
+        }
+        catch (NotAliveException e)
+        {
+            StreamingException exception = new StreamingException(ErrorCode.PLATFORM_APP_NOT_EXISTS, appName);
+            LOG.error("Application {} not exists.", appName);
+            throw exception;
+        }
+        catch (AuthorizationException e)
+        {
+            StreamingException exception = new StreamingException(ErrorCode.SECURITY_AUTHORIZATION_ERROR);
+            LOG.error("No Authorization.");
+            throw exception;
+        }
+        catch (TException e)
+        {
+            StreamingException exception = new StreamingException(ErrorCode.PLATFORM_NIMBUS_SERVER_EXCEPTION);
+            LOG.error("Failed to connect to application server for thrift error.");
+            throw exception;
+        }
+        catch (Exception e)
+        {
+            //为了兼容社区版本和HA版本，防止引入HA相关异常
+            if (e instanceof StreamingException)
+            {
+                throw (StreamingException)e;
+            }
+
+            StreamingException exception = new StreamingException(ErrorCode.UNKNOWN_SERVER_COMMON_ERROR);
+            LOG.error("Failed to connect to application server.");
+            throw exception;
+        }
+        finally
+        {
+            try
+            {
+                streamingSecurity.destroySecurity();
+            }
+            catch (StreamingException e)
+            {
+                LOG.warn("Destory Security error.");
+            }
+            if (nimbusClient != null)
+            {
+                nimbusClient.close();
+            }
+        }
+
+        LOG.info("Success to deactive application {}.", appName);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void activeApplication()
+        throws StreamingException
+    {
+        String appName = getAppName();
+        LOG.info("Start to active application {}.", appName);
+        NimbusClient nimbusClient = null;
+        try
+        {
+            streamingSecurity.initSecurity();
+
+            nimbusClient = NimbusClient.getConfiguredClient(stormConf.createStormConf());
+            Nimbus.Client client = nimbusClient.getClient();
+
+            List<TopologySummary> topologySummarys = client.getClusterInfo().get_topologies();
+            //获取应用程序当前状态
+            ApplicationStatus status = getAppStatus(topologySummarys, appName);
+            //执行active操作可用性检查，不可用则抛出异常
+            status.activeValidate(appName);
+
+            client.activate(appName);
+        }
+        catch (NotAliveException e)
+        {
+            StreamingException exception = new StreamingException(ErrorCode.PLATFORM_APP_NOT_EXISTS, appName);
+            LOG.error("Application {} not exists.", getAppName());
+            throw exception;
+        }
+        catch (AuthorizationException e)
+        {
+            StreamingException exception = new StreamingException(ErrorCode.SECURITY_AUTHORIZATION_ERROR);
+            LOG.error("No Authorization.");
+            throw exception;
+        }
+        catch (TException e)
+        {
+            StreamingException exception = new StreamingException(ErrorCode.PLATFORM_NIMBUS_SERVER_EXCEPTION);
+            LOG.error("Failed to connect to application server for thrift error.");
+            throw exception;
+        }
+        catch (Exception e)
+        {
+            if (e instanceof StreamingException)
+            {
+                throw (StreamingException)e;
+            }
+            StreamingException exception = new StreamingException(ErrorCode.UNKNOWN_SERVER_COMMON_ERROR);
+            LOG.error("Failed to connect to application server.");
+            throw exception;
+        }
+        finally
+        {
+            try
+            {
+                streamingSecurity.destroySecurity();
+            }
+            catch (StreamingException e)
+            {
+                LOG.warn("Destory Security error.");
+            }
+            if (nimbusClient != null)
+            {
+                nimbusClient.close();
+            }
+        }
+        LOG.info("Success to active application {}.", appName);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void rebalanceApplication(int workerNum)
+        throws StreamingException
+    {
+        String appName = getAppName();
+        LOG.info("Start to rebalance application {}.", appName);
+        NimbusClient nimbusClient = null;
+        try
+        {
+            streamingSecurity.initSecurity();
+
+            nimbusClient = NimbusClient.getConfiguredClient(stormConf.createStormConf());
+            Nimbus.Client client = nimbusClient.getClient();
+
+            List<SupervisorSummary> supervisorSummarys = client.getClusterInfo().get_supervisors();
+            List<TopologySummary> topologySummarys = client.getClusterInfo().get_topologies();
+            //获取应用程序当前状态
+            ApplicationStatus status = getAppStatus(topologySummarys, appName);
+            //执行rebalance操作可用性检查，不可用则抛出异常
+            status.rebalanceValidate(appName);
+            //检查worker数量是否合法，不合法则抛出异常
+            checkUserWorkerNum(supervisorSummarys, topologySummarys, workerNum);
+
+            client.rebalance(appName, createRebalanceOptions(workerNum));
+        }
+        catch (NotAliveException e)
+        {
+            StreamingException exception = new StreamingException(ErrorCode.PLATFORM_APP_NOT_EXISTS, appName);
+            LOG.error("Application {} not exists.", getAppName());
+            throw exception;
+        }
+        catch (InvalidTopologyException e)
+        {
+            StreamingException exception = new StreamingException(ErrorCode.PLATFORM_INVALID_TOPOLOGY, appName);
+            LOG.error("Application {} is invalid.", getAppName());
+            throw exception;
+        }
+        catch (AuthorizationException e)
+        {
+            StreamingException exception = new StreamingException(ErrorCode.SECURITY_AUTHORIZATION_ERROR);
+            LOG.error("No Authorization.");
+            throw exception;
+        }
+        catch (TException e)
+        {
+            StreamingException exception = new StreamingException(ErrorCode.PLATFORM_NIMBUS_SERVER_EXCEPTION);
+            LOG.error("Failed to connect to application server for thrift error.");
+            throw exception;
+        }
+        catch (Exception e)
+        {
+            if (e instanceof StreamingException)
+            {
+                throw (StreamingException)e;
+            }
+            StreamingException exception = new StreamingException(ErrorCode.UNKNOWN_SERVER_COMMON_ERROR);
+            LOG.error("Failed to connect to application server.");
+            throw exception;
+        }
+        finally
+        {
+            try
+            {
+                streamingSecurity.destroySecurity();
+            }
+            catch (StreamingException e)
+            {
+                LOG.warn("Destory Security error.");
+            }
+            if (nimbusClient != null)
+            {
+                nimbusClient.close();
+            }
+        }
+        LOG.info("Success to rebalance application {}.", appName);
+    }
+
+    private RebalanceOptions createRebalanceOptions(int workerNum)
+    {
+        RebalanceOptions options = new RebalanceOptions();
+        options.set_wait_secs(stormConf.getRebalanceWaitSecs());
+        options.set_num_workers(workerNum);
+        return options;
+    }
+
     private boolean isApplicationExistsAfterKilled(List<TopologySummary> list)
     {
         boolean isFound = false;
@@ -328,14 +561,14 @@ public class StormApplication extends Application
         }
         return isFound;
     }
-    
+
     private KillOptions createKillOptions()
     {
         KillOptions kop = new KillOptions();
         kop.set_wait_secs(stormConf.getKillWaitingSeconds());
         return kop;
     }
-    
+
     private void sleepSeconds(int seconds)
     {
         try
@@ -347,11 +580,10 @@ public class StormApplication extends Application
             LOG.error("Interrupted while thread sleep.");
         }
     }
-    
+
     /**
      * 创建topology，远程提交拓扑时使用
      *
-     * @throws StreamingException
      */
     private void createTopology()
         throws StreamingException
@@ -359,21 +591,20 @@ public class StormApplication extends Application
         createSpouts();
         createBolts();
     }
-    
+
     private void createSpouts()
         throws StreamingException
     {
-        List< ? extends IRichOperator> sources = getInputStreams();
+        List<? extends IRichOperator> sources = getInputStreams();
         checkInputStreams(sources);
         for (IRichOperator input : sources)
         {
-            StormSpout spout = new StormSpout();
-            spout.setOperator(input);
+            IRichSpout spout = ComponentCreator.createSpout(input);
             builder.setSpout(input.getOperatorId(), spout, input.getParallelNumber());
         }
     }
-    
-    private void checkInputStreams(List< ? extends IRichOperator> operators)
+
+    private void checkInputStreams(List<? extends IRichOperator> operators)
         throws StreamingException
     {
         if (null == operators || operators.isEmpty())
@@ -383,7 +614,7 @@ public class StormApplication extends Application
             throw exception;
         }
     }
-    
+
     private void createBolts()
         throws StreamingException
     {
@@ -393,13 +624,13 @@ public class StormApplication extends Application
             LOG.debug("Topology don't have any function operator");
             return;
         }
-        
+
         for (IRichOperator operator : orderedFunOp)
         {
             setOperatorGrouping(operator);
         }
     }
-    
+
     private void setOperatorGrouping(IRichOperator operator)
         throws StreamingException
     {
@@ -411,36 +642,36 @@ public class StormApplication extends Application
             LOG.error("The operator input streaming is null.");
             throw exception;
         }
-        
-        for (String strname : operator.getInputStream())
+
+        for (String streamName : operator.getInputStream())
         {
-            GroupInfo groupInfo = operator.getGroupInfo().get(strname);
-            setBoltGrouping(bolt, strname, groupInfo);
+            GroupInfo groupInfo = operator.getGroupInfo().get(streamName);
+            setBoltGrouping(bolt, streamName, groupInfo);
         }
     }
-    
-    private void setBoltGrouping(BoltDeclarer bolt, String strname, GroupInfo groupInfo)
+
+    private void setBoltGrouping(BoltDeclarer bolt, String streamName, GroupInfo groupInfo)
         throws StreamingException
     {
         if (null == groupInfo)
         {
-            setDefaultBoltGrouping(bolt, strname);
+            setDefaultBoltGrouping(bolt, streamName);
             return;
         }
-        
+
         DistributeType distribute = groupInfo.getDitributeType();
         switch (distribute)
         {
             case FIELDS:
                 Fields fields = new Fields(groupInfo.getFields());
-                IRichOperator operator = getOperatorByOutputStreamName(strname);
+                IRichOperator operator = getOperatorByOutputStreamName(streamName);
                 if (operator == null)
                 {
                     StreamingException exception = new StreamingException(ErrorCode.PLATFORM_INVALID_TOPOLOGY);
-                    LOG.error("Can't find opertor by stream name : {} .", strname, exception);
+                    LOG.error("Can't find operator by stream name : {} .", streamName, exception);
                     throw exception;
                 }
-                bolt.fieldsGrouping(operator.getOperatorId(), strname, fields);
+                bolt.fieldsGrouping(operator.getOperatorId(), streamName, fields);
                 break;
             case GLOBAL:
                 break;
@@ -455,70 +686,48 @@ public class StormApplication extends Application
             case SHUFFLE:
             case NONE:
             default:
-                setDefaultBoltGrouping(bolt, strname);
+                setDefaultBoltGrouping(bolt, streamName);
         }
     }
-    
-    private void setDefaultBoltGrouping(BoltDeclarer bolt, String strname)
+
+    private void setDefaultBoltGrouping(BoltDeclarer bolt, String streanName)
         throws StreamingException
     {
-        IRichOperator operator = getOperatorByOutputStreamName(strname);
+        IRichOperator operator = getOperatorByOutputStreamName(streanName);
         if (operator == null)
         {
             StreamingException exception = new StreamingException(ErrorCode.PLATFORM_INVALID_TOPOLOGY);
-            LOG.error("Can't find opertor by stream name : {} .", strname, exception);
+            LOG.error("Can't find operator by stream name : {} .", streanName, exception);
             throw exception;
         }
-        bolt.shuffleGrouping(operator.getOperatorId(), strname);
+        bolt.shuffleGrouping(operator.getOperatorId(), streanName);
     }
-    
+
     private BoltDeclarer createBoltDeclarer(IRichOperator operator)
+        throws StreamingException
     {
-        IRichBolt bolt;
-        if ((operator instanceof FunctionOperator) || (operator instanceof FunctionStreamOperator))
-        {
-            bolt = createStormBolt(operator);
-        }
-        else
-        {
-            bolt = createOutputStormBolt(operator);
-        }
+        IRichBolt bolt = ComponentCreator.createBolt(operator, stormConf);
         return builder.setBolt(operator.getOperatorId(), bolt, operator.getParallelNumber());
     }
-    
-    private IRichBolt createOutputStormBolt(IRichOperator f)
-    {
-        StormOutputBolt outputbolt = new StormOutputBolt();
-        outputbolt.setOperator(f);
-        return outputbolt;
-    }
-    
-    private IRichBolt createStormBolt(IRichOperator f)
-    {
-        StormBolt stormbolt = new StormBolt();
-        stormbolt.setOperator(f);
-        return stormbolt;
-    }
-    
+
     private void localLaunch()
         throws StreamingException
     {
-        
-        Map<String, Object> stormconf = stormConf.createStormConf();
+        Map<String, Object> stormConfig = this.stormConf.createStormConf();
         createTopology();
         StormTopology topology = builder.createTopology();
-        if (stormConf.isTestModel())
+        if (this.stormConf.isTestModel())
         {
             return;
         }
-        stormConf.setStormJar();
+        this.stormConf.setStormJar();
         LocalCluster cluster = null;
         try
         {
             streamingSecurity.initSecurity();
             cluster = new LocalCluster();
-            cluster.submitTopology(getAppName(), stormconf, topology);
-            long aliveTime = stormConf.getLocalTaskAliveTime();
+            cluster.submitTopology(getAppName(), stormConfig, topology);
+            long aliveTime = this.stormConf.getLocalTaskAliveTime();
             sleepMilliSeconds(aliveTime);
         }
         finally
@@ -531,26 +740,28 @@ public class StormApplication extends Application
             {
                 LOG.warn("Destory Security error.");
             }
-            
+
             if (cluster != null)
             {
                 cluster.shutdown();
             }
         }
     }
-    
+
     private void remoteLaunch()
         throws StreamingException
     {
-        Map<String, Object> conf = stormConf.createStormConf();
-        
         //创建APP拓扑
         createTopology();
+        Map<String, Object> conf = stormConf.createStormConf();
         stormConf.setStormJar();
         StormTopology topology = builder.createTopology();
-        submitTopology(conf, topology);
+        synchronized (StormSubmitter.class)
+        {
+            submitTopology(conf, topology);
+        }
     }
-    
+
     private void submitTopology(Map<String, Object> conf, StormTopology topology)
         throws StreamingException
     {
@@ -584,7 +795,7 @@ public class StormApplication extends Application
             {
                 throw (StreamingException)e;
             }
-            
+
             StreamingException exception = new StreamingException(ErrorCode.UNKNOWN_SERVER_COMMON_ERROR);
             LOG.error("Failed to connect to application server.");
             throw exception;
@@ -601,7 +812,7 @@ public class StormApplication extends Application
             }
         }
     }
-    
+
     private void sleepMilliSeconds(long milliSeconds)
     {
         try
@@ -611,6 +822,71 @@ public class StormApplication extends Application
         catch (InterruptedException e)
         {
             LOG.error("Interrupt while thread sleep.");
+        }
+    }
+
+    private ApplicationStatus getAppStatus(List<TopologySummary> topologySummarys, String appName)
+        throws StreamingException
+    {
+        String status = null;
+        List<String[]> res = new StormApplicationResults(topologySummarys).getResults(appName);
+        for (String[] single : res)
+        {
+            if (single[0].equals(appName))
+            {
+                status = single[1].toLowerCase(Locale.US);
+            }
+        }
+        if (null == status)
+        {
+            StreamingException exception = new StreamingException(ErrorCode.PLATFORM_APP_NOT_EXISTS, getAppName());
+            LOG.error("Application {} not exists.", getAppName());
+            throw exception;
+        }
+        return ApplicationStatus.getType(status);
+    }
+
+    private int getFreeSlotNum(List<SupervisorSummary> summarys)
+    {
+        int num = 0;
+        for (SupervisorSummary summary : summarys)
+        {
+            int used = summary.get_num_used_workers();
+            int total = summary.get_num_workers();
+            int free = total - used;
+            num += free;
+        }
+        return num;
+    }
+
+    private Pair<Integer, Integer> getExecutorNum(List<TopologySummary> summaries)
+    {
+        int currentExecutorNum = 0;
+        int currentWorkerNum = 0;
+        for (TopologySummary summary : summaries)
+        {
+            if (summary.get_name().equals(getAppName()))
+            {
+                currentExecutorNum = summary.get_num_executors();
+                currentWorkerNum = summary.get_num_workers();
+            }
+        }
+        return new Pair<Integer, Integer>(currentExecutorNum, currentWorkerNum);
+    }
+
+    private void checkUserWorkerNum(List<SupervisorSummary> supervisorSummaries,
+        List<TopologySummary> topologySummaries, int num)
+        throws StreamingException
+    {
+        int currentExecutorNum = getExecutorNum(topologySummaries).getFirst();
+        int availableSlotNum = getFreeSlotNum(supervisorSummaries) + getExecutorNum(topologySummaries).getSecond();
+        if ((num > availableSlotNum) || (num > currentExecutorNum))
+        {
+            StreamingException exception = new StreamingException(ErrorCode.PLATFORM_INVALID_WORKER_NUMBER,
+                String.valueOf(availableSlotNum),
+                String.valueOf(currentExecutorNum));
+            LOG.error("The worker number is invalid");
+            throw exception;
         }
     }
 }

@@ -21,14 +21,13 @@ package com.huawei.streaming.storm;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.storm.spout.SpoutOutputCollector;
+import org.apache.storm.task.TopologyContext;
+import org.apache.storm.topology.IRichSpout;
+import org.apache.storm.topology.OutputFieldsDeclarer;
+import org.apache.storm.tuple.Fields;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import backtype.storm.spout.SpoutOutputCollector;
-import backtype.storm.task.TopologyContext;
-import backtype.storm.topology.IRichSpout;
-import backtype.storm.topology.OutputFieldsDeclarer;
-import backtype.storm.tuple.Fields;
 
 import com.google.common.collect.Maps;
 import com.huawei.streaming.application.StreamAdapter;
@@ -77,7 +76,7 @@ public class StormSpout implements IRichSpout, StreamAdapter
     @Override
     public void open(Map conf, TopologyContext context, SpoutOutputCollector collector)
     {
-        LOG.debug("Start to open storm spout.");
+        LOG.info("Start to open storm spout.");
         Map<String, IEmitter> emitters = createEmitters(collector);
         
         try

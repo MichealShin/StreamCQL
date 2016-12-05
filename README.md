@@ -16,9 +16,9 @@ The CQL design objective is to use SQL statements and certain commands to execut
 
 ## Requirements
 
-Storm 0.10.0 : Required
+Storm 0.10.0/Storm 1.0.2/JStorm 2.0.0 : Required
 
-Kafka_2.10 0.8.2.2 : Optional
+Kafka_2.10 0.10.1.2 : Optional
 
 ## Building StreamCQL
 StreamCQL is built using [Apache Maven](http://maven.apache.org/).
@@ -39,18 +39,18 @@ $ mvn clean install
 ```
 ------
 ## Install StreamCQL
- 1. Copy stream-cql-bianry-1.0.tar.gz from
+ 1. Copy stream-cql-bianry-2.0.tar.gz from
 
     ${StreamCQL_Source_Dir}/cql-binary/target to Storm Client node.
     
- 2. unCompresse stream-cql-bianry-1.0.tar.gz
+ 2. unCompresse stream-cql-bianry-2.0.tar.gz
 ```shell
-$ tar xvf stream-cql-bianry-1.0.tar.gz
+$ tar xvf stream-cql-bianry-2.0.tar.gz
 ```
 
  3. Go to Stream CQL bin directory
 ```shell
-$ cd stream-cql-bianry-1.0/bin
+$ cd stream-cql-bianry-2.0/bin
 ```
 
 ## StartUp Apache Storm 
@@ -68,11 +68,11 @@ bin/zkServer.sh start
 ```
 
 ```
-wget http://apache.fayea.com/storm/apache-storm-0.10.0/apache-storm-0.10.0.zip
+wget http://apache.fayea.com/storm/apache-storm-1.0.2/apache-storm-1.0.2.zip
 
-unzip apache-storm-0.10.0.zip
+unzip apache-storm-1.0.2.zip
 
-cd apache-storm-0.10.0
+cd apache-storm-1.0.2
 ```
 StartUp Storm in Local Modle:
 
@@ -97,8 +97,8 @@ this is a simple cql example.
 CREATE INPUT STREAM s
     (id INT, name STRING, type INT)
 SOURCE randomgen
-    PROPERTIES ( timeUnit = "SECONDS", period = "1",
-        eventNumPerperiod = "1", isSchedule = "true" );
+    PROPERTIES ( "timeUnit" = "SECONDS", "period" = "1",
+        "eventNumPerperiod" = "1", "isSchedule" = "true" );
 
 CREATE OUTPUT STREAM rs
     (type INT, cc INT)
@@ -119,20 +119,20 @@ SUBMIT APPLICATION example;
 CREATE INPUT STREAM s1
     (name STRING)
 SOURCE RANDOMGEN
-    PROPERTIES ( timeUnit = "SECONDS", period = "1",
-        eventNumPerperiod = "1", isSchedule = "true" );
+    PROPERTIES ( "timeUnit" = "SECONDS", "period" = "1",
+        "eventNumPerperiod" = "1", "isSchedule" = "true" );
 
 CREATE OUTPUT STREAM s2 
     (c1 STRING)
 SINK kafkaOutput
-    PROPERTIES ( topic = "cqlOut", zookeepers = "127.0.0.1:2181", 
-        brokers = "127.0.0.1:9092" );
+    PROPERTIES ( "topic" = "cqlOut", "zookeepers" = "127.0.0.1:2181",
+        "brokers" = "127.0.0.1:9092" );
 
 CREATE INPUT STREAM s3
     ( c1 STRING)
 SOURCE KafkaInput
-    PROPERTIES (groupid = "cqlClient", topic = "cqlInput", 
-        zookeepers = "127.0.0.1:2181", brokers = "127.0.0.1:9092" );
+    PROPERTIES ("groupId" = "cqlClient", "topic" = "cqlInput",
+        "zookeepers" = "127.0.0.1:2181", "brokers" = "127.0.0.1:9092" );
 
 CREATE OUTPUT STREAM s4
     (c1 STRING)

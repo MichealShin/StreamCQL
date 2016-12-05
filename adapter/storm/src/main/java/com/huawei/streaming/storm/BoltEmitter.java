@@ -19,11 +19,10 @@ package com.huawei.streaming.storm;
 
 import java.io.Serializable;
 
+import org.apache.storm.task.OutputCollector;
+import org.apache.storm.tuple.Values;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import backtype.storm.task.OutputCollector;
-import backtype.storm.tuple.Values;
 
 import com.huawei.streaming.exception.StreamingException;
 import com.huawei.streaming.exception.StreamingRuntimeException;
@@ -48,8 +47,6 @@ public class BoltEmitter implements IEmitter, Serializable
     /**
      * <默认构造函数>
      *
-     * @param collector spout数据收集器
-     * @param name 流名称
      */
     public BoltEmitter(OutputCollector collector, String name)
     {
@@ -59,9 +56,6 @@ public class BoltEmitter implements IEmitter, Serializable
     /**
      * <默认构造函数>
      *
-     * @param collector spout数据收集器
-     * @param name 流名称
-     * @param isAck 是否包含acker
      */
     public BoltEmitter(OutputCollector collector, String name, boolean isAck)
     {

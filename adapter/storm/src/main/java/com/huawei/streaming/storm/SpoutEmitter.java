@@ -18,17 +18,15 @@
 
 package com.huawei.streaming.storm;
 
-import java.io.Serializable;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import backtype.storm.spout.SpoutOutputCollector;
-import backtype.storm.tuple.Values;
-
 import com.huawei.streaming.exception.StreamingException;
 import com.huawei.streaming.exception.StreamingRuntimeException;
 import com.huawei.streaming.operator.IEmitter;
+import org.apache.storm.spout.SpoutOutputCollector;
+import org.apache.storm.tuple.Values;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.Serializable;
 
 /**
  * emitter实例类，每个emitter和流名称进行绑定
@@ -37,32 +35,27 @@ import com.huawei.streaming.operator.IEmitter;
 public class SpoutEmitter implements IEmitter, Serializable
 {
     private static final Logger LOG = LoggerFactory.getLogger(SpoutEmitter.class);
-    
+
     private static final long serialVersionUID = -4817006115667679129L;
-    
+
     private boolean acker = false;
-    
+
     private String streamName = null;
-    
+
     private SpoutOutputCollector outputCollector;
-    
+
     /**
      * <默认构造函数>
      *
-     * @param collector spout数据收集器
-     * @param name 流名称
      */
     public SpoutEmitter(SpoutOutputCollector collector, String name)
     {
         this(collector, name, false);
     }
-    
+
     /**
      * <默认构造函数>
      *
-     * @param collector spout数据收集器
-     * @param name 流名称
-     * @param isAck 是否包含acker
      */
     public SpoutEmitter(SpoutOutputCollector collector, String name, boolean isAck)
     {
@@ -71,12 +64,12 @@ public class SpoutEmitter implements IEmitter, Serializable
             LOG.error("Failed to create event emitter, storm collector is null.");
             throw new StreamingRuntimeException("Failed to create event emitter, storm collector is null.");
         }
-        
+
         this.outputCollector = collector;
         this.streamName = name;
         this.acker = isAck;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -87,7 +80,7 @@ public class SpoutEmitter implements IEmitter, Serializable
         /**
          * 目前暂时不支持acker
          */
-        
+
         if (streamName == null)
         {
             outputCollector.emit(new Values(data));
@@ -96,7 +89,7 @@ public class SpoutEmitter implements IEmitter, Serializable
         {
             outputCollector.emit(streamName, new Values(data));
         }
-        
+
     }
-    
+
 }

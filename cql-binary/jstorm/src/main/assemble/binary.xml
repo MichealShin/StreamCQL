@@ -9,7 +9,7 @@
 
     <fileSets>
         <fileSet>
-            <directory>../bin/</directory>
+            <directory>../../bin/</directory>
             <outputDirectory>bin</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0700</directoryMode>
@@ -26,16 +26,7 @@
             <lineEnding>unix</lineEnding>
         </fileSet>
         <fileSet>
-            <directory>target/</directory>
-            <outputDirectory>lib/</outputDirectory>
-            <fileMode>0644</fileMode>
-            <directoryMode>0700</directoryMode>
-            <includes>
-                <include>cql-1.0.jar</include>
-            </includes>
-        </fileSet>
-        <fileSet>
-            <directory>../adapter/storm/target/</directory>
+            <directory>../../adapter/jstorm/target/</directory>
             <outputDirectory>./</outputDirectory>
             <includes>
                 <include>stream-storm-*-with-dependencies.jar</include>

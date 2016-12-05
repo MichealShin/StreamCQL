@@ -23,6 +23,7 @@ import backtype.storm.StormSubmitter;
 import backtype.storm.generated.*;
 import backtype.storm.topology.BoltDeclarer;
 import backtype.storm.topology.IRichBolt;
+import backtype.storm.topology.IRichSpout;
 import backtype.storm.topology.TopologyBuilder;
 import backtype.storm.tuple.Fields;
 import backtype.storm.utils.NimbusClient;
@@ -37,6 +38,7 @@ import com.huawei.streaming.operator.FunctionOperator;
 import com.huawei.streaming.operator.FunctionStreamOperator;
 import com.huawei.streaming.operator.IRichOperator;
 import com.huawei.streaming.storm.*;
+import com.huawei.streaming.storm.components.ComponentCreator;
 import org.apache.thrift.TException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,9 +66,6 @@ public class JStormApplication extends Application {
 	/**
 	 * <默认构造函数>
 	 *
-	 * @param config 配置属性
-	 * @param appName 应用名称
-	 * @throws StreamingException 流处理异常
 	 */
 	public JStormApplication(StreamingConfig config, String appName) throws StreamingException {
 		super(appName, config);
@@ -240,6 +239,21 @@ public class JStormApplication extends Application {
 		stormConf.setDefaultJarPath(userJar);
 	}
 
+	@Override
+	public void deactiveApplication() throws StreamingException {
+		throw new StreamingException("deactive is not supportted in jstorm application");
+	}
+
+	@Override
+	public void activeApplication() throws StreamingException {
+		throw new StreamingException("activeApplication is not supportted in jstorm application");
+	}
+
+	@Override
+	public void rebalanceApplication(int workerNum) throws StreamingException {
+		throw new StreamingException("rebalance is not supportted in jstorm application");
+	}
+
 	private boolean isApplicationExistsAfterKilled(List<TopologySummary> list) {
 		boolean isFound = false;
 		for (TopologySummary ts : list) {
@@ -268,7 +282,6 @@ public class JStormApplication extends Application {
 	/**
 	 * 创建topology，远程提交拓扑时使用
 	 *
-	 * @throws StreamingException
 	 */
 	private void createTopology() throws StreamingException {
 		createSpouts();

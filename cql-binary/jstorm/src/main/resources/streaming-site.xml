@@ -27,7 +27,7 @@
 	</property>
 	<property>
 		<name>streaming.storm.thrift.transport.plugin</name>
-		<value>backtype.storm.security.auth.SimpleTransportPlugin</value>
+		<value>org.apache.storm.security.auth.SimpleTransportPlugin</value>
 		<description></description>
 	</property>
 	<property>
@@ -79,46 +79,6 @@
 	<property>
 		<name>operator.kafka.zksynctime</name>
 		<value>20000</value>
-		<description></description>
-	</property>	
-	<property>
-		<name>operator.mq.serviceip</name>
-		<value>127.0.0.1</value>
-		<description></description>
-	</property>	
-	<property>
-		<name>operator.mq.serviceport</name>
-		<value>22136</value>
-		<description></description>
-	</property>	
-	<property>
-		<name>operator.mq.queuetype</name>
-		<value>0</value>
-		<description></description>
-	</property>		
-	<property>
-		<name>operator.mq.lifetime</name>
-		<value>0</value>
-		<description></description>
-	</property>	
-	<property>
-		<name>operator.mq.deletetime</name>
-		<value>30000</value>
-		<description></description>
-	</property>	
-		<property>
-		<name>operator.mq.loop.num</name>
-		<value>0</value>
-		<description></description>		
-	</property>
-	<property>
-		<name>operator.mq.isprint.message</name>
-		<value>false</value>
-		<description></description>
-	</property>	
-	<property>
-		<name>operator.mq.channel.count</name>
-		<value>1</value>
 		<description></description>
 	</property>
     <property>

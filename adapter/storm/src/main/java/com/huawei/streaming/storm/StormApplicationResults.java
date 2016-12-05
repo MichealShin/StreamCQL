@@ -21,10 +21,9 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import org.apache.storm.generated.TopologySummary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import backtype.storm.generated.TopologySummary;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -57,7 +56,6 @@ public class StormApplicationResults implements ApplicationResults
     /**
      * 获取列格式化字符串
      *
-     * @return 列格式化字符串
      */
     @Override
     public String getFormatter()
@@ -68,19 +66,17 @@ public class StormApplicationResults implements ApplicationResults
     /**
      * 获取应用程序查询结果的标题头
      *
-     * @return 标题头
      */
     @Override
     public String[] getResultHeader()
     {
-        return RESULTSHEAD;
+        return (String[])RESULTSHEAD.clone();
     }
     
     /**
      * 获取查询结果
      * 查询结果的列数量必须和标题头的数组数量一致
      *
-     * @return 查询结果
      */
     @Override
     public List<String[]> getResults(String container)

@@ -11,7 +11,7 @@ set DIRNAME=%~dp0
 if "%DIRNAME%" == "" set DIRNAME=.
 set APP_BASE_NAME=%~n0
 
-set CQL_DEPENDENCY_JAR_PATH=%DIRNAME%\..\stream-storm-1.0-jar-with-dependencies.jar
+set CQL_DEPENDENCY_JAR_PATH=%DIRNAME%\..\stream-storm-2.0-jar-with-dependencies.jar
 set CQL_HOME=%DIRNAME%\..\
 set CQL_CONF_DIR=%DIRNAME%\..\conf
 
@@ -46,7 +46,7 @@ set APP_MAINCLASS=com.huawei.streaming.cql.CQLClient
 set MAIN_ARGS=%$
 set CLASSPATH=%DIRNAME%\..\conf
 
-set CQLCLIENT_OPTS=%CQLCLIENT_OPTS% -Dlogback.configurationFile=%CQL_CONF_DIR%/logback.xml
+set CQLCLIENT_OPTS=%CQLCLIENT_OPTS% -Dlog4j.configurationFile=%CQL_CONF_DIR%/log4j2.xml
 
 for /r %DIRNAME%\..\lib %%b in (*.jar) do call :addcp %%~sb
 

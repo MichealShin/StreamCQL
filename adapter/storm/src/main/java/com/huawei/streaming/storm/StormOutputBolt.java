@@ -18,41 +18,39 @@
 
 package com.huawei.streaming.storm;
 
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import backtype.storm.task.OutputCollector;
-import backtype.storm.task.TopologyContext;
-import backtype.storm.topology.IRichBolt;
-import backtype.storm.topology.OutputFieldsDeclarer;
-import backtype.storm.tuple.Tuple;
-
 import com.huawei.streaming.application.StreamAdapter;
 import com.huawei.streaming.config.StreamingConfig;
 import com.huawei.streaming.event.TupleEvent;
 import com.huawei.streaming.exception.StreamingException;
 import com.huawei.streaming.operator.IRichOperator;
 import com.huawei.streaming.operator.OutputOperator;
+import org.apache.storm.task.OutputCollector;
+import org.apache.storm.task.TopologyContext;
+import org.apache.storm.topology.IRichBolt;
+import org.apache.storm.topology.OutputFieldsDeclarer;
+import org.apache.storm.tuple.Tuple;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Map;
 
 /**
  * Storm的输出bolt
- * 
+ *
  */
 public class StormOutputBolt implements IRichBolt, StreamAdapter
 {
-    
+
     private static final long serialVersionUID = -5921149658363414958L;
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(StormOutputBolt.class);
-    
+
     private OutputCollector outputCollector;
-    
+
     private OutputOperator output;
-    
+
     private boolean needAck = false;
-    
+
     /**
      * {@inheritDoc}
      */
@@ -61,7 +59,7 @@ public class StormOutputBolt implements IRichBolt, StreamAdapter
     {
         this.output = (OutputOperator)operator;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -84,7 +82,7 @@ public class StormOutputBolt implements IRichBolt, StreamAdapter
             throw new RuntimeException("Failed to initialize output stream", e);
         }
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -109,13 +107,13 @@ public class StormOutputBolt implements IRichBolt, StreamAdapter
             LOG.error("Failed to execute tuple.");
             throw new RuntimeException("Failed to execute tuple.", e);
         }
-        
+
         if (needAck)
         {
             outputCollector.ack(tuple);
         }
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -123,7 +121,7 @@ public class StormOutputBolt implements IRichBolt, StreamAdapter
     public void cleanup()
     {
         LOG.debug("Start to cleanup storm output bolt.");
-        
+
         try
         {
             output.destroy();
@@ -134,16 +132,16 @@ public class StormOutputBolt implements IRichBolt, StreamAdapter
             throw new RuntimeException("Failed to destroy output", e);
         }
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer)
     {
-        
+
     }
-    
+
     /**
      * {@inheritDoc}
      */

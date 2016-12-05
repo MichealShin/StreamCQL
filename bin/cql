@@ -8,7 +8,7 @@ export CQL_CONF_DIR=${bin}/../conf
 CQL_DEPENDENCY_JAR_PATH=`find ${bin}/.. -name "*-jar-with-dependencies.jar"`
 CQLCLASSPATH="${bin}"/../conf
 LIBPATH="${bin}"/../lib
-CQLCLIENT_OPTS="${CQLCLIENT_OPTS} -Dlogback.configurationFile=${CQL_CONF_DIR}/logback.xml"
+CQLCLIENT_OPTS="${CQLCLIENT_OPTS} -Dlog4j.configurationFile=${CQL_CONF_DIR}/log4j2.xml"
 JAVA_OPTS=" "
 
 #The start-up Java Program(main class)
