@@ -39,8 +39,6 @@ public class HavingParseContextReplacer implements ParseContextReplacer
     
     /**
      * <默认构造函数>
-     * @param selectItem select子句
-     * @param replaceExpression 待替换的表达式
      */
     public HavingParseContextReplacer(SelectItemContext selectItem, BaseExpressionParseContext replaceExpression)
     {

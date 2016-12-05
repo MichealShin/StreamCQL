@@ -33,7 +33,6 @@ public class DataTypeExpressionDesc implements ExpressionDescribe
     
     /**
      * <默认构造函数>
-     * @param type 常量数据类型
      */
     public DataTypeExpressionDesc(Class< ? > type)
     {

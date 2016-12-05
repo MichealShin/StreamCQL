@@ -18,19 +18,20 @@
 
 package com.huawei.streaming.cql.executor.planserde.views;
 
+import com.huawei.streaming.api.opereators.KafkaInputOperator;
+import static org.junit.Assert.assertTrue;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
 
 import com.huawei.streaming.api.AnnotationUtils;
-import com.huawei.streaming.api.opereators.KafkaInputOperator;
 import com.huawei.streaming.config.StreamingConfig;
 import com.huawei.streaming.cql.ConstInTestCase;
 import com.huawei.streaming.cql.exception.ApplicationBuildException;
 import com.huawei.streaming.cql.executor.operatorinfocreater.InputInfoCreator;
 import com.huawei.streaming.cql.executor.operatorinfocreater.OperatorInfoCreator;
-import static org.junit.Assert.assertTrue;
 
 /**
  * 申明测试类
@@ -42,7 +43,6 @@ public class AnnotationUtilsTest
     /**
      * 测试bean中的字段申明
      *
-     * @throws ApplicationBuildException 异常信息
      */
     @Test
     public void testGetAnnotationsToConfig()
@@ -57,7 +57,6 @@ public class AnnotationUtilsTest
     /**
      * 测试输入父类上的申明
      *
-     * @throws Exception 异常信息
      */
     @Test
     public void testInputCreator()
@@ -71,7 +70,6 @@ public class AnnotationUtilsTest
     /**
      * 测试config对象的转换
      *
-     * @throws ApplicationBuildException 异常信息
      */
     @Test
     public void testConfigConvert()
@@ -79,19 +77,13 @@ public class AnnotationUtilsTest
     {
         Map<String, String> conf = new HashMap<String, String>();
         conf.put(StreamingConfig.OPERATOR_KAFKA_ZOOKEEPERS, "localhost:2181,158.1.130.21:2181");
-        conf.put(StreamingConfig.OPERATOR_KAFKA_ZKSYNCTIME, "20000");
-        conf.put(StreamingConfig.OPERATOR_KAFKA_ZKSESSIONTIMEOUT, "20000");
         conf.put(StreamingConfig.OPERATOR_KAFKA_GROUPID, "gidkpi_1_1");
-        conf.put(StreamingConfig.OPERATOR_KAFKA_MESSAGESERIALIZERCLASS, "kafka.serializer.StringEncoder");
         conf.put(StreamingConfig.SERDE_SIMPLESERDE_SEPARATOR, ",");
         conf.put(StreamingConfig.OPERATOR_KAFKA_TOPIC, "topic2");
         KafkaInputOperator kop = new KafkaInputOperator("test", 1);
         AnnotationUtils.setConfigToObject(kop, conf);
         assertTrue(kop.getZookeepers().equals("localhost:2181,158.1.130.21:2181"));
-        assertTrue(kop.getZkSyncTime() == ConstInTestCase.I_20000);
-        assertTrue(kop.getZkSessionTimeout() == ConstInTestCase.I_20000);
         assertTrue(kop.getGroupId().equals("gidkpi_1_1"));
-        assertTrue(kop.getMessageSerializerClass().equals("kafka.serializer.StringEncoder"));
         assertTrue(kop.getTopic().equals("topic2"));
     }
 }

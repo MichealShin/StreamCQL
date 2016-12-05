@@ -43,8 +43,6 @@ public class IndexWalkerStrategy implements ExpressionDescGetterStrategy
     
     /**
      * <默认构造函数>
-     * @param selectContext select语句语法分析内容
-     * @throws SemanticAnalyzerException  语义分析异常
      */
     public IndexWalkerStrategy(SelectAnalyzeContext selectContext)
         throws SemanticAnalyzerException

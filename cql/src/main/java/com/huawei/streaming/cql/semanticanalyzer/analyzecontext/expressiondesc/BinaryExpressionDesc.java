@@ -47,7 +47,6 @@ public class BinaryExpressionDesc implements ExpressionDescribe
     
     /**
      * <默认构造函数>
-     * @param bexpression 表达式信息
      */
     public BinaryExpressionDesc(BinaryExpression bexpression)
     {

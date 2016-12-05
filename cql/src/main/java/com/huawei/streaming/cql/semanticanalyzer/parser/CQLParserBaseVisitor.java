@@ -10,7 +10,6 @@ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
  * which can be extended to create a visitor which only needs to handle a subset
  * of the available methods.
  *
- * @param <T> The return type of the visit operation. Use {@link Void} for
  * operations with no return type.
  */
 public class CQLParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements CQLParserVisitor<T> {
@@ -52,7 +51,23 @@ public class CQLParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
+	@Override public T visitWhenExpression(@NotNull CQLParser.WhenExpressionContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
 	@Override public T visitMultiInsertStatement(@NotNull CQLParser.MultiInsertStatementContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitCaseWhenElse(@NotNull CQLParser.CaseWhenElseContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -69,6 +84,14 @@ public class CQLParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitInnerClassName(@NotNull CQLParser.InnerClassNameContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitRebalanceApplication(@NotNull CQLParser.RebalanceApplicationContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -212,6 +235,22 @@ public class CQLParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
+	@Override public T visitExpressionLike(@NotNull CQLParser.ExpressionLikeContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitSortbyDeterminer(@NotNull CQLParser.SortbyDeterminerContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
 	@Override public T visitSubSelectClause(@NotNull CQLParser.SubSelectClauseContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -284,6 +323,22 @@ public class CQLParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
+	@Override public T visitTriggerbyDeterminer(@NotNull CQLParser.TriggerbyDeterminerContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitRangeToday(@NotNull CQLParser.RangeTodayContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
 	@Override public T visitCreateInputStreamStatement(@NotNull CQLParser.CreateInputStreamStatementContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -301,6 +356,14 @@ public class CQLParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitDdlStatement(@NotNull CQLParser.DdlStatementContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitExcludeNowDeterminer(@NotNull CQLParser.ExcludeNowDeterminerContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -453,14 +516,6 @@ public class CQLParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitExtended(@NotNull CQLParser.ExtendedContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
-	@Override public T visitPackageNameIdentifier(@NotNull CQLParser.PackageNameIdentifierContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -652,6 +707,14 @@ public class CQLParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
+	@Override public T visitExpressionBetween(@NotNull CQLParser.ExpressionBetweenContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
 	@Override public T visitInsertUserOperatorStatement(@NotNull CQLParser.InsertUserOperatorStatementContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -693,6 +756,14 @@ public class CQLParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitLimitRow(@NotNull CQLParser.LimitRowContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitExpressionPrevious(@NotNull CQLParser.ExpressionPreviousContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -836,6 +907,14 @@ public class CQLParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
+	@Override public T visitCaseHeadExpression(@NotNull CQLParser.CaseHeadExpressionContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
 	@Override public T visitLimitAll(@NotNull CQLParser.LimitAllContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -940,6 +1019,14 @@ public class CQLParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
+	@Override public T visitExpressionBetweenMinValue(@NotNull CQLParser.ExpressionBetweenMinValueContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
 	@Override public T visitIdentifierNot(@NotNull CQLParser.IdentifierNotContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -949,6 +1036,14 @@ public class CQLParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitDatasourceBody(@NotNull CQLParser.DatasourceBodyContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitCaseWhenBodyWhenBody(@NotNull CQLParser.CaseWhenBodyWhenBodyContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -1052,6 +1147,14 @@ public class CQLParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
+	@Override public T visitExpressionIn(@NotNull CQLParser.ExpressionInContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
 	@Override public T visitGroupByExpression(@NotNull CQLParser.GroupByExpressionContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -1085,6 +1188,22 @@ public class CQLParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitDatasourceArguments(@NotNull CQLParser.DatasourceArgumentsContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitDeactiveApplication(@NotNull CQLParser.DeactiveApplicationContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitCombineCondition(@NotNull CQLParser.CombineConditionContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -1132,6 +1251,14 @@ public class CQLParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
+	@Override public T visitExpressionBetweenMaxValue(@NotNull CQLParser.ExpressionBetweenMaxValueContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
 	@Override public T visitCrossJoin(@NotNull CQLParser.CrossJoinContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -1141,6 +1268,14 @@ public class CQLParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitSelectExpression(@NotNull CQLParser.SelectExpressionContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitExpressionExists(@NotNull CQLParser.ExpressionExistsContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -1172,7 +1307,23 @@ public class CQLParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
+	@Override public T visitCaseExpression(@NotNull CQLParser.CaseExpressionContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
 	@Override public T visitStatement(@NotNull CQLParser.StatementContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitActiveApplication(@NotNull CQLParser.ActiveApplicationContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -1301,6 +1452,14 @@ public class CQLParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitArithmeticPlusMinusExpression(@NotNull CQLParser.ArithmeticPlusMinusExpressionContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitCaseWhenBodyThenBody(@NotNull CQLParser.CaseWhenBodyThenBodyContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}

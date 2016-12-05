@@ -31,8 +31,6 @@ public class CQLSecurityException extends CQLException
     /**
      * <默认构造函数>
      *
-     * @param errorCode 异常码
-     * @param errorArgs 异常参数
      */
     public CQLSecurityException(ErrorCode errorCode, String... errorArgs)
     {
@@ -42,9 +40,6 @@ public class CQLSecurityException extends CQLException
     /**
      * <默认构造函数>
      *
-     * @param cause 异常堆栈
-     * @param errorCode 异常码
-     * @param errorArgs 异常参数
      */
     public CQLSecurityException(Throwable cause, ErrorCode errorCode, String... errorArgs)
     {

@@ -46,9 +46,6 @@ public class AnnotationTestBean
     /**
      * <默认构造函数>
      *
-     * @param id id
-     * @param name name
-     * @param type type
      */
     public AnnotationTestBean(int id, String name, int type)
     {

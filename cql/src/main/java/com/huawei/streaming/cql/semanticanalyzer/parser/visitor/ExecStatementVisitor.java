@@ -29,7 +29,6 @@ import com.huawei.streaming.cql.semanticanalyzer.parser.context.ParseContext;
  */
 public class ExecStatementVisitor extends AbsCQLParserBaseVisitor<ParseContext>
 {
-    private ParseContext context = null;
     
     /**
      * <默认构造函数>
@@ -45,7 +44,7 @@ public class ExecStatementVisitor extends AbsCQLParserBaseVisitor<ParseContext>
     @Override
     protected ParseContext defaultResult()
     {
-        return context;
+        return null;
     }
     
     /**

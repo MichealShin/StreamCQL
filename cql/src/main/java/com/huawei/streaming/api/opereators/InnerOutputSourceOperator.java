@@ -39,8 +39,6 @@ public class InnerOutputSourceOperator extends Operator
     /**
      * <默认构造函数>
      * 
-     * @param id 算子id
-     * @param parallelNumber 算子并行度
      */
     public InnerOutputSourceOperator(String id, int parallelNumber)
     {

@@ -52,7 +52,6 @@ public class JoinSplitter extends SelectSplitter
     
     /**
      * <默认构造函数>
-     * @param buildUtils builder中的一些公共数据
      */
     public JoinSplitter(BuilderUtils buildUtils)
     {
@@ -163,10 +162,6 @@ public class JoinSplitter extends SelectSplitter
      * 如果没有显示指明Join的条件，那么就直接是Cross Join
      * 当然，这个Join必须是inner join，其他的join不可以。
      * 
-     * @param joinExpressionDesc
-     * @param joinCondiiton
-     * @param joinop
-     * @throws ApplicationBuildException
      */
     private void resetJoinType(JoinExpressionDesc joinExpressionDesc, ExpressionDescribe joinCondiiton,
         JoinFunctionOperator joinop)
@@ -224,8 +219,6 @@ public class JoinSplitter extends SelectSplitter
      * 如果两表共有的列的名称前加上某表名作为前缀，
      * 则会报编译错误: "ORA-25154: column part of USING clause cannot have qualifier" 
      * 或 "ORA-25155: column used in NATURAL join cannot have qualifier".
-     * @param joinExpressionDesc join表达式描述
-     * @throws ApplicationBuildException 检查异常
      */
     private void checkNaturalJoin(JoinExpressionDesc joinExpressionDesc)
         throws ApplicationBuildException

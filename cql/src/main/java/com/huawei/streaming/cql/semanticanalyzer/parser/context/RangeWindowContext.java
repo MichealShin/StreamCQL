@@ -53,11 +53,7 @@ public class RangeWindowContext extends ParseContext
         {
             sb.append(" " + windowProperty.getDesc());
         }
-
-        if(determiner != null)
-        {
-            sb.append(" " + determiner.toString());
-        }
+        sb.append(" " + determiner.toString());
         return sb.toString();
     }
     

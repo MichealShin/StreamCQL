@@ -39,7 +39,6 @@ public class JoinExpressionDesc implements ExpressionDescribe
     
     /**
      * <默认构造函数>
-     * @param type join哦类型
      */
     public JoinExpressionDesc(JoinType type)
     {
@@ -57,7 +56,6 @@ public class JoinExpressionDesc implements ExpressionDescribe
     
     /**
      * 按照顺序，从左到右，获取所有join的流名称
-     * @return 排好序的流名称
      */
     public List<StreamAliasDesc> getOrderedStreams()
     {

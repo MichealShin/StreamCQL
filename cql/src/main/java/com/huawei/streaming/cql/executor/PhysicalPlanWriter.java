@@ -51,8 +51,6 @@ public class PhysicalPlanWriter
     
     /**
      * 将应用程序写入到指定文件
-     * @param app 应用程序
-     * @param file 待写入的文件
      */
     public static void write(Application app, String file)
     {
@@ -63,8 +61,6 @@ public class PhysicalPlanWriter
     
     /**
      * 将执行计划写入到指定文件
-     * @param plan 执行计划
-     * @param file 待写入的文件
      */
     public static void write(PhysicalPlan plan, String file)
     {
@@ -81,8 +77,6 @@ public class PhysicalPlanWriter
     
     /**
      * 将执行计划序列化成字符串
-     * @param plan 物理执行计划
-     * @return 字符串形式的执行计划
      */
     public static String createStringPlan(PhysicalPlan plan)
     {
@@ -95,8 +89,6 @@ public class PhysicalPlanWriter
     
     /**
      * 将应用程序序列化为执行计划字符串
-     * @param app 应用程序实例
-     * @return 字符串形式的执行计划
      */
     public static String createStringPlan(Application app)
     {

@@ -49,12 +49,6 @@ public class OperatorInfoCreatorFactory
     /**
      * 创建各类应用程序中待提交的算子信息实例
      *
-     * @param vapp xml中解析出来的各类算子信息
-     * @param operator 当前算子
-     * @param streamschema schema信息
-     * @param systemconfig 系统配置信息
-     * @return 功能性算子信息
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 执行异常
      */
     public static AbsOperator createOperatorInfo(Application vapp, Operator operator, EventTypeMng streamschema,
         Map<String, String> systemconfig)
@@ -102,10 +96,6 @@ public class OperatorInfoCreatorFactory
      * <p/>
      * 在一个算子中，只能接口相同流名称的一个连接
      *
-     * @param vapp 执行计划
-     * @param operator 当前算子
-     * @return 算子连线信息
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 执行期异常
      */
     protected static List<OperatorTransition> getTransitionIn(Application vapp, Operator operator)
         throws ExecutorException
@@ -133,11 +123,6 @@ public class OperatorInfoCreatorFactory
     /**
      * 获取进入算子的连线
      *
-     * @param vapp 执行计划
-     * @param operator 当前算子
-     * @param streamName 流名称，如果有多个的话， 根据流名称识别
-     * @return 算子连线信息
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 执行期异常
      */
     protected static OperatorTransition getTransitionIn(Application vapp, Operator operator, String streamName)
         throws ExecutorException
@@ -169,11 +154,6 @@ public class OperatorInfoCreatorFactory
     /**
      * 获取离开该算子的连线
      *
-     * @param vapp 执行计划
-     * @param operator 当前算子
-     * @param streamName 流名称
-     * @return 算子连线
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 执行期异常
      */
     protected static OperatorTransition getTransitionOut(Application vapp, Operator operator, String streamName)
         throws ExecutorException
@@ -203,10 +183,6 @@ public class OperatorInfoCreatorFactory
     /**
      * 获取离开该算子的连线
      *
-     * @param vapp 执行计划
-     * @param operator 当前算子
-     * @return 算子连线
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 执行期异常
      */
     protected static OperatorTransition getTransitionOut(Application vapp, Operator operator)
         throws ExecutorException
@@ -231,10 +207,6 @@ public class OperatorInfoCreatorFactory
      * 1、获取所有向该聚合算子发起连接的连线
      * 2、获取该聚合算子的schema
      *
-     * @param vapp 执行计划
-     * @param transition 输入连线
-     * @return 解析好的shcmea信息
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 执行期异常
      */
     protected static List<Schema> getSchemasByTransition(Application vapp, OperatorTransition transition)
         throws ExecutorException
@@ -249,10 +221,6 @@ public class OperatorInfoCreatorFactory
     /**
      * 通过schema名称获取schema
      *
-     * @param schemaName schema名称
-     * @param vapp 应用程序
-     * @return 获取的schema
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 如果 没有找到对应schema，抛出异常
      */
     public static Schema getClonedSchemaByName(String schemaName, Application vapp)
         throws ExecutorException
@@ -272,10 +240,6 @@ public class OperatorInfoCreatorFactory
     /**
      * 创建一个流处理算子
      *
-     * @param operator 算子
-     * @param streamOperator 流处理算子
-     * @return 流处理算子
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 执行异常
      */
     protected static AbsOperator buildStreamOperator(Operator operator, AbsOperator streamOperator)
         throws ExecutorException

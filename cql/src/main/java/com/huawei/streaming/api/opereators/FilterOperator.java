@@ -43,8 +43,6 @@ public class FilterOperator extends InnerFunctionOperator
     
     /**
      * <默认构造函数>
-     * @param id 算子id
-     * @param parallelNumber 算子并行度
      */
     public FilterOperator(String id, int parallelNumber)
     {

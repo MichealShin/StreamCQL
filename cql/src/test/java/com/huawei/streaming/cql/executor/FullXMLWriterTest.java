@@ -72,7 +72,6 @@ public class FullXMLWriterTest
     /**
      * 写入测试
      *
-     * @throws Exception 执行异常
      */
     @Test
     public void writerTest()
@@ -151,8 +150,6 @@ public class FullXMLWriterTest
         op.setGroupId("groupid");
         op.setTopic(RIGHT_INPUT_TOPIC);
         op.setZookeepers("158.1.130.21:2181");
-        op.setZkSessionTimeout(ConstInTestCase.I_20000);
-        op.setZkSyncTime(ConstInTestCase.I_20000);
         op.setDeserializer(deser);
         return op;
         
@@ -172,8 +169,6 @@ public class FullXMLWriterTest
         op.setGroupId("groupid");
         op.setTopic(LEFT_INPUT_TOPIC);
         op.setZookeepers("158.1.130.21:2181");
-        op.setZkSessionTimeout(ConstInTestCase.I_20000);
-        op.setZkSyncTime(ConstInTestCase.I_20000);
         op.setDeserializer(deser);
         return op;
     }
@@ -187,8 +182,6 @@ public class FullXMLWriterTest
         op.setGroupId("groupid");
         op.setTopic(RIGHT_INPUT_TOPIC);
         op.setZookeepers("158.1.130.21:2181");
-        op.setZkSessionTimeout(ConstInTestCase.I_20000);
-        op.setZkSyncTime(ConstInTestCase.I_20000);
         op.setDeserializer(deser);
         return op;
     }
@@ -247,9 +240,6 @@ public class FullXMLWriterTest
         
         KafkaOutputOperator op = new KafkaOutputOperator("kafkaWriter", 1);
         op.setTopic("innerjoin_out");
-        op.setZookeepers("158.1.130.21:2181");
-        op.setZkSessionTimeout(ConstInTestCase.I_20000);
-        op.setZkSyncTime(ConstInTestCase.I_20000);
         op.setSerializer(ser);
         return op;
     }
@@ -314,7 +304,7 @@ public class FullXMLWriterTest
      */
     private static void setDir()
     {
-        String classPath = FullXMLWriterTest.class.getResource("/").getPath();
+        String classPath = PhysicalPlanWriterTest.class.getResource("/").getPath();
         
         try
         {

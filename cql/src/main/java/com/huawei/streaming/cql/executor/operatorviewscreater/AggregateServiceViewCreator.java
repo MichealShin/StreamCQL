@@ -74,14 +74,27 @@ public class AggregateServiceViewCreator
     
     private SelectSubProcess selectProcessor;
     
+    private static class AggregateExpressionGetterStrategy implements ExpressionGetterStrategy
+    {
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isEqual(IExpression exp)
+        {
+            if (exp instanceof AggregateExpression)
+            {
+                return true;
+            }
+            return false;
+        }
+        
+    }
+
     /**
      * 创建聚合表达式
      * 
-     * @param select 已经完成解析的select表达式
-     * @param isHasGrupby 是否包含groupby
      * 
-     * @return  聚合表达式
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 执行器异常
      */
     public IAggregationService create(SelectSubProcess select, boolean isHasGrupby)
         throws ExecutorException
@@ -91,18 +104,7 @@ public class AggregateServiceViewCreator
         this.selectProcessor = select;
         List<IExpression> aggExpression = new ArrayList<IExpression>();
         
-        ExpressionsWalker getter = new ExpressionsWalker(new ExpressionGetterStrategy()
-        {
-            @Override
-            public boolean isEqual(IExpression exp)
-            {
-                if (exp instanceof AggregateExpression)
-                {
-                    return true;
-                }
-                return false;
-            }
-        });
+        ExpressionsWalker getter = new ExpressionsWalker(new AggregateExpressionGetterStrategy());
         
         for (IExpression expression : selectProcessor.getExprs())
         {

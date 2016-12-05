@@ -216,4 +216,33 @@ public class DDLStatementVisitor extends AbsCQLParserBaseVisitor<ParseContext>
         return visitor.visit(ctx);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ParseContext visitDeactiveApplication(@NotNull CQLParser.DeactiveApplicationContext ctx)
+    {
+        DeactiveApplicationVisitor visitor = new DeactiveApplicationVisitor();
+        return visitor.visit(ctx);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ParseContext visitActiveApplication(@NotNull CQLParser.ActiveApplicationContext ctx)
+    {
+        ActiveApplicationVisitor visitor = new ActiveApplicationVisitor();
+        return visitor.visit(ctx);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ParseContext visitRebalanceApplication(@NotNull CQLParser.RebalanceApplicationContext ctx)
+    {
+        RebalanceApplicationVisitor visitor = new RebalanceApplicationVisitor();
+        return visitor.visit(ctx);
+    }
 }

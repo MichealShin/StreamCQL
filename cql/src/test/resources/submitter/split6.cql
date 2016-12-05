@@ -5,8 +5,8 @@ CREATE INPUT STREAM Stream_Voice_call
     InitTime long
 )
 SOURCE randomgen
-    PROPERTIES ( timeUnit = "SECONDS", period = "1",
-        eventNumPerperiod = "1", isSchedule = "true" );
+    PROPERTIES ( "timeUnit" = "SECONDS", "period" = "1",
+        "eventNumPerPeriod" = "1", "isSchedule" = "true" );
 
 
 CREATE OUTPUT STREAM Filter_Voice1

@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * <p>
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -89,9 +89,6 @@ public class CQLTestCommons
     /**
      * 追加内容到文件末尾
      *
-     * @param f 文件
-     * @param values 文件内容
-     * @throws IOException 文件操作异常
      */
     public static void appendToFile(File f, String values)
      throws IOException
@@ -119,10 +116,6 @@ public class CQLTestCommons
     /**
      * 比较文件内容是否相同
      *
-     * @param f1 文件1
-     * @param f2 文件2
-     * @return 如果相同，返回true
-     * @throws IOException 文件操作异常
      */
     public static boolean compareFileContent(File f1, File f2)
      throws IOException
@@ -140,7 +133,7 @@ public class CQLTestCommons
             String s2 = f2Contexts.get(i).trim();
             if (Strings.isNullOrEmpty(s1) && Strings.isNullOrEmpty(s2))
             {
-               continue;
+                continue;
             }
 
             if(!s1.equals(s2))
@@ -154,8 +147,6 @@ public class CQLTestCommons
     /**
      * 清空目录下的所有文件及子文件
      *
-     * @param dir 目录
-     * @throws IOException 文件操作异常
      */
     public static void emptyDir(File dir)
      throws IOException
@@ -170,9 +161,6 @@ public class CQLTestCommons
     /**
      * 解析文件内容，将文件中的sql解析出来
      *
-     * @param qf 文件
-     * @return 解析出来的sql列表
-     * @throws Exception 解析异常
      */
     public static List< String > addFile(File qf)
      throws Exception

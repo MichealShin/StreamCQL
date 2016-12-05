@@ -92,7 +92,6 @@ public class Application
     /**
      * <默认构造函数>
      *
-     * @param applicationId 应用程序标示符
      */
     public Application(String applicationId)
     {
@@ -112,7 +111,7 @@ public class Application
     
     public String[] getUserFiles()
     {
-        return userFiles;
+        return userFiles == null ? new String[] {} : (String[])userFiles.clone();
     }
     
     public void setUserFiles(String[] userFiles)

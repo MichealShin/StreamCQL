@@ -25,8 +25,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.huawei.streaming.api.streams.Schema;
 import com.huawei.streaming.cql.exception.SemanticAnalyzerException;
-import com.huawei.streaming.cql.mapping.CQLSimpleLexerMapping;
-import com.huawei.streaming.cql.semanticanalyzer.parser.context.ClassNameContext;
 import com.huawei.streaming.cql.semanticanalyzer.parser.context.CreateDataSourceContext;
 import com.huawei.streaming.cql.semanticanalyzer.parser.context.ParseContext;
 
@@ -37,7 +35,9 @@ import com.huawei.streaming.cql.semanticanalyzer.parser.context.ParseContext;
 public class CreateDataSourceAnalyzeContext extends AnalyzeContext
 {
     private CreateDataSourceContext context;
-    
+
+    private String datasourcClass;
+
     private TreeMap<String, String> datasourceConfigs = Maps.newTreeMap();
     
     public void setDatasourceConfigs(TreeMap<String, String> datasourceConfigs)
@@ -85,27 +85,24 @@ public class CreateDataSourceAnalyzeContext extends AnalyzeContext
     {
         return context.getDataSourceName();
     }
-    
+
+    public void setDataSourceClass(String clazz)
+    {
+        this.datasourcClass = clazz;
+    }
+
     /**
      * 获取数据源的类
      *
-     * @return 数据源类
      */
     public String getDataSourceClass()
     {
-        ClassNameContext className = context.getDataSourceClassName();
-        if (className.isInnerClass())
-        {
-            return CQLSimpleLexerMapping.getFullName(className.getClassName());
-        }
-        
-        return className.getClassName();
+        return this.datasourcClass;
     }
     
     /**
      * 获取数据源配置属性
      *
-     * @return 数据源配置属性
      */
     public TreeMap<String, String> getDataSourceConfig()
     {

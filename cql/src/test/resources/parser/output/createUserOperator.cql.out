@@ -1,0 +1,13 @@
+##sqlstart:
+create operator userOp as "com.huawei.UserOperator" 
+  input (id string, name string, cc int) 
+  output (id string, name string, type int, cc int) 
+  properties ("client.port" = "8080")
+##sqlend
+CREATE OPERATOR userop AS 'com.huawei.UserOperator' INPUT (id STRING, name STRING, cc INT) OUTPUT (id STRING, name STRING, type INT, cc INT)PROPERTIES ( 'client.port' = '8080' )
+##sqlstart:
+create operator userOp as "com.huawei.UserOperator" 
+  input (id string, name string, cc int) 
+  output (id string, name string, type int, cc int)
+##sqlend
+CREATE OPERATOR userop AS 'com.huawei.UserOperator' INPUT (id STRING, name STRING, cc INT) OUTPUT (id STRING, name STRING, type INT, cc INT)

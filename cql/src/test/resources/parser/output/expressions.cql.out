@@ -1,0 +1,220 @@
+##sqlstart:
+a
+##sqlend
+a
+##sqlstart:
+udf(a)
+##sqlend
+udf(a)
+##sqlstart:
+udf(a,b)
+##sqlend
+udf(a, b)
+##sqlstart:
+udf(a+b)
+##sqlend
+udf(a + b)
+##sqlstart:
+udf(a-b)
+##sqlend
+udf(a - b)
+##sqlstart:
+udf(a*b)
+##sqlend
+udf(a * b)
+##sqlstart:
+udf(a/b)
+##sqlend
+udf(a / b)
+##sqlstart:
+udf('0')
+##sqlend
+udf("0")
+##sqlstart:
+udf(0)
+##sqlend
+udf(0)
+##sqlstart:
+a+b
+##sqlend
+a + b
+##sqlstart:
+c+(e*f)
+##sqlend
+c + ( e * f )
+##sqlstart:
+c+(e+f)
+##sqlend
+c + ( e + f )
+##sqlstart:
+c+(e-f)
+##sqlend
+c + ( e - f )
+##sqlstart:
+c+(e/f)
+##sqlend
+c + ( e / f )
+##sqlstart:
+c+(e%f)
+##sqlend
+c + ( e % f )
+##sqlstart:
+(c+(e%f))
+##sqlend
+( c + ( e % f ) )
+##sqlstart:
+(c+(e%f))
+##sqlend
+( c + ( e % f ) )
+##sqlstart:
+case when b>2 then 10 when b<=2 then 11 else 0 end
+##sqlend
+CASE WHEN b > 2 THEN 10 WHEN b <= 2 THEN 11 ELSE 0
+##sqlstart:
+case when key<'90' then 2 else 4 end
+##sqlend
+CASE WHEN key < "90" THEN 2 ELSE 4
+##sqlstart:
+CASE a.key WHEN '27' THEN TRUE WHEN '38' THEN FALSE ELSE NULL END
+##sqlend
+CASE a.key WHEN "27" THEN true WHEN "38" THEN false  ELSE NULL END 
+##sqlstart:
+CASE WHEN (value LIKE 'aaa%' OR value LIKE 'vvv%') THEN 1 ELSE 0 END
+##sqlend
+CASE WHEN ( value LIKE "aaa%" OR value LIKE "vvv%" ) THEN 1 ELSE 0
+##sqlstart:
+case when key<'90' then 2 when key = '90' then 3 when key > '90'  then 5 else 4 end
+##sqlend
+CASE WHEN key < "90" THEN 2 WHEN key = "90" THEN 3 WHEN key > "90" THEN 5 ELSE 4
+##sqlstart:
+case key when '1' then 1 when '2' then 2 when '3' then 3 else 99 end
+##sqlend
+CASE key WHEN "1" THEN 1 WHEN "2" THEN 2 WHEN "3" THEN 3  ELSE 99 END 
+##sqlstart:
+a like 'b'
+##sqlend
+a LIKE "b"
+##sqlstart:
+a like 'b%'
+##sqlend
+a LIKE "b%"
+##sqlstart:
+a like '%b%'
+##sqlend
+a LIKE "%b%"
+##sqlstart:
+a like '%b_'
+##sqlend
+a LIKE "%b_"
+##sqlstart:
+a like 'a[1-9][1-9][1-9]'
+##sqlend
+a LIKE "a[1-9][1-9][1-9]"
+##sqlstart:
+a not like 'a[1-9][1-9][1-9]'
+##sqlend
+a NOT LIKE "a[1-9][1-9][1-9]"
+##sqlstart:
+a in ('1','2','3')
+##sqlend
+a  IN  ( "1", "2", "3" ) 
+##sqlstart:
+a not in ('1','2','3')
+##sqlend
+a  NOT  IN  ( "1", "2", "3" ) 
+##sqlstart:
+a between 1 and 1000
+##sqlend
+a  BETWEEN 1 AND 1000
+##sqlstart:
+a not between 1 and 1000
+##sqlend
+a  NOT  BETWEEN 1 AND 1000
+##sqlstart:
+udf(distinct a,b)
+##sqlend
+udf( DISTINCT a, b)
+##sqlstart:
+udf(distinct *)
+##sqlend
+udf( DISTINCT *)
+##sqlstart:
+udf(null)
+##sqlend
+udf(NULL)
+##sqlstart:
+udf()
+##sqlend
+udf()
+##sqlstart:
+udf(*)
+##sqlend
+udf(*)
+##sqlstart:
+udf(a is null)
+##sqlend
+udf(a IS NULL)
+##sqlstart:
+udf(a == 1)
+##sqlend
+udf(a == 1)
+##sqlstart:
+udf(a = 1)
+##sqlend
+udf(a = 1)
+##sqlstart:
+udf(a <> 1)
+##sqlend
+udf(a <> 1)
+##sqlstart:
+udf(a != 1)
+##sqlend
+udf(a != 1)
+##sqlstart:
+udf(a >= 1)
+##sqlend
+udf(a >= 1)
+##sqlstart:
+udf(a <= 1)
+##sqlend
+udf(a <= 1)
+##sqlstart:
+udf(toint(a <= 1))
+##sqlend
+udf(toint(a <= 1))
+##sqlstart:
+udf(toint(a <= 1))
+##sqlend
+udf(toint(a <= 1))
+##sqlstart:
+S1.a
+##sqlend
+s1.a
+##sqlstart:
+'1'
+##sqlend
+"1"
+##sqlstart:
+1
+##sqlend
+1
+##sqlstart:
+1L
+##sqlend
+1L
+##sqlstart:
+1d
+##sqlend
+1.0D
+##sqlstart:
+1f
+##sqlend
+1.0F
+##sqlstart:
+true
+##sqlend
+true
+##sqlstart:
+false
+##sqlend
+false

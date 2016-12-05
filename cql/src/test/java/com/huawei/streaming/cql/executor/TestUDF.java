@@ -33,7 +33,6 @@ public class TestUDF extends UDF
     /**
      * <默认构造函数>
      *
-     * @param config 参数
      */
     public TestUDF(Map<String, String> config)
     {
@@ -43,7 +42,6 @@ public class TestUDF extends UDF
     /**
      * 测试函数
      *
-     * @return 返回结果
      */
     public String evaluate()
     {

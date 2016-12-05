@@ -72,8 +72,6 @@ public class RandomGenInputOperator extends InnerInputSourceOperator
     
     /**
      * <默认构造函数>
-     * @param id 算子id
-     * @param parallelNumber 算子并行度
      */
     public RandomGenInputOperator(String id, int parallelNumber)
     {
@@ -82,11 +80,6 @@ public class RandomGenInputOperator extends InnerInputSourceOperator
     
     /**
      * 一次性发送一批数据
-     * @param id 算子id
-     * @param parallelNumber 算子并行度
-     * @param number 一次性发送的数据量
-     * @param delayTime 在算子启动多久之后，开始发送数据，单位毫秒
-     * @return 创建好的数据生成算子实例
      */
     public static RandomGenInputOperator sendData(String id, int parallelNumber, Integer number, Long delayTime)
     {
@@ -101,11 +94,6 @@ public class RandomGenInputOperator extends InnerInputSourceOperator
     
     /**
      * 设置每秒发送多少条数据
-     * @param id 算子id
-     * @param parallelNumber 算子并行度
-     * @param number 每秒发送的数据量
-     * @param delayTime 数据发送的延迟时间
-     * @return 创建好的算子实例
      */
     public static RandomGenInputOperator sendEverySeconds(String id, int parallelNumber, Integer number, Long delayTime)
     {
@@ -114,11 +102,6 @@ public class RandomGenInputOperator extends InnerInputSourceOperator
     
     /**
      * 设置每分钟发送多少条数据
-     * @param id 算子id
-     * @param parallelNumber 算子并行度
-     * @param number 每分钟发送的数据量
-     * @param delayTime 数据发送的延迟时间
-     * @return 创建好的算子实例
      */
     public static RandomGenInputOperator sendEveryMinutes(String id, int parallelNumber, Integer number, Long delayTime)
     {
@@ -127,12 +110,6 @@ public class RandomGenInputOperator extends InnerInputSourceOperator
     
     /**
      * 设置每秒发送多少条数据，总共发送多少条数据
-     * @param id 算子id
-     * @param parallelNumber 算子并行度
-     * @param number 每秒发送的数据量
-     * @param totalNum 总共发送的数据量
-     * @param delayTime 数据发送的延迟时间
-     * @return 创建好的算子实例
      */
     public static RandomGenInputOperator sendEverySecondsWithLimit(String id, int parallelNumber, Integer number,
         Integer totalNum, Long delayTime)
@@ -142,12 +119,6 @@ public class RandomGenInputOperator extends InnerInputSourceOperator
     
     /**
      * 设置每分钟发送多少条数据，总共发送多少条数据
-     * @param id 算子id
-     * @param parallelNumber 算子并行度
-     * @param number 每分钟发送的数据量
-     * @param totalNum 总共发送的数据量
-     * @param delayTime 数据发送的延迟时间
-     * @return 创建好的算子实例
      */
     public static RandomGenInputOperator sendEveryMinutesWithLimit(String id, int parallelNumber, Integer number,
         Integer totalNum, Long delayTime)
@@ -157,14 +128,6 @@ public class RandomGenInputOperator extends InnerInputSourceOperator
     
     /**
      * 设置每分钟发送多少条数据，总共发送多少条数据
-     * @param id 算子id
-     * @param parallelNumber 算子并行度
-     * @param timeunit 时间单位，数据发送算子中所有时间相关参数的时间单位
-     * @param period 每个时间单位的跨度，比如每两秒，每100毫秒
-     * @param eventNumPerPeriod 每个时间跨度发送的数据
-     * @param totalNumber 总数据量
-     * @param delayTime 数据发送的延迟时间
-     * @return 创建好的算子实例
      */
     public static RandomGenInputOperator sendInterval(String id, int parallelNumber, TimeUnit timeunit, Integer period,
         Integer eventNumPerPeriod, Integer totalNumber, Long delayTime)

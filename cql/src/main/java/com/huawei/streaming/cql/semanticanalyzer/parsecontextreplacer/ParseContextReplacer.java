@@ -29,14 +29,11 @@ public interface ParseContextReplacer
 {
     /**
      * 检查是否有子节点内容可以进行替换
-     * @param parseContext 表达式
-     * @return 是否可以替换
      */
     boolean isChildsReplaceable(BaseExpressionParseContext parseContext);
     
     /**
      * 创建要替换的表达式
-     * @return 要替换的表达式
      */
     BaseExpressionParseContext createReplaceParseContext();
     

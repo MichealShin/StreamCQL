@@ -61,7 +61,6 @@ public class FunctionExpressionWalker implements ParseContextWalker
     
     /**
      * 是否包含udaf聚合函数
-     * @return 如果包含，返回true
      */
     public boolean isContainsUDAF()
     {

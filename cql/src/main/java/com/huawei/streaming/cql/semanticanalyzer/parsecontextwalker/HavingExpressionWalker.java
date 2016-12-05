@@ -32,7 +32,6 @@ public class HavingExpressionWalker implements ParseContextWalker
     
     /**
      * <默认构造函数>
-     * @param selectExpressions select的表达式列表
      */
     public HavingExpressionWalker(List<ParseContext> selectExpressions)
     {

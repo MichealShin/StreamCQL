@@ -23,11 +23,18 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.huawei.streaming.common.Pair;
 import com.huawei.streaming.cql.exception.ApplicationBuildException;
 import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.expressiondesc.BinaryExpressionDesc;
 import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.expressiondesc.ConstExpressionDesc;
 import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.expressiondesc.ExpressionDescribe;
+import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.expressiondesc.FunctionBetweenExpressionDesc;
+import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.expressiondesc.FunctionCaseExpressionDesc;
 import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.expressiondesc.FunctionExpressionDesc;
+import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.expressiondesc.FunctionInExpressionDesc;
+import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.expressiondesc.FunctionLikeExpressionDesc;
+import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.expressiondesc.FunctionPreviousDesc;
+import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.expressiondesc.FunctionWhenExpressionDesc;
 import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.expressiondesc.JoinExpressionDesc;
 import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.expressiondesc.NullExpressionDesc;
 import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.expressiondesc.PropertyValueExpressionDesc;
@@ -46,7 +53,6 @@ public class ExpressionDescsWalker
     /**
      * <默认构造函数>
      *
-     * @param getStrategy 遍历的判定策略
      */
     public ExpressionDescsWalker(ExpressionDescGetterStrategy getStrategy)
     {
@@ -56,9 +62,6 @@ public class ExpressionDescsWalker
     /**
      * 递归表达式中的Previous 函数
      *
-     * @param expression 表达式
-     * @param expressionContainer 表达式容器，不能为空
-     * @throws ApplicationBuildException 执行异常
      */
     public void found(ExpressionDescribe expression, List<ExpressionDescribe> expressionContainer)
         throws ApplicationBuildException
@@ -128,6 +131,7 @@ public class ExpressionDescsWalker
     private void walkFunctions(ExpressionDescribe expression, List<ExpressionDescribe> expressionContainer)
         throws ApplicationBuildException
     {
+        walkCaseWhens(expression, expressionContainer);
         if (expression instanceof FunctionExpressionDesc)
         {
             FunctionExpressionDesc opexp = (FunctionExpressionDesc)expression;
@@ -136,6 +140,73 @@ public class ExpressionDescsWalker
                 found(exp, expressionContainer);
             }
         }
+        
+        walkFunctionExpression(expression, expressionContainer);
     }
-
+    
+    private void walkFunctionExpression(ExpressionDescribe expression, List<ExpressionDescribe> expressionContainer)
+        throws ApplicationBuildException
+    {
+        if (expression instanceof FunctionBetweenExpressionDesc)
+        {
+            FunctionBetweenExpressionDesc opexp = (FunctionBetweenExpressionDesc)expression;
+            found(opexp.getLeftExpression(), expressionContainer);
+            found(opexp.getRightExpression(), expressionContainer);
+            found(opexp.getBetweenProperty(), expressionContainer);
+        }
+        
+        if (expression instanceof FunctionInExpressionDesc)
+        {
+            FunctionInExpressionDesc opexp = (FunctionInExpressionDesc)expression;
+            found(opexp.getInProperty(), expressionContainer);
+            for (ExpressionDescribe exp : opexp.getArgs())
+            {
+                found(exp, expressionContainer);
+            }
+        }
+        
+        if (expression instanceof FunctionLikeExpressionDesc)
+        {
+            FunctionLikeExpressionDesc opexp = (FunctionLikeExpressionDesc)expression;
+            found(opexp.getLikeProperty(), expressionContainer);
+            found(opexp.getLikeStringExpression(), expressionContainer);
+        }
+        
+        if (expression instanceof FunctionPreviousDesc)
+        {
+            FunctionPreviousDesc opexp = (FunctionPreviousDesc)expression;
+            found(opexp.getPreviouNumber(), expressionContainer);
+            for (ExpressionDescribe exp : opexp.getPreviouCols())
+            {
+                found(exp, expressionContainer);
+            }
+        }
+    }
+    
+    private void walkCaseWhens(ExpressionDescribe expression, List<ExpressionDescribe> expressionContainer)
+        throws ApplicationBuildException
+    {
+        if (expression instanceof FunctionCaseExpressionDesc)
+        {
+            FunctionCaseExpressionDesc opexp = (FunctionCaseExpressionDesc)expression;
+            found(opexp.getCasePropertyExpression(), expressionContainer);
+            found(opexp.getElseExpression(), expressionContainer);
+            for (Pair<ExpressionDescribe, ExpressionDescribe> exps : opexp.getWhenThens())
+            {
+                found(exps.getFirst(), expressionContainer);
+                found(exps.getSecond(), expressionContainer);
+            }
+        }
+        
+        if (expression instanceof FunctionWhenExpressionDesc)
+        {
+            FunctionWhenExpressionDesc opexp = (FunctionWhenExpressionDesc)expression;
+            found(opexp.getElseExpression(), expressionContainer);
+            for (Pair<ExpressionDescribe, ExpressionDescribe> exps : opexp.getWhenThens())
+            {
+                found(exps.getFirst(), expressionContainer);
+                found(exps.getSecond(), expressionContainer);
+            }
+        }
+    }
 }

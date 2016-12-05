@@ -152,8 +152,6 @@ public class ArithmeticStarExpressionContext extends BaseExpressionParseContext
      * 创建binary表达式
      *  logicExpressionAnd (KW_OR logicExpressionAnd)*
      * 从后往前计算表达式
-     * @return
-     * @throws SemanticAnalyzerException 
      */
     private ExpressionDescribe createBinaryExpression(List<Schema> schemas)
         throws SemanticAnalyzerException

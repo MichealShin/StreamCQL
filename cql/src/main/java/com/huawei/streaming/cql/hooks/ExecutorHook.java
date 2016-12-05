@@ -29,13 +29,11 @@ public interface ExecutorHook
 {
     /**
      * 物理执行计划解析之后，数据检查之前执行的钩子
-     * @param physicPlanApplication 刚完成序列化的应用程序
      */
     void preExecute(com.huawei.streaming.api.Application physicPlanApplication);
     
     /**
      * 应用程序提交之前执行的钩子
-     * @param submitApplication 底层的stormapplication
      */
     void preSubmit(com.huawei.streaming.application.Application submitApplication);
     

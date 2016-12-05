@@ -38,7 +38,6 @@ public class MapConverter extends AbstractCollectionConverter
     /**
      * <默认构造函数>
      *
-     * @param mapper 默认的mpa解析器
      */
     public MapConverter(Mapper mapper)
     {
@@ -58,13 +57,14 @@ public class MapConverter extends AbstractCollectionConverter
      */
     public void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context)
     {
-        TreeMap<String,String> map = (TreeMap)source;
-        for (String key : map.keySet())
+        TreeMap<String, String> map = (TreeMap)source;
+        
+        for (Entry<String, String> entry : map.entrySet())
         {
             ExtendedHierarchicalStreamWriterHelper.startNode(writer, "property", Entry.class);
             
-            writer.addAttribute("key", key);
-            writer.addAttribute("value", map.get(key));
+            writer.addAttribute("key", entry.getKey());
+            writer.addAttribute("value", entry.getValue());
             writer.endNode();
         }
     }
@@ -82,8 +82,6 @@ public class MapConverter extends AbstractCollectionConverter
     /**
      * map的键值解析类
      *
-     * @param reader 文件读取流
-     * @param map 存放数据的map
      */
     protected void populateMap(HierarchicalStreamReader reader, TreeMap map)
     {

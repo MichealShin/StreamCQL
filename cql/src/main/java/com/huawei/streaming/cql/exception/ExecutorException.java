@@ -33,8 +33,6 @@ public class ExecutorException extends CQLException
     /**
      * <默认构造函数>
      *
-     * @param errorCode 异常消息
-     * @param errorArgs 异常参数
      */
     public ExecutorException(ErrorCode errorCode, String... errorArgs)
     {
@@ -44,9 +42,6 @@ public class ExecutorException extends CQLException
     /**
      * <默认构造函数>
      *
-     * @param cause 异常堆栈
-     * @param errorCode 异常码
-     * @param errorArgs 异常参数
      */
     public ExecutorException(Throwable cause, ErrorCode errorCode, String... errorArgs)
     {
@@ -57,9 +52,6 @@ public class ExecutorException extends CQLException
      * <默认构造函数>
      * 仅供内部warp函数使用
      *
-     * @param cause 错误堆栈
-     * @param fullMessage 异常消息
-     * @param errorCode 异常码
      */
     protected ExecutorException(Throwable cause, String fullMessage, ErrorCode errorCode)
     {
@@ -69,8 +61,6 @@ public class ExecutorException extends CQLException
     /**
      * 包装系统异常到ExecutorException
      *
-     * @param exception Exception
-     * @return 包装好的ExecutorException
      */
     public static ExecutorException wrapException(Exception exception)
     {
@@ -80,8 +70,6 @@ public class ExecutorException extends CQLException
     /**
      * 包装StreamingException
      *
-     * @param exception StreamingException
-     * @return 包装好的ExecutorException
      */
     public static ExecutorException wrapStreamingException(StreamingException exception)
     {
@@ -91,8 +79,6 @@ public class ExecutorException extends CQLException
     /**
      * 包装StreamingException
      *
-     * @param exception StreamingException
-     * @return 包装好的ExecutorException
      */
     public static ExecutorException wrapStreamingRunTimeException(StreamingRuntimeException exception)
     {

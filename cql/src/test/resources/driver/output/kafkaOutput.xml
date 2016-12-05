@@ -23,8 +23,7 @@
       <KafkaOutput id="KafkaOutput_002" parallel="1">
         <serializer class="SimpleSerDe"/>
         <topic>agg_1_1</topic>
-        <zookeepers>160.163.0.164:2181</zookeepers>
-        <brokers>160.163.0.164:9092</brokers>
+        <zookeepers>192.168.0.2:2181</zookeepers>
       </KafkaOutput>
       <Functor id="Functor_004" parallel="1">
         <outputExpression>s1.c1, s1.c2</outputExpression>

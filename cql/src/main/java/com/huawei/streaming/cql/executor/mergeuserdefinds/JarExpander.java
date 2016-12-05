@@ -51,8 +51,6 @@ public class JarExpander
     /**
      * 解压缩jar包到指定目录
      *
-     * @param expandDir 解压缩的目录，解压缩的jar包会放在该目录
-     * @param jarsDir jar包所在目录，下面可能存在多个jar包，需要一一解压缩
      */
     public JarExpander(File expandDir, File jarsDir)
     {
@@ -63,7 +61,6 @@ public class JarExpander
     /**
      * 解压缩jar包
      *
-     * @throws IOException 解压缩异常
      */
     public void expand()
         throws IOException
@@ -77,7 +74,7 @@ public class JarExpander
         for (File f : fs)
         {
             LOG.info("start to unzip jar {}", f.getName());
-            unzipJar(f.getAbsolutePath());
+            unzipJar(f.getCanonicalPath());
             FileUtils.delete(f);
         }
 
@@ -88,7 +85,7 @@ public class JarExpander
         throws IOException
     {
         File jarFile = new File(jar);
-        LOG.info("unzip jar {} to {}", jar, expandDir.getAbsolutePath());
+        LOG.info("unzip jar {} to {}", jar, expandDir.getCanonicalPath());
         Expand expand = createExpand(jarFile);
         expand.execute();
     }

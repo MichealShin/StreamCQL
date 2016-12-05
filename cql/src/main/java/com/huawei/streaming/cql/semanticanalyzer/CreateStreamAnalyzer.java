@@ -41,8 +41,6 @@ public abstract class CreateStreamAnalyzer extends BaseAnalyzer
     
     /**
      * <默认构造函数>
-     * @param parseContext 语法解析内容
-     * @throws SemanticAnalyzerException 语义分析内容
      */
     public CreateStreamAnalyzer(ParseContext parseContext)
         throws SemanticAnalyzerException
@@ -70,9 +68,6 @@ public abstract class CreateStreamAnalyzer extends BaseAnalyzer
     
     /**
      * 创建schema
-     * @param streamName 流名称
-     * @param columns 数据列
-     * @return schema
      */
     protected Schema createSchema(String streamName, ColumnNameTypeListContext columns)
     {
@@ -86,8 +81,6 @@ public abstract class CreateStreamAnalyzer extends BaseAnalyzer
     
     /**
      * 分析流属性
-     * @param streamPropertiesContext 属性解析内容
-     * @return 流配置属性
      */
     protected Map<String, String> analyzeStreamProperties(StreamPropertiesContext streamPropertiesContext)
     {

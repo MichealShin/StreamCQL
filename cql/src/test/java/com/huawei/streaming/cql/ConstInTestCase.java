@@ -115,16 +115,6 @@ public class ConstInTestCase
     public static final int I_1000 = 1000;
     
     /**
-     * 常量20000
-     */
-    public static final int I_20000 = 20000;
-    
-    /**
-     * long类型10
-     */
-    public static final long L_10 = 10L;
-    
-    /**
      * long类型10
      */
     public static final long L_7 = 7L;

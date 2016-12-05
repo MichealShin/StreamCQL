@@ -80,6 +80,7 @@ public class Driver implements DriverRunHook
         analyzeHooks.add(new CommondAnalyzehook());
         analyzeHooks.add(new SelectsAnalyzeHook());
         analyzeHooks.add(new InsertAnalyzeHook());
+        analyzeHooks.add(new PreviousValidateHook());
         analyzeHooks.add(new InsertUserOperatorAnalyzeHook());
         analyzeHooks.add(new MultiInsertAnalyzeHook());
     }
@@ -103,7 +104,6 @@ public class Driver implements DriverRunHook
      * getClass().getName() + '@' + Integer.toHexString(hashCode())
      * </pre></blockquote>
      *
-     * @return a string representation of the object.
      */
     @Override
     public String toString()
@@ -126,8 +126,6 @@ public class Driver implements DriverRunHook
      * 每次提交新的CQL语句，都会导致已经完成解析的应用程序信息被清空。
      * 因为新提交的逻辑，都会导致应用程序发生变化。
      *
-     * @param cql 待分析的CQL语句
-     * @throws CQLException cql异常
      */
     public void run(String cql)
         throws CQLException
@@ -180,7 +178,6 @@ public class Driver implements DriverRunHook
      * 如果cql语句是一般的流定义或者select语句，那么查询结果为空
      * 如果是get、或者show、describe之类的命令，那么就可以查询到结果
      *
-     * @return 查询结果
      */
     public CQLResult getResult()
     {
@@ -200,7 +197,6 @@ public class Driver implements DriverRunHook
     /**
      * 获取Driver的实时解析内容
      *
-     * @return driver实时解析内容
      */
     public DriverContext getContext()
     {
@@ -228,7 +224,6 @@ public class Driver implements DriverRunHook
     /**
      * 保存所有对查询结果会造成影响的sql语句
      *
-     * @param cql 待保存的cql
      */
     private void saveAllChangeableCQLs(String cql, ParseContext parseContext)
     {

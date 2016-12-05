@@ -18,6 +18,9 @@
 
 package com.huawei.streaming.cql.semanticanalyzer;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,8 +55,6 @@ import com.huawei.streaming.cql.semanticanalyzer.parser.IParser;
 import com.huawei.streaming.cql.semanticanalyzer.parser.ParserFactory;
 import com.huawei.streaming.expression.ExpressionOperator;
 import com.huawei.streaming.process.sort.SortEnum;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 /**
  * insert into 子句解析
@@ -69,7 +70,6 @@ public class InsertIntoSemanticAnalyzerTest
     /**
      * 初始化测试类之前要执行的初始化方法
      *
-     * @throws Exception 初始化中可能抛出的异常
      */
     @BeforeClass
     public static void setUpBeforeClass()
@@ -84,7 +84,6 @@ public class InsertIntoSemanticAnalyzerTest
     /**
      * 所有测试用例执行完毕之后执行的方法
      *
-     * @throws Exception 执行异常
      */
     @AfterClass
     public static void tearDownAfterClass()
@@ -99,7 +98,6 @@ public class InsertIntoSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testSimpleSelect()

@@ -65,9 +65,6 @@ public class BinaryExpressionRegistry
     
     /**
      * 注册表达式
-     * @param describe 表达式别名
-     * @param type 表达式类型
-     * @param expression 表达式类
      */
     public static void registerExpression(String describe, ExpressionOperator type,
         Class< ? extends IExpression> expression)
@@ -77,8 +74,6 @@ public class BinaryExpressionRegistry
     
     /**
      * 通过名称获取表达式
-     * @param desc 别名或者名称
-     * @return 表达式，如果没有，返回null
      */
     public static BinaryExpression getBinaryExpressionByName(String desc)
     {

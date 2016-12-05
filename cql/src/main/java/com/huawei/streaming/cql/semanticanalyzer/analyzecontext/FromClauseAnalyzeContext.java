@@ -82,7 +82,6 @@ public class FromClauseAnalyzeContext extends AnalyzeContext
     
     /**
      * 添加输入流
-     * @param streamName 流名称
      */
     public void addInputStream(String streamName)
     {
@@ -115,8 +114,6 @@ public class FromClauseAnalyzeContext extends AnalyzeContext
     
     /**
      * 添加事件进入窗口之前的过滤器
-     * @param streamName 流名称
-     * @param filter 过滤表达式
      */
     public void addFilterBeforeWindow(String streamName, ExpressionDescribe filter)
     {
@@ -125,8 +122,6 @@ public class FromClauseAnalyzeContext extends AnalyzeContext
     
     /**
      * 添加窗口
-     * @param streamName 流名称
-     * @param win 擦混口
      */
     public void addWindow(String streamName, Window win)
     {

@@ -48,6 +48,7 @@ public class OperatorSplitter
         splitters.add(new InsertSplitter(null));
         splitters.add(new JoinSplitter(null));
         splitters.add(new AggregateSplitter(null));
+        splitters.add(new CombineSplitter(null));
         splitters.add(new DataSourceSplitter(null));
         splitters.add(new MultiInsertSplitter(null));
         splitters.add(new UserOperatorSplitter(null));
@@ -56,10 +57,6 @@ public class OperatorSplitter
     /**
      * 创建splitter的实例并直接split
      *
-     * @param buildUtils builder用到的公共类
-     * @param parseContext 解析内容
-     * @return split结果
-     * @throws ApplicationBuildException split异常
      */
     public static SplitContext split(BuilderUtils buildUtils, AnalyzeContext parseContext)
         throws ApplicationBuildException

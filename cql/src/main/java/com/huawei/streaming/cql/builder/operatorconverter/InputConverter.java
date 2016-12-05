@@ -84,6 +84,11 @@ public class InputConverter implements OperatorConverter
         AnnotationUtils.setConfigToObject(innerInputSourceOperator, op.getArgs());
         removeRepeatConfig(op.getArgs(), innerInputSourceOperator);
         innerInputSourceOperator.setDeserializer(deserConverter.convert(inputop));
+        if(op.getArgs() != null && op.getArgs().size() != 0)
+        {
+            innerInputSourceOperator.setArgs(op.getArgs());
+        }
+
         return innerInputSourceOperator;
     }
     

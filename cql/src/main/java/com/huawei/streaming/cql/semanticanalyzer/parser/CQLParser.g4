@@ -64,4 +64,7 @@ ddlStatement
     |	dropFunctionStatement
     |	addFileStatement
     |	addJARStatement
+    |   deactiveApplication
+    |   activeApplication
+    |   rebalanceApplication
     ;

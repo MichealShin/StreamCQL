@@ -31,27 +31,18 @@ public interface SemanticAnalyzeHook extends Hook
 {
     /**
      *  验证是否属于该hook的执行范围
-     * @param parseContext 语法解析内容
-     * @return 如果属于执行返回，返回true
-     * @throws SemanticAnalyzerException 语义分析异常
      */
     boolean validate(ParseContext parseContext)
         throws SemanticAnalyzerException;
     
     /**
      * 语义分析之前执行的动作
-     * @param context driver实例中保存的临时对象
-     * @param parseContext 语法解析内容
-     * @throws SemanticAnalyzerException 语义分析异常
      */
     void preAnalyze(DriverContext context, ParseContext parseContext)
         throws SemanticAnalyzerException;
     
     /**
      * 语义分析之后执行的动作
-     * @param context driver实例中保存的临时对象
-     * @param analyzeConext 语义分析结果
-     * @throws SemanticAnalyzerException 语义分析异常
      */
     void postAnalyze(DriverContext context, AnalyzeContext analyzeConext)
         throws SemanticAnalyzerException;

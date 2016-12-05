@@ -69,5 +69,37 @@ public class IsNullLikeInExpressionVisitor extends AbsCQLParserBaseVisitor<IsNul
         context.setIsNullExpression(visitor.visit(ctx));
         return context;
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IsNullLikeBetweenInExpressionContext visitExpressionLike(@NotNull CQLParser.ExpressionLikeContext ctx)
+    {
+        ExpressionLikeVisitor visitor = new ExpressionLikeVisitor();
+        context.setLike(visitor.visit(ctx));
+        return context;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IsNullLikeBetweenInExpressionContext visitExpressionBetween(@NotNull CQLParser.ExpressionBetweenContext ctx)
+    {
+        ExpressionBetweenVisitor visitor = new ExpressionBetweenVisitor();
+        context.setBetween(visitor.visit(ctx));
+        return context;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IsNullLikeBetweenInExpressionContext visitExpressionIn(@NotNull CQLParser.ExpressionInContext ctx)
+    {
+        ExpressionInVisitor visitor = new ExpressionInVisitor();
+        context.setIn(visitor.visit(ctx));
+        return context;
+    }
 }

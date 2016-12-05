@@ -1,4 +1,4 @@
-set "operator.kafka.brokers"="127.0.0.1:9092";
+set "operator.kafka.brokers"="192.168.0.2:9092";
 set "serde.simpleserde.separator" = ",";
 create input stream input_where 
 (O_Id int ,OrderDate String ,OrderPrice float ,Customer String)

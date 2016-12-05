@@ -29,9 +29,6 @@ public interface Optimizer
 {
     /**
      * 执行优化
-     * @param app application 完成解析的应用程序
-     * @return 优化之后的application
-     * @throws ApplicationBuildException 优化期间可能会抛出的异常
      */
     Application optimize(Application app)
         throws ApplicationBuildException;

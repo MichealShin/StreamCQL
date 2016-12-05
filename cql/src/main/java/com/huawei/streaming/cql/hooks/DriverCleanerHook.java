@@ -20,6 +20,9 @@ package com.huawei.streaming.cql.hooks;
 
 import com.huawei.streaming.cql.CQLUtils;
 import com.huawei.streaming.cql.DriverContext;
+import com.huawei.streaming.cql.builder.BuilderUtils;
+import com.huawei.streaming.cql.semanticanalyzer.parser.context.ExplainStatementContext;
+import com.huawei.streaming.cql.semanticanalyzer.parser.context.LoadStatementContext;
 import com.huawei.streaming.cql.semanticanalyzer.parser.context.ParseContext;
 import com.huawei.streaming.cql.semanticanalyzer.parser.context.SubmitApplicationContext;
 
@@ -37,6 +40,10 @@ public class DriverCleanerHook implements DriverRunHook
     public void preDriverRun(DriverContext context, ParseContext parseContext)
     {
         context.setQueryResult(null);
+        if (isLoad(parseContext))
+        {
+            context.clean();
+        }
         if (CQLUtils.isChangeableCommond(parseContext))
         {
             context.cleanApp();
@@ -57,11 +64,30 @@ public class DriverCleanerHook implements DriverRunHook
         {
             context.clean();
         }
+        
+        if(isExplain(parseContext))
+        {
+            /*
+             * 重置算子名称计数器
+             */
+            DriverContext.getBuilderNameSpace().remove();
+            DriverContext.getBuilderNameSpace().set(new BuilderUtils());
+        }
+        
     }
     
     private boolean isSubmit(ParseContext parseContext)
     {
         return parseContext instanceof SubmitApplicationContext;
     }
-
+    
+    private boolean isLoad(ParseContext parseContext)
+    {
+        return parseContext instanceof LoadStatementContext;
+    }
+    
+    private boolean isExplain(ParseContext parseContext)
+    {
+        return parseContext instanceof ExplainStatementContext;
+    }
 }

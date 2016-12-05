@@ -1,0 +1,13 @@
+##sqlstart:
+CREATE STREAM S (id INT,name STRING)
+##sqlend
+CREATE PIPE STREAM s (id INT, name STRING)
+##sqlstart:
+CREATE STREAM S (id INT,name String)
+##sqlend
+CREATE PIPE STREAM s (id INT, name STRING)
+##sqlstart:
+CREATE STREAM S (id INT comment 'user id',name String comment 'user name') 
+COMMENT 'this is stream comment'
+##sqlend
+CREATE PIPE STREAM s (id INT, name STRING)

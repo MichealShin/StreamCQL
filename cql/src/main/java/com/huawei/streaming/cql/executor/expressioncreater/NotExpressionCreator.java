@@ -40,7 +40,6 @@ public class NotExpressionCreator implements ExpressionCreator
     
     private NotExpressionDesc expressiondesc;
     
-    private Map<String, String> systemConfig;
     
     /**
      * {@inheritDoc}
@@ -51,7 +50,7 @@ public class NotExpressionCreator implements ExpressionCreator
     {
         LOG.info("start to create not Expressions.");
         expressiondesc = (NotExpressionDesc)expressionDescribe;
-        IExpression innerExpr = ExpressionCreatorFactory.createExpression(expressiondesc.getExp(), systemConfig);
+        IExpression innerExpr = ExpressionCreatorFactory.createExpression(expressiondesc.getExp(), systemconfig);
         try
         {
             return new NotExpression(innerExpr);

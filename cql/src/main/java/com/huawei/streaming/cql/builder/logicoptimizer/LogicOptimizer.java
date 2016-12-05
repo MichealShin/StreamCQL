@@ -37,7 +37,6 @@ public class LogicOptimizer implements Transform
 {
     /**
      * 初始化
-     * @param conf 配置属性
      */
     public void init(StreamingConfig conf)
     {

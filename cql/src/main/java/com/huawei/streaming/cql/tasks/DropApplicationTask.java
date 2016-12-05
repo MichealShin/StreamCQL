@@ -114,9 +114,6 @@ public class DropApplicationTask extends BasicTask
     
     /**
      * 删除应用程序
-     * @param appName 应用程序名称
-     * @param isCheckExist 是否检查应用程序是否存在
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 执行期异常
      */
     protected void dropApplication(String appName, boolean isCheckExist)
         throws ExecutorException

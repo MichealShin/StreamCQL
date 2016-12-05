@@ -70,7 +70,7 @@ public class ShowApplicationAnalyzeContext extends AnalyzeContext
     public String toString()
     {
         // TODO Auto-generated method stub
-        return null;
+        return "";
     }
     
     public String getApplicationName()

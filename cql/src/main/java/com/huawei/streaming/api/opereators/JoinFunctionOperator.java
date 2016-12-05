@@ -74,8 +74,6 @@ public class JoinFunctionOperator extends BasicAggFunctionOperator
     
     /**
      * <默认构造函数>
-     * @param id 算子id
-     * @param parallelNumber 算子并行度
      */
     public JoinFunctionOperator(String id, int parallelNumber)
     {

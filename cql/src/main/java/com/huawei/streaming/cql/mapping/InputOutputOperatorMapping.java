@@ -18,27 +18,31 @@
 
 package com.huawei.streaming.cql.mapping;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
-import com.huawei.streaming.api.opereators.*;
-import com.huawei.streaming.operator.inputstream.ConsoleInputOp;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.collect.Maps;
+import com.huawei.streaming.api.opereators.*;
+import com.huawei.streaming.api.opereators.serdes.BinarySerDeAPI;
 import com.huawei.streaming.api.opereators.serdes.CSVSerDeAPI;
+import com.huawei.streaming.api.opereators.serdes.KeyValueSerDeAPI;
 import com.huawei.streaming.api.opereators.serdes.SerDeAPI;
 import com.huawei.streaming.api.opereators.serdes.SimpleSerDeAPI;
 import com.huawei.streaming.datasource.IDataSource;
+import com.huawei.streaming.datasource.RDBDataSource;
 import com.huawei.streaming.operator.IStreamOperator;
 import com.huawei.streaming.operator.inputstream.HeadStreamSourceOp;
 import com.huawei.streaming.operator.inputstream.KafkaSourceOp;
 import com.huawei.streaming.operator.outputstream.ConsolePrintOp;
 import com.huawei.streaming.operator.outputstream.KafkaFunctionOp;
+import com.huawei.streaming.operator.outputstream.TCPSenderFuncOp;
+import com.huawei.streaming.serde.BinarySerDe;
 import com.huawei.streaming.serde.CSVSerDe;
+import com.huawei.streaming.serde.KeyValueSerDe;
 import com.huawei.streaming.serde.SimpleSerDe;
 import com.huawei.streaming.serde.StreamSerDe;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * 输入或者输出算子和API算子之间的映射关系
@@ -46,7 +50,7 @@ import com.huawei.streaming.serde.StreamSerDe;
  */
 public class InputOutputOperatorMapping
 {
-    private static final Logger LOG = LoggerFactory.getLogger(CQLSimpleLexerMapping.class);
+    private static final Logger LOG = LoggerFactory.getLogger(InputOutputOperatorMapping.class);
 
     private static final Map< String, String > API_PLAT_MAPPING = Maps.newConcurrentMap();
 
@@ -55,24 +59,31 @@ public class InputOutputOperatorMapping
         /*
          * 输入输出算子
          */
-        API_PLAT_MAPPING.put(ConsoleInputOperator.class.getName(), ConsoleInputOp.class.getName());
+        API_PLAT_MAPPING.put(RandomGenInputOperator.class.getName(), HeadStreamSourceOp.class.getName());
+        API_PLAT_MAPPING.put(TCPClientInputOperator.class.getName(), 
+            com.huawei.streaming.operator.inputstream.TCPClientInputOperator.class.getName());
+        API_PLAT_MAPPING.put(TCPClientOutputOperator.class.getName(), TCPSenderFuncOp.class.getName());
+        API_PLAT_MAPPING.put(ConsoleOutputOperator.class.getName(), ConsolePrintOp.class.getName());
         API_PLAT_MAPPING.put(KafkaInputOperator.class.getName(), KafkaSourceOp.class.getName());
         API_PLAT_MAPPING.put(KafkaOutputOperator.class.getName(), KafkaFunctionOp.class.getName());
-        API_PLAT_MAPPING.put(RandomGenInputOperator.class.getName(), HeadStreamSourceOp.class.getName());
-        API_PLAT_MAPPING.put(ConsoleOutputOperator.class.getName(), ConsolePrintOp.class.getName());
 
         /*
          * 序列化，反序列化类
          */
         API_PLAT_MAPPING.put(SimpleSerDeAPI.class.getName(), SimpleSerDe.class.getName());
+        API_PLAT_MAPPING.put(KeyValueSerDeAPI.class.getName(), KeyValueSerDe.class.getName());
         API_PLAT_MAPPING.put(CSVSerDeAPI.class.getName(), CSVSerDe.class.getName());
+        API_PLAT_MAPPING.put(BinarySerDeAPI.class.getName(), BinarySerDe.class.getName());
+
+        /**
+         * 数据源
+         */
+        API_PLAT_MAPPING.put(RDBDataSourceOperator.class.getName(), RDBDataSource.class.getName());
     }
 
     /**
      * 通过客户端api类名称倒找对应底层算子类名称
      *
-     * @param apiOperatorClassName api算子名称
-     * @return 底层对应算子名称
      */
     public static String getPlatformOperatorByAPI(String apiOperatorClassName)
     {
@@ -82,8 +93,6 @@ public class InputOutputOperatorMapping
     /**
      * 通过底层算子名称或者对应API类
      *
-     * @param platformClassName 底层算子名称
-     * @return API所在类
      */
     public static String getAPIOperatorByPlatform(String platformClassName)
     {
@@ -100,8 +109,6 @@ public class InputOutputOperatorMapping
     /**
      * 注册API类和具体流处理算子之间的关系
      *
-     * @param apiClass API算子所在类
-     * @param serdeClass 序列化反序列化处理类
      */
     public static void registerSerDe(Class< ? extends SerDeAPI > apiClass, Class< ? extends StreamSerDe > serdeClass)
     {
@@ -111,8 +118,6 @@ public class InputOutputOperatorMapping
     /**
      * 注册API类和具体流处理算子之间的关系
      *
-     * @param apiClass API算子所在类
-     * @param streamClass 流处理算子
      */
     public static void registerOperator(Class< ? extends Operator > apiClass,
      Class< ? extends IStreamOperator > streamClass)
@@ -123,8 +128,6 @@ public class InputOutputOperatorMapping
     /**
      * 注册API类和具体流处理算子之间的关系
      *
-     * @param apiClass API算子所在类
-     * @param dataSourceClass 数据源处理算子
      */
     public static void registerDataSource(Class< ? extends Operator > apiClass,
      Class< ? extends IDataSource > dataSourceClass)
@@ -136,7 +139,6 @@ public class InputOutputOperatorMapping
      * 移除算子映射
      * 既然已经在注册时候做了控制，防止注册无效的类，移除这里就不用限制了
      *
-     * @param apiClass api所在类
      */
     public static void unRegisterMapping(Class< ? > apiClass)
     {

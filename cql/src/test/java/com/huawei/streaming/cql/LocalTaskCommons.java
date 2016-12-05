@@ -45,6 +45,8 @@ import com.huawei.streaming.config.StreamingConfig;
 import com.huawei.streaming.cql.exception.CQLException;
 import com.huawei.streaming.cql.executor.PhysicalPlanExecutor;
 import com.huawei.streaming.cql.executor.PhysicalPlanWriter;
+import com.huawei.streaming.cql.executor.PhysicalPlanWriterTest;
+import com.huawei.streaming.cql.parser.ApplicationParseTest;
 import com.huawei.streaming.exception.ErrorCode;
 
 public class LocalTaskCommons
@@ -71,7 +73,7 @@ public class LocalTaskCommons
      */
     public static String setDir(String basePath)
     {
-        String classPath = LocalTaskCommons.class.getResource("/").getPath();
+        String classPath = PhysicalPlanWriterTest.class.getResource("/").getPath();
         
         try
         {
@@ -87,11 +89,6 @@ public class LocalTaskCommons
     
     /**
      * 比较文件内容
-     * @param basepath 基本路径
-     * @param resultFileName 结果文件
-     * @param outputFileName 输出文件，正确的文件内容
-     * @return 文件内容一样，返回true
-     * @throws IOException 比较异常
      */
     public static boolean compare(String basepath, String resultFileName, String outputFileName)
         throws IOException
@@ -104,7 +101,6 @@ public class LocalTaskCommons
     
     /**
      * 生成本地任务的配置属性
-     * @return 配置属性
      */
     public static TreeMap<String, String> createLocalConfs()
     {
@@ -117,9 +113,6 @@ public class LocalTaskCommons
     
     /**
      * 本地提交执行计划
-     * @param basePath 基础路径
-     * @param caseName 用例名称
-     * @throws CQLException 提交异常
      */
     public static void localSubmitXML(String basePath, String caseName)
         throws CQLException
@@ -149,13 +142,11 @@ public class LocalTaskCommons
     
     /**
      * 启动zookeeper服务
-     * @throws ConfigException 配置文件异常
-     * @throws IOException 启动异常
      */
     public static void startZookeeperServer()
         throws ConfigException, IOException
     {
-        String classPath = LocalTaskCommons.class.getResource("/").getPath();
+        String classPath = ApplicationParseTest.class.getResource("/").getPath();
         String[] args = {classPath + File.separator + "zoo.cfg"};
         ServerConfig config = new ServerConfig();
         if (args.length == 1)
@@ -173,8 +164,6 @@ public class LocalTaskCommons
     
     /**
      * 本地提交应用程序
-     * @param apiApplication 应用程序
-     * @throws Exception 提交异常
      */
     public static void localSubmit(Application apiApplication)
         throws Exception
@@ -201,9 +190,6 @@ public class LocalTaskCommons
     
     /**
      * 本地提交应用程序
-     * @param basePath 基本路径
-     * @param caseName 用例名称
-     * @throws Exception 异常信息
      */
     public static void localSubmit(String basePath, String caseName)
         throws Exception
@@ -247,10 +233,6 @@ public class LocalTaskCommons
     
     /**
      * 本地提交异常应用程序
-     * @param basePath 基本路径
-     * @param caseName 用例名称
-     * @param errorCode 异常码
-     * @throws Exception 异常信息
      */
     public static void navigageSubmit(String basePath, String caseName, ErrorCode errorCode)
         throws Exception
@@ -356,8 +338,6 @@ public class LocalTaskCommons
     /**
      * Run from a ServerConfig.
      *
-     * @param config ServerConfig to use.
-     * @throws IOException
      */
     private static void runFromConfig(ServerConfig config)
         throws IOException

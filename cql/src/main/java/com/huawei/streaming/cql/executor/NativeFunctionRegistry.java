@@ -38,7 +38,9 @@ import com.huawei.streaming.process.agg.aggregator.sum.AggregateSum;
 import com.huawei.streaming.process.agg.aggregator.sum.AggregateSumFilter;
 import com.huawei.streaming.udfs.Day;
 import com.huawei.streaming.udfs.StringConcat;
+import com.huawei.streaming.udfs.DateDiff;
 import com.huawei.streaming.udfs.DayofMonth;
+import com.huawei.streaming.udfs.FromUnixTime;
 import com.huawei.streaming.udfs.Hour;
 import com.huawei.streaming.udfs.StringToLower;
 import com.huawei.streaming.udfs.Minute;
@@ -47,6 +49,9 @@ import com.huawei.streaming.udfs.Second;
 import com.huawei.streaming.udfs.UDF;
 import com.huawei.streaming.udfs.Abs;
 import com.huawei.streaming.udfs.UDFAnnotation;
+import com.huawei.streaming.udfs.CurrentTimeMillis;
+import com.huawei.streaming.udfs.DateAdd;
+import com.huawei.streaming.udfs.DateSub;
 import com.huawei.streaming.udfs.StringLength;
 import com.huawei.streaming.udfs.SubString;
 import com.huawei.streaming.udfs.ToDecimal;
@@ -127,8 +132,13 @@ public class NativeFunctionRegistry
         registerNativeUDF(Hour.class);
         registerNativeUDF(Minute.class);
         registerNativeUDF(Second.class);
+        registerNativeUDF(FromUnixTime.class);
         registerNativeUDF(WeekOfYear.class);
-
+        registerNativeUDF(DateAdd.class);
+        registerNativeUDF(DateSub.class);
+        registerNativeUDF(DateDiff.class);
+        registerNativeUDF(CurrentTimeMillis.class);
+        
         registerNativeUDAF("avg", AggregateAvg.class, AggregateAvgFilter.class);
         registerNativeUDAF("count", AggregateCount.class, AggregateCountFilter.class);
         registerNativeUDAF("max", AggregateMax.class, AggregateMaxFilter.class);
@@ -141,6 +151,12 @@ public class NativeFunctionRegistry
         * 仅仅起到占位的作用
         */
         registerNativeUDF("cast", ToString.class);
+        registerNativeUDF("case", Boolean.class, "case");
+        registerNativeUDF("when", Boolean.class, "when");
+        registerNativeUDF("previous", Boolean.class, "previous");
+        registerNativeUDF("in", Boolean.class, "in");
+        registerNativeUDF("like", Boolean.class, "like");
+        registerNativeUDF("between", Boolean.class, "between");
     }
     
     public static String getUdfMethodName()
@@ -158,9 +174,6 @@ public class NativeFunctionRegistry
      * <p/>
      * 这个方法是提供给CQL接口用的。
      *
-     * @param shortName 短名称
-     * @param clazz 函数所在类
-     * @param methodName 方法名称，仅仅在函数为静态方法的时候用到
      */
     public static void registerNativeStaticUDF(String shortName, Class< ? > clazz, String methodName)
     {
@@ -171,16 +184,15 @@ public class NativeFunctionRegistry
     /**
      * 注册本地的系统函数
      *
-     * @param clazz 函数所在类
      */
     private static void registerNativeUDF(Class< ? extends UDF> clazz)
     {
         UDFAnnotation annotation = clazz.getAnnotation(UDFAnnotation.class);
-        String funcitonName = annotation == null ? null : annotation.name();
+        String funcitonName = annotation == null ? null : annotation.value();
         if (funcitonName == null)
         {
             SemanticAnalyzerException exception =
-                new SemanticAnalyzerException(ErrorCode.FUNCTION_UNSPPORTED, funcitonName);
+                new SemanticAnalyzerException(ErrorCode.FUNCTION_UNSPPORTED, "<NULL>");
             LOG.error("Unsupport function.", exception);
         }
         
@@ -190,8 +202,6 @@ public class NativeFunctionRegistry
     /**
      * 注册本地的系统函数
      *
-     * @param shortName 函数名称
-     * @param clazz 函数所在类
      */
     private static void registerNativeUDF(String shortName, Class< ? > clazz)
     {
@@ -212,8 +222,6 @@ public class NativeFunctionRegistry
     /**
      * 是否是本地方法
      *
-     * @param functionClass 函数所在类
-     * @return 如果返回值是false，则表示该方法是用户自定义的方法
      */
     public static boolean isExtendsUDF(Class< ? > functionClass)
     {
@@ -233,9 +241,6 @@ public class NativeFunctionRegistry
     /**
      * 注册系统函数
      *
-     * @param shortName 短名称
-     * @param clazz 函数所在类
-     * @param filterClazz 如果有过滤表达式的类
      */
     private static void registerNativeUDAF(String shortName, Class< ? > clazz, Class< ? > filterClazz)
     {
@@ -246,9 +251,6 @@ public class NativeFunctionRegistry
     /**
      * 注册系统函数
      *
-     * @param shortName 短名称
-     * @param clazz 函数所在类
-     * @param methodName 方法名称，仅仅在函数为静态方法的时候用到
      */
     private static void registerNativeUDF(String shortName, Class< ? > clazz, String methodName)
     {

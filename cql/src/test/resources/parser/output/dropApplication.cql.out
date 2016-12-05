@@ -1,0 +1,8 @@
+##sqlstart:
+drop application cqltest
+##sqlend
+DROP APPLICATION cqltest
+##sqlstart:
+drop application if exists cqltest
+##sqlend
+DROP APPLICATION IF EXISTS cqltest

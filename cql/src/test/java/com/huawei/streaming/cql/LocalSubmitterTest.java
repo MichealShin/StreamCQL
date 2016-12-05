@@ -28,6 +28,15 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.huawei.streaming.api.opereators.KafkaInputOperator;
+import com.huawei.streaming.api.opereators.KafkaOutputOperator;
+import com.huawei.streaming.cql.executor.PhysicalPlanLoader;
+import com.huawei.streaming.cql.mapping.SimpleLexer;
+import com.huawei.streaming.cql.mapping.InputOutputOperatorMapping;
+import com.huawei.streaming.cql.toolkits.operators.TCPServerInputOperator;
+import com.huawei.streaming.operator.inputstream.KafkaSourceOp;
+import com.huawei.streaming.operator.outputstream.KafkaFunctionOp;
+
 /**
  * Driver正常测试用例
  *
@@ -43,12 +52,18 @@ public class LocalSubmitterTest
     /**
      * 初始化测试类之前要执行的初始化方法
      *
-     * @throws Exception 初始化中可能抛出的异常
      */
     @BeforeClass
     public static void setUpBeforeClass()
         throws Exception
     {
+        SimpleLexer.registerInputOperator("TCPServerInput", TCPServerInputOperator.class);
+        PhysicalPlanLoader.registerPhysicalPlanAlias("TCPServerInput",
+         com.huawei.streaming.cql.toolkits.api.TCPServerInputOperator.class);
+        InputOutputOperatorMapping.registerOperator(
+         com.huawei.streaming.cql.toolkits.api.TCPServerInputOperator.class,
+         com.huawei.streaming.cql.toolkits.operators.TCPServerInputOperator.class);
+
         LocalTaskCommons.startZookeeperServer();
     }
     
@@ -68,7 +83,6 @@ public class LocalSubmitterTest
     /**
      * 所有测试用例执行完毕之后执行的方法
      *
-     * @throws Exception 执行异常
      */
     @AfterClass
     public static void tearDownAfterClass()
@@ -84,7 +98,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testAggregate()
@@ -96,7 +109,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testAggregate2()
@@ -108,7 +120,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testAggregate3()
@@ -120,7 +131,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testAggregate4()
@@ -132,7 +142,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testAggregate5()
@@ -144,7 +153,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testAggregateFilter()
@@ -156,7 +164,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testAggregateFilter2()
@@ -168,7 +175,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testAggregateFilter3()
@@ -180,7 +186,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testCast2()
@@ -192,7 +197,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testChineline()
@@ -200,11 +204,21 @@ public class LocalSubmitterTest
     {
         LocalTaskCommons.localSubmit(BASICPATH, "chineline");
     }
-
+    
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
+     */
+    @Test
+    public void testCombine1()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "combine1");
+    }
+    
+    /**
+     * 测试
+     *
      */
     @Test
     public void testConfs()
@@ -212,11 +226,88 @@ public class LocalSubmitterTest
     {
         LocalTaskCommons.localSubmit(BASICPATH, "confs");
     }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testDatasource()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "datasource");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testDatasource2()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "datasource2");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testDatasource3()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "datasource3");
+    }
 
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
+     */
+    @Test
+    public void testDatasource4()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "datasource4");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testDatasource5()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "datasource5");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testDatasource6()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "datasource6");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testDatasource7()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "datasource7");
+    }
+
+
+    /**
+     * 测试
+     *
      */
     @Test
     public void testDate()
@@ -225,11 +316,31 @@ public class LocalSubmitterTest
         LocalTaskCommons.localSubmit(BASICPATH, "date");
     }
     
-
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
+     */
+    @Test
+    public void testFunctionIn()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "function_in");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testFunctionIn2()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "functionIn");
+    }
+    
+    /**
+     * 测试
+     *
      */
     @Test
     public void testGroupby1()
@@ -241,7 +352,83 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
+     */
+    @Test
+    public void testJoin()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "join");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testJoin4()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "join4");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testJoin5()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "join5");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testJoin6()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "join6");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testJoin7()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "join7");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testJoin8()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "join8");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testJoin9()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "join9");
+    }
+    
+    /**
+     * 测试
+     *
      */
     @Test
     public void testLocalSubmit()
@@ -249,11 +436,32 @@ public class LocalSubmitterTest
     {
         LocalTaskCommons.localSubmit(BASICPATH, "localSubmit");
     }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testNotLike()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "not_like");
+    }
     
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
+     */
+    @Test
+    public void testPrevious1()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "previous1");
+    }
+    
+    /**
+     * 测试
+     *
      */
     @Test
     public void testRightJoin()
@@ -261,11 +469,44 @@ public class LocalSubmitterTest
     {
         LocalTaskCommons.localSubmit(BASICPATH, "right_join");
     }
-
+    
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
+     */
+    @Test
+    public void testSelfJoin()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "selfjoin");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testSelfJoin2()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "selfjoin2");
+    }
+    
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testSimple()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "simple");
+    }
+    
+    /**
+     * 测试
+     *
      */
     @Test
     public void testSubQuery6()
@@ -277,7 +518,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testWhereLengthSlide()
@@ -285,11 +525,142 @@ public class LocalSubmitterTest
     {
         LocalTaskCommons.localSubmit(BASICPATH, "where_length_slide");
     }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testWinGroupToday()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "win_group_today");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testWinToday()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "win_today");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testBss()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "bss");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testConstAgg()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "ConstAgg");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testIsNotNull()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "isnotnull");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testSplit()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "split");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testSplit2()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "split2");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testSplit3()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "split3");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testSplit4()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "split4");
+    }
 
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
+     */
+    @Test
+    public void testSplit6()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "split6");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testSplit7()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "split7");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testCase7()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "case7");
+    }
+    
+    /**
+     * 测试
+     *
      */
     @Test
     public void testSimpleLexer3()
@@ -297,11 +668,54 @@ public class LocalSubmitterTest
     {
         LocalTaskCommons.localSubmit(BASICPATH, "simpleLexer3");
     }
-
+    
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
+     */
+    @Test
+    public void testCase1()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "ccc");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testCurrentTime()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "currenttime");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testDistinctCount()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "distinctCount");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testUDFDistinct()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "udfDistinct");
+    }
+    
+    /**
+     * 测试
+     *
      */
     @Test
     public void testUdfWithProperties()
@@ -310,11 +724,31 @@ public class LocalSubmitterTest
         LocalTaskCommons.localSubmit(BASICPATH, "udfWithProperties");
     }
 
-
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
+     */
+    @Test
+    public void testTCPClientInput()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "TCPClientInput");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testTCPClientOutput()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "TCPClientOutput");
+    }
+    
+    /**
+     * 测试
+     *
      */
     @Test
     public void testKafkaInput()
@@ -326,7 +760,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testKafkaOutput()
@@ -339,7 +772,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testPipeLineHaving()
@@ -347,11 +779,147 @@ public class LocalSubmitterTest
     {
         LocalTaskCommons.localSubmit(BASICPATH, "pipelinehaving");
     }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testToDate()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "todate");
+    }
+    
+ 
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testTimeSort2()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "timesort2");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testTimeSort3()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "timesort3");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testTimeSort4()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "timesort4");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testTimeSort5()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "timesort5");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testTimeSort6()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "timesort6");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testTimeSort7()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "timesort7");
+    }
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testTimeSort9()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "timesort9");
+    }
+    
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testLengthSort1()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "lengthsort1");
+    }
+    
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testLengthSort2()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "lengthsort2");
+    }
+    
+    
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testLengthSort3()
+        throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "lengthsort3");
+    }
 
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
+     */
+    @Test
+    public void testRangeSort()
+     throws Exception
+    {
+        LocalTaskCommons.localSubmit(BASICPATH, "rangesort");
+    }
+
+    /**
+     * 测试
+     *
      */
     @Test
     public void testDecimalAgg()
@@ -363,7 +931,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testMultiArithmetic1()
@@ -375,7 +942,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testMultiArithmetic2()
@@ -387,7 +953,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testMultiArithmetic3()
@@ -399,7 +964,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testMultiArithmetic4()
@@ -411,7 +975,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testMultiArithmetic5()
@@ -423,7 +986,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testMultiArithmetic6()
@@ -435,7 +997,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testMultiArithmetic7()
@@ -447,7 +1008,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testMultiArithmetic8()
@@ -459,7 +1019,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testUserOperator1()
@@ -471,7 +1030,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testUserOperator2()
@@ -484,7 +1042,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testUserOperator3()
@@ -497,7 +1054,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testUserOperator4()
@@ -510,7 +1066,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testUserOperator5()
@@ -522,7 +1077,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testUserOperator6()
@@ -535,7 +1089,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testUserOperator7()
@@ -548,7 +1101,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testUserOperator8()
@@ -560,7 +1112,6 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testUserOperator9()
@@ -572,24 +1123,11 @@ public class LocalSubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
-    public void testSplit3()
-            throws Exception
+    public void testTimezon1()
+        throws Exception
     {
-        LocalTaskCommons.localSubmit(BASICPATH, "split3");
-    }
-
-    /**
-     * 测试
-     *
-     * @throws Exception 如果错误，抛出异常
-     */
-    @Test
-    public void testSplit6()
-            throws Exception
-    {
-        LocalTaskCommons.localSubmit(BASICPATH, "split6");
+        LocalTaskCommons.localSubmit(BASICPATH, "timezone1");
     }
 }

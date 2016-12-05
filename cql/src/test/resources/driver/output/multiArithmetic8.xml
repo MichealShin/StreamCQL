@@ -20,13 +20,12 @@
         <deserializer class="SimpleSerDe"/>
         <groupId>zhou123</groupId>
         <topic>demo_sin</topic>
-        <zookeepers>51.196.22.36:24002</zookeepers>
+        <zookeepers>192.168.0.2:24002</zookeepers>
       </KafkaInput>
       <KafkaOutput id="KafkaOutput_002" parallel="1">
         <serializer class="SimpleSerDe"/>
         <topic>demo_sout</topic>
-        <zookeepers>51.196.22.36:24002</zookeepers>
-        <brokers>51.196.22.36:9092</brokers>
+        <zookeepers>192.168.0.2:24002</zookeepers>
       </KafkaOutput>
       <Functor id="Functor_004" parallel="1">
         <outputExpression>(s1.ci * s1.cl), ((s1.ci * s1.cl) * s1.cf), (((s1.ci * s1.cl) * s1.cf) * s1.cd), ((((s1.ci * s1.cl) * s1.cf) * s1.cd) * s1.cde)</outputExpression>

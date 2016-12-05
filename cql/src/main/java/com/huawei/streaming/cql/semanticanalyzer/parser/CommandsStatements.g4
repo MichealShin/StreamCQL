@@ -30,7 +30,7 @@ addJARStatement
     ;
 
 createFunctionStatement
-    :	KW_CREATE KW_FUNCTION functionName KW_AS className streamProperties?
+    :	KW_CREATE KW_FUNCTION functionName KW_AS userDefinedClassName streamProperties?
     ;
     
 dropFunctionStatement
@@ -69,3 +69,15 @@ dropApplication
 submitApplication
 	:	KW_SUBMIT KW_APPLICATION isForce? applicationName? path?
 	;
+
+deactiveApplication
+	:   KW_DEACTIVE KW_APPLICATION applicationName
+	;
+	
+activeApplication
+	:   KW_ACTIVE KW_APPLICATION applicationName
+	;
+	
+rebalanceApplication
+    :   KW_REBALANCE KW_APPLICATION applicationName KW_SET KW_WORKER constIntegerValue
+    ;

@@ -37,7 +37,6 @@ public class InsertSplitter implements Splitter
     
     /**
      * <默认构造函数>
-     * @param buildUtils 构建器使用的一些通用类
      */
     public InsertSplitter(BuilderUtils buildUtils)
     {

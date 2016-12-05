@@ -42,11 +42,6 @@ public class WindowViewCreator
     
     /**
      * 创建窗口
-     * @param inputSchemas 输入schema
-     * @param window 窗口描述
-     * @param systemConfig 系统配置属性
-     * @return 窗口实例
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 执行期异常
      */
     public IWindow create(List<Schema> inputSchemas, Window window, Map<String, String> systemConfig)
         throws ExecutorException

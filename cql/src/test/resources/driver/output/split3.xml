@@ -1,5 +1,5 @@
 <Definitions>
-  <Application id="tt">
+  <Application id="split">
     <Schemas>
       <Schema id="stream_voice_call" name="stream_voice_call">
         <attribute name="callingnumber" type="java.lang.String"/>
@@ -11,63 +11,86 @@
       </Schema>
       <Schema id="filter_voice2" name="filter_voice2">
         <attribute name="callingnumber" type="java.lang.String"/>
-        <attribute name="callednumer" type="java.lang.String"/>
+        <attribute name="callednumber" type="java.lang.String"/>
       </Schema>
       <Schema id="filter_voice3" name="filter_voice3">
-        <attribute name="callingnumber" type="java.lang.String"/>
-        <attribute name="callednumer" type="java.lang.String"/>
-        <attribute name="inittime" type="java.lang.Long"/>
-      </Schema>
-      <Schema id="sub_001" name="sub_001">
         <attribute name="callingnumber" type="java.lang.String"/>
         <attribute name="callednumber" type="java.lang.String"/>
         <attribute name="inittime" type="java.lang.Long"/>
       </Schema>
+      <Schema id="tmpstr" name="tmpstr">
+        <attribute name="callingnumber" type="java.lang.Long"/>
+        <attribute name="callednumber" type="java.lang.Long"/>
+        <attribute name="inittime" type="java.lang.Long"/>
+      </Schema>
+      <Schema id="sub_001" name="sub_001">
+        <attribute name="callingnumber" type="java.lang.Long"/>
+        <attribute name="callednumber" type="java.lang.Long"/>
+        <attribute name="inittime" type="java.lang.Long"/>
+      </Schema>
     </Schemas>
     <Operators>
-      <RandomGenInput id="RandomGen_001" parallel="1">
-        <deserializer class="SimpleSerDe"/>
-        <timeUnit>SECONDS</timeUnit>
-        <period>1</period>
-        <eventNumPerPeriod>1</eventNumPerPeriod>
-        <isSchedule>true</isSchedule>
-      </RandomGenInput>
+      <TCPServerInput id="TCPServerInput_001" parallel="1">
+        <deserializer class="BinarySerDe">
+          <attributesLength>26,26,26,15,15,15,17,6,6,4,4,4,4,4,4,8,8,1,1,1,8</attributesLength>
+        </deserializer>
+        <port>7999</port>
+        <fixedLength>203</fixedLength>
+      </TCPServerInput>
       <ConsoleOutput id="ConsoleOutput_002" parallel="1">
-        <serializer class="SimpleSerDe"/>
+        <serializer class="SimpleSerDe">
+          <separator>,</separator>
+        </serializer>
+        <printFrequence>1</printFrequence>
       </ConsoleOutput>
       <ConsoleOutput id="ConsoleOutput_003" parallel="1">
-        <serializer class="SimpleSerDe"/>
+        <serializer class="SimpleSerDe">
+          <separator>,</separator>
+        </serializer>
+        <printFrequence>1</printFrequence>
       </ConsoleOutput>
       <ConsoleOutput id="ConsoleOutput_004" parallel="1">
-        <serializer class="SimpleSerDe"/>
+        <serializer class="SimpleSerDe">
+          <separator>,</separator>
+        </serializer>
+        <printFrequence>1</printFrequence>
       </ConsoleOutput>
-      <Functor id="Functor_007" parallel="1">
-        <outputExpression>stream_voice_call.callingnumber, stream_voice_call.callednumber, stream_voice_call.inittime</outputExpression>
-        <filterExpression>(stream_voice_call.callingnumber != &apos;10086&apos;)</filterExpression>
+      <Aggregator id="Aggregator_007" parallel="1">
+        <outputExpression> count( stream_voice_call.callingnumber ) ,  count( stream_voice_call.callingnumber ) ,  count( stream_voice_call.callingnumber ) </outputExpression>
+        <groupbyExpression>stream_voice_call.callednumber</groupbyExpression>
+        <window name="time_batch">
+          <length>10000</length>
+          <excludeNow>false</excludeNow>
+        </window>
+      </Aggregator>
+      <Functor id="Functor_010" parallel="1">
+        <outputExpression>tmpstr.callingnumber, tmpstr.callednumber, tmpstr.inittime</outputExpression>
+        <filterExpression>(tmpstr.callingnumber != &apos;10086&apos;)</filterExpression>
       </Functor>
-      <Splitter id="Splitter_009" parallel="1">
+      <Splitter id="Splitter_012" parallel="1">
         <subSplitters>
           <SubSplitter>
-            <streamName>st_006</streamName>
+            <streamName>st_009</streamName>
             <outputExpression>sub_001.callingnumber</outputExpression>
           </SubSplitter>
           <SubSplitter>
-            <streamName>st_007</streamName>
+            <streamName>st_010</streamName>
             <outputExpression>sub_001.callingnumber, sub_001.callednumber</outputExpression>
           </SubSplitter>
           <SubSplitter>
-            <streamName>st_008</streamName>
+            <streamName>st_011</streamName>
             <outputExpression>sub_001.callingnumber, sub_001.callednumber, sub_001.inittime</outputExpression>
           </SubSplitter>
         </subSplitters>
       </Splitter>
     </Operators>
     <Transitions>
-      <Transition name="st_001" from="RandomGen_001" to="Functor_007" distributedType="SHUFFLE" schemaName="stream_voice_call"/>
-      <Transition name="st_002" from="Functor_007" to="Splitter_009" distributedType="SHUFFLE" schemaName="sub_001"/>
-      <Transition name="st_006" from="Splitter_009" to="ConsoleOutput_002" distributedType="SHUFFLE" schemaName="filter_voice1"/>
-      <Transition name="st_007" from="Splitter_009" to="ConsoleOutput_003" distributedType="SHUFFLE" schemaName="filter_voice2"/>
-      <Transition name="st_008" from="Splitter_009" to="ConsoleOutput_004" distributedType="SHUFFLE" schemaName="filter_voice3"/>
+      <Transition name="st_001" from="TCPServerInput_001" to="Aggregator_007" distributedType="FIELDS" distributedFields="stream_voice_call.callednumber" schemaName="stream_voice_call"/>
+      <Transition name="st_002" from="Aggregator_007" to="Functor_010" distributedType="SHUFFLE" schemaName="tmpstr"/>
+      <Transition name="st_003" from="Functor_010" to="Splitter_012" distributedType="SHUFFLE" schemaName="sub_001"/>
+      <Transition name="st_009" from="Splitter_012" to="ConsoleOutput_002" distributedType="SHUFFLE" schemaName="filter_voice1"/>
+      <Transition name="st_010" from="Splitter_012" to="ConsoleOutput_003" distributedType="SHUFFLE" schemaName="filter_voice2"/>
+      <Transition name="st_011" from="Splitter_012" to="ConsoleOutput_004" distributedType="SHUFFLE" schemaName="filter_voice3"/>
     </Transitions>
   </Application>
 </Definitions>

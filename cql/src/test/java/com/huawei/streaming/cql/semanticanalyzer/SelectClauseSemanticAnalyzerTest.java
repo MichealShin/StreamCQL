@@ -18,6 +18,9 @@
 
 package com.huawei.streaming.cql.semanticanalyzer;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,12 +40,11 @@ import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.SelectClauseAnal
 import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.expressiondesc.BinaryExpressionDesc;
 import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.expressiondesc.ConstExpressionDesc;
 import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.expressiondesc.FunctionExpressionDesc;
+import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.expressiondesc.FunctionWhenExpressionDesc;
 import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.expressiondesc.PropertyValueExpressionDesc;
 import com.huawei.streaming.cql.semanticanalyzer.parser.IParser;
 import com.huawei.streaming.cql.semanticanalyzer.parser.ParserFactory;
 import com.huawei.streaming.expression.ExpressionOperator;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 /**
  * select查询子句语义分析正常场景测试用例
@@ -58,7 +60,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * 初始化测试类之前要执行的初始化方法
      *
-     * @throws Exception 初始化中可能抛出的异常
      */
     @BeforeClass
     public static void setUpBeforeClass()
@@ -73,7 +74,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * 所有测试用例执行完毕之后执行的方法
      *
-     * @throws Exception 执行异常
      */
     @AfterClass
     public static void tearDownAfterClass()
@@ -88,7 +88,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testSimpleSelect()
@@ -114,7 +113,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testSimpleSelect1()
@@ -146,7 +144,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testSimpleSelect2()
@@ -168,7 +165,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testConstSelect()
@@ -192,7 +188,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testConstSelect1()
@@ -216,7 +211,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testConstSelect2()
@@ -240,7 +234,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testConstSelect3()
@@ -264,7 +257,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testConstSelect4()
@@ -288,7 +280,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testSimpleSelectWithAlias()
@@ -317,7 +308,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testUDFTest()
@@ -357,7 +347,66 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
+     */
+    @Test
+    public void testCaseUDFTest()
+        throws Exception
+    {
+        String sql = "select id,case when id>2 then 10 when id<=2 then 11 else 0 end from s1";
+        SemanticAnalyzer analyzer = SemanticAnalyzerFactory.createAnalyzer(parser.parse(sql), initIntegerSchema());
+        SelectAnalyzeContext analyzeConext = (SelectAnalyzeContext)analyzer.analyze();
+        SelectClauseAnalyzeContext parseContext = analyzeConext.getSelectClauseContext();
+        
+        assertTrue(parseContext.getOutputSchema().getCols().size() == ConstInTestCase.I_2);
+        assertTrue(parseContext.getOutputSchema().getCols().get(ConstInTestCase.I_0).getName().equals("id"));
+        assertTrue(parseContext.getOutputSchema().getCols().get(ConstInTestCase.I_1).getName().equals("x_col_0"));
+        
+        assertTrue(parseContext.getExpdes().size() == ConstInTestCase.I_2);
+        assertTrue(parseContext.getExpdes().get(ConstInTestCase.I_0) instanceof PropertyValueExpressionDesc);
+        assertTrue(parseContext.getExpdes().get(ConstInTestCase.I_1) instanceof FunctionWhenExpressionDesc);
+        PropertyValueExpressionDesc exp1 =
+            (PropertyValueExpressionDesc)parseContext.getExpdes().get(ConstInTestCase.I_0);
+        FunctionWhenExpressionDesc exp2 = (FunctionWhenExpressionDesc)parseContext.getExpdes().get(ConstInTestCase.I_1);
+        assertTrue(exp1.getProperty().equals("id"));
+        assertFalse(exp1.getProperty().equals("ids"));
+        
+        assertTrue(exp2.getElseExpression() instanceof ConstExpressionDesc);
+        
+        ConstExpressionDesc exp3 = (ConstExpressionDesc)exp2.getElseExpression();
+        assertTrue((int)exp3.getConstValue() == ConstInTestCase.I_0);
+        
+        assertTrue(exp2.getWhenThens().size() == ConstInTestCase.I_2);
+        assertTrue(exp2.getWhenThens().get(0).getFirst() instanceof BinaryExpressionDesc);
+        BinaryExpressionDesc exp4 = (BinaryExpressionDesc)exp2.getWhenThens().get(0).getFirst();
+        assertTrue(exp4.getBexpression().getType().equals(ExpressionOperator.GREATERTHAN));
+        
+        PropertyValueExpressionDesc exp5 =
+            (PropertyValueExpressionDesc)exp4.getArgExpressions().get(ConstInTestCase.I_0);
+        ConstExpressionDesc exp6 = (ConstExpressionDesc)exp4.getArgExpressions().get(ConstInTestCase.I_1);
+        assertTrue(exp5.getProperty().equals("id"));
+        assertTrue((int)exp6.getConstValue() == ConstInTestCase.I_2);
+        
+        ConstExpressionDesc exp7 = (ConstExpressionDesc)exp2.getWhenThens().get(0).getSecond();
+        assertTrue(exp7.getConstValue().equals(ConstInTestCase.I_10));
+        
+        assertTrue(exp2.getWhenThens().get(1).getFirst() instanceof BinaryExpressionDesc);
+        BinaryExpressionDesc exp8 = (BinaryExpressionDesc)exp2.getWhenThens().get(1).getFirst();
+        assertTrue(exp8.getBexpression().getType().equals(ExpressionOperator.LESSTHAN_EQUAL));
+        
+        PropertyValueExpressionDesc exp9 =
+            (PropertyValueExpressionDesc)exp8.getArgExpressions().get(ConstInTestCase.I_0);
+        ConstExpressionDesc exp10 = (ConstExpressionDesc)exp8.getArgExpressions().get(ConstInTestCase.I_1);
+        assertTrue(exp9.getProperty().equals("id"));
+        assertTrue((int)exp10.getConstValue() == ConstInTestCase.I_2);
+        
+        ConstExpressionDesc exp11 = (ConstExpressionDesc)exp2.getWhenThens().get(1).getSecond();
+        assertTrue((int)exp11.getConstValue() == ConstInTestCase.I_11);
+        
+    }
+    
+    /**
+     * 测试用例
+     *
      */
     @Test
     public void testUDFAliasTest()
@@ -394,7 +443,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testMathExpresstionTest()
@@ -445,7 +493,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testUDFMathExpressionTest()
@@ -485,7 +532,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * select distinct * 测试
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testSelectDistinctStar()
@@ -515,7 +561,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * select count(*) 测试
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testUDAFStar()
@@ -543,7 +588,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * select count(*) 测试
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testUDAFDistinctStar()
@@ -570,7 +614,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testColRepeat()
@@ -596,7 +639,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testUDFRepeat()
@@ -624,7 +666,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testSelectWithStreamName()
@@ -647,7 +688,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * select * 测试
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testSelectStar()
@@ -676,7 +716,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * select * 测试
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testSelectStar6()
@@ -704,7 +743,6 @@ public class SelectClauseSemanticAnalyzerTest
      * select *,* 测试
      * 异常用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testSelectTwoStar()
@@ -735,7 +773,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testSelectStar1()
@@ -758,7 +795,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testSelectStar2()
@@ -782,7 +818,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testSelectStar3()
@@ -807,7 +842,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testSelectStar4()
@@ -832,7 +866,6 @@ public class SelectClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testSelectStar5()

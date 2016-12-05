@@ -66,16 +66,29 @@ logicExpressionNot
      
 equalRelationExpression
     :	isNullLikeInExpressions
+    |	expressionExists
     ; 
 
 isNullLikeInExpressions
 	:   binaryExpression
-		(KW_IS nullCondition)?
+		(KW_IS nullCondition
+		|	expressionLike
+		|	expressionBetween
+	    |	expressionIn
+	    )?
 	;
+	
+expressionExists
+	:	KW_EXISTS subQueryExpression
+	;	
 
 subQueryExpression 
     :	LPAREN selectStatement RPAREN
  	;
+	
+expressionBetween
+	:	identifierNot? KW_BETWEEN expressionBetweenMinValue KW_AND expressionBetweenMaxValue 
+	;
 
 binaryExpression
 	:	bitExpression relationExpression*
@@ -95,12 +108,31 @@ relationOperator
     |	GREATERTHAN
     ;
 
+expressionPrevious
+	:	KW_PREVIOUS expressions
+	;
+
+expressionIn
+	:	identifierNot? KW_IN expressions
+	;
+
+expressionLike
+	:	identifierNot? precedenceEqualNegatableOperator bitExpression
+	;
     
 precedenceEqualNegatableOperator
     :	KW_LIKE 
     |	KW_RLIKE
     |	KW_REGEXP
     ;
+
+expressionBetweenMinValue
+	:	bitExpression
+	;
+	
+expressionBetweenMaxValue	
+	:	bitExpression
+	;
 
 bitExpression
     :	arithmeticPlusMinusExpression (bitOperator arithmeticPlusMinusExpression)*
@@ -140,8 +172,11 @@ arithmeticStarOperator
 atomExpression
     :	constNull
     |	constant
+    |	expressionPrevious
     |	function
     |	castExpression
+    |	caseExpression
+    | 	whenExpression
     |	columnName
     | 	expressionWithLaparen
     ;
@@ -194,6 +229,30 @@ function
 castExpression
     :	KW_CAST LPAREN expression KW_AS  primitiveType RPAREN
     ;
+
+caseExpression
+    :	KW_CASE caseHeadExpression (caseWhenBodyWhenBody caseWhenBodyThenBody)+ caseWhenElse? KW_END 
+    ;
+    
+whenExpression
+    :	KW_CASE	(caseWhenBodyWhenBody caseWhenBodyThenBody)+ caseWhenElse? KW_END
+    ;
+
+caseHeadExpression
+	:	expression
+	;
+
+caseWhenBodyWhenBody
+	:	KW_WHEN expression
+	;
+
+caseWhenBodyThenBody
+	:	KW_THEN expression
+	;
+
+caseWhenElse
+	:	KW_ELSE expression
+	;
 
 booleanValue
     :	KW_TRUE 

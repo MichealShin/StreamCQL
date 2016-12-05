@@ -21,6 +21,8 @@ package com.huawei.streaming.cql.executor.operatorinfocreater;
 import java.util.List;
 import java.util.Map;
 
+import com.huawei.streaming.event.TupleEventType;
+import com.huawei.streaming.util.StreamingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -225,9 +227,9 @@ public class JoinInfoOperatorCreator implements OperatorInfoCreator
         config.put(StreamingConfig.OPERATOR_JOIN_INNER_RIGHT_INPUT_STREAM_NAME, joinOperator.getRightStreamName());
         config.put(StreamingConfig.OPERATOR_SELFJOIN_INNER_LEFT_INPUT_STREAM_NAME, DEFAULT_LEFT_SELFJOIN_STREAM_NAME);
         config.put(StreamingConfig.OPERATOR_SELFJOIN_INNER_RIGHT_INPUT_STREAM_NAME, DEFAULT_RIGHT_SELFJOIN_STREAM_NAME);
-        config.put(StreamingConfig.OPERATOR_JOIN_INNER_LEFT_SCHEMA, leftInputTupleEvent);
-        config.put(StreamingConfig.OPERATOR_JOIN_INNER_RIGHT_SCHEMA, rightInputTupleEvent);
-        config.put(StreamingConfig.OPERATOR_SELFJOIN_INNER_INPUT_SCHEMA, leftInputTupleEvent);
+        config.put(StreamingConfig.OPERATOR_JOIN_INNER_LEFT_SCHEMA, StreamingUtils.serializeSchema((TupleEventType) leftInputTupleEvent));
+        config.put(StreamingConfig.OPERATOR_JOIN_INNER_RIGHT_SCHEMA, StreamingUtils.serializeSchema((TupleEventType) rightInputTupleEvent));
+        config.put(StreamingConfig.OPERATOR_SELFJOIN_INNER_INPUT_SCHEMA, StreamingUtils.serializeSchema((TupleEventType) leftInputTupleEvent));
     }
     
     private void setUniDirectionConfig(StreamingConfig config)
@@ -264,8 +266,6 @@ public class JoinInfoOperatorCreator implements OperatorInfoCreator
     /**
      * join之后的where条件表达式
      *
-     * @return
-     * @throws com.huawei.streaming.cql.exception.ExecutorException
      */
     private JoinFilterProcessor createJoinFilterProcessor()
         throws ExecutorException
@@ -288,8 +288,6 @@ public class JoinInfoOperatorCreator implements OperatorInfoCreator
      * <p/>
      * 重要：所有的join，目前都不计算Rstream，都只计算IStream
      *
-     * @return
-     * @throws com.huawei.streaming.cql.exception.ExecutorException
      */
     private IJoinComposer createJoinComposer()
         throws ExecutorException
@@ -332,8 +330,6 @@ public class JoinInfoOperatorCreator implements OperatorInfoCreator
      * <p/>
      * 其他不等值join，必须放在crossjoin中实现
      *
-     * @return inner join表达式
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 运行期异常
      */
     private IJoinComposer createInnerBiJoinComposer()
         throws ExecutorException
@@ -359,8 +355,6 @@ public class JoinInfoOperatorCreator implements OperatorInfoCreator
      * <p/>
      * 其他不等值join，必须放在crossjoin中实现
      *
-     * @return inner join表达式
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 运行期异常
      */
     private IJoinComposer createFullOutBiJoinComposer()
         throws ExecutorException
@@ -386,8 +380,6 @@ public class JoinInfoOperatorCreator implements OperatorInfoCreator
      * <p/>
      * 其他不等值join，必须放在crossjoin中实现
      *
-     * @return inner join表达式
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 运行期异常
      */
     private IJoinComposer createSideBiJoinComposer(boolean isLeftJoin)
         throws ExecutorException
@@ -411,8 +403,6 @@ public class JoinInfoOperatorCreator implements OperatorInfoCreator
      * 改为
      * [[s1.id,s1.name],[s2.id,s2.cname]]
      *
-     * @param joinConditons
-     * @return
      */
     private PropertyValueExpression[][] revertJoinConditions(PropertyValueExpression[][] joinConditons)
     {
@@ -530,10 +520,6 @@ public class JoinInfoOperatorCreator implements OperatorInfoCreator
      * <p/>
      * 在这里，还是重新创建一个新的schema使用的好。
      *
-     * @param schemas 原始schema
-     * @param streamName 流名称
-     * @return 复制好的schema
-     * @throws com.huawei.streaming.cql.exception.ExecutorException
      */
     private List<Schema> cloneSchema(List<Schema> schemas, String streamName)
         throws ExecutorException
@@ -603,7 +589,6 @@ public class JoinInfoOperatorCreator implements OperatorInfoCreator
     /**
      * 是否计算R流
      * 如果包含R流窗口，则计算，如果不包含，则不计算
-     * @return
      */
     private boolean isOutputRStreaming()
     {

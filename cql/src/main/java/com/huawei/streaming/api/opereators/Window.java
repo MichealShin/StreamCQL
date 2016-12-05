@@ -87,7 +87,6 @@ public class Window
     /**
      * <默认构造函数>
      * 这里把构造函数写为私有的，防止ClientAPI用户使用。
-     * @param name 窗口名称
      */
     private Window(String name)
     {
@@ -103,7 +102,6 @@ public class Window
      * 所以在使用的时候要注意，防止数据保存太多，而导致内存溢出。
      * 这个窗口主要用来保存一些不怎么改变的，比较小的数据，比如类型信息之类。
      * 
-     * @return 创建好 的window
      */
     public static Window createKeepAllWindow()
     {
@@ -113,8 +111,6 @@ public class Window
     /**
      * 创建时间滑动窗
      * 
-     * @param keepTime 滑动时间间隔，单位毫秒
-     * @return 创建好的窗口
      */
     public static Window createTimeSlideWindow(long keepTime)
     {
@@ -127,8 +123,6 @@ public class Window
      * 创建时间跳动窗口
      * 数据分批次过期。
      * 
-     * @param keepTime  滑动时间间隔，单位毫秒
-     * @return 创建好的窗口
      */
     public static Window createTimeBatchWindow(long keepTime)
     {
@@ -140,8 +134,6 @@ public class Window
     /**
      * 创建长度滑动窗
      * 
-     * @param keepLength 窗口内保存数据的数量
-     * @return 创建好的窗口
      */
     public static Window createLengthSlideWindow(long keepLength)
     {
@@ -153,8 +145,6 @@ public class Window
     /**
      * 创建长度跳动窗
      * 
-     * @param keepLength 窗口内保存数据的数量
-     * @return 创建好的窗口
      */
     public static Window createLengthBatchWindow(long keepLength)
     {
@@ -166,9 +156,6 @@ public class Window
     /**
      * 创建分组时间滑动窗
      * 
-     * @param keepTime 数据在窗口内的保存时间，单位毫秒
-     * @param groupbyExpression 分组表达式，比如 a,b
-     * @return 创建好的分组时间滑动窗
      */
     public static Window createGroupTimeSlideWindow(long keepTime, String groupbyExpression)
     {
@@ -180,9 +167,6 @@ public class Window
     
     /**
      * 创建分组时间跳动窗
-     * @param keepTime 数据在窗口内的保存时间，单位毫秒
-     * @param groupbyExpression 分组表达式，比如 a,b
-     * @return 创建好的窗口
      */
     public static Window createGroupTimeBatchWindow(long keepTime, String groupbyExpression)
     {
@@ -194,9 +178,6 @@ public class Window
     
     /**
      * 创建分组长度滑动窗
-     * @param keepLength 数据在窗口的保存数量
-     * @param groupbyExpression 分组表达式，比如 a,b
-     * @return  创建好的窗口
      */
     public static Window createGroupLengthSlideWindow(long keepLength, String groupbyExpression)
     {
@@ -208,9 +189,6 @@ public class Window
     
     /**
      * 创建分组长度跳动窗
-     * @param keepLength 数据在窗口的保存数量
-     * @param groupbyExpression 分组表达式，比如 a,b
-     * @return  创建好的窗口
      */
     public static Window createGroupLengthBatchWindow(long keepLength, String groupbyExpression)
     {
@@ -225,9 +203,6 @@ public class Window
      * 
      * 排序的时候按照时间顺序进行排序，所以只能按照一个字段进行排序，并且不能指定升序还是降序
      * 
-     * @param keepTime 数据在窗口中的保存时间 单位毫秒
-     * @param sortbyExpression 排序表达式，不允许指定升序还是降序
-     * @return 创建好的窗口
      */
     public static Window createTimeSortWindow(long keepTime, String sortbyExpression)
     {
@@ -240,9 +215,6 @@ public class Window
     /**
      * 创建长度排序窗口
      * 
-     * @param keepLength 数据在窗口中保存的长度
-     * @param sortbyExpression sortby表达式，表达式可以指定升序还有降序
-     * @return 创建好的窗口
      */
     public static Window createLengthSortWindow(long keepLength, String sortbyExpression)
     {
@@ -254,9 +226,6 @@ public class Window
     
     /**
      * 事件驱动的时间跳动窗
-     * @param keeptime 窗口的保存时间
-     * @param timestampField 时间戳字段
-     * @return 创建好的窗口
      */
     public static Window createEventTimeBatchWindow(long keeptime, String timestampField)
     {
@@ -268,9 +237,6 @@ public class Window
     
     /**
      * 事件驱动的时间滑动窗
-     * @param keeptime 窗口的保存时间
-     * @param timestampField 时间戳字段
-     * @return 创建好的窗口
      */
     public static Window createEventTimeSlideWindow(long keeptime, String timestampField)
     {
@@ -282,10 +248,6 @@ public class Window
     
     /**
      * 事件驱动的分组时间跳动窗
-     * @param keeptime 窗口的保存时间
-     * @param groupbyExpression 分组字段
-     * @param timestampField 时间戳字段
-     * @return 创建好的窗口
      */
     public static Window createGroupEventTimeBatchWindow(long keeptime, String groupbyExpression, String timestampField)
     {
@@ -298,10 +260,6 @@ public class Window
     
     /**
      * 事件驱动的分组时间滑动窗
-     * @param keeptime 窗口的保存时间
-     * @param groupbyExpression 分组字段
-     * @param timestampField 时间戳字段
-     * @return 创建好的窗口
      */
     public static Window createGroupEventTimeSlideWindow(long keeptime, String groupbyExpression, String timestampField)
     {

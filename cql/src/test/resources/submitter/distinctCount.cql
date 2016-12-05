@@ -14,12 +14,12 @@
 	 EXPAND  STRING
 	)
 	 SERDE simpleSerde
-		PROPERTIES ( separator = "|" )
+		PROPERTIES ( "separator" = "|" )
 	 SOURCE  kafkaInput
 		PROPERTIES (
-			groupid = "group1",
-			topic = "ods",
-			zkConnect = "158.1.130.31:2181"
+			"operator.kafka.groupid" = "group1",
+			"operator.kafka.topic" = "ods",
+			"operator.kafka.zookeepers" = "192.168.0.2:2181"
 			);
 
 	CREATE OUTPUT STREAM OPEN_COUNT
@@ -28,7 +28,7 @@
 	opencount2 long
 	)
 	 SINK ConsoleOutput
-		  PROPERTIES(isPrintCount = "true", printFrequence = "1") ;
+		  PROPERTIES("isPrintCount" = "true", "printFrequence" = "1") ;
 
 	INSERT INTO timetrans
 	select LOGON_ID as ID,  CurrentTimeMillis() as tp from HISPACE  WHERE OPER_TYPE ='0';

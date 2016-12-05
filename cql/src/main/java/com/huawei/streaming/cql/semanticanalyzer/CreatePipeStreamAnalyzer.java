@@ -34,8 +34,6 @@ public class CreatePipeStreamAnalyzer extends CreateStreamAnalyzer
     
     /**
      * <默认构造函数>
-     * @param parseContext 语法解析内容
-     * @throws SemanticAnalyzerException 语义分析内容
      */
     public CreatePipeStreamAnalyzer(ParseContext parseContext)
         throws SemanticAnalyzerException

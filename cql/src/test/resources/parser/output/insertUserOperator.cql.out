@@ -1,0 +1,12 @@
+##sqlstart:
+insert into rs using operator userOp from s1 distribute by type parallel 2
+##sqlend
+INSERT INTO STREAM rs USING OPERATOR userop FROM s1 DISTRIBUTE BY type PARALLEL 2
+##sqlstart:
+insert into rs using operator userOp from s1 distribute by type
+##sqlend
+INSERT INTO STREAM rs USING OPERATOR userop FROM s1 DISTRIBUTE BY type
+##sqlstart:
+insert into rs using operator userOp from s1
+##sqlend
+INSERT INTO STREAM rs USING OPERATOR userop FROM s1

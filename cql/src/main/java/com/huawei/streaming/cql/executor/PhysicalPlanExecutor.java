@@ -105,8 +105,6 @@ public class PhysicalPlanExecutor implements ExecutorHook
      * 表达式检查
      * 7、提交执行计划
      *
-     * @param path 执行计划路径
-     * @throws ExecutorException 
      */
     public void execute(String path) 
         throws ExecutorException   
@@ -118,8 +116,6 @@ public class PhysicalPlanExecutor implements ExecutorHook
     /**
      * 为后期cql直接提交预留接口
      *
-     * @param apiApplication 应用程序
-     * @throws ExecutorException 执行异常
      */
     public void execute(Application apiApplication)
         throws ExecutorException
@@ -192,8 +188,6 @@ public class PhysicalPlanExecutor implements ExecutorHook
     /**
      * 提交应用程序
      *
-     * @param app 应用程序
-     * @throws Exception 应用程序提交的异常
      */
     private void submit(com.huawei.streaming.application.Application app)
         throws ExecutorException
@@ -217,9 +211,6 @@ public class PhysicalPlanExecutor implements ExecutorHook
     /**
      * 生成执行计划
      *
-     * @param apiApplication 物理执行计划
-     * @return 生成的可执行计划
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 各种异常
      */
     private com.huawei.streaming.application.Application generatorPlan(Application apiApplication)
         throws ExecutorException
@@ -329,8 +320,6 @@ public class PhysicalPlanExecutor implements ExecutorHook
      * 不论是否包含用户文件
      * 如果包含，就生成一个完整的大jar包
      * 如果不包含，就生成一个空的Jar包
-     * @param apiApplication
-     * @throws com.huawei.streaming.cql.exception.ExecutorException
      */
     private void packageJar(Application apiApplication)
      throws StreamingException
@@ -368,7 +357,6 @@ public class PhysicalPlanExecutor implements ExecutorHook
         }
         catch (IOException e)
         {
-            LOG.error("Failed to merge all user files to one jar for io error.", e);
             ExecutorException exception = new ExecutorException(ErrorCode.UNKNOWN_SERVER_COMMON_ERROR);
             LOG.error("Failed to merge all user files to one jar for io error.", exception); 
             throw exception;

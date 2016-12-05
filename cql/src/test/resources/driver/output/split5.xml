@@ -1,0 +1,121 @@
+<Definitions>
+  <Application id="split">
+    <confs>
+      <property key="streaming.storm.worker.number" value="1"/>
+    </confs>
+    <Schemas>
+      <Schema id="stream_voice_call" name="stream_voice_call">
+        <attribute name="callingnumber" type="java.lang.String"/>
+        <attribute name="callednumber" type="java.lang.String"/>
+        <attribute name="thirdnumber" type="java.lang.String"/>
+        <attribute name="callingimsi" type="java.lang.String"/>
+        <attribute name="calledimsi" type="java.lang.String"/>
+        <attribute name="thirdimsi" type="java.lang.String"/>
+        <attribute name="callingimei" type="java.lang.String"/>
+        <attribute name="callinghome" type="java.lang.String"/>
+        <attribute name="calledhome" type="java.lang.String"/>
+        <attribute name="callinglac" type="java.lang.Integer"/>
+        <attribute name="callingcellid" type="java.lang.Integer"/>
+        <attribute name="calledlac" type="java.lang.Integer"/>
+        <attribute name="calledcellid" type="java.lang.Integer"/>
+        <attribute name="msccode" type="java.lang.Integer"/>
+        <attribute name="bsccode" type="java.lang.Integer"/>
+        <attribute name="calltime" type="java.lang.Long"/>
+        <attribute name="conntime" type="java.lang.Long"/>
+        <attribute name="callingnettype" type="java.lang.String"/>
+        <attribute name="vipflag" type="java.lang.String"/>
+        <attribute name="callednettype" type="java.lang.String"/>
+        <attribute name="inittime" type="java.lang.Long"/>
+      </Schema>
+      <Schema id="filter_voice1" name="filter_voice1">
+        <attribute name="callingnumber" type="java.lang.String"/>
+      </Schema>
+      <Schema id="filter_voice2" name="filter_voice2">
+        <attribute name="callingnumber" type="java.lang.String"/>
+        <attribute name="callednumber" type="java.lang.String"/>
+      </Schema>
+      <Schema id="filter_voice3" name="filter_voice3">
+        <attribute name="callingnumber" type="java.lang.String"/>
+        <attribute name="callednumber" type="java.lang.String"/>
+        <attribute name="inittime" type="java.lang.Long"/>
+      </Schema>
+      <Schema id="sub_001" name="sub_001">
+        <attribute name="callingnumber" type="java.lang.String"/>
+        <attribute name="callednumber" type="java.lang.String"/>
+        <attribute name="thirdnumber" type="java.lang.String"/>
+        <attribute name="callingimsi" type="java.lang.String"/>
+        <attribute name="calledimsi" type="java.lang.String"/>
+        <attribute name="thirdimsi" type="java.lang.String"/>
+        <attribute name="callingimei" type="java.lang.String"/>
+        <attribute name="callinghome" type="java.lang.String"/>
+        <attribute name="calledhome" type="java.lang.String"/>
+        <attribute name="callinglac" type="java.lang.Integer"/>
+        <attribute name="callingcellid" type="java.lang.Integer"/>
+        <attribute name="calledlac" type="java.lang.Integer"/>
+        <attribute name="calledcellid" type="java.lang.Integer"/>
+        <attribute name="msccode" type="java.lang.Integer"/>
+        <attribute name="bsccode" type="java.lang.Integer"/>
+        <attribute name="calltime" type="java.lang.Long"/>
+        <attribute name="conntime" type="java.lang.Long"/>
+        <attribute name="callingnettype" type="java.lang.String"/>
+        <attribute name="vipflag" type="java.lang.String"/>
+        <attribute name="callednettype" type="java.lang.String"/>
+        <attribute name="inittime" type="java.lang.Long"/>
+      </Schema>
+    </Schemas>
+    <Operators>
+      <TCPServerInput id="TCPServerInput_001" parallel="1">
+        <deserializer class="BinarySerDe">
+          <attributesLength>26,26,26,15,15,15,17,6,6,4,4,4,4,4,4,8,8,1,1,1,8</attributesLength>
+        </deserializer>
+        <port>7999</port>
+        <fixedLength>203</fixedLength>
+      </TCPServerInput>
+      <ConsoleOutput id="ConsoleOutput_002" parallel="1">
+        <serializer class="SimpleSerDe">
+          <separator>,</separator>
+        </serializer>
+        <printFrequence>1</printFrequence>
+      </ConsoleOutput>
+      <ConsoleOutput id="ConsoleOutput_003" parallel="1">
+        <serializer class="SimpleSerDe">
+          <separator>,</separator>
+        </serializer>
+        <printFrequence>1</printFrequence>
+      </ConsoleOutput>
+      <ConsoleOutput id="ConsoleOutput_004" parallel="1">
+        <serializer class="SimpleSerDe">
+          <separator>,</separator>
+        </serializer>
+        <printFrequence>1</printFrequence>
+      </ConsoleOutput>
+      <Functor id="Functor_007" parallel="3">
+        <outputExpression>stream_voice_call.callingnumber, stream_voice_call.callednumber, stream_voice_call.thirdnumber, stream_voice_call.callingimsi, stream_voice_call.calledimsi, stream_voice_call.thirdimsi, stream_voice_call.callingimei, stream_voice_call.callinghome, stream_voice_call.calledhome, stream_voice_call.callinglac, stream_voice_call.callingcellid, stream_voice_call.calledlac, stream_voice_call.calledcellid, stream_voice_call.msccode, stream_voice_call.bsccode, stream_voice_call.calltime, stream_voice_call.conntime, stream_voice_call.callingnettype, stream_voice_call.vipflag, stream_voice_call.callednettype, stream_voice_call.inittime</outputExpression>
+        <filterExpression>(stream_voice_call.callednumber = &apos;10086&apos;)</filterExpression>
+      </Functor>
+      <Splitter id="Splitter_009" parallel="3">
+        <subSplitters>
+          <SubSplitter>
+            <streamName>st_006</streamName>
+            <outputExpression>sub_001.callingnumber</outputExpression>
+          </SubSplitter>
+          <SubSplitter>
+            <streamName>st_007</streamName>
+            <outputExpression>sub_001.callingnumber, sub_001.callednumber</outputExpression>
+          </SubSplitter>
+          <SubSplitter>
+            <streamName>st_008</streamName>
+            <outputExpression>sub_001.callingnumber, sub_001.callednumber, sub_001.inittime</outputExpression>
+          </SubSplitter>
+        </subSplitters>
+      </Splitter>
+    </Operators>
+    <Transitions>
+      <Transition name="st_001" from="TCPServerInput_001" to="Functor_007" distributedType="SHUFFLE" schemaName="stream_voice_call"/>
+      <Transition name="st_002" from="Functor_007" to="Splitter_009" distributedType="SHUFFLE" schemaName="sub_001"/>
+      <Transition name="st_006" from="Splitter_009" to="ConsoleOutput_002" distributedType="SHUFFLE" schemaName="filter_voice1"/>
+      <Transition name="st_007" from="Splitter_009" to="ConsoleOutput_003" distributedType="SHUFFLE" schemaName="filter_voice2"/>
+      <Transition name="st_008" from="Splitter_009" to="ConsoleOutput_004" distributedType="SHUFFLE" schemaName="filter_voice3"/>
+    </Transitions>
+  </Application>
+</Definitions>

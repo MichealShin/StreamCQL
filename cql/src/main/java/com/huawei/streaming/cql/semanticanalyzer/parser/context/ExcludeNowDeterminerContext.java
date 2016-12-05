@@ -44,7 +44,7 @@ public class ExcludeNowDeterminerContext extends ParseContext
     public String toString()
     {
         // TODO Auto-generated method stub
-        return null;
+        return "";
     }
     
     public ExpressionContext getExpression()

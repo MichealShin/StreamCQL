@@ -31,8 +31,6 @@ public interface Transform
     /**
      * 执行优化
      * 
-     * @param parseContexts 解析内容
-     * @return 优化之后的解析内容
      */
     public List<AnalyzeContext> transform(List<AnalyzeContext> parseContexts);
 }

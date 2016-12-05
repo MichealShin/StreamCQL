@@ -71,6 +71,19 @@ public class CQLParserBaseListener implements CQLParserListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterWhenExpression(@NotNull CQLParser.WhenExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitWhenExpression(@NotNull CQLParser.WhenExpressionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterMultiInsertStatement(@NotNull CQLParser.MultiInsertStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -78,6 +91,19 @@ public class CQLParserBaseListener implements CQLParserListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitMultiInsertStatement(@NotNull CQLParser.MultiInsertStatementContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterCaseWhenElse(@NotNull CQLParser.CaseWhenElseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitCaseWhenElse(@NotNull CQLParser.CaseWhenElseContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -104,6 +130,19 @@ public class CQLParserBaseListener implements CQLParserListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitInnerClassName(@NotNull CQLParser.InnerClassNameContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterRebalanceApplication(@NotNull CQLParser.RebalanceApplicationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitRebalanceApplication(@NotNull CQLParser.RebalanceApplicationContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -331,6 +370,32 @@ public class CQLParserBaseListener implements CQLParserListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterExpressionLike(@NotNull CQLParser.ExpressionLikeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitExpressionLike(@NotNull CQLParser.ExpressionLikeContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterSortbyDeterminer(@NotNull CQLParser.SortbyDeterminerContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitSortbyDeterminer(@NotNull CQLParser.SortbyDeterminerContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterSubSelectClause(@NotNull CQLParser.SubSelectClauseContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -448,6 +513,32 @@ public class CQLParserBaseListener implements CQLParserListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterTriggerbyDeterminer(@NotNull CQLParser.TriggerbyDeterminerContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitTriggerbyDeterminer(@NotNull CQLParser.TriggerbyDeterminerContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterRangeToday(@NotNull CQLParser.RangeTodayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitRangeToday(@NotNull CQLParser.RangeTodayContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterCreateInputStreamStatement(@NotNull CQLParser.CreateInputStreamStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -481,6 +572,19 @@ public class CQLParserBaseListener implements CQLParserListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitDdlStatement(@NotNull CQLParser.DdlStatementContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterExcludeNowDeterminer(@NotNull CQLParser.ExcludeNowDeterminerContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitExcludeNowDeterminer(@NotNull CQLParser.ExcludeNowDeterminerContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -728,19 +832,6 @@ public class CQLParserBaseListener implements CQLParserListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitExtended(@NotNull CQLParser.ExtendedContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void enterPackageNameIdentifier(@NotNull CQLParser.PackageNameIdentifierContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitPackageNameIdentifier(@NotNull CQLParser.PackageNameIdentifierContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -1046,6 +1137,19 @@ public class CQLParserBaseListener implements CQLParserListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterExpressionBetween(@NotNull CQLParser.ExpressionBetweenContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitExpressionBetween(@NotNull CQLParser.ExpressionBetweenContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterInsertUserOperatorStatement(@NotNull CQLParser.InsertUserOperatorStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1118,6 +1222,19 @@ public class CQLParserBaseListener implements CQLParserListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitLimitRow(@NotNull CQLParser.LimitRowContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterExpressionPrevious(@NotNull CQLParser.ExpressionPreviousContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitExpressionPrevious(@NotNull CQLParser.ExpressionPreviousContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -1345,6 +1462,19 @@ public class CQLParserBaseListener implements CQLParserListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterCaseHeadExpression(@NotNull CQLParser.CaseHeadExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitCaseHeadExpression(@NotNull CQLParser.CaseHeadExpressionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterLimitAll(@NotNull CQLParser.LimitAllContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1514,6 +1644,19 @@ public class CQLParserBaseListener implements CQLParserListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterExpressionBetweenMinValue(@NotNull CQLParser.ExpressionBetweenMinValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitExpressionBetweenMinValue(@NotNull CQLParser.ExpressionBetweenMinValueContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterIdentifierNot(@NotNull CQLParser.IdentifierNotContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1534,6 +1677,19 @@ public class CQLParserBaseListener implements CQLParserListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitDatasourceBody(@NotNull CQLParser.DatasourceBodyContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterCaseWhenBodyWhenBody(@NotNull CQLParser.CaseWhenBodyWhenBodyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitCaseWhenBodyWhenBody(@NotNull CQLParser.CaseWhenBodyWhenBodyContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -1696,6 +1852,19 @@ public class CQLParserBaseListener implements CQLParserListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterExpressionIn(@NotNull CQLParser.ExpressionInContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitExpressionIn(@NotNull CQLParser.ExpressionInContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterGroupByExpression(@NotNull CQLParser.GroupByExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1755,6 +1924,32 @@ public class CQLParserBaseListener implements CQLParserListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitDatasourceArguments(@NotNull CQLParser.DatasourceArgumentsContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterDeactiveApplication(@NotNull CQLParser.DeactiveApplicationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitDeactiveApplication(@NotNull CQLParser.DeactiveApplicationContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterCombineCondition(@NotNull CQLParser.CombineConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitCombineCondition(@NotNull CQLParser.CombineConditionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -1826,6 +2021,19 @@ public class CQLParserBaseListener implements CQLParserListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterExpressionBetweenMaxValue(@NotNull CQLParser.ExpressionBetweenMaxValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitExpressionBetweenMaxValue(@NotNull CQLParser.ExpressionBetweenMaxValueContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterCrossJoin(@NotNull CQLParser.CrossJoinContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1846,6 +2054,19 @@ public class CQLParserBaseListener implements CQLParserListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitSelectExpression(@NotNull CQLParser.SelectExpressionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterExpressionExists(@NotNull CQLParser.ExpressionExistsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitExpressionExists(@NotNull CQLParser.ExpressionExistsContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -1891,6 +2112,19 @@ public class CQLParserBaseListener implements CQLParserListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterCaseExpression(@NotNull CQLParser.CaseExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitCaseExpression(@NotNull CQLParser.CaseExpressionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterStatement(@NotNull CQLParser.StatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1898,6 +2132,19 @@ public class CQLParserBaseListener implements CQLParserListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitStatement(@NotNull CQLParser.StatementContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterActiveApplication(@NotNull CQLParser.ActiveApplicationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitActiveApplication(@NotNull CQLParser.ActiveApplicationContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -2106,6 +2353,19 @@ public class CQLParserBaseListener implements CQLParserListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitArithmeticPlusMinusExpression(@NotNull CQLParser.ArithmeticPlusMinusExpressionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterCaseWhenBodyThenBody(@NotNull CQLParser.CaseWhenBodyThenBodyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitCaseWhenBodyThenBody(@NotNull CQLParser.CaseWhenBodyThenBodyContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

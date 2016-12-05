@@ -36,7 +36,6 @@ public class NotExpressionDesc implements ExpressionDescribe
     
     /**
      * <默认构造函数>
-     * @param expression 表达式信息
      */
     public NotExpressionDesc(ExpressionDescribe expression)
     {

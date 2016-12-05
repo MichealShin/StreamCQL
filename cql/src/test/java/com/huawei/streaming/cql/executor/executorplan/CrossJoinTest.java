@@ -26,6 +26,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.huawei.streaming.cql.executor.PhysicalPlanLoader;
+import com.huawei.streaming.cql.executor.PhysicalPlanLoaderTest;
 
 /**
  * 执行计划生成器测试
@@ -40,7 +41,6 @@ public class CrossJoinTest
     /**
      * 类初始化之前要执行的方法
      *
-     * @throws java.lang.Exception 初始化过程可能遇到的异常
      */
     @BeforeClass
     public static void setUpBeforeClass()
@@ -55,7 +55,6 @@ public class CrossJoinTest
     /**
      * 简单的filter执行用例测试
      *
-     * @throws Exception 执行异常
      */
     @Test
     public void testSimpleFilter()
@@ -71,7 +70,7 @@ public class CrossJoinTest
      */
     private static void setDir()
     {
-        String classPath = CrossJoinTest.class.getResource("/").getPath();
+        String classPath = PhysicalPlanLoaderTest.class.getResource("/").getPath();
         
         try
         {

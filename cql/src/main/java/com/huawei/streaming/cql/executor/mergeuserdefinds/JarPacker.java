@@ -23,7 +23,6 @@ import java.io.IOException;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Jar;
-import org.apache.tools.ant.taskdefs.Zip.Zip64ModeAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,8 +46,6 @@ public class JarPacker
     
     /**
      * Jar包打包器
-     * @param jarFile 待生成的jar文件
-     * @param jarSourceDir jar内容所在目录
      */
     public JarPacker(String jarFile, File jarSourceDir)
     {
@@ -58,7 +55,6 @@ public class JarPacker
     
     /**
      * jar包打包
-     * @throws IOException 打包异常
      */
     public void pack()
         throws IOException
@@ -74,7 +70,6 @@ public class JarPacker
         Project prj = new Project();
         
         Jar jar = new Jar();
-        jar.setZip64Mode(Zip64ModeAttribute.AS_NEEDED);
         jar.setProject(prj);
         jar.setDestFile(new File(distFile));
         jar.setBasedir(sourceDir);
@@ -89,7 +84,10 @@ public class JarPacker
         {
             if (f.isFile())
             {
-                f.delete();
+                if (!f.delete())
+                {
+                    throw new IOException("Unable to delete file: " + f);
+                }
             }
             else
             {

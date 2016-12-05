@@ -120,6 +120,28 @@ public class AtomExpressionVisitor extends AbsCQLParserBaseVisitor<AtomExpressio
      * {@inheritDoc}
      */
     @Override
+    public AtomExpressionContext visitCaseExpression(@NotNull CQLParser.CaseExpressionContext ctx)
+    {
+        CaseExpressionVisitor visitor = new CaseExpressionVisitor();
+        context.setCaseExpression(visitor.visit(ctx));
+        return context;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AtomExpressionContext visitWhenExpression(@NotNull CQLParser.WhenExpressionContext ctx)
+    {
+        WhenExpressionVisitor visitor = new WhenExpressionVisitor();
+        context.setWhenExpression(visitor.visit(ctx));
+        return context;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public AtomExpressionContext visitColumnName(@NotNull CQLParser.ColumnNameContext ctx)
     {
         context.setColumnName(ctx.getText().toLowerCase(Locale.US));
@@ -136,5 +158,16 @@ public class AtomExpressionVisitor extends AbsCQLParserBaseVisitor<AtomExpressio
         context.setExpressionWithLaparen(visitor.visit(ctx));
         return context;
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AtomExpressionContext visitExpressionPrevious(@NotNull CQLParser.ExpressionPreviousContext ctx)
+    {
+        ExpressionPreviousVisitor visitor = new ExpressionPreviousVisitor();
+        context.setPrevious(visitor.visit(ctx));
+        return context;
+    }
+    
 }

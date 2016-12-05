@@ -29,8 +29,6 @@ public interface Validater
 {
     /**
      * 验证物理执行计划是否正确
-     * @param app 物理执行计划
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 如果验证失败，抛出异常
      */
     void validate(Application app)
         throws ExecutorException;

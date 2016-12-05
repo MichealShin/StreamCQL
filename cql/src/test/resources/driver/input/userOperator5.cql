@@ -1,9 +1,9 @@
 create input stream S (id int, name String) 
 SOURCE KafkaInput 
-PROPERTIES ( groupid = "gidkpi_1_1",topic="agg_1_1");
+PROPERTIES ( "operator.kafka.groupid" = "gidkpi_1_1","operator.kafka.topic"="agg_1_1");
 
 create output stream rs (id string, name string, type int, cc int) 
-SINK KafkaOutput properties(topic="agg_2");
+SINK KafkaOutput properties("operator.kafka.topic"="agg_2");
 
 create operator userOp as "com.huawei.UserOperator" 
 		input (id string, name string, cc int) 

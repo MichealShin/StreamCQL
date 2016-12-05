@@ -21,6 +21,7 @@ package com.huawei.streaming.cql.tasks;
 import java.util.Collections;
 import java.util.List;
 
+import com.huawei.streaming.cql.semanticanalyzer.parser.context.AddFileStatementContext;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,24 +57,24 @@ import com.huawei.streaming.exception.StreamingRuntimeException;
 public class SubmitTask extends BasicTask
 {
     private static final Logger LOG = LoggerFactory.getLogger(SubmitTask.class);
-    
+
     private DriverContext context;
-    
+
     private List<AnalyzeContext> analyzeContexts;
-    
+
     private SubmitApplicationAnalyzeContext submitContext;
-    
+
     private String[] resultHeader = {"result"};
-    
+
     private String result = null;
-    
-    private List<Schema> EMPTY_SCHEMAS = Collections.emptyList();
+
+    private List<Schema> emptySchemas = Collections.emptyList();
 
     /**
      * 超过会自动拓展
      */
     private String format = "%-20s";
-    
+
     /**
      * {@inheritDoc}
      */
@@ -85,7 +86,7 @@ public class SubmitTask extends BasicTask
         context = driverContext;
         analyzeContexts = Lists.newArrayList();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -98,13 +99,14 @@ public class SubmitTask extends BasicTask
             LOG.error("ParseContext is null.");
             throw new CQLException(ErrorCode.SEMANTICANALYZE_CONTEXT_NULL);
         }
-        
+
+        securityPrepare();
         parseSubmit(parseContext);
         createApplication();
         dropApplicationIfAllow();
         submitApplication();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -116,7 +118,36 @@ public class SubmitTask extends BasicTask
         rs.setResults(createResults());
         rs.setFormatter(format);
         return rs;
-        
+
+    }
+
+    /**
+     *  安全准备
+     *  1、检查有没有设置streaming.security.keytab.path参数和streaming.security.user.principal参数
+     *   检查的时候，不论default还是streaming-site还是用户自定义参数，都需要进行检查
+     *  2、执行add file添加keytab文件
+     */
+    private void securityPrepare()
+        throws CQLException
+    {
+        if (getConf().containsKey(StreamingConfig.STREAMING_SECURITY_KEYTAB_PATH))
+        {
+            if (getConf().containsKey(StreamingConfig.STREAMING_SECURITY_USER_PRINCIPAL))
+            {
+                AddFileStatementContext addFileContext = new AddFileStatementContext();
+                try
+                {
+                    addFileContext.setPath(getConf().getStringValue(StreamingConfig.STREAMING_SECURITY_KEYTAB_PATH));
+                    AddFileTask task = new AddFileTask();
+                    task.init(context, getConf(), getAnalyzeHooks());
+                    task.execute(addFileContext);
+                }
+                catch (StreamingException e)
+                {
+                    throw CQLException.wrapStreamingException(e);
+                }
+            }
+        }
     }
 
     private void dropApplicationIfAllow()
@@ -130,7 +161,7 @@ public class SubmitTask extends BasicTask
             }
         }
     }
-    
+
     private boolean checkApplicationExists()
         throws ExecutorException
     {
@@ -145,7 +176,7 @@ public class SubmitTask extends BasicTask
             throw ExecutorException.wrapStreamingException(e);
         }
     }
-    
+
     private List<String[]> createResults()
     {
         List<String[]> res = Lists.newArrayList();
@@ -153,21 +184,21 @@ public class SubmitTask extends BasicTask
         res.add(r);
         return res;
     }
-    
+
     private void parseSubmit(ParseContext parseContext)
         throws SemanticAnalyzerException
     {
-        SemanticAnalyzer analyzer = SemanticAnalyzerFactory.createAnalyzer(parseContext, EMPTY_SCHEMAS);
+        SemanticAnalyzer analyzer = SemanticAnalyzerFactory.createAnalyzer(parseContext, emptySchemas);
         submitContext = (SubmitApplicationAnalyzeContext)analyzer.analyze();
     }
-    
+
     private void submitApplication()
         throws CQLException
     {
         new PhysicalPlanExecutor().execute(context.getApp());
         result = "Application " + context.getApp().getApplicationName() + " submitted successfully.";
     }
-    
+
     private void dropApplication()
         throws CQLException
     {
@@ -176,12 +207,12 @@ public class SubmitTask extends BasicTask
             result = "Application " + submitContext.getAppName() + " is already exists.";
             return;
         }
-        
+
         DropApplicationTask task = new DropApplicationTask();
         task.init(context, getConf(), super.getAnalyzeHooks());
         task.dropApplication(submitContext.getAppName(), true);
     }
-    
+
     private void createApplication()
         throws CQLException
     {
@@ -195,10 +226,10 @@ public class SubmitTask extends BasicTask
             context.setApp(app);
             return;
         }
-        
+
         context.setApp(createAPIApplication(appName));
     }
-    
+
     private Application createAPIApplication(String appName)
         throws CQLException
     {
@@ -213,11 +244,11 @@ public class SubmitTask extends BasicTask
         {
             app = context.getApp();
         }
-        
+
         app.setApplicationId(appName);
         return app;
     }
-    
+
     private void checkApplicationNameIsEmpty(String appName)
         throws ExecutorException
     {
@@ -228,7 +259,7 @@ public class SubmitTask extends BasicTask
             throw exception;
         }
     }
-    
+
     private void semanticAnalyzerLazyContexts()
         throws SemanticAnalyzerException
     {

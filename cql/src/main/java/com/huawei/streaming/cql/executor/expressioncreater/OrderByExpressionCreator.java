@@ -44,9 +44,6 @@ public class OrderByExpressionCreator
     /**
      * 创建orderby表达式解析实例
      *
-     * @param parseContext orderby解析结果
-     * @return orderby实例列表
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 执行期异常
      */
     public List<SortCondition> createInstance(OrderByClauseAnalyzeContext parseContext)
         throws ExecutorException

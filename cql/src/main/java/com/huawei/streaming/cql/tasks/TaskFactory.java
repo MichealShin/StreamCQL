@@ -41,12 +41,6 @@ public class TaskFactory
     /**
      * 创建task实例
      *
-     * @param driverContext driver内容
-     * @param parseContext CQL语句解析内容
-     * @param config 配置属性
-     * @param analyzeHooks 钩子
-     * @return task实例
-     * @throws CQLException 解析异常
      */
     public static Task createTask(DriverContext driverContext, ParseContext parseContext, StreamingConfig config,
         List<SemanticAnalyzeHook> analyzeHooks)

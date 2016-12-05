@@ -1,0 +1,72 @@
+<Definitions>
+  <Application id="split">
+    <Schemas>
+      <Schema id="stream_voice_call" name="stream_voice_call">
+        <attribute name="callingnumber" type="java.lang.String"/>
+        <attribute name="callednumber" type="java.lang.String"/>
+        <attribute name="inittime" type="java.lang.Long"/>
+      </Schema>
+      <Schema id="filter_voice1" name="filter_voice1">
+        <attribute name="callingnumber" type="java.lang.String"/>
+      </Schema>
+      <Schema id="filter_voice2" name="filter_voice2">
+        <attribute name="callingnumber" type="java.lang.String"/>
+        <attribute name="callednumber" type="java.lang.String"/>
+      </Schema>
+      <Schema id="filter_voice3" name="filter_voice3">
+        <attribute name="callingnumber" type="java.lang.String"/>
+        <attribute name="callednumber" type="java.lang.String"/>
+        <attribute name="inittime" type="java.lang.Long"/>
+      </Schema>
+    </Schemas>
+    <Operators>
+      <TCPServerInput id="TCPServerInput_001" parallel="1">
+        <deserializer class="BinarySerDe">
+          <attributesLength>26,26,26,15,15,15,17,6,6,4,4,4,4,4,4,8,8,1,1,1,8</attributesLength>
+        </deserializer>
+        <port>7999</port>
+        <fixedLength>203</fixedLength>
+      </TCPServerInput>
+      <ConsoleOutput id="ConsoleOutput_002" parallel="1">
+        <serializer class="SimpleSerDe">
+          <separator>,</separator>
+        </serializer>
+        <printFrequence>1</printFrequence>
+      </ConsoleOutput>
+      <ConsoleOutput id="ConsoleOutput_003" parallel="1">
+        <serializer class="SimpleSerDe">
+          <separator>,</separator>
+        </serializer>
+        <printFrequence>1</printFrequence>
+      </ConsoleOutput>
+      <ConsoleOutput id="ConsoleOutput_004" parallel="1">
+        <serializer class="SimpleSerDe">
+          <separator>,</separator>
+        </serializer>
+        <printFrequence>1</printFrequence>
+      </ConsoleOutput>
+      <Splitter id="Splitter_006" parallel="1">
+        <subSplitters>
+          <SubSplitter>
+            <streamName>st_003</streamName>
+            <outputExpression>stream_voice_call.callingnumber</outputExpression>
+          </SubSplitter>
+          <SubSplitter>
+            <streamName>st_004</streamName>
+            <outputExpression>stream_voice_call.callingnumber, stream_voice_call.callednumber</outputExpression>
+          </SubSplitter>
+          <SubSplitter>
+            <streamName>st_005</streamName>
+            <outputExpression>stream_voice_call.callingnumber, stream_voice_call.callednumber, stream_voice_call.inittime</outputExpression>
+          </SubSplitter>
+        </subSplitters>
+      </Splitter>
+    </Operators>
+    <Transitions>
+      <Transition name="st_001" from="TCPServerInput_001" to="Splitter_006" distributedType="SHUFFLE" schemaName="stream_voice_call"/>
+      <Transition name="st_003" from="Splitter_006" to="ConsoleOutput_002" distributedType="SHUFFLE" schemaName="filter_voice1"/>
+      <Transition name="st_004" from="Splitter_006" to="ConsoleOutput_003" distributedType="SHUFFLE" schemaName="filter_voice2"/>
+      <Transition name="st_005" from="Splitter_006" to="ConsoleOutput_004" distributedType="SHUFFLE" schemaName="filter_voice3"/>
+    </Transitions>
+  </Application>
+</Definitions>

@@ -29,15 +29,11 @@ public interface DriverRunHook extends Hook
 {
     /**
      * driver的run方法执行之前调用
-     * @param context driver实例中保存的临时对象
-     * @param parseContext  语法解析内容
      */
     void preDriverRun(DriverContext context, ParseContext parseContext);
     
     /**
      * driver的run方法执行之后调用
-     * @param context driver实例中保存的临时对象
-     * @param parseContext 语法解析内容
      */
     void postDriverRun(DriverContext context, ParseContext parseContext);
 }

@@ -25,6 +25,7 @@ import com.huawei.streaming.api.AnnotationUtils;
 import com.huawei.streaming.api.opereators.BaseDataSourceOperator;
 import com.huawei.streaming.api.opereators.DataSourceOperator;
 import com.huawei.streaming.api.opereators.Operator;
+import com.huawei.streaming.api.opereators.RDBDataSourceOperator;
 import com.huawei.streaming.cql.exception.ApplicationBuildException;
 import com.huawei.streaming.cql.mapping.InputOutputOperatorMapping;
 import com.huawei.streaming.exception.ErrorCode;
@@ -66,18 +67,45 @@ public class DataSourceConverter implements OperatorConverter
     /**
      * 将通用的数据源转化为私有的数据源
      *
-     * @param dataSourceOperator 通用的数据源算子
-     * @param dataSourceClass 私有的数据源所在类
-     * @return 转换之后的私有数据源
-     * @throws ApplicationBuildException 转换异常
      */
     private BaseDataSourceOperator convertToPrivateDataSource(DataSourceOperator dataSourceOperator,
         String dataSourceClass)
         throws ApplicationBuildException
     {
+        /*
+         * 所有的数据源都继承自BaseDataSource，所以可以进行类型强转，数据丢失无所谓
+         * 但是这里是字符串类型，没办法进行强制类型转换，只好用if else的方式进行
+         */
+        if (dataSourceClass.equals(RDBDataSourceOperator.class.getName()))
+        {
+            RDBDataSourceOperator rdbDataSourceOperator = createRDBDataSource(dataSourceOperator);
+            AnnotationUtils.setConfigToObject(rdbDataSourceOperator, dataSourceOperator.getDataSourceConfig());
+            dataSourceOperator.setDataSourceConfig(null);
+            return rdbDataSourceOperator;
+        }
+        
         ApplicationBuildException exception =
             new ApplicationBuildException(ErrorCode.SEMANTICANALYZE_DATASOURCE_UNKNOWN, dataSourceClass);
         LOG.error("Unsupport datasource type.", exception);
         throw exception;
+    }
+    
+    private RDBDataSourceOperator createRDBDataSource(DataSourceOperator dataSourceOperator)
+    {
+        RDBDataSourceOperator rdb =
+            new RDBDataSourceOperator(dataSourceOperator.getId(), dataSourceOperator.getParallelNumber());
+        rdb.setName(dataSourceOperator.getName());
+        rdb.setArgs(dataSourceOperator.getArgs());
+        rdb.setLeftStreamName(dataSourceOperator.getLeftStreamName());
+        rdb.setLeftWindow(dataSourceOperator.getLeftWindow());
+        rdb.setFilterAfterJoinExpression(dataSourceOperator.getFilterAfterJoinExpression());
+        rdb.setQueryArguments(dataSourceOperator.getQueryArguments());
+        rdb.setDataSourceSchema(dataSourceOperator.getDataSourceSchema());
+        rdb.setFilterAfterAggregate(dataSourceOperator.getFilterAfterAggregate());
+        rdb.setGroupbyExpression(dataSourceOperator.getGroupbyExpression());
+        dataSourceOperator.setOrderBy(dataSourceOperator.getOrderBy());
+        dataSourceOperator.setLimit(dataSourceOperator.getLimit());
+        rdb.setOutputExpression(dataSourceOperator.getOutputExpression());
+        return rdb;
     }
 }

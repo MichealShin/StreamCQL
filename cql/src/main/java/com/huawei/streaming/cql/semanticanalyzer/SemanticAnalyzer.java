@@ -41,16 +41,12 @@ public interface SemanticAnalyzer
 {
     /**
      * 初始化语义分析器
-     * @param schemas schema列表
-     * @throws SemanticAnalyzerException 语义分析异常
      */
     void init(List<Schema> schemas)
         throws SemanticAnalyzerException;
     
     /**
      * 语义分析
-     * @return 语义分析结果
-     * @throws SemanticAnalyzerException 语义分析异常
      */
     AnalyzeContext analyze()
         throws SemanticAnalyzerException;

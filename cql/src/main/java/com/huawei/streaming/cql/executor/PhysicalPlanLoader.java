@@ -17,43 +17,15 @@
  */
 package com.huawei.streaming.cql.executor;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.Map;
-
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.huawei.streaming.api.Application;
 import com.huawei.streaming.api.PhysicalPlan;
 import com.huawei.streaming.api.UserFunction;
-import com.huawei.streaming.api.opereators.AggregateOperator;
-import com.huawei.streaming.api.opereators.BaseDataSourceOperator;
-import com.huawei.streaming.api.opereators.BasicAggFunctionOperator;
-import com.huawei.streaming.api.opereators.ConsoleOutputOperator;
-import com.huawei.streaming.api.opereators.DataSourceOperator;
-import com.huawei.streaming.api.opereators.FilterOperator;
-import com.huawei.streaming.api.opereators.FunctionStreamOperator;
-import com.huawei.streaming.api.opereators.FunctorOperator;
-import com.huawei.streaming.api.opereators.InnerFunctionOperator;
-import com.huawei.streaming.api.opereators.InputStreamOperator;
-import com.huawei.streaming.api.opereators.JoinFunctionOperator;
-import com.huawei.streaming.api.opereators.JoinType;
-import com.huawei.streaming.api.opereators.KafkaInputOperator;
-import com.huawei.streaming.api.opereators.KafkaOutputOperator;
-import com.huawei.streaming.api.opereators.Operator;
-import com.huawei.streaming.api.opereators.OperatorTransition;
-import com.huawei.streaming.api.opereators.OutputStreamOperator;
-import com.huawei.streaming.api.opereators.RandomGenInputOperator;
-import com.huawei.streaming.api.opereators.SplitterOperator;
-import com.huawei.streaming.api.opereators.SplitterSubContext;
-import com.huawei.streaming.api.opereators.UnionOperator;
+import com.huawei.streaming.api.opereators.*;
+import com.huawei.streaming.api.opereators.serdes.BinarySerDeAPI;
 import com.huawei.streaming.api.opereators.serdes.CSVSerDeAPI;
+import com.huawei.streaming.api.opereators.serdes.KeyValueSerDeAPI;
 import com.huawei.streaming.api.opereators.serdes.SimpleSerDeAPI;
 import com.huawei.streaming.api.opereators.serdes.UserDefinedSerDeAPI;
 import com.huawei.streaming.api.streams.Column;
@@ -68,6 +40,15 @@ import com.thoughtworks.xstream.io.StreamException;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.thoughtworks.xstream.mapper.DefaultMapper;
 import com.thoughtworks.xstream.mapper.MapperWrapper;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.Map;
 
 /**
  * 加载物理执行计划
@@ -94,9 +75,6 @@ public class PhysicalPlanLoader
      * <p/>
      * 由于xml中可能存在一些额外的空格或者tab之类的符号，所以要通过trim把这些内容移除掉
      *
-     * @param path 文件路径
-     * @return 执行计划
-     * @throws ExecutorException 执行计划加载异常
      */
     public static PhysicalPlan load(String path) throws ExecutorException
     {
@@ -144,7 +122,7 @@ public class PhysicalPlanLoader
         catch (StreamException e1)
         {
             ExecutorException exception = new ExecutorException(e1, ErrorCode.TOP_PHYSICPLAN_ERROR_CONTEXT, path);
-            LOG.error(exception.getMessage(), e1);
+            LOG.error(ErrorCode.TOP_PHYSICPLAN_ERROR_CONTEXT.getFullMessage(path), e1);
             throw exception;
         }
         finally
@@ -176,7 +154,6 @@ public class PhysicalPlanLoader
     /**
      * 设置Xstream别名
      *
-     * @param xstream Xstream实例
      */
     public static void setAlias(XStream xstream)
     {
@@ -219,12 +196,15 @@ public class PhysicalPlanLoader
     {
         ALIAS_MAPPING.put("BaseDataSource", BaseDataSourceOperator.class);
         ALIAS_MAPPING.put("DataSource", DataSourceOperator.class);
+        ALIAS_MAPPING.put("RDBDataSource", RDBDataSourceOperator.class);
     }
 
     private static void setSerDeAlias()
     {
         ALIAS_MAPPING.put("SimpleSerDe", SimpleSerDeAPI.class);
+        ALIAS_MAPPING.put("KeyValueSerDe", KeyValueSerDeAPI.class);
         ALIAS_MAPPING.put("CSVSerDe", CSVSerDeAPI.class);
+        ALIAS_MAPPING.put("BinarySerDe", BinarySerDeAPI.class);
         ALIAS_MAPPING.put("UserDefinedSerDe", UserDefinedSerDeAPI.class);
     }
 
@@ -232,10 +212,12 @@ public class PhysicalPlanLoader
     {
         ALIAS_MAPPING.put("InputOperator", InputStreamOperator.class);
         ALIAS_MAPPING.put("OutputOperator", OutputStreamOperator.class);
-        ALIAS_MAPPING.put("KafkaInput", KafkaInputOperator.class);
-        ALIAS_MAPPING.put("KafkaOutput", KafkaOutputOperator.class);
+        ALIAS_MAPPING.put("TCPInput", TCPClientInputOperator.class);
+        ALIAS_MAPPING.put("TCPOutput", TCPClientOutputOperator.class);
         ALIAS_MAPPING.put("RandomGenInput", RandomGenInputOperator.class);
         ALIAS_MAPPING.put("ConsoleOutput", ConsoleOutputOperator.class);
+        ALIAS_MAPPING.put("KafkaInput", KafkaInputOperator.class);
+        ALIAS_MAPPING.put("KafkaOutput", KafkaOutputOperator.class);
     }
 
     private static void setFunctionStreamAlias()
@@ -247,6 +229,7 @@ public class PhysicalPlanLoader
         ALIAS_MAPPING.put("Join", JoinFunctionOperator.class);
         ALIAS_MAPPING.put("Filter", FilterOperator.class);
         ALIAS_MAPPING.put("Functor", FunctorOperator.class);
+        ALIAS_MAPPING.put("Combiner", CombineOperator.class);
         ALIAS_MAPPING.put("Union", UnionOperator.class);
         ALIAS_MAPPING.put("Splitter", SplitterOperator.class);
         ALIAS_MAPPING.put("SubSplitter", SplitterSubContext.class);

@@ -18,6 +18,8 @@
 
 package com.huawei.streaming.cql.executor.executorplan;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -26,13 +28,20 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.huawei.streaming.api.PhysicalPlan;
+import com.huawei.streaming.api.opereators.KafkaInputOperator;
+import com.huawei.streaming.api.opereators.KafkaOutputOperator;
 import com.huawei.streaming.application.Application;
 import com.huawei.streaming.cql.Driver;
 import com.huawei.streaming.cql.executor.ExecutorPlanGenerator;
 import com.huawei.streaming.cql.executor.PhysicalPlanLoader;
+import com.huawei.streaming.cql.executor.PhysicalPlanLoaderTest;
+import com.huawei.streaming.cql.mapping.InputOutputOperatorMapping;
+import com.huawei.streaming.cql.mapping.SimpleLexer;
+import com.huawei.streaming.cql.toolkits.operators.TCPServerInputOperator;
 import com.huawei.streaming.operator.IRichOperator;
 import com.huawei.streaming.operator.functionstream.FunctorOp;
-import static org.junit.Assert.assertTrue;
+import com.huawei.streaming.operator.inputstream.KafkaSourceOp;
+import com.huawei.streaming.operator.outputstream.KafkaFunctionOp;
 
 /**
  * 执行计划生成器测试
@@ -47,12 +56,18 @@ public class FunctorTest
     /**
      * 类初始化之前要执行的方法
      *
-     * @throws java.lang.Exception 初始化过程可能遇到的异常
      */
     @BeforeClass
     public static void setUpBeforeClass()
         throws Exception
     {
+        SimpleLexer.registerInputOperator("TCPServerInput", TCPServerInputOperator.class);
+        PhysicalPlanLoader.registerPhysicalPlanAlias("TCPServerInput",
+         com.huawei.streaming.cql.toolkits.api.TCPServerInputOperator.class);
+        InputOutputOperatorMapping.registerOperator(
+         com.huawei.streaming.cql.toolkits.api.TCPServerInputOperator.class,
+         com.huawei.streaming.cql.toolkits.operators.TCPServerInputOperator.class);
+
         /*
          * 初始化反序列化文件路径
          */
@@ -62,7 +77,6 @@ public class FunctorTest
     /**
      * 简单的filter执行用例测试
      *
-     * @throws Exception 执行异常
      */
     @Test
     public void testFunctor()
@@ -96,7 +110,7 @@ public class FunctorTest
      */
     private static void setDir()
     {
-        String classPath = FunctorTest.class.getResource("/").getPath();
+        String classPath = PhysicalPlanLoaderTest.class.getResource("/").getPath();
         
         try
         {

@@ -1,12 +1,12 @@
 
-set 'operator.kafka.zookeepers' = '158.1.130.10:24002';
+set 'operator.kafka.zookeepers' = '192.168.0.2:24002';
 set "serde.simpleserde.separator"=',';
-set "operator.kafka.brokers"="127.0.0.1:9092";
+set "operator.kafka.brokers"="192.168.0.2:9092";
 
 Create Input Stream Input_Case_When
 	(id decimal)
 	 Source  KafkaINput
-		 Properties ("Operator.Kafka.Groupid" = "Gidkpi_1_1","Operator.Kafka.Topic"="Case_When_In");
+		 Properties ("operator.kafka.groupid" = "Gidkpi_1_1","operator.kafka.topic"="Case_When_In");
 
 Create Output Stream Output_Case_When
 	(id decimal,suma decimal,sumf decimal,avga decimal,avgf decimal)

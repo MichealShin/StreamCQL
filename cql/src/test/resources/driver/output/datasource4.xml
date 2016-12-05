@@ -1,0 +1,63 @@
+<Definitions>
+  <Application id="datasourcetest">
+    <confs>
+      <property key="datasource.rdb.driver" value="org.postgresql.Driver"/>
+      <property key="operator.kafka.brokers" value="192.168.0.2:9092"/>
+      <property key="operator.kafka.messageserializerclass" value="kafka.serializer.StringEncoder"/>
+      <property key="operator.kafka.zksessiontimeout" value="20000"/>
+      <property key="operator.kafka.zksynctime" value="20000"/>
+      <property key="operator.kafka.zookeepers" value="localhost:2181,192.168.0.2:2181"/>
+      <property key="serde.simpleserde.separator" value=","/>
+    </confs>
+    <Schemas>
+      <Schema id="s" name="s">
+        <attribute name="id" type="java.lang.Integer"/>
+        <attribute name="name" type="java.lang.String"/>
+        <attribute name="type" type="java.lang.Integer"/>
+      </Schema>
+      <Schema id="rs" name="rs">
+        <attribute name="rid" type="java.lang.Integer"/>
+        <attribute name="sid" type="java.lang.Integer"/>
+        <attribute name="countrid" type="java.lang.Integer"/>
+        <attribute name="sumsid" type="java.lang.Integer"/>
+      </Schema>
+    </Schemas>
+    <Operators>
+      <KafkaInput id="KafkaInput_001" parallel="1">
+        <deserializer class="SimpleSerDe"/>
+        <groupId>gidkpi_1_1</groupId>
+        <topic>agg_1_1</topic>
+      </KafkaInput>
+      <KafkaOutput id="KafkaOutput_002" parallel="1">
+        <serializer class="SimpleSerDe"/>
+        <topic>agg_1_2</topic>
+      </KafkaOutput>
+      <RDBDataSource id="DataSource_003" parallel="1">
+        <outputExpression>rdbdatasource.id, s.id,  count( rdbdatasource.id ) ,  sum( s.id ) </outputExpression>
+        <groupbyExpression>rdbdatasource.id, s.id</groupbyExpression>
+        <leftStreamName>st_001</leftStreamName>
+        <leftWindow name="length_slide">
+          <length>10</length>
+          <excludeNow>false</excludeNow>
+        </leftWindow>
+        <filterAfterJoinExpression>rdbdatasource.name like &apos;%hdd%&apos;</filterAfterJoinExpression>
+        <queryArguments>
+          <string>&quot;select rid as id,rname,rtype from rdbtable where id = &apos;&apos;{0}&apos;&apos; &quot;</string>
+          <string>s.id</string>
+        </queryArguments>
+        <dataSourceSchema id="rdbdatasource" name="rdb">
+          <attribute name="id" type="java.lang.Integer"/>
+          <attribute name="name" type="java.lang.String"/>
+          <attribute name="type" type="java.lang.Integer"/>
+        </dataSourceSchema>
+        <url>jdbc:postgresql://192.168.0.2:1521/streaming</url>
+        <userName>******</userName>
+        <password>******</password>
+      </RDBDataSource>
+    </Operators>
+    <Transitions>
+      <Transition name="st_001" from="KafkaInput_001" to="DataSource_003" distributedType="FIELDS" distributedFields=" s.id" schemaName="s"/>
+      <Transition name="st_003" from="DataSource_003" to="KafkaOutput_002" distributedType="SHUFFLE" schemaName="rs"/>
+    </Transitions>
+  </Application>
+</Definitions>

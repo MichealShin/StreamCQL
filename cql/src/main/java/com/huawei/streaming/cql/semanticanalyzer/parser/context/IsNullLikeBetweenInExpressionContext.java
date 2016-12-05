@@ -40,7 +40,9 @@ public class IsNullLikeBetweenInExpressionContext extends BaseExpressionParseCon
     
     //ExpressionBetweenContext
     private BaseExpressionParseContext between;
-
+    
+    //ExpressionInContext
+    private BaseExpressionParseContext in;
     
     /**
      * {@inheritDoc}
@@ -62,7 +64,12 @@ public class IsNullLikeBetweenInExpressionContext extends BaseExpressionParseCon
         {
             return left.toString() + " " + between.toString();
         }
-
+        
+        if (in != null)
+        {
+            return left.toString() + " " + in.toString();
+        }
+        
         return left.toString();
     }
     
@@ -76,6 +83,7 @@ public class IsNullLikeBetweenInExpressionContext extends BaseExpressionParseCon
         walkExpression(walker, left);
         walkExpression(walker, like);
         walkExpression(walker, between);
+        walkExpression(walker, in);
     }
     
     /**
@@ -89,8 +97,24 @@ public class IsNullLikeBetweenInExpressionContext extends BaseExpressionParseCon
         walkChildAndReplaceIsNull(replacer);
         walkChildAndReplaceLike(replacer);
         walkChildAndReplaceBetween(replacer);
+        walkChildAndReplaceIn(replacer);
     }
-
+    
+    private void walkChildAndReplaceIn(ParseContextReplacer replacer)
+    {
+        if (in != null)
+        {
+            if (replacer.isChildsReplaceable(in))
+            {
+                in = replacer.createReplaceParseContext();
+            }
+            else
+            {
+                in.walkChildAndReplace(replacer);
+            }
+        }
+        
+    }
     
     private void walkChildAndReplaceBetween(ParseContextReplacer replacer)
     {
@@ -187,10 +211,22 @@ public class IsNullLikeBetweenInExpressionContext extends BaseExpressionParseCon
         {
             return createLikeExpressionDesc();
         }
-
+        
+        if (in != null)
+        {
+            return createInExpressionDesc();
+        }
+        
         return left.createExpressionDesc(getSchemas());
     }
-
+    
+    private ExpressionDescribe createInExpressionDesc()
+        throws SemanticAnalyzerException
+    {
+        in.setLeftExpression(left);
+        return in.createExpressionDesc(getSchemas());
+    }
+    
     private ExpressionDescribe createLikeExpressionDesc()
         throws SemanticAnalyzerException
     {
@@ -241,5 +277,14 @@ public class IsNullLikeBetweenInExpressionContext extends BaseExpressionParseCon
     {
         this.between = between;
     }
-
+    
+    public BaseExpressionParseContext getIn()
+    {
+        return in;
+    }
+    
+    public void setIn(BaseExpressionParseContext in)
+    {
+        this.in = in;
+    }
 }

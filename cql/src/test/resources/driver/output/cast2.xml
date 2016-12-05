@@ -22,13 +22,12 @@
         <deserializer class="SimpleSerDe"/>
         <groupId>zhou123</groupId>
         <topic>STRV1R2_CQL_EXP_FUNC_006_0001r</topic>
-        <zookeepers>127.0.0.1:2181</zookeepers>
+        <zookeepers>192.168.0.2:2181</zookeepers>
       </KafkaInput>
       <KafkaOutput id="KafkaOutput_002" parallel="1">
         <serializer class="SimpleSerDe"/>
         <topic>STRV1R2_CQL_EXP_FUNC_006_0001t</topic>
-        <zookeepers>127.0.0.1:2181</zookeepers>
-        <brokers>127.0.0.1:9092</brokers>
+        <zookeepers>192.168.0.2:2181</zookeepers>
       </KafkaOutput>
       <Functor id="Functor_004" parallel="1">
         <outputExpression> toboolean( s1.column1 ) ,  toint( s1.column1 ) ,  tolong( s1.column1 ) ,  tofloat( s1.column1 ) ,  todouble( s1.column1 ) ,  tostring( s1.column1 ) ,  totimestamp( s1.column1 ) ,  todate( s1.column1 ) ,  totime( s1.column1 ) ,  todecimal( s1.column1 ) </outputExpression>

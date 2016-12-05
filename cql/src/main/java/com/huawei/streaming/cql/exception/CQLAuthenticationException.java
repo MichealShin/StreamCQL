@@ -32,8 +32,6 @@ public class CQLAuthenticationException extends CQLException
     /**
      * <默认构造函数>
      *
-     * @param errorCode 异常码
-     * @param errorArgs 消息参数
      */
     public CQLAuthenticationException(ErrorCode errorCode, String... errorArgs)
     {
@@ -43,9 +41,6 @@ public class CQLAuthenticationException extends CQLException
     /**
      * <默认构造函数>
      *
-     * @param cause 异常堆栈
-     * @param errorCode 异常码
-     * @param errorArgs 消息参数
      */
     public CQLAuthenticationException(Throwable cause, ErrorCode errorCode, String... errorArgs)
     {

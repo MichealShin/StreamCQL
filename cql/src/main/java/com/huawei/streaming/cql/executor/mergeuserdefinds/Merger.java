@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * <p>
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,23 +20,25 @@ package com.huawei.streaming.cql.executor.mergeuserdefinds;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.net.URLDecoder;
 import java.util.UUID;
 
+import com.google.common.base.Strings;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Strings;
 import com.huawei.streaming.api.Application;
 
 /**
  * 合并文件
- * <p>
+ * <p/>
  * Storm中只允许提交一个用户jar包，
  * 所以这就要求将所有的用户自定义jar包和文件打包在一个新的文件中，storm才可以加载。
+ *
  */
 public class Merger
 {
@@ -47,6 +49,8 @@ public class Merger
      * jar包解压缩目录的名称
      */
     private static final String JAR_UNZIP_DIR_NAME = "jartmp";
+
+    public static final String STREAMING_WITH_DEPENDENCIES = "streaming-with-dependencies";
 
     /**
      * jar包存放目录
@@ -61,10 +65,6 @@ public class Merger
     /**
      * 合并文件和Jar包到指定路径
      *
-     * @param app 应用程序
-     * @param tmpDir 合并Jar包的临时目录
-     * @param jarOutputFile 合并好的Jar包文件
-     * @throws IOException 文件操作异常
      */
     public void merge(Application app, String tmpDir, String jarOutputFile)
      throws IOException

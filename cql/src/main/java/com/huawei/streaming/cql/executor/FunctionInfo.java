@@ -74,12 +74,6 @@ public class FunctionInfo
     /**
      * 创建udf函数信息
      * 
-     * @param name 函数名称
-     * @param clazz 函数所在类
-     * @param methodName 函数所在类方法
-     * @param isNative 是否是本地函数，如果用户自定义，一定是false
-     * @param functionType 函数类型
-     * @return 创建好的函数信息
      */
     public static FunctionInfo createUDFFunctionInfo(String name, Class< ? > clazz, String methodName,
         boolean isNative, FunctionType functionType)
@@ -91,12 +85,6 @@ public class FunctionInfo
     /**
      * 创建udaf函数信息
      * 
-     * @param name 函数名称
-     * @param clazz 函数所在类
-     * @param filterClazz 如果有过滤表达式的类
-     * @param isNative 是否是本地函数，如果用户自定义，一定是false
-     * @param functionType 函数类型
-     * @return 创建好的函数信息
      */
     public static FunctionInfo createUDAFFunctionInfo(String name, Class< ? > clazz, Class< ? > filterClazz,
         boolean isNative, FunctionType functionType)
@@ -109,12 +97,6 @@ public class FunctionInfo
     /**
      * 创建udtf函数信息
      * 
-     * @param name 函数名称
-     * @param clazz 函数所在类
-     * @param methodName 函数所在类方法
-     * @param isNative 是否是本地函数，如果用户自定义，一定是false
-     * @param functionType 函数类型
-     * @return 创建好的函数信息
      */
     public static FunctionInfo createUDTFFunctionInfo(String name, Class< ? > clazz, String methodName,
         boolean isNative, FunctionType functionType)
@@ -126,12 +108,6 @@ public class FunctionInfo
     /**
      * 创建udf函数信息
      * 
-     * @param name 函数名称
-     * @param clazz 函数所在类
-     * @param methodName 函数所在类方法
-     * @param isNative 是否是本地函数，如果用户自定义，一定是false
-     * @param functionType 函数类型
-     * @return 创建好的函数信息
      */
     private static FunctionInfo createFunctionInfoWithOutType(String name, Class< ? > clazz, String methodName,
         boolean isNative, FunctionType functionType)

@@ -18,6 +18,8 @@
 
 package com.huawei.streaming.cql.executor.executorplan;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -29,9 +31,9 @@ import com.huawei.streaming.api.PhysicalPlan;
 import com.huawei.streaming.application.Application;
 import com.huawei.streaming.cql.executor.ExecutorPlanGenerator;
 import com.huawei.streaming.cql.executor.PhysicalPlanLoader;
+import com.huawei.streaming.cql.executor.PhysicalPlanLoaderTest;
 import com.huawei.streaming.operator.IRichOperator;
 import com.huawei.streaming.operator.functionstream.UnionFunctionOp;
-import static org.junit.Assert.assertTrue;
 
 /**
  * 执行计划生成器测试
@@ -46,7 +48,6 @@ public class UnionTest
     /**
      * 类初始化之前要执行的方法
      *
-     * @throws java.lang.Exception 初始化过程可能遇到的异常
      */
     @BeforeClass
     public static void setUpBeforeClass()
@@ -61,7 +62,6 @@ public class UnionTest
     /**
      * 简单的filter执行用例测试
      *
-     * @throws Exception 执行异常
      */
     @Test
     public void testUnion()
@@ -89,10 +89,11 @@ public class UnionTest
     
     /**
      * 设置待序列化的文件路径
+     *
      */
     private static void setDir()
     {
-        String classPath = UnionTest.class.getResource("/").getPath();
+        String classPath = PhysicalPlanLoaderTest.class.getResource("/").getPath();
         
         try
         {

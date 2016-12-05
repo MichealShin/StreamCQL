@@ -109,11 +109,6 @@ public class ApplicationBuilder
      * 1、各个算子的构建
      * 2、将完成拆分的应用程序解析成为Application
      *
-     * @param appName 应用程序名称
-     * @param parContexts 一系列CQL语句的解析结果
-     * @param driverContext 各类用户参数存储
-     * @return 构建完成的应用程序
-     * @throws ApplicationBuildException 构建application时候抛出的异常
      */
     public Application build(String appName, List<AnalyzeContext> parContexts, DriverContext driverContext)
         throws ApplicationBuildException
@@ -138,7 +133,8 @@ public class ApplicationBuilder
         
         if (driverContext.getUserFiles() != null && driverContext.getUserFiles().size() != 0)
         {
-            app.setUserFiles(driverContext.getUserFiles().toArray(new String[0]));
+            List<String> userFiles = driverContext.getUserFiles();
+            app.setUserFiles(userFiles.toArray(new String[userFiles.size()]));
         }
         
         if (driverContext.getUserDefinedFunctions() != null && driverContext.getUserDefinedFunctions().size() != 0)
@@ -167,8 +163,6 @@ public class ApplicationBuilder
     /**
      * 执行物理优化器
      *
-     * @return 经过优化的应用程序
-     * @throws CQLException 优化器执行异常
      */
     private Application executePhysicOptimizer()
         throws ApplicationBuildException
@@ -181,7 +175,6 @@ public class ApplicationBuilder
     /**
      * 构建应用程序
      *
-     * @throws CQLException 执行异常
      */
     private void buildApplication()
         throws ApplicationBuildException
@@ -208,8 +201,6 @@ public class ApplicationBuilder
     /**
      * 替换所有的having和orderby这些在聚合之后的表达式
      *
-     * @param splitContext split解析内容
-     * @throws ApplicationBuildException
      */
     private void changeSchemaAfterAggregate(SplitContext splitContext)
         throws ApplicationBuildException
@@ -294,7 +285,6 @@ public class ApplicationBuilder
      * 1、找到所有的有一个以上连线的非Join算子
      * 2、替换该算子为Union算子
      *
-     * @param splitContext
      */
     private void changeUnionOperators(SplitContext splitContext)
     {
@@ -315,8 +305,6 @@ public class ApplicationBuilder
     /**
      * 替换union算子
      *
-     * @param op filter算子
-     * @param splitContext split解析 结果
      */
     private void replaceToUnion(FilterOperator op, SplitContext splitContext)
     {
@@ -434,9 +422,6 @@ public class ApplicationBuilder
      * 由于schema推断的存在， 中间的流schema没有通过create input语句定义，
      * 所以就要在这里显示的创建一个create input的解析内容
      *
-     * @param splitContexts split结果保存列表
-     * @param pcontext 解析内容
-     * @throws CQLException 解析异常
      */
     private void parseAutoCreatePipeStream(List<SplitContext> splitContexts, AnalyzeContext pcontext)
         throws ApplicationBuildException
@@ -478,7 +463,7 @@ public class ApplicationBuilder
             }
         }
     }
-    
+
     private void parseAutoCreatePipeStreamForInsert(List<SplitContext> splitContexts, AnalyzeContext pcontext)
         throws ApplicationBuildException
     {

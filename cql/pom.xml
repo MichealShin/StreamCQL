@@ -22,7 +22,7 @@
     <parent>
         <artifactId>streamCQL</artifactId>
         <groupId>com.huawei.streaming</groupId>
-        <version>1.0</version>
+        <version>2.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -30,6 +30,18 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -42,7 +54,7 @@
                     <excludes>
                         <exclude>com/huawei/streaming/cql/semanticanalyzer/parser/*.g4</exclude>
                         <exclude>streaming-site.xml</exclude>
-                        <exclude>logback.xml</exclude>
+                        <exclude>log4j2.xml</exclude>
                         <exclude>logback-console.xml</exclude>
                         <exclude>cqlclient</exclude>
                         <exclude>driver</exclude>
@@ -123,8 +135,19 @@
         <dependency>
             <groupId>org.apache.storm</groupId>
             <artifactId>storm-core</artifactId>
-            <version>0.10.0-beta</version>
+            <version>1.0.2</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+            <version>3.4.9</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>

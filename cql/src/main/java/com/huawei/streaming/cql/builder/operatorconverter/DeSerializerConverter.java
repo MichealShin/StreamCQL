@@ -57,9 +57,6 @@ public class DeSerializerConverter implements Converter
     /**
      * 反序列化类转换
      *
-     * @param op 输入算子
-     * @return 完成转换的反序列化API
-     * @throws ApplicationBuildException 反序列化转换异常
      */
     public SerDeAPI convert(InputStreamOperator op)
         throws ApplicationBuildException

@@ -33,6 +33,8 @@ import java.net.URLDecoder;
 
 import org.junit.Test;
 
+import com.huawei.streaming.cql.parser.ApplicationParseTest;
+
 import static org.junit.Assert.fail;
 
 /**
@@ -54,8 +56,36 @@ public class CQLClientTest
     /**
      * 测试用例
      *
-     * @throws IOException 测试异常
-     * @throws ReflectiveOperationException 反射异常
+     */
+    @Test
+    public void testLoadFile()
+        throws Exception
+    {
+        setDir();
+        String f = inPutDir + "simple" + CQLTestCommons.INPUT_POSTFIX;
+        String[] arg = {"-f", f};
+        
+        int result = CQLSessionState.STATE_OK;
+        CQLClient client = new CQLClient();
+        
+        result = client.initSessionState();
+        if (result != CQLSessionState.STATE_OK)
+        {
+            System.exit(result);
+        }
+        
+        if (!client.parseArgs(arg))
+        {
+            System.exit(CQLSessionState.STATE_NORMAL_EXIT);
+        }
+        
+        result = client.executeDriver();
+        assertTrue(result == 0);
+    }
+    
+    /**
+     * 测试用例
+     *
      */
     @Test
     public void testSubmit()
@@ -110,7 +140,7 @@ public class CQLClientTest
     private static void setDir()
         throws UnsupportedEncodingException
     {
-        String classPath = CQLClientTest.class.getResource("/").getPath();
+        String classPath = ApplicationParseTest.class.getResource("/").getPath();
         classPath = URLDecoder.decode(classPath, "UTF-8");
         inPutDir = classPath + BASICPATH;
     }

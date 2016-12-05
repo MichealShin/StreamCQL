@@ -37,10 +37,6 @@ public interface Task
 {
     /**
      * 初始化
-     * @param driverContext drive让对象中的解析结果
-     * @param config 配置属性
-     * @param analyzeHooks 语义分析的钩子
-     * @throws CQLException 解析异常
      */
     void init(DriverContext driverContext, StreamingConfig config, List<SemanticAnalyzeHook> analyzeHooks)
         throws CQLException;
@@ -49,33 +45,23 @@ public interface Task
      * 任务执行接口
      * 由于LazyTask的存在，部分任务是延迟处理的，
      * 所以该接口返回值为空，另外设置getResult接口获取task执行结果
-     * @param parseContext 语法解析内容
-     * @throws CQLException 解析异常
      */
     void execute(ParseContext parseContext)
         throws CQLException;
     
     /**
      * 获取解析结果
-     * @return 解析结果
      */
     CQLResult getResult();
     
     /**
      * 语义分析之前执行的动作
-     * @param context driver实例中保存的临时对象
-     * @param parseContext 语法解析内容
-     * @throws SemanticAnalyzerException 语义分析异常
      */
     void preAnalyze(DriverContext context, ParseContext parseContext)
         throws SemanticAnalyzerException;
     
     /**
      * 语义分析之后执行的动作
-     * @param context driver实例中保存的临时对象
-     * @param analyzeConext 语义分析结果
-     * @param parseContext 语法解析内容
-     * @throws SemanticAnalyzerException 语义分析异常
      */
     void postAnalyze(DriverContext context, AnalyzeContext analyzeConext, ParseContext parseContext)
         throws SemanticAnalyzerException;

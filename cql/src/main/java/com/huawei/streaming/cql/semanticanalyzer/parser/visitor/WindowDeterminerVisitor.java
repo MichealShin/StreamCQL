@@ -58,6 +58,37 @@ public class WindowDeterminerVisitor extends AbsCQLParserBaseVisitor<WindowDeter
         context.setPartitionByExpression(visitor.visit(ctx));
         return context;
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WindowDeterminerContext visitSortbyDeterminer(@NotNull CQLParser.SortbyDeterminerContext ctx)
+    {
+        SortbyDeterminerVisitor visitor = new SortbyDeterminerVisitor();
+        context.setSortbyDeterminer(visitor.visit(ctx));
+        return context;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WindowDeterminerContext visitTriggerbyDeterminer(@NotNull CQLParser.TriggerbyDeterminerContext ctx)
+    {
+        TriggerbyDeterminerVisitor visitor = new TriggerbyDeterminerVisitor();
+        context.setTriggerbyExpression(visitor.visit(ctx));
+        return context;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WindowDeterminerContext visitExcludeNowDeterminer(@NotNull CQLParser.ExcludeNowDeterminerContext ctx)
+    {
+        context.setExcludeNow(true);
+        return context;
+    }
     
 }

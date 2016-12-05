@@ -60,8 +60,6 @@ public abstract class BaseAnalyzer implements SemanticAnalyzer
     
     /**
      * <默认构造函数>
-     * @param parseContext 语法解析内容
-     * @throws SemanticAnalyzerException 语义分析内容
      */
     public BaseAnalyzer(ParseContext parseContext)
         throws SemanticAnalyzerException
@@ -110,7 +108,6 @@ public abstract class BaseAnalyzer implements SemanticAnalyzer
      * getAnalyzeContext的接口主要作用在于让当前的抽象类可以自动执行接口方法
      * 不会去解析对象内部的内容是否完整。
      * analyze接口返回值里面包含了语义分析的完整结果。
-     * @return 语义分析结果对象
      */
     protected abstract AnalyzeContext getAnalyzeContext();
     
@@ -121,9 +118,6 @@ public abstract class BaseAnalyzer implements SemanticAnalyzer
     
     /**
      * 通过名称获取schema
-     * @param name 名称
-     * @return schema
-     * @throws SemanticAnalyzerException 语义分析异常
      */
     protected Schema getSchemaByName(String name)
         throws SemanticAnalyzerException
@@ -144,10 +138,6 @@ public abstract class BaseAnalyzer implements SemanticAnalyzer
     
     /**
      * 通过明名称获取schema
-     * @param name 名称
-     * @param schemas schema列表
-     * @return schema
-     * @throws SemanticAnalyzerException 语义分析异常
      */
     public static Schema getSchemaByName(String name, List<Schema> schemas)
         throws SemanticAnalyzerException
@@ -170,7 +160,6 @@ public abstract class BaseAnalyzer implements SemanticAnalyzer
      * 修改schema中每个属性的shcmea名称
      * 统一schmea的名称和列名称，均为小写。
      * 
-     * @param schemas 待检查的schema
      */
     public static void setSchemaNameInAttributes(List<Schema> schemas)
     {
@@ -186,8 +175,6 @@ public abstract class BaseAnalyzer implements SemanticAnalyzer
     
     /**
      * 检查schema是否存在
-     * @param name schema名称
-     * @return 如果存在，返回true
      */
     protected boolean checkSchemaExists(String name)
     {
@@ -204,8 +191,6 @@ public abstract class BaseAnalyzer implements SemanticAnalyzer
     /**
      * 检查Stream
      * 主要是检查stream中有没有重名的schema名称或者schema别名
-     * @param schemasInCQL 语义分析中用到的schema信息
-     * @throws SemanticAnalyzerException schema名称存在重复
      */
     protected void checkSchemas(List<Schema> schemasInCQL)
         throws SemanticAnalyzerException
@@ -230,9 +215,6 @@ public abstract class BaseAnalyzer implements SemanticAnalyzer
     
     /**
      * 对于已经存在的列，重名的列，自动重命名
-     * @param schema 已经解析出来的列的schema信息
-     * @param colName 列名称
-     * @return 新的列名称
      */
     protected String renameNewName(Schema schema, String colName)
     {
@@ -258,8 +240,6 @@ public abstract class BaseAnalyzer implements SemanticAnalyzer
     
     /**
      * 对于通过表达式计算出来的列，需要创建新的列
-     * @param schema 已经解析出来的列的schema信息
-     * @return 新的列名称
      */
     protected String createNewName(Schema schema)
     {
@@ -281,8 +261,6 @@ public abstract class BaseAnalyzer implements SemanticAnalyzer
     /**
      * 获取一个schema中所有的属性
      * 
-     * @param schema schema
-     * @return 属性列表
      */
     public static List<Column> getAttributes(Schema schema)
     {
@@ -292,8 +270,6 @@ public abstract class BaseAnalyzer implements SemanticAnalyzer
     /**
      * 获取所有流的所有的属性
      * 适用于select *
-     * @param schemas schema列表
-     * @return 所有的属性列表
      */
     protected static List<Column> getAllAttributes(List<Schema> schemas)
     {
@@ -326,10 +302,6 @@ public abstract class BaseAnalyzer implements SemanticAnalyzer
      * 通过属性名获取属性
      * 可能包含多个
      * 
-     * @param attrName 属性名称
-     * @param schema 待查找的schema
-     * @param schemas schema列表
-     * @return 获取到的属性列表
      */
     public static List<Column> getAttributeByName(String attrName, Schema schema, List<Schema> schemas)
     {
@@ -350,9 +322,6 @@ public abstract class BaseAnalyzer implements SemanticAnalyzer
      * 通过属性名获取属性
      * 可能包含多个
      * 
-     * @param attrName 属性名称
-     * @param schemas schema列表
-     * @return 获取到的属性列表
      */
     public static List<Column> getAttributeByName(String attrName, List<Schema> schemas)
     {

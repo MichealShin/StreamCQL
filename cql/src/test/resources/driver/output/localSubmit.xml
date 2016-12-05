@@ -1,7 +1,7 @@
 <Definitions>
   <Application id="simple">
     <confs>
-      <property key="operator.kafka.brokers" value="158.1.130.12:9092"/>
+      <property key="operator.kafka.brokers" value="192.168.0.2:9092"/>
     </confs>
     <Schemas>
       <Schema id="s" name="s">

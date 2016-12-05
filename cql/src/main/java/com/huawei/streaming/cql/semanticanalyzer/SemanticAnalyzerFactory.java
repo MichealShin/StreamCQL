@@ -43,10 +43,6 @@ public class SemanticAnalyzerFactory
     /**
      * 创建语义分析器
      *
-     * @param parseContext 语法解析内容
-     * @param schemas schema列表
-     * @return 语义分析器
-     * @throws SemanticAnalyzerException 语义分析异常
      */
     public static SemanticAnalyzer createAnalyzer(ParseContext parseContext, List<Schema> schemas)
         throws SemanticAnalyzerException

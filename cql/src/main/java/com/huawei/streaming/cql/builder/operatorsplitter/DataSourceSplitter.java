@@ -56,7 +56,6 @@ public class DataSourceSplitter extends SelectSplitter
     /**
      * <默认构造函数>
      *
-     * @param buildUtils builder中的一些公共数据
      */
     public DataSourceSplitter(BuilderUtils buildUtils)
     {
@@ -181,8 +180,6 @@ public class DataSourceSplitter extends SelectSplitter
      * 则会报编译错误: "ORA-25154: column part of USING clause cannot have qualifier"
      * 或 "ORA-25155: column used in NATURAL join cannot have qualifier".
      *
-     * @param joinExpressionDesc join表达式描述
-     * @throws ApplicationBuildException 检查异常
      */
     private void checkNaturalJoin(JoinExpressionDesc joinExpressionDesc)
         throws ApplicationBuildException

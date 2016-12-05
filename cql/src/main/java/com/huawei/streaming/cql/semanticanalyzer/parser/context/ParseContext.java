@@ -45,25 +45,18 @@ public abstract class ParseContext
     
     /**
      * 创建对应语句的执行task
-     * @param driverContext driver保存结果
-     * @param analyzeHooks 语义分析的钩子
-     * @return task的实例
-     * @throws CQLException CQL通用异常
      */
     public abstract Task createTask(DriverContext driverContext, List<SemanticAnalyzeHook> analyzeHooks)
         throws CQLException;
     
     /**
      * 创建语义分析执行解析器
-     * @return 语义分析解析器
-     * @throws SemanticAnalyzerException 语义分析异常
      */
     public abstract SemanticAnalyzer createAnalyzer()
         throws SemanticAnalyzerException;
     
     /**
      * 遍历自身以及子表达式
-     * @param walker 遍历判断逻辑
      */
     public void walk(ParseContextWalker walker)
     {
@@ -75,8 +68,6 @@ public abstract class ParseContext
     
     /**
      * 遍历表达式
-     * @param walker 遍历实现类
-     * @param parseContext 解析内容
      */
     protected void walkExpression(ParseContextWalker walker, ParseContext parseContext)
     {
@@ -93,8 +84,6 @@ public abstract class ParseContext
     
     /**
      * 遍历表达式列表
-     * @param walker 遍历器
-     * @param expressions 表达式列表
      */
     protected void walkExpressions(ParseContextWalker walker, List<BaseExpressionParseContext> expressions)
     {
@@ -106,7 +95,6 @@ public abstract class ParseContext
     
     /**
      * 遍历子节点的时候，一定要保证每个子节点都遍历到，不能因为一个已经匹配，就不遍历其他节点
-     * @param walker 遍历器
      */
     protected abstract void walkChild(ParseContextWalker walker);
 }

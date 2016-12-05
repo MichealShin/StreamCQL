@@ -1,0 +1,66 @@
+<Definitions>
+  <Application id="combinetest">
+    <confs>
+      <property key="operator.kafka.brokers" value="192.168.0.2:9092"/>
+      <property key="operator.kafka.messageserializerclass" value="kafka.serializer.StringEncoder"/>
+      <property key="operator.kafka.zksessiontimeout" value="20000"/>
+      <property key="operator.kafka.zksynctime" value="20000"/>
+      <property key="operator.kafka.zookeepers" value="localhost:2181,192.168.0.2:2181"/>
+      <property key="serde.simpleserde.separator" value=","/>
+    </confs>
+    <Schemas>
+      <Schema id="s1" name="s1">
+        <attribute name="country" type="java.lang.String"/>
+        <attribute name="sex" type="java.lang.Integer"/>
+        <attribute name="population" type="java.lang.Long"/>
+      </Schema>
+      <Schema id="s2" name="s2">
+        <attribute name="country" type="java.lang.String"/>
+        <attribute name="sex" type="java.lang.Integer"/>
+        <attribute name="population" type="java.lang.Long"/>
+      </Schema>
+      <Schema id="s3" name="s3">
+        <attribute name="country" type="java.lang.String"/>
+        <attribute name="sex" type="java.lang.Integer"/>
+        <attribute name="population" type="java.lang.Long"/>
+      </Schema>
+      <Schema id="output_case_when" name="output_case_when">
+        <attribute name="country" type="java.lang.String"/>
+        <attribute name="malep" type="java.lang.Long"/>
+        <attribute name="femalep" type="java.lang.Long"/>
+      </Schema>
+    </Schemas>
+    <Operators>
+      <KafkaInput id="KafkaInput_001" parallel="1">
+        <deserializer class="SimpleSerDe"/>
+        <groupId>gidkpi_1_1</groupId>
+        <topic>case_when_in</topic>
+      </KafkaInput>
+      <KafkaInput id="KafkaInput_002" parallel="1">
+        <deserializer class="SimpleSerDe"/>
+        <groupId>gidkpi_1_1</groupId>
+        <topic>case_when_in</topic>
+      </KafkaInput>
+      <KafkaInput id="KafkaInput_003" parallel="1">
+        <deserializer class="SimpleSerDe"/>
+        <groupId>gidkpi_1_1</groupId>
+        <topic>case_when_in</topic>
+      </KafkaInput>
+      <KafkaOutput id="KafkaOutput_004" parallel="1">
+        <serializer class="SimpleSerDe"/>
+        <topic>case_when_out</topic>
+      </KafkaOutput>
+      <Combiner id="Combiner_005" parallel="1">
+        <outputExpression>s1.country, s2.population, s3.population</outputExpression>
+        <combineProperties>s1.sex,s2.sex,s3.sex</combineProperties>
+        <orderedStreams>s1,s2,s3</orderedStreams>
+      </Combiner>
+    </Operators>
+    <Transitions>
+      <Transition name="st_001" from="KafkaInput_001" to="Combiner_005" distributedType="FIELDS" distributedFields="s1.sex" schemaName="s1"/>
+      <Transition name="st_002" from="KafkaInput_002" to="Combiner_005" distributedType="FIELDS" distributedFields="s2.sex" schemaName="s2"/>
+      <Transition name="st_003" from="KafkaInput_003" to="Combiner_005" distributedType="FIELDS" distributedFields="s3.sex" schemaName="s3"/>
+      <Transition name="st_007" from="Combiner_005" to="KafkaOutput_004" distributedType="SHUFFLE" schemaName="output_case_when"/>
+    </Transitions>
+  </Application>
+</Definitions>

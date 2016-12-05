@@ -73,8 +73,6 @@ public class SelectStatementAnalyzer extends BaseAnalyzer
     /**
      * <默认构造函数>
      *
-     * @param parseContext 语法解析内容
-     * @throws SemanticAnalyzerException 语义分析内容
      */
     public SelectStatementAnalyzer(ParseContext parseContext)
         throws SemanticAnalyzerException
@@ -389,8 +387,6 @@ public class SelectStatementAnalyzer extends BaseAnalyzer
      * 该schema，最后面一定是输入schema
      * 第一位是输出schema
      *
-     * @return 混合schema列表
-     * @throws SemanticAnalyzerException
      */
     private List<Schema> getMixedSchemas()
         throws SemanticAnalyzerException

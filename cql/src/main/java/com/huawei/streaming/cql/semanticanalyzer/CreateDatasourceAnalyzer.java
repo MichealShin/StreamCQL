@@ -19,7 +19,6 @@
 package com.huawei.streaming.cql.semanticanalyzer;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -27,12 +26,13 @@ import com.google.common.collect.Maps;
 import com.huawei.streaming.api.AnnotationUtils;
 import com.huawei.streaming.cql.exception.SemanticAnalyzerException;
 import com.huawei.streaming.cql.mapping.InputOutputOperatorMapping;
+import com.huawei.streaming.cql.mapping.SimpleLexer;
 import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.AnalyzeContext;
 import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.CreateDataSourceAnalyzeContext;
-import com.huawei.streaming.cql.semanticanalyzer.parser.context.CreateDataSourceContext;
-import com.huawei.streaming.cql.semanticanalyzer.parser.context.KeyValuePropertyContext;
-import com.huawei.streaming.cql.semanticanalyzer.parser.context.ParseContext;
-import com.huawei.streaming.cql.semanticanalyzer.parser.context.StreamPropertiesContext;
+import com.huawei.streaming.cql.semanticanalyzer.parser.context.*;
+import com.huawei.streaming.exception.ErrorCode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * create datasource 语义分析
@@ -40,6 +40,8 @@ import com.huawei.streaming.cql.semanticanalyzer.parser.context.StreamProperties
  */
 public class CreateDatasourceAnalyzer extends BaseAnalyzer
 {
+    private static final Logger LOG = LoggerFactory.getLogger(CreateDatasourceAnalyzer.class);
+
     private CreateDataSourceAnalyzeContext analyzeContext = null;
     
     private CreateDataSourceContext context;
@@ -47,8 +49,6 @@ public class CreateDatasourceAnalyzer extends BaseAnalyzer
     /**
      * <默认构造函数>
      *
-     * @param parseContext 语法解析内容
-     * @throws SemanticAnalyzerException 语义分析内容
      */
     public CreateDatasourceAnalyzer(ParseContext parseContext)
         throws SemanticAnalyzerException
@@ -64,6 +64,7 @@ public class CreateDatasourceAnalyzer extends BaseAnalyzer
     public AnalyzeContext analyze()
         throws SemanticAnalyzerException
     {
+        analyzeContext.setDataSourceClass(getDataSourceClass());
         parseStreamProperties();
         TreeMap<String, String> conf = convertSourceSimpleConf(analyzeContext.getDataSourceConfig());
         analyzeContext.setDatasourceConfigs(conf);
@@ -109,7 +110,7 @@ public class CreateDatasourceAnalyzer extends BaseAnalyzer
         
         for (Map.Entry<String, String> et : serdeProperties.entrySet())
         {
-            String fullName = et.getKey().toLowerCase(Locale.US);
+            String fullName = et.getKey();
             String value = et.getValue();
             if (configMapping.containsKey(fullName))
             {
@@ -142,5 +143,26 @@ public class CreateDatasourceAnalyzer extends BaseAnalyzer
         }
         
         analyzeContext.setDatasourceConfigs(properties);
+    }
+
+    private String getDataSourceClass()
+        throws SemanticAnalyzerException
+    {
+        ClassNameContext className = context.getDataSourceClassName();
+        if (className.isInnerClass())
+        {
+            String clazzName = className.getClassName();
+            String fullName = SimpleLexer.DATASOURCE.getFullName(clazzName);
+            if (fullName == null)
+            {
+                SemanticAnalyzerException exception =
+                    new SemanticAnalyzerException(ErrorCode.SEMANTICANALYZE_UNMATCH_OPERATOR, clazzName);
+                LOG.error("The '{}' operator type does not match.", clazzName);
+                throw exception;
+            }
+            return fullName;
+        }
+
+        return className.getClassName();
     }
 }

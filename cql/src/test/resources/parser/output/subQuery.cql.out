@@ -1,0 +1,36 @@
+##sqlstart:
+select * from S1 order by id asc
+##sqlend
+SELECT * FROM s1 ORDER BY id ASC
+##sqlstart:
+select * from S1[range 10 milliseconds batch] order by id asc
+##sqlend
+SELECT * FROM s1[RANGE 10 MILLISECONDS BATCH ] ORDER BY id ASC
+##sqlstart:
+select * from S1[range 10 milliseconds batch]  SS order by id asc
+##sqlend
+SELECT * FROM s1[RANGE 10 MILLISECONDS BATCH ] AS ss ORDER BY id ASC
+##sqlstart:
+select * from (select * from S1[range 10 milliseconds batch] )[range 10 milliseconds batch]  SS order by id asc
+##sqlend
+SELECT * FROM ( SELECT * FROM s1[RANGE 10 MILLISECONDS BATCH ] )[RANGE 10 MILLISECONDS BATCH ] AS ss ORDER BY id ASC
+##sqlstart:
+select * from (select * from S1[range 10 milliseconds batch] )[range 10 milliseconds batch]  order by id asc
+##sqlend
+SELECT * FROM ( SELECT * FROM s1[RANGE 10 MILLISECONDS BATCH ] )[RANGE 10 MILLISECONDS BATCH ] ORDER BY id ASC
+##sqlstart:
+select * from S1[range 10 milliseconds batch]  as a inner join S2[range unbounded] order by id asc
+##sqlend
+SELECT * FROM s1[RANGE 10 MILLISECONDS BATCH ] AS a INNER JOIN s2[RANGE UNBOUNDED ] ORDER BY id ASC
+##sqlstart:
+select * from (select * from s1)[range 10 milliseconds batch]  as a inner join (select * from S2)[range unbounded] order by id asc
+##sqlend
+SELECT * FROM ( SELECT * FROM s1 )[RANGE 10 MILLISECONDS BATCH ] AS a INNER JOIN ( SELECT * FROM s2 )[RANGE UNBOUNDED ] ORDER BY id ASC
+##sqlstart:
+select * from S1(s1.id>10)[range 10 milliseconds batch]  as a inner join S2[range unbounded] order by id asc
+##sqlend
+SELECT * FROM s1( s1.id > 10 )[RANGE 10 MILLISECONDS BATCH ] AS a INNER JOIN s2[RANGE UNBOUNDED ] ORDER BY id ASC
+##sqlstart:
+select * from (select * from s1)(s1.id>10)[range 10 milliseconds batch]  as a inner join (select * from S2)[range unbounded] order by id asc
+##sqlend
+SELECT * FROM ( SELECT * FROM s1 )( s1.id > 10 )[RANGE 10 MILLISECONDS BATCH ] AS a INNER JOIN ( SELECT * FROM s2 )[RANGE UNBOUNDED ] ORDER BY id ASC

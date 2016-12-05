@@ -44,7 +44,6 @@ public abstract class ExpressionsAnalyzeContext extends AnalyzeContext
     
     /**
      * 添加表达式
-     * @param expression 表达式
      */
     public void addExpressionDesc(ExpressionDescribe expression)
     {

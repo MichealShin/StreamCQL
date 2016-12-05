@@ -114,14 +114,14 @@ public class FilterPruner implements Optimizer
         List<OperatorTransition> fromTransitions = ExecutorUtils.getTransitonsByToId(operatorId, transitions);
         List<OperatorTransition> toTransitions = ExecutorUtils.getTransitonsByFromId(operatorId, transitions);
         
-        if (fromTransitions == null || fromTransitions.size() == 0 || fromTransitions.size() > 1)
+        if (fromTransitions.size() != 1)
         {
             LOG.error("Filter operator only allows one input stream and one output stream.");
             ApplicationBuildException exception = new ApplicationBuildException(ErrorCode.UNKNOWN_SERVER_COMMON_ERROR);
             throw exception;
         }
         
-        if (toTransitions == null || toTransitions.size() == 0 || toTransitions.size() > 1)
+        if (toTransitions.size() != 1)
         {
             LOG.error("Filter operator only allows one input stream and one output stream.");
             ApplicationBuildException exception = new ApplicationBuildException(ErrorCode.UNKNOWN_SERVER_COMMON_ERROR);
@@ -142,17 +142,17 @@ public class FilterPruner implements Optimizer
          * 修改from operator算子中的流名称，如果有
          */
         Operator operator = ExecutorUtils.getOperatorById(fromTransition.getFromOperatorId(), app.getOperators());
-        if(operator == null)
+        if (operator == null)
         {
             throw new ApplicationBuildException(ErrorCode.TOP_TRANSITION_FROM, fromTransition.getFromOperatorId());
         }
 
-        if(operator instanceof SplitterOperator)
+        if (operator instanceof SplitterOperator)
         {
             SplitterOperator spliter = (SplitterOperator)operator;
-            for(SplitterSubContext sub : spliter.getSubSplitters())
+            for (SplitterSubContext sub : spliter.getSubSplitters())
             {
-                if(sub.getStreamName().equals(fromTransition.getStreamName()))
+                if (sub.getStreamName().equals(fromTransition.getStreamName()))
                 {
                     sub.setStreamName(toTransition.getStreamName());
                 }

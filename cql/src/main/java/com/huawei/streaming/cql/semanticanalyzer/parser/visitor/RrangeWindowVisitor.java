@@ -66,5 +66,13 @@ public class RrangeWindowVisitor extends AbsCQLParserBaseVisitor<WindowSourceCon
         return context;
     }
     
-
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WindowSourceContext visitRangeToday(@NotNull CQLParser.RangeTodayContext ctx)
+    {
+        return context;
+    }
+    
 }

@@ -22,7 +22,6 @@ import com.huawei.streaming.cql.semanticanalyzer.parser.CQLParserBaseVisitor;
 
 /**
  * cql 语法遍历
- * @param <T> 语法解析返回结果对象
  */
 public abstract class AbsCQLParserBaseVisitor<T> extends CQLParserBaseVisitor<T>
 {

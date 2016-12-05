@@ -28,33 +28,29 @@ import com.huawei.streaming.window.IWindow;
 
 /**
  * 窗口信息
- * 
+ *
  */
 public class WindowInfo
 {
     private String widowName;
-    
+
     private boolean isNative = false;
-    
+
     private Class< ? extends IWindow> instanceClass = null;
-    
+
     private Class< ? extends WindowCreator> createrClass = null;
-    
+
     private List<String> args = null;
-    
+
     /**
      * 是否是滑动窗口
      * 如果是用户自定义窗口，一定是null
      * 系统内部的窗口，都是已经定义好的
      */
     private Boolean isSlide = null;
-    
+
     /**
      * <默认构造函数>
-     * @param winName 窗口名称
-     * @param instantce 窗口实例类
-     * @param creater 窗口创建器
-     * @param args 窗口参数
      */
     public WindowInfo(String winName, Class< ? extends IWindow> instantce, Class< ? extends WindowCreator> creater,
         String args)
@@ -66,71 +62,71 @@ public class WindowInfo
             String[] argarr = args.trim().split(",");
             windowArgs = Arrays.asList(argarr);
         }
-        
+
         this.instanceClass = instantce;
         this.createrClass = creater;
         this.args = windowArgs;
-        
+
     }
-    
+
     public Class< ? extends IWindow> getInstanceClass()
     {
         return instanceClass;
     }
-    
+
     public void setInstanceClass(Class< ? extends IWindow> instanceClass)
     {
         this.instanceClass = instanceClass;
     }
-    
+
     public Class< ? extends WindowCreator> getCreatorClass()
     {
         return createrClass;
     }
-    
+
     public void setCreatorClass(Class< ? extends WindowCreator> creatorClass)
     {
         this.createrClass = creatorClass;
     }
-    
+
     public List<String> getArgs()
     {
         return args;
     }
-    
+
     public void setArgs(List<String> args)
     {
         this.args = args;
     }
-    
+
     public boolean isNative()
     {
         return isNative;
     }
-    
+
     public void setNative(boolean isnative)
     {
         this.isNative = isnative;
     }
-    
+
     public String getWidowName()
     {
         return widowName;
     }
-    
+
     public void setWidowName(String widowName)
     {
         this.widowName = widowName;
     }
-    
+
     public Boolean getIsSlide()
     {
         return isSlide;
     }
-    
+
     public void setIsSlide(Boolean isSlide)
     {
         this.isSlide = isSlide;
     }
-    
+
 }

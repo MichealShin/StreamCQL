@@ -1,7 +1,7 @@
 set "streaming.storm.submit.islocal" = "true";
 
-set "operator.kafka.brokers" = "158.1.130.12:9092";
-set "operator.kafka.zookeepers" = "158.1.130.12:2181";
+set "operator.kafka.brokers" = "192.168.0.2:9092";
+set "operator.kafka.zookeepers" = "192.168.0.2:2181";
 set "operator.kafka.zksessiontimeout" = "20000";
 set "operator.kafka.zksynctime" = "20000";
 set "operator.kafka.messageserializerclass" = "kafka.serializer.StringEncoder";

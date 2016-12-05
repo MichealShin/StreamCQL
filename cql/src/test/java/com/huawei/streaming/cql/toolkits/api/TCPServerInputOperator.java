@@ -42,8 +42,6 @@ public class TCPServerInputOperator extends InnerInputSourceOperator
     
     /**
      * <默认构造函数>
-     * @param id 算子id
-     * @param parallelNumber 算子并行度
      */
     public TCPServerInputOperator(String id, int parallelNumber)
     {

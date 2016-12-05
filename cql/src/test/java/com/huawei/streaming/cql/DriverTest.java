@@ -18,6 +18,17 @@
 
 package com.huawei.streaming.cql;
 
+import com.huawei.streaming.api.opereators.KafkaInputOperator;
+import com.huawei.streaming.api.opereators.KafkaOutputOperator;
+import com.huawei.streaming.cql.executor.PhysicalPlanLoader;
+import com.huawei.streaming.cql.mapping.SimpleLexer;
+import com.huawei.streaming.cql.mapping.InputOutputOperatorMapping;
+import com.huawei.streaming.cql.toolkits.operators.TCPServerInputOperator;
+import com.huawei.streaming.operator.inputstream.KafkaSourceOp;
+import com.huawei.streaming.operator.outputstream.KafkaFunctionOp;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -30,12 +41,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.huawei.streaming.cql.executor.PhysicalPlanLoader;
-import com.huawei.streaming.cql.mapping.CQLSimpleLexerMapping;
-import com.huawei.streaming.cql.mapping.InputOutputOperatorMapping;
-import com.huawei.streaming.cql.toolkits.operators.TCPServerInputOperator;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import com.huawei.streaming.cql.parser.ApplicationParseTest;
 
 /**
  * Driver正常测试用例
@@ -71,23 +77,24 @@ public class DriverTest
     /**
      * 初始化测试类之前要执行的初始化方法
      *
-     * @throws Exception 初始化中可能抛出的异常
      */
     @BeforeClass
     public static void setUpBeforeClass()
      throws Exception
     {
-        CQLSimpleLexerMapping.registerOperator("TCPServerInput", TCPServerInputOperator.class);
+        SimpleLexer.registerInputOperator("TCPServerInput", TCPServerInputOperator.class);
         PhysicalPlanLoader.registerPhysicalPlanAlias("TCPServerInput",
          com.huawei.streaming.cql.toolkits.api.TCPServerInputOperator.class);
         InputOutputOperatorMapping.registerOperator(
          com.huawei.streaming.cql.toolkits.api.TCPServerInputOperator.class,
          com.huawei.streaming.cql.toolkits.operators.TCPServerInputOperator.class);
+
         setDir();
         /*
          * 清空结果文件夹内容
          */
         CQLTestCommons.emptyDir(new File(resultPutDir));
+
     }
 
     private static void removeTmpDir(File tmpDir)
@@ -106,7 +113,7 @@ public class DriverTest
     private static void setDir()
      throws UnsupportedEncodingException
     {
-        String classPath = DriverTest.class.getResource("/").getPath();
+        String classPath = ApplicationParseTest.class.getResource("/").getPath();
         classPath = URLDecoder.decode(classPath, "UTF-8");
         inPutDir = classPath + BASICPATH + CQLTestCommons.INPUT_DIR_NAME + File.separator;
         outPutDir = classPath + BASICPATH + CQLTestCommons.OUTPUT_DIR_NAME + File.separator;
@@ -116,13 +123,12 @@ public class DriverTest
     /**
      * 所有测试用例执行完毕之后执行的方法
      *
-     * @throws Exception 执行异常
      */
     @AfterClass
     public static void tearDownAfterClass()
      throws Exception
     {
-        CQLSimpleLexerMapping.unRegisterSimpleLexerMapping("TCPServerInput");
+        SimpleLexer.unRegisterInput("TCPServerInput");
         PhysicalPlanLoader.unRegisterPhysicalPlanAlias("TCPServerInput");
         InputOutputOperatorMapping.unRegisterMapping(
          com.huawei.streaming.cql.toolkits.api.TCPServerInputOperator.class);
@@ -134,7 +140,17 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
+     */
+    @Test
+    public void testSimple()
+     throws Exception
+    {
+        executeCase("simple");
+    }
+
+    /**
+     * 测试
+     *
      */
     @Test
     public void testAggregate()
@@ -146,7 +162,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testAggregate2()
@@ -158,7 +173,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testAggregate3()
@@ -171,7 +185,83 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
+     */
+    @Test
+    public void testJoin()
+     throws Exception
+    {
+        executeCase("join");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testJoin2()
+     throws Exception
+    {
+        executeCase("join2");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testJoin3()
+     throws Exception
+    {
+        executeCase("join3");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testJoin5()
+     throws Exception
+    {
+        executeCase("join5");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testJoin6()
+     throws Exception
+    {
+        executeCase("join6");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testJoin7()
+     throws Exception
+    {
+        executeCase("join7");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testJoin8()
+     throws Exception
+    {
+        executeCase("selfJoin");
+    }
+
+    /**
+     * 测试
+     *
      */
     @Test
     public void testJoin9()
@@ -183,7 +273,61 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
+     */
+    @Test
+    public void testJoin10()
+     throws Exception
+    {
+        executeCase("selfJoin2");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testJoin11()
+     throws Exception
+    {
+        executeCase("selfJoin3");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testJoin12()
+     throws Exception
+    {
+        executeCase("selfJoin4");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testJoin13()
+     throws Exception
+    {
+        executeCase("selfJoin5");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testJoin14()
+     throws Exception
+    {
+        executeCase("join8");
+    }
+
+    /**
+     * 测试
+     *
      */
     @Test
     public void testGroupby1()
@@ -195,7 +339,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testGroupby2()
@@ -207,7 +350,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testFilterBeforeWindow()
@@ -219,7 +361,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testFilterBeforeWindow2()
@@ -231,7 +372,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testWhereLengthSlide()
@@ -243,7 +383,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testAggregateFilter()
@@ -255,7 +394,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testAggregateFilter2()
@@ -267,7 +405,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testChineline()
@@ -279,7 +416,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testConfs()
@@ -291,7 +427,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testLocalSubmit()
@@ -303,7 +438,28 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
+     */
+    @Test
+    public void testFunctionCase1()
+     throws Exception
+    {
+        executeCase("functionCase1");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testFunctionWhen1()
+     throws Exception
+    {
+        executeCase("functionWhen1");
+    }
+
+    /**
+     * 测试
+     *
      */
     @Test
     public void testFunctionCount()
@@ -315,7 +471,50 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
+     */
+    @Test
+    public void testHaving1()
+     throws Exception
+    {
+        executeCase("having1");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testHaving2()
+     throws Exception
+    {
+        executeCase("having2");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testHaving3()
+     throws Exception
+    {
+        executeCase("having3");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testHaving4()
+     throws Exception
+    {
+        executeCase("having4");
+    }
+
+    /**
+     * 测试
+     *
      */
     @Test
     public void testSortby()
@@ -327,7 +526,39 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
+     */
+    @Test
+    public void testSortby1()
+     throws Exception
+    {
+        executeCase("sortby1");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testSortby2()
+     throws Exception
+    {
+        executeCase("sortby2");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testSortby3()
+     throws Exception
+    {
+        executeCase("sortby3");
+    }
+
+    /**
+     * 测试
+     *
      */
     @Test
     public void testLimit()
@@ -339,7 +570,17 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
+     */
+    @Test
+    public void testOutputWhereEventTbatch()
+     throws Exception
+    {
+        executeCase("output_where_event_tbatch");
+    }
+
+    /**
+     * 测试
+     *
      */
     @Test
     public void testSubQuery1()
@@ -351,7 +592,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testSubQuery2()
@@ -363,7 +603,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testSubQuery3()
@@ -375,7 +614,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testSubQuery4()
@@ -387,7 +625,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testSubQuery5()
@@ -399,7 +636,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testSubQuery6()
@@ -411,7 +647,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testSubQuery7()
@@ -423,7 +658,94 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
+     */
+    @Test
+    public void testFunctionIn()
+     throws Exception
+    {
+        executeCase("functionIn");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testFunctionNot()
+     throws Exception
+    {
+        executeCase("functionNot");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testNotLike()
+     throws Exception
+    {
+        executeCase("not_like");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testAppCaseWhen()
+     throws Exception
+    {
+        executeCase("app_case_when");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testPrevious1()
+     throws Exception
+    {
+        executeCase("previous1");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testCombine1()
+     throws Exception
+    {
+        executeCase("combine1");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testCombine2()
+     throws Exception
+    {
+        executeCase("combine2");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testCombine3()
+     throws Exception
+    {
+        executeCase("combine3");
+    }
+
+    /**
+     * 测试
+     *
      */
     @Test
     public void testSameStream()
@@ -435,7 +757,17 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
+     */
+    @Test
+    public void testUniformSerde()
+     throws Exception
+    {
+        executeCase("UniformSerde");
+    }
+
+    /**
+     * 测试
+     *
      */
     @Test
     public void testAutoCreateStream1()
@@ -447,7 +779,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testAutoCreateStream2()
@@ -459,7 +790,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testCast()
@@ -472,7 +802,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testCast2()
@@ -484,7 +813,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testParallel1()
@@ -496,7 +824,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testParallel2()
@@ -508,7 +835,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testParallel3()
@@ -520,7 +846,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testParallel4()
@@ -532,7 +857,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testParallel5()
@@ -544,7 +868,94 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
+     */
+    @Test
+    public void testPrm()
+     throws Exception
+    {
+        executeCase("prm");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testDataSource()
+     throws Exception
+    {
+        executeCase("datasource");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testDataSource2()
+     throws Exception
+    {
+        executeCase("datasource2");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testDataSource3()
+     throws Exception
+    {
+        executeCase("datasource3");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testDataSource4()
+        throws Exception
+    {
+        executeCase("datasource4");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testDataSource5()
+     throws Exception
+    {
+        executeCase("datasource5");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testDataSource6()
+        throws Exception
+    {
+        executeCase("datasource6");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testDataSource7()
+        throws Exception
+    {
+        executeCase("datasource7");
+    }
+
+    /**
+     * 测试
+     *
      */
     @Test
     public void testDate()
@@ -556,7 +967,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testUserDefinedOperator1()
@@ -568,7 +978,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testUserDefinedOperator2()
@@ -580,7 +989,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testUserDefinedOperator3()
@@ -592,7 +1000,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testSimpleLexer()
@@ -604,7 +1011,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testSimpleLexer3()
@@ -616,7 +1022,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testSimpleLexer2()
@@ -628,7 +1033,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testSimpleAggregate()
@@ -640,7 +1044,204 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
+     */
+    @Test
+    public void testBss()
+     throws Exception
+    {
+        executeCase("bss");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testCase1Perf2()
+     throws Exception
+    {
+        executeCase("case1_perf2");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testSplit()
+     throws Exception
+    {
+        executeCase("split");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testSplit2()
+     throws Exception
+    {
+        executeCase("split2");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testSplit3()
+     throws Exception
+    {
+        executeCase("split3");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testSplit4()
+     throws Exception
+    {
+        executeCase("split4");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testSplit5()
+     throws Exception
+    {
+        executeCase("split5");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testSplit6()
+        throws Exception
+    {
+        executeCase("split6");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testSplit7()
+        throws Exception
+    {
+        executeCase("split7");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testCCC()
+     throws Exception
+    {
+        executeCase("ccc");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testCCC2()
+     throws Exception
+    {
+        executeCase("ccc2");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testCurrentTime()
+     throws Exception
+    {
+        executeCase("currenttime");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testHiSpace()
+     throws Exception
+    {
+        executeCase("HISPACE");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testDistinct()
+     throws Exception
+    {
+        executeCase("distinctCount");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testUnionParallelNumber()
+     throws Exception
+    {
+        executeCase("new_case1_15min_count20_3_perf");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testUDFDistinct()
+     throws Exception
+    {
+        executeCase("udfDistinct");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testTCPClientInput()
+     throws Exception
+    {
+        executeCase("TCPClientInput");
+    }
+
+    /**
+     * 测试
+     *
+     */
+    @Test
+    public void testTCPClientOutput()
+     throws Exception
+    {
+        executeCase("TCPClientOutput");
+    }
+
+    /**
+     * 测试
+     *
      */
     @Test
     public void testKafkaInput()
@@ -652,7 +1253,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testKafkaOutput()
@@ -664,7 +1264,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testPipeLineHaving()
@@ -676,7 +1275,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testUDFDay()
@@ -688,7 +1286,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testDecimalAgg()
@@ -700,7 +1297,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testMultiArithmetic1()
@@ -712,7 +1308,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testMultiArithmetic2()
@@ -724,7 +1319,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testMultiArithmetic3()
@@ -736,7 +1330,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testMultiArithmetic4()
@@ -748,7 +1341,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testMultiArithmetic5()
@@ -760,7 +1352,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testMultiArithmetic6()
@@ -772,7 +1363,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testMultiArithmetic7()
@@ -784,7 +1374,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testMultiArithmetic8()
@@ -796,7 +1385,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testUserOperator1()
@@ -808,7 +1396,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testUserOperator2()
@@ -820,7 +1407,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testUserOperator3()
@@ -832,7 +1418,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testUserOperator4()
@@ -845,7 +1430,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testUserOperator5()
@@ -857,7 +1441,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testUserOperator6()
@@ -869,7 +1452,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testUserOperator7()
@@ -881,7 +1463,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testUserOperator8()
@@ -893,7 +1474,6 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testUserOperator9()
@@ -905,25 +1485,19 @@ public class DriverTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
-    public void testSplit3()
-            throws Exception
+    public void testUDFWithProperties()
+        throws Exception
     {
-        executeCase("split3");
+        executeCase("udfWithProperties");
     }
 
-    /**
-     * 测试
-     *
-     * @throws Exception 如果错误，抛出异常
-     */
     @Test
-    public void testSplit6()
-            throws Exception
+    public void testTimezone1()
+        throws Exception
     {
-        executeCase("split6");
+        executeCase("timezone1");
     }
 
     private void executeCase(String caseName)

@@ -1,4 +1,4 @@
-set 'operator.kafka.zookeepers' = '127.0.0.1:2181';
+set 'operator.kafka.zookeepers' = '192.168.0.2:2181';
 set 'operator.kafka.zksessiontimeout'='20000';
 set 'operator.kafka.zksynctime'='20000';
 set 'operator.kafka.messageserializerclass'='kafka.serializer.StringEncoder';

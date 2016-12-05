@@ -44,7 +44,6 @@ public class SelectClauseAnalyzeContext extends ExpressionsAnalyzeContext
      */
     private boolean isDistinct = false;
     
-    //    private SelectClauseContext context;
     
     /**
      * {@inheritDoc}
@@ -52,7 +51,7 @@ public class SelectClauseAnalyzeContext extends ExpressionsAnalyzeContext
     @Override
     public void setParseContext(ParseContext parseContext)
     {
-        //        context = (SelectClauseContext)parseContext;
+
     }
     
     /**

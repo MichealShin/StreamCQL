@@ -52,7 +52,9 @@ public class UserOperatorTest implements IFunctionStreamOperator
     private Properties properties;
     
     private Map<String, IEmitter> emitters = null;
-    
+
+    private StreamingConfig config;
+
     /**
      * {@inheritDoc}
      */
@@ -67,8 +69,20 @@ public class UserOperatorTest implements IFunctionStreamOperator
         }
         
         fileName = conf.getStringValue(CONF_FILE_NAME);
+        this.config = conf;
     }
-    
+
+    /**
+     * 获取配置属性
+     * 编译时接口
+     *
+     */
+    @Override
+    public StreamingConfig getConfig()
+    {
+        return config;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -166,7 +180,14 @@ public class UserOperatorTest implements IFunctionStreamOperator
         }
         finally
         {
-            Closeables.closeQuietly(reader);
+            try
+            {
+                Closeables.close(reader, true);
+            }
+            catch (IOException e)
+            {
+               //忽略文件流关闭异常
+            }
         }
     }
     

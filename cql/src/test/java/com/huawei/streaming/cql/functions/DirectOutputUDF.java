@@ -39,7 +39,6 @@ public class DirectOutputUDF extends UDF
     /**
      * <默认构造函数>
      *
-     * @param config udf函数中需要的参数，这些参数要在cql中通过全局变量进行设置。
      */
     public DirectOutputUDF(Map< String, String > config)
     {
@@ -52,7 +51,6 @@ public class DirectOutputUDF extends UDF
 
     /**
      * 输出字符串
-     * @return 输出字符串
      */
     public String evaluate()
     {

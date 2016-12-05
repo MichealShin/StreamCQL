@@ -74,7 +74,7 @@ public class DropApplicationAnalyzeContext extends AnalyzeContext
     @Override
     public String toString()
     {
-        return null;
+        return "";
     }
     
     public boolean isCheckExist()

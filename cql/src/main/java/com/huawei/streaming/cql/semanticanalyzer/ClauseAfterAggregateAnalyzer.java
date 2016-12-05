@@ -50,8 +50,6 @@ public abstract class ClauseAfterAggregateAnalyzer extends BaseAnalyzer
     
     /**
      * <默认构造函数>
-     * @param parseContext 语法解析内容
-     * @throws SemanticAnalyzerException 语义分析内容
      */
     public ClauseAfterAggregateAnalyzer(ParseContext parseContext)
         throws SemanticAnalyzerException
@@ -74,8 +72,6 @@ public abstract class ClauseAfterAggregateAnalyzer extends BaseAnalyzer
     /**
      * 遍历AST树，查找树种是否包含和select列表一模一样的树
      * 如果包含，则替换为outputSchema中的列
-     * @param expressionContext 表达式解析内容
-     * @throws SemanticAnalyzerException 语义分析异常
      */
     protected void replaceInputSchemas(ExpressionContext expressionContext)
         throws SemanticAnalyzerException
@@ -99,7 +95,6 @@ public abstract class ClauseAfterAggregateAnalyzer extends BaseAnalyzer
     
     /**
      * 设置select的表达式
-     * @param selects 字符串形式的select表达式列表
      */
     public void addSelectItems(List<SelectItemContext> selects)
     {

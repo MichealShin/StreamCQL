@@ -50,10 +50,6 @@ public class PropertyValueExpressionDesc implements ExpressionDescribe
     
     /**
      * <默认构造函数>
-     * @param property 属性
-     * @param type  属性数据类型
-     * @param schemaid 属性对应schema的id
-     * @param indexInSchemas 在当前查询语句中的schema数组中的索引，即通过这个索引可以找到对应的schema
      */
     public PropertyValueExpressionDesc(String property, Class< ? > type, String schemaid, int indexInSchemas)
     {
@@ -66,9 +62,6 @@ public class PropertyValueExpressionDesc implements ExpressionDescribe
     
     /**
      * <默认构造函数>
-     * @param attr schema中的属性信息
-     * @param schemaid 属性对应schema的id
-     * @param indexInSchemas 在当前查询语句中的schema数组中的索引，即通过这个索引可以找到对应的schema
      */
     public PropertyValueExpressionDesc(Column attr, String schemaid, int indexInSchemas)
     {

@@ -37,9 +37,6 @@ public class ConstUtils
     /**
      * int格式化
      *
-     * @param number 待格式化的字符串
-     * @return 格式化之后的int数字
-     * @throws SemanticAnalyzerException 语义分析异常
      */
     public static Integer formatInt(String number)
         throws SemanticAnalyzerException
@@ -61,14 +58,12 @@ public class ConstUtils
     /**
      * 获取字符串类型的数据类型
      *
-     * @param type 数据类型
-     * @return 字符串类型的数据 类型
      */
     public static String getDataType(Class< ? > type)
     {
         try
         {
-            StreamingDataType dataType =  StreamingDataType.getDataType(type);
+            StreamingDataType dataType =  StreamingDataType.getStreamingDataType(type);
             return dataType.getDesc();
         }
         catch (StreamingException e)

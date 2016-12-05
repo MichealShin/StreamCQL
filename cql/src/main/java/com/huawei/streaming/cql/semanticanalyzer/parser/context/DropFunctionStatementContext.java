@@ -53,7 +53,7 @@ public class DropFunctionStatementContext extends ParseContext
         }
         sb.append(functionName);
         
-        return null;
+        return sb.toString();
     }
     
     /**

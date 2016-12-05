@@ -1,0 +1,28 @@
+##sqlstart:
+from teststream
+    insert into stream s1 select *
+    insert into stream s2 select a
+    insert into stream s3 select id,name  where id > 10
+##sqlend
+FROM teststream INSERT INTO STREAM s1 SELECT * INSERT INTO STREAM s2 SELECT a INSERT INTO STREAM s3 SELECT id, name WHERE id > 10
+##sqlstart:
+from (select * from teststream)
+    insert into stream s1 select *
+    insert into stream s2 select a
+    insert into stream s3 select id,name  where id > 10
+##sqlend
+FROM ( SELECT * FROM teststream ) INSERT INTO STREAM s1 SELECT * INSERT INTO STREAM s2 SELECT a INSERT INTO STREAM s3 SELECT id, name WHERE id > 10
+##sqlstart:
+from (select * from teststream[range 1 seconds slide])
+    insert into stream s1 select *
+    insert into stream s2 select a
+    insert into stream s3 select id,name  where id > 10
+##sqlend
+FROM ( SELECT * FROM teststream[RANGE 1 SECONDS SLIDE ] ) INSERT INTO STREAM s1 SELECT * INSERT INTO STREAM s2 SELECT a INSERT INTO STREAM s3 SELECT id, name WHERE id > 10
+##sqlstart:
+from (select count(id),'sss' from teststream(id >5 )[range 1 seconds slide] group by ss)
+    insert into stream s1 select *
+    insert into stream s2 select a
+    insert into stream s3 select id,name  where id > 10
+##sqlend
+FROM ( SELECT count(id), "sss" FROM teststream( id > 5 )[RANGE 1 SECONDS SLIDE ] GROUP BY ss ) INSERT INTO STREAM s1 SELECT * INSERT INTO STREAM s2 SELECT a INSERT INTO STREAM s3 SELECT id, name WHERE id > 10

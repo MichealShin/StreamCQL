@@ -32,8 +32,6 @@ public class ParseException extends SemanticAnalyzerException
     /**
      * <默认构造函数>
      *
-     * @param errorCode 异常消息
-     * @param errorArgs 异常参数
      */
     public ParseException(ErrorCode errorCode, String... errorArgs)
     {
@@ -43,9 +41,6 @@ public class ParseException extends SemanticAnalyzerException
     /**
      * <默认构造函数>
      *
-     * @param cause 异常堆栈
-     * @param errorCode 异常码
-     * @param errorArgs 异常参数
      */
     public ParseException(Throwable cause, ErrorCode errorCode, String... errorArgs)
     {

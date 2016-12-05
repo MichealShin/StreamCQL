@@ -18,14 +18,15 @@
 
 package com.huawei.streaming.cql.executor;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.huawei.streaming.cql.DriverContext;
 import com.huawei.streaming.cql.exception.CQLException;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 /**
  * 函数注册测试用例
@@ -40,7 +41,6 @@ public class FunctionRegistryTest
     /**
      * 初始化测试类之前要执行的初始化方法
      *
-     * @throws Exception 初始化中可能抛出的异常
      */
     @BeforeClass
     public static void setUpBeforeClass()
@@ -53,7 +53,6 @@ public class FunctionRegistryTest
     /**
      * 所有测试用例执行完毕之后执行的方法
      *
-     * @throws Exception 异常
      */
     @AfterClass
     public static void tearDownAfterClass()
@@ -67,7 +66,6 @@ public class FunctionRegistryTest
     /**
      * 测试函数注册
      *
-     * @throws CQLException 执行异常
      */
     @Test
     public void testRegisterUDF()
@@ -82,7 +80,6 @@ public class FunctionRegistryTest
     /**
      * 测试通过函数名获取类
      *
-     * @throws CQLException 执行异常
      */
     @Test
     public void testGetFunctionNameByClass()

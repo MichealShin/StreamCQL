@@ -22,12 +22,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Locale;
 
 import jline.console.ConsoleReader;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Hierarchy;
+import org.apache.log4j.spi.DefaultRepositorySelector;
+import org.apache.log4j.spi.LoggerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,11 +73,10 @@ public class CQLClient
     /**
      * 命令行客户端入口
      *
-     * @param args 方法参数
-     * @throws IOException 执行异常
      */
     public static void main(String[] args) throws IOException
     {
+        disableLog4j();
         int result = CQLSessionState.STATE_OK;
         CQLClient client = new CQLClient();
         
@@ -97,7 +100,6 @@ public class CQLClient
     /**
      * 初始化用户session
      *
-     * @return 初始化结果，如果为0，则正常
      */
     protected int initSessionState()
     {
@@ -120,8 +122,6 @@ public class CQLClient
     /**
      * 解析系统参数
      *
-     * @param args 参数数组
-     * @return 解析结果，如果没问题，返回true
      */
     protected boolean parseArgs(String[] args)
     {
@@ -133,9 +133,6 @@ public class CQLClient
     /**
      * 命令行客户端执行入口
      *
-     * @return 没有异常，返回0
-     * @throws IOException 文件读取异常
-     * @throws CQLException 其他数据解析异常
      */
     protected int executeDriver()
         throws IOException
@@ -169,7 +166,7 @@ public class CQLClient
         
         String line;
         int ret = 0;
-        String prefix = "";
+        StringBuilder prefix = new StringBuilder();
         printHelp();
         
         String tip = DEFAULT_CLI_TIP;
@@ -177,31 +174,26 @@ public class CQLClient
         while ((line = reader.readLine(tip)) != null)
         {
             tip = WAITING_INPUT_TIP;
-            if (!prefix.equals(""))
+            if (!prefix.toString().equals(""))
             {
-                prefix += '\n';
+                prefix.append("\n");
             }
             
             if (line.trim().startsWith("--"))
             {
                 continue;
             }
-
-            if(line.trim().startsWith(";")){
-            	//跳过注释
-            	continue;
-            }
             
             if (line.trim().endsWith(";") && !line.trim().endsWith("\\;"))
             {
-                line = prefix + line;
+                line = prefix.toString() + line;
                 ret = processLine(line);
-                prefix = "";
+                prefix.delete(0, prefix.length());
                 tip = DEFAULT_CLI_TIP;
             }
             else
             {
-                prefix = prefix + line;
+                prefix.append(line);
                 continue;
             }
         }
@@ -212,7 +204,7 @@ public class CQLClient
     {
         int lastRet = 0;
         int ret = 0;
-        String command = "";
+        StringBuilder command = new StringBuilder();
         for (String oneCmd : line.split(";"))
         {
             if (StringUtils.isBlank(oneCmd.trim()))
@@ -222,20 +214,20 @@ public class CQLClient
             
             if (StringUtils.endsWith(oneCmd, "\\"))
             {
-                command += StringUtils.chop(oneCmd) + ";";
+                command.append(StringUtils.chop(oneCmd)).append(";");
                 continue;
             }
             else
             {
-                command += oneCmd;
+                command.append(oneCmd);
             }
             
-            if (StringUtils.isBlank(command))
+            if (StringUtils.isBlank(command.toString()))
             {
                 continue;
             }
             
-            ret = processCQL(command, true);
+            ret = processCQL(command.toString(), true);
             lastRet = ret;
         }
         return lastRet;
@@ -283,17 +275,6 @@ public class CQLClient
             System.exit(0);
         }
         
-        String [] splitLines = cql.split("\n");
-        //跳过脚本注释
-        cql="";
-        for(String line : splitLines){
-        	if(line.trim().charAt(0) == ';'){
-        		LOG.info("skip comment:" + line.substring(1));
-        		continue;
-        	}else{
-        		cql+= line + "\n";
-        	}
-        }
         if (driver == null)
         {
             driver = new Driver();
@@ -340,7 +321,7 @@ public class CQLClient
         }
         
         String[] heads = result.getHeads();
-        if (heads == null || heads.length == 0)
+        if (heads.length == 0)
         {
             return;
         }
@@ -391,7 +372,6 @@ public class CQLClient
     
     /**
      * 在用户目录下创建临时文件.inputrc，用于屏蔽掉在suse环境下控制台打印警告信息
-     * @throws IOException
      */
     
     private void createTempFile()
@@ -417,5 +397,64 @@ public class CQLClient
             }
         }
     }
-
+    
+    /**
+     * CQL使用了logback的日志
+     * 但是内部同样引用了log4j的jar包，
+     * 所以在使用zookeeper进行安全登录的时候，控制台会打印两行日志：
+     * log4j:WARN No appenders could be found for logger (org.apache.zookeeper.Login).
+     * log4j:WARN Please initialize the log4j system properly
+     * 所以要屏蔽这个日志。
+     */
+    private static void disableLog4j()
+    {
+        LOG.info("try to disable log4j console print.");
+        Class< ? > logManagerClass = null;
+        try
+        {
+            logManagerClass = Class.forName("org.apache.log4j.LogManager");
+        }
+        catch (ClassNotFoundException e)
+        {
+            //找不到该类，说明没有引用该log4j的jar包，所以日志自然不会打印，忽略即可。
+            return;
+        }
+        
+        try
+        {
+            Field selectorField = logManagerClass.getDeclaredField("repositorySelector");
+            selectorField.setAccessible(true);
+            DefaultRepositorySelector selector = (DefaultRepositorySelector)selectorField.get(null);
+            
+            Field repositoryField = selector.getClass().getDeclaredField("repository");
+            repositoryField.setAccessible(true);
+            LoggerRepository repository = (LoggerRepository)repositoryField.get(selector);
+            
+            if (!(repository instanceof Hierarchy))
+            {
+                return;
+            }
+            
+            Hierarchy hierarchy = (Hierarchy)repository;
+            Field emitted = hierarchy.getClass().getDeclaredField("emittedNoAppenderWarning");
+            emitted.setAccessible(true);
+            emitted.set(hierarchy, true);
+        }
+        catch (NoSuchFieldException e)
+        {
+            LOG.warn("Failed to disable log4j log print, NoSuchFieldException occurred.");
+        }
+        catch (SecurityException e)
+        {
+            LOG.warn("Failed to disable log4j log print, SecurityException occurred.");
+        }
+        catch (IllegalArgumentException e)
+        {
+            LOG.warn("Failed to disable log4j log print, IllegalArgumentException occurred.");
+        }
+        catch (IllegalAccessException e)
+        {
+            LOG.warn("Failed to disable log4j log print, IllegalAccessException occurred.");
+        }
+    }
 }

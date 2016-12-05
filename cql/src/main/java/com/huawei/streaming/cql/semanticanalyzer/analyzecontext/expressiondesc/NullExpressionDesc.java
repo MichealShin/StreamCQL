@@ -43,7 +43,6 @@ public class NullExpressionDesc implements ExpressionDescribe
     /**
      * <默认构造函数>
      * 
-     * @param isNull 是否为空，true就是is null，false就是is not null
      */
     public NullExpressionDesc(boolean isNull)
     {
@@ -54,8 +53,6 @@ public class NullExpressionDesc implements ExpressionDescribe
     /**
      * <默认构造函数>
      * 
-     * @param isNull 是否为空，true就是is null，false就是is not null
-     * @param expression 表达式
      */
     public NullExpressionDesc(boolean isNull, ExpressionDescribe expression)
     {

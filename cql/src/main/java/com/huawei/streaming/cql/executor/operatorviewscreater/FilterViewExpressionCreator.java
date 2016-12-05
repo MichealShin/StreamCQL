@@ -48,11 +48,6 @@ public class FilterViewExpressionCreator
     /**
      * filter实例创建
      *
-     * @param inputSchemas 输入schema
-     * @param filterCondition filter条件
-     * @param systemConfig 系统配置参数
-     * @return filter表达式
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 执行器异常
      */
     public IExpression create(List<Schema> inputSchemas, String filterCondition, Map<String, String> systemConfig)
         throws ExecutorException

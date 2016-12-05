@@ -151,7 +151,7 @@ public class FunctionContext extends BaseExpressionParseContext
         if (null == finfo)
         {
             SemanticAnalyzerException exception = new SemanticAnalyzerException(ErrorCode.FUNCTION_UNSPPORTED, functionName);
-            LOG.error(exception.getMessage(), exception);
+            LOG.error(ErrorCode.FUNCTION_UNSPPORTED.getFullMessage(functionName), exception);
             
             throw exception;
         }

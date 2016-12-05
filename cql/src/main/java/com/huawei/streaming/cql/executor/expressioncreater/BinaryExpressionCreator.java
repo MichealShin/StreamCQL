@@ -75,8 +75,6 @@ public class BinaryExpressionCreator implements ExpressionCreator
      * 创建数学表达式
      * 比如a+b之类
      *
-     * @return
-     * @throws com.huawei.streaming.cql.exception.ExecutorException
      */
     private IExpression createArithmeticExpressionInstance()
         throws ExecutorException
@@ -102,8 +100,6 @@ public class BinaryExpressionCreator implements ExpressionCreator
      * 创建关系表达式
      * 比如a>b之类
      *
-     * @return
-     * @throws com.huawei.streaming.cql.exception.ExecutorException
      */
     private IExpression createRelationExpressionInstance()
         throws ExecutorException
@@ -127,8 +123,6 @@ public class BinaryExpressionCreator implements ExpressionCreator
      * 创建逻辑表达式
      * 例如 a.id = b.id and a.name = c.cname
      *
-     * @return
-     * @throws com.huawei.streaming.cql.exception.ExecutorException
      */
     private IExpression createLogicExpressionInstance()
         throws ExecutorException

@@ -133,8 +133,6 @@ public class CQLFileReader implements LineProcessor< List< String > >
     /**
      * 字符串是否为空
      *
-     * @param str 字符串
-     * @return 为空，返回true
      */
     private boolean isEmpty(String str)
     {

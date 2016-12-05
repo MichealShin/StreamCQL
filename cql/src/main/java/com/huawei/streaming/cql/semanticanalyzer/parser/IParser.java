@@ -29,9 +29,6 @@ public interface IParser
 {
     /**
      * 语法解析
-     * @param cql 完整的cql语句或者单个sql的一部分子句。
-     * @return 解析内容
-     * @throws ParseException 语义解析异常
      */
     ParseContext parse(String cql)
         throws ParseException;

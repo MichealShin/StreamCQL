@@ -32,10 +32,6 @@ public interface ExpressionCreator
 {
     /**
      * 创建表达式实例
-     * @param expressionDescribe 表达式解析内容
-     * @param systemconfig 实例化表达式的时候需要的配置属性
-     * @return 表达式实例
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 执行期异常
      */
     IExpression createInstance(ExpressionDescribe expressionDescribe, Map<String, String> systemconfig)
         throws ExecutorException;

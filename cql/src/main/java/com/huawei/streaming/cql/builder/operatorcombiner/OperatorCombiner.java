@@ -81,7 +81,6 @@ public class OperatorCombiner
     /**
      * <默认构造函数>
      *
-     * @param buildUtils 构建器使用的一些通用类
      */
     public OperatorCombiner(BuilderUtils buildUtils)
     {
@@ -91,9 +90,6 @@ public class OperatorCombiner
     /**
      * 多个算子之间的合并。
      *
-     * @param splitContexts 由CQL拆分好的各个算子
-     * @return 合并之后的算子
-     * @throws ApplicationBuildException 算子合并异常
      */
     public SplitContext combine(List<SplitContext> splitContexts)
         throws ApplicationBuildException
@@ -142,8 +138,6 @@ public class OperatorCombiner
      * <p/>
      * 连线上的Schema名称，就是流名称！
      *
-     * @param context insert 语句解析结果
-     * @throws ApplicationBuildException 运行期异常
      */
     private void createTransition(SplitContext context)
         throws ApplicationBuildException
@@ -351,10 +345,6 @@ public class OperatorCombiner
     /**
      * 获取输入shcema信息
      *
-     * @param streamName 流名称
-     * @param insertContext insert解析内容
-     * @return 输入schema
-     * @throws SemanticAnalyzerException 语义分析异常
      */
     private Schema getInputSchema(String streamName, InsertAnalyzeContext insertContext)
         throws SemanticAnalyzerException

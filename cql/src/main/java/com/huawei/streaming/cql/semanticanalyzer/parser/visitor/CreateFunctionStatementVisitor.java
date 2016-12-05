@@ -65,7 +65,7 @@ public class CreateFunctionStatementVisitor extends AbsCQLParserBaseVisitor<Crea
      * {@inheritDoc}
      */
     @Override
-    public CreateFunctionStatementContext visitClassName(@NotNull CQLParser.ClassNameContext ctx)
+    public CreateFunctionStatementContext visitUserDefinedClassName(@NotNull CQLParser.UserDefinedClassNameContext ctx)
     {
         context.setClassName(CQLUtils.cqlStringLiteralTrim(ctx.getText()));
         return context;

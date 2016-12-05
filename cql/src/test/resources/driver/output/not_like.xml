@@ -1,0 +1,47 @@
+<Definitions>
+  <Application id="app_where">
+    <confs>
+      <property key="operator.kafka.brokers" value="192.168.0.2:9092"/>
+      <property key="operator.kafka.messageserializerclass" value="kafka.serializer.StringEncoder"/>
+      <property key="operator.kafka.zksessiontimeout" value="20000"/>
+      <property key="operator.kafka.zksynctime" value="20000"/>
+      <property key="operator.kafka.zookeepers" value="localhost:2181,192.168.0.2:2181"/>
+      <property key="serde.simpleserde.separator" value=","/>
+    </confs>
+    <Schemas>
+      <Schema id="input_where" name="input_where">
+        <attribute name="o_id" type="java.lang.Integer"/>
+        <attribute name="orderdate" type="java.lang.String"/>
+        <attribute name="orderprice" type="java.lang.Long"/>
+        <attribute name="customer" type="java.lang.String"/>
+      </Schema>
+      <Schema id="output_where" name="output_where">
+        <attribute name="customer" type="java.lang.String"/>
+        <attribute name="sum_orderprice" type="java.lang.Long"/>
+      </Schema>
+    </Schemas>
+    <Operators>
+      <KafkaInput id="KafkaInput_001" parallel="1">
+        <deserializer class="SimpleSerDe"/>
+        <groupId>gidkpi_1_1</groupId>
+        <topic>where_in</topic>
+      </KafkaInput>
+      <KafkaOutput id="KafkaOutput_002" parallel="1">
+        <serializer class="SimpleSerDe"/>
+        <topic>where_out</topic>
+      </KafkaOutput>
+      <Aggregator id="Aggregator_004" parallel="1">
+        <outputExpression>input_where.customer, input_where.orderprice</outputExpression>
+        <window name="time_batch">
+          <length>10000</length>
+          <excludeNow>false</excludeNow>
+        </window>
+        <filterBeforeAggregate>input_where.customer not like &apos;B%h&apos;</filterBeforeAggregate>
+      </Aggregator>
+    </Operators>
+    <Transitions>
+      <Transition name="st_001" from="KafkaInput_001" to="Aggregator_004" distributedType="SHUFFLE" schemaName="input_where"/>
+      <Transition name="st_003" from="Aggregator_004" to="KafkaOutput_002" distributedType="SHUFFLE" schemaName="output_where"/>
+    </Transitions>
+  </Application>
+</Definitions>

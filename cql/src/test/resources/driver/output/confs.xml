@@ -4,11 +4,11 @@
       <property key="a" value="1"/>
       <property key="b" value="1.0"/>
       <property key="c" value="1.0"/>
-      <property key="operator.kafka.brokers" value="158.1.130.12:9092"/>
+      <property key="operator.kafka.brokers" value="192.168.0.2:9092"/>
       <property key="operator.kafka.messageserializerclass" value="kafka.serializer.StringEncoder"/>
       <property key="operator.kafka.zksessiontimeout" value="20000"/>
       <property key="operator.kafka.zksynctime" value="20000"/>
-      <property key="operator.kafka.zookeepers" value="localhost:2181,158.1.130.21:2181"/>
+      <property key="operator.kafka.zookeepers" value="localhost:2181,192.168.0.2:2181"/>
       <property key="serde.simpleserde.separator" value=","/>
       <property key="x" value="true"/>
     </confs>

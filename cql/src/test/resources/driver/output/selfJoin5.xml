@@ -1,0 +1,55 @@
+<Definitions>
+  <Application id="tt">
+    <confs>
+      <property key="operator.kafka.brokers" value="192.168.0.2:9092"/>
+      <property key="operator.kafka.messageserializerclass" value="kafka.serializer.StringEncoder"/>
+      <property key="operator.kafka.zksessiontimeout" value="20000"/>
+      <property key="operator.kafka.zksynctime" value="20000"/>
+      <property key="operator.kafka.zookeepers" value="localhost:2181,192.168.0.2:2181"/>
+      <property key="serde.simpleserde.separator" value=","/>
+    </confs>
+    <Schemas>
+      <Schema id="s" name="s">
+        <attribute name="id" type="java.lang.Integer"/>
+        <attribute name="name" type="java.lang.String"/>
+        <attribute name="type" type="java.lang.Integer"/>
+      </Schema>
+      <Schema id="rs" name="rs">
+        <attribute name="id" type="java.lang.Integer"/>
+        <attribute name="name" type="java.lang.String"/>
+        <attribute name="type" type="java.lang.Integer"/>
+      </Schema>
+    </Schemas>
+    <Operators>
+      <KafkaInput id="KafkaInput_001" parallel="1">
+        <deserializer class="SimpleSerDe"/>
+        <groupId>chineline_1_1</groupId>
+        <topic>join_1</topic>
+      </KafkaInput>
+      <KafkaOutput id="KafkaOutput_002" parallel="1">
+        <serializer class="SimpleSerDe"/>
+        <topic>join_3</topic>
+      </KafkaOutput>
+      <Join id="Join_003" parallel="1">
+        <outputExpression>s.id, s.name, s.type</outputExpression>
+        <leftStreamName>st_001</leftStreamName>
+        <rightStreamName>st_001</rightStreamName>
+        <leftWindow name="length_slide">
+          <length>1</length>
+          <excludeNow>false</excludeNow>
+        </leftWindow>
+        <rightWindow name="keepall">
+          <excludeNow>false</excludeNow>
+        </rightWindow>
+        <joinType>INNER_JOIN</joinType>
+        <joinExpression>(s.id = s.id)</joinExpression>
+        <filterAfterJoinExpression>(s.id &gt; 5)</filterAfterJoinExpression>
+        <uniDirectionIndex>NONE_STREAM</uniDirectionIndex>
+      </Join>
+    </Operators>
+    <Transitions>
+      <Transition name="st_001" from="KafkaInput_001" to="Join_003" distributedType="FIELDS" distributedFields="id" schemaName="s"/>
+      <Transition name="st_005" from="Join_003" to="KafkaOutput_002" distributedType="SHUFFLE" schemaName="rs"/>
+    </Transitions>
+  </Application>
+</Definitions>

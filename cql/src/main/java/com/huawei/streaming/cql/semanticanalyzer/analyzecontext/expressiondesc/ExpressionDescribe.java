@@ -26,7 +26,6 @@ public interface ExpressionDescribe
 {
     /**
      * 将表达式转换为字符串
-     * @return 字符串的表达式
      */
     String toString();
 }

@@ -67,7 +67,6 @@ public class FunctionExpressionDesc implements ExpressionDescribe
     
     /**
      * <默认构造函数>
-     * @param finfo 函数信息
      */
     public FunctionExpressionDesc(FunctionInfo finfo)
     {
@@ -162,7 +161,7 @@ public class FunctionExpressionDesc implements ExpressionDescribe
     
     public String[] getResultColumnAlias()
     {
-        return resultColumnAlias;
+        return resultColumnAlias == null ? new String[] {} : (String[])resultColumnAlias.clone();
     }
     
     public void setResultColumnAlias(String[] resultColumnAlias)

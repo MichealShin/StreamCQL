@@ -28,8 +28,6 @@ public interface ExpressionGetterStrategy
 {
     /**
      * 表达式遍历的判定条件
-     * @param exp 表达式
-     * @return 如果满足条件，返回true
      */
     boolean isEqual(IExpression exp);
 }

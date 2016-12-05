@@ -49,11 +49,6 @@ public class GroupByViewCreator
     /**
      * 创建groupby实例
      *
-     * @param inputSchemas 输入schema
-     * @param groupByExpress groupBy表达式
-     * @param systemConfig 系统配置参数
-     * @return groupBy表达式数组
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 执行期异常
      */
     public IExpression[] create(List<Schema> inputSchemas, String groupByExpress, Map<String, String> systemConfig)
         throws ExecutorException

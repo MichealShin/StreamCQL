@@ -1,0 +1,58 @@
+<Definitions>
+  <Application id="115_timestamp_ky">
+    <confs>
+      <property key="streaming.operator.timezone" value="GMT+01:00"/>
+    </confs>
+    <Schemas>
+      <Schema id="s1" name="s1">
+        <attribute name="c1" type="java.sql.Timestamp"/>
+      </Schema>
+      <Schema id="s2" name="s2">
+        <attribute name="c1" type="java.sql.Timestamp"/>
+      </Schema>
+      <Schema id="s3" name="s3">
+        <attribute name="c1" type="java.sql.Timestamp"/>
+      </Schema>
+      <Schema id="s4" name="s4">
+        <attribute name="c1" type="java.sql.Timestamp"/>
+      </Schema>
+    </Schemas>
+    <Operators>
+      <KafkaInput id="KafkaInput_001" parallel="1">
+        <deserializer class="SimpleSerDe"/>
+        <groupId>zhou5</groupId>
+        <topic>input_timestamp_keyvalue</topic>
+      </KafkaInput>
+      <KafkaOutput id="KafkaOutput_002" parallel="1">
+        <serializer class="KeyValueSerDe">
+          <separator>,</separator>
+          <timezoneForTimestamp>GMT+02:00</timezoneForTimestamp>
+        </serializer>
+        <topic>timestamp_keyvalue</topic>
+      </KafkaOutput>
+      <KafkaInput id="KafkaInput_003" parallel="1">
+        <deserializer class="KeyValueSerDe">
+          <separator>,</separator>
+        </deserializer>
+        <groupId>zhou</groupId>
+        <topic>timestamp_keyvalue</topic>
+      </KafkaInput>
+      <KafkaOutput id="KafkaOutput_004" parallel="1">
+        <serializer class="SimpleSerDe"/>
+        <topic>output_timestamp_keyvalue</topic>
+      </KafkaOutput>
+      <Functor id="Functor_006" parallel="1">
+        <outputExpression>s1.c1</outputExpression>
+      </Functor>
+      <Functor id="Functor_008" parallel="1">
+        <outputExpression>s3.c1</outputExpression>
+      </Functor>
+    </Operators>
+    <Transitions>
+      <Transition name="st_001" from="KafkaInput_001" to="Functor_006" distributedType="SHUFFLE" schemaName="s1"/>
+      <Transition name="st_004" from="Functor_006" to="KafkaOutput_002" distributedType="SHUFFLE" schemaName="s2"/>
+      <Transition name="st_002" from="KafkaInput_003" to="Functor_008" distributedType="SHUFFLE" schemaName="s3"/>
+      <Transition name="st_006" from="Functor_008" to="KafkaOutput_004" distributedType="SHUFFLE" schemaName="s4"/>
+    </Transitions>
+  </Application>
+</Definitions>

@@ -34,8 +34,6 @@ public class ShowApplicationAnalyzer extends BaseAnalyzer
     
     /**
      * <默认构造函数>
-     * @param parseContext 语法解析内容
-     * @throws com.huawei.streaming.cql.exception.SemanticAnalyzerException 语义分析内容
      */
     public ShowApplicationAnalyzer(ParseContext parseContext)
         throws SemanticAnalyzerException

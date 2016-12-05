@@ -17,6 +17,8 @@
  */
 package com.huawei.streaming.cql.semanticanalyzer;
 
+import static org.junit.Assert.fail;
+
 import java.util.List;
 
 import org.junit.AfterClass;
@@ -31,7 +33,6 @@ import com.huawei.streaming.cql.DriverContext;
 import com.huawei.streaming.cql.exception.SemanticAnalyzerException;
 import com.huawei.streaming.cql.semanticanalyzer.parser.IParser;
 import com.huawei.streaming.cql.semanticanalyzer.parser.ParserFactory;
-import static org.junit.Assert.fail;
 
 /**
  * 多级插入语义分析测试
@@ -46,7 +47,6 @@ public class MultiInsertStatementAnalyzerTest
     /**
      * 初始化测试类之前要执行的初始化方法
      *
-     * @throws Exception 初始化中可能抛出的异常
      */
     @BeforeClass
     public static void setUpBeforeClass()
@@ -61,7 +61,6 @@ public class MultiInsertStatementAnalyzerTest
     /**
      * 所有测试用例执行完毕之后执行的方法
      *
-     * @throws Exception 执行异常
      */
     @AfterClass
     public static void tearDownAfterClass()
@@ -76,7 +75,6 @@ public class MultiInsertStatementAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testSimpleSelect1()
@@ -93,7 +91,6 @@ public class MultiInsertStatementAnalyzerTest
     /**
      * 子查询测试
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testSimpleSelect2()
@@ -110,7 +107,6 @@ public class MultiInsertStatementAnalyzerTest
     /**
      * 多级Insert语句中不能包含窗口
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testSimpleSelect3()
@@ -134,7 +130,6 @@ public class MultiInsertStatementAnalyzerTest
     /**
      * 多级insert中不能包含group by和聚合操作
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testSimpleSelect4()

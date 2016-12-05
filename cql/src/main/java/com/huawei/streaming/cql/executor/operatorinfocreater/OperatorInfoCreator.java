@@ -34,12 +34,6 @@ public interface OperatorInfoCreator
 {
     /**
      * 创建实例
-     * @param vapp 执行计划信息
-     * @param operator xml执行计划中的算子信息
-     * @param streamschema schema信息
-     * @param systemConfig 系统配置信息
-     * @return 算子实例
-     * @throws StreamingException 执行期异常
      */
     AbsOperator createInstance(Application vapp, Operator operator, EventTypeMng streamschema,
         Map<String, String> systemConfig)

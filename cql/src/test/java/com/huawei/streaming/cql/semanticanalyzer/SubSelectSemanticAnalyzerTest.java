@@ -47,7 +47,6 @@ public class SubSelectSemanticAnalyzerTest
     /**
      * 初始化测试类之前要执行的初始化方法
      *
-     * @throws Exception 初始化中可能抛出的异常
      */
     @BeforeClass
     public static void setUpBeforeClass()
@@ -62,7 +61,6 @@ public class SubSelectSemanticAnalyzerTest
     /**
      * 所有测试用例执行完毕之后执行的方法
      *
-     * @throws Exception 执行异常
      */
     @AfterClass
     public static void tearDownAfterClass()
@@ -77,7 +75,6 @@ public class SubSelectSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testSimpleSelect()

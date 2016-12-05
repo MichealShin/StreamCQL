@@ -20,8 +20,7 @@ package com.huawei.streaming.cql.mapping;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 /**
  * 输入输出映射测试用例
@@ -32,7 +31,6 @@ public class InputOutputOperatorMappingTest
 
     /**
      * 测试用例
-     * @throws Exception
      */
     @Test
     public void testUnRegisterMapping()

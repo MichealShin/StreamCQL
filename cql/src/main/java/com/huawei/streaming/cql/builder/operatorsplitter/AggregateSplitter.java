@@ -37,7 +37,6 @@ public class AggregateSplitter extends SelectSplitter
     
     /**
      * <默认构造函数>
-     * @param buildUtils builder中的一些公共数据
      */
     public AggregateSplitter(BuilderUtils buildUtils)
     {

@@ -54,23 +54,17 @@ public abstract class BaseExpressionParseContext extends ParseContext
     
     /**
      * 遍历子表达式，如果匹配就替换
-     * @param replacer 判断是否匹配
      */
     public abstract void walkChildAndReplace(ParseContextReplacer replacer);
     
     /**
      * 创建表达式描述信息
-     * @return 表达式描述信息
-     * @throws SemanticAnalyzerException 语义分析异常
      */
     protected abstract ExpressionDescribe createExpressionDesc()
         throws SemanticAnalyzerException;
     
     /**
      * 创建表达式描述
-     * @param allSchemas 所有用到的schema
-     * @return 表达式描述
-     * @throws SemanticAnalyzerException 语义分析异常
      */
     public ExpressionDescribe createExpressionDesc(List<Schema> allSchemas)
         throws SemanticAnalyzerException
@@ -91,9 +85,6 @@ public abstract class BaseExpressionParseContext extends ParseContext
     
     /**
      * 通过schema id 找到其在schmea数组中的索引
-     * @param schemaId schema 名称，索引
-     * @return 找到的缩影
-     * @throws SemanticAnalyzerException 如果找不到，抛出异常
      */
     public int getIndexInSchemas(String schemaId)
         throws SemanticAnalyzerException
@@ -117,8 +108,7 @@ public abstract class BaseExpressionParseContext extends ParseContext
         }
         
         SemanticAnalyzerException exception = new SemanticAnalyzerException(ErrorCode.SEMANTICANALYZE_NO_STREAM, schemaId);
-        LOG.error(exception.getMessage(), exception);
-        
+        LOG.error(ErrorCode.SEMANTICANALYZE_NO_STREAM.getFullMessage(schemaId), exception);
         throw exception;
     }
     
@@ -130,9 +120,6 @@ public abstract class BaseExpressionParseContext extends ParseContext
     /**
      * 通过属性名获取属性
      * 可能包含多个
-     * @param attrName 属性名称
-     * @param schema schema
-     * @return 获取到的属性列表
      */
     public List<Column> getAttributeByName(String attrName, Schema schema)
     {
@@ -143,8 +130,6 @@ public abstract class BaseExpressionParseContext extends ParseContext
      * 通过属性名获取属性
      * 可能包含多个
      * 
-     * @param attrName 属性名称
-     * @return 获取到的属性列表
      */
     public List<Column> getAttributeByName(String attrName)
     {
@@ -154,8 +139,6 @@ public abstract class BaseExpressionParseContext extends ParseContext
     /**
      * 通过属性名获取该属性所在的schemaid
      * 和getAttributeByName是一一对应的。
-     * @param attrName 属性名称
-     * @return 获取到的属性列表
      */
     protected List<String> getSchemaNameByAttrName(String attrName)
     {
@@ -194,7 +177,6 @@ public abstract class BaseExpressionParseContext extends ParseContext
      * 获取所有流的所有的属性
      * 适用于select *
      * 
-     * @return 所有的属性列表
      */
     protected List<Column> getAllAttributes()
     {
@@ -209,8 +191,6 @@ public abstract class BaseExpressionParseContext extends ParseContext
     /**
      * 获取一个schema中所有的属性
      * 
-     * @param schema schema
-     * @return 属性列表
      */
     protected List<Column> getAttributes(Schema schema)
     {

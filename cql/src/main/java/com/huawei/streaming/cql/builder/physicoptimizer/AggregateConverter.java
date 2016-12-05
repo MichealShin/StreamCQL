@@ -123,9 +123,6 @@ public class AggregateConverter implements Optimizer
      *      
      *   可以有filterbeforeaggreagte，outputexpression   
      * 
-     * @param op
-     * @return 如果可以转换 返回true
-     * @throws SemanticAnalyzerException  语义解析异常
      */
     private boolean checkOperator(Operator op)
         throws SemanticAnalyzerException

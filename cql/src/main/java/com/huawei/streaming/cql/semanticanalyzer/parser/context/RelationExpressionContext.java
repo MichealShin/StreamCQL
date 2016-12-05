@@ -64,7 +64,7 @@ public class RelationExpressionContext extends BaseExpressionParseContext
     @Override
     public String toString()
     {
-        return relationOperator.toString() + " " + bitExpression.toString();
+        return relationOperator + " " + bitExpression.toString();
     }
     
     /**

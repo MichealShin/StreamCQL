@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Definitions>
+  <Application id="FixedTest">
+    <confs>
+      <property key="streaming.storm.submit.islocal" value="true"/>
+    </confs>
+    <Schemas>
+      <Schema id="inputschema" name="inputSchema">
+        <attribute name="msisdn" type="java.lang.String"/>
+        <attribute name="host" type="java.lang.String"/>
+        <attribute name="CaseID" type="java.lang.String"/>
+      </Schema>
+      <Schema id="outputschema" name="outputSchema">
+        <attribute name="msisdn" type="java.lang.String"/>
+        <attribute name="host" type="java.lang.String"/>
+        <attribute name="CaseID" type="java.lang.String"/>
+      </Schema>
+    </Schemas>
+    <Operators>
+      <TCPServerInput id="input" parallel="1">
+        <deserializer class="SimpleSerDe"/>
+        <port>7999</port>
+        <fixedLength>966</fixedLength>
+      </TCPServerInput>
+      <OutputOperator id="output" parallel="1">
+        <properties/>
+        <recordWriter>com.huawei.streaming.cql.executor.userdefined.WebOutputStream</recordWriter>
+      </OutputOperator>
+      <FunctionStream id="Filter" parallel="1">
+        <properties/>
+        <operatorClass>com.huawei.streaming.cql.executor.userdefined.WebFilterStream</operatorClass>
+        <inputSchema id="inputschema" name="inputSchema">
+          <attribute name="msisdn" type="java.lang.String"/>
+          <attribute name="host" type="java.lang.String"/>
+          <attribute name="CaseID" type="java.lang.String"/>
+        </inputSchema>
+        <outputSchema id="outputschema" name="outputSchema">
+          <attribute name="msisdn" type="java.lang.String"/>
+          <attribute name="host" type="java.lang.String"/>
+          <attribute name="CaseID" type="java.lang.String"/>
+        </outputSchema>
+      </FunctionStream>
+    </Operators>
+    <Transitions>
+      <Transition name="inputStream" from="input" to="Filter" distributedType="SHUFFLE" schemaName="inputschema"/>
+      <Transition name="filterStream" from="Filter" to="output" distributedType="SHUFFLE" schemaName="inputschema"/>
+    </Transitions>
+  </Application>
+</Definitions>

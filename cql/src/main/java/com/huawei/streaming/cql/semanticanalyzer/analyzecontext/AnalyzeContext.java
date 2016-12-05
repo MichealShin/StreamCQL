@@ -31,13 +31,11 @@ public abstract class AnalyzeContext
 {
     /**
      * 设置语法解析结果
-     * @param parseContext 语法解析结果
      */
     public abstract void setParseContext(ParseContext parseContext);
     
     /**
      * 验证语法分析结果是否正确，比如数据类型是否匹配等
-     * @throws SemanticAnalyzerException 语义分析异常
      */
     public abstract void validateParseContext()
         throws SemanticAnalyzerException;
@@ -46,7 +44,6 @@ public abstract class AnalyzeContext
      * 从解析结果中获取schema信息
      * 仅限于create stream或者selec他这样的语句可以
      * 其他的类似limit之类就咩有schema信息
-     * @return 获取的shcema列表
      */
     public abstract List<Schema> getCreatedSchemas();
     
@@ -56,7 +53,6 @@ public abstract class AnalyzeContext
      * 使用toString接口是因为guava join的方法需要用到toString方法进行list的拼接
      * 也正是因为这个toString方法，analzyeContext才变成了抽象类，没有使用接口。
      * 
-     * @return 字符串类型的表达式
      */
     public abstract String toString();
     

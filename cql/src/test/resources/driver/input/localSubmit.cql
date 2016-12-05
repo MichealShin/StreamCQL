@@ -1,4 +1,4 @@
-set "operator.kafka.brokers"="158.1.130.12:9092";
+set "operator.kafka.brokers"="192.168.0.2:9092";
 
 create input stream S 
 (id int ,name String,type int)

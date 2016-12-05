@@ -1,0 +1,52 @@
+<Definitions>
+  <Application id="read">
+    <Schemas>
+      <Schema id="s1" name="s1">
+        <attribute name="a" type="java.lang.String"/>
+        <attribute name="b" type="java.lang.Integer"/>
+        <attribute name="c" type="java.lang.Long"/>
+        <attribute name="d" type="java.lang.Float"/>
+        <attribute name="e" type="java.lang.Double"/>
+        <attribute name="f" type="java.lang.Boolean"/>
+        <attribute name="g" type="java.sql.Time"/>
+        <attribute name="h" type="java.sql.Date"/>
+        <attribute name="i" type="java.sql.Timestamp"/>
+        <attribute name="j" type="java.math.BigDecimal"/>
+      </Schema>
+      <Schema id="rs" name="rs">
+        <attribute name="a" type="java.lang.String"/>
+        <attribute name="b" type="java.lang.Integer"/>
+        <attribute name="c" type="java.lang.Long"/>
+        <attribute name="d" type="java.lang.Float"/>
+        <attribute name="e" type="java.lang.Double"/>
+        <attribute name="f" type="java.lang.Boolean"/>
+        <attribute name="g" type="java.sql.Time"/>
+        <attribute name="h" type="java.sql.Date"/>
+        <attribute name="i" type="java.sql.Timestamp"/>
+        <attribute name="j" type="java.math.BigDecimal"/>
+      </Schema>
+    </Schemas>
+    <Operators>
+      <TCPInput id="TCPClientInput_001" parallel="1">
+        <deserializer class="BinarySerDe">
+          <attributesLength>1,4,8,4,8,1,8,10,23,6</attributesLength>
+          <timeType>String</timeType>
+          <decimalType>String</decimalType>
+        </deserializer>
+        <server>192.168.0.2</server>
+        <port>8081</port>
+        <packageLength>73</packageLength>
+      </TCPInput>
+      <ConsoleOutput id="ConsoleOutput_002" parallel="1">
+        <serializer class="SimpleSerDe"/>
+      </ConsoleOutput>
+      <Functor id="Functor_004" parallel="1">
+        <outputExpression>s1.a, s1.b, s1.c, s1.d, s1.e, s1.f, s1.g, s1.h, s1.i, s1.j</outputExpression>
+      </Functor>
+    </Operators>
+    <Transitions>
+      <Transition name="st_001" from="TCPClientInput_001" to="Functor_004" distributedType="SHUFFLE" schemaName="s1"/>
+      <Transition name="st_003" from="Functor_004" to="ConsoleOutput_002" distributedType="SHUFFLE" schemaName="rs"/>
+    </Transitions>
+  </Application>
+</Definitions>

@@ -1,0 +1,48 @@
+<Definitions>
+  <Application id="datasourcetest">
+    <confs>
+      <property key="datasource.rdb.driver" value="org.postgresql.Driver"/>
+      <property key="datasource.rdb.password" value="omm"/>
+      <property key="datasource.rdb.url" value="jdbc:postgresql://192.168.0.2:21600/omm"/>
+      <property key="datasource.rdb.username" value="omm"/>
+    </confs>
+    <Schemas>
+      <Schema id="s" name="s">
+        <attribute name="id" type="java.lang.Integer"/>
+        <attribute name="name" type="java.lang.String"/>
+      </Schema>
+      <Schema id="rs1" name="rs1">
+        <attribute name="type" type="java.lang.String"/>
+        <attribute name="id" type="java.lang.String"/>
+        <attribute name="tag" type="java.lang.String"/>
+      </Schema>
+    </Schemas>
+    <Operators>
+      <KafkaInput id="KafkaInput_001" parallel="1">
+        <deserializer class="SimpleSerDe"/>
+        <groupId>gidkpi_1_1</groupId>
+        <topic>0912</topic>
+        <zookeepers>192.168.0.2:2181</zookeepers>
+      </KafkaInput>
+      <ConsoleOutput id="ConsoleOutput_002" parallel="1">
+        <serializer class="SimpleSerDe"/>
+      </ConsoleOutput>
+      <RDBDataSource id="DataSource_003" parallel="1">
+        <outputExpression>&apos;role&apos;, ds1.id, ds1.name</outputExpression>
+        <leftStreamName>st_001</leftStreamName>
+        <queryArguments>
+          <string>&quot;select roleid,rolename from OMM_1.tbl_iam_role where roleid = ? &quot;</string>
+          <string>s.id</string>
+        </queryArguments>
+        <dataSourceSchema id="ds1" name="rdb">
+          <attribute name="id" type="java.lang.Integer"/>
+          <attribute name="name" type="java.lang.String"/>
+        </dataSourceSchema>
+      </RDBDataSource>
+    </Operators>
+    <Transitions>
+      <Transition name="st_001" from="KafkaInput_001" to="DataSource_003" distributedType="SHUFFLE" schemaName="s"/>
+      <Transition name="st_003" from="DataSource_003" to="ConsoleOutput_002" distributedType="SHUFFLE" schemaName="rs1"/>
+    </Transitions>
+  </Application>
+</Definitions>

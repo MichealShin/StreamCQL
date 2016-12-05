@@ -1,0 +1,74 @@
+##sqlstart:
+Select * from transformEvent[rows 10 slide]
+##sqlend
+SELECT * FROM transformevent[ROWS 10 SLIDE ]
+##sqlstart:
+Select * from transformEvent[rows 10 slide partition by type]
+##sqlend
+SELECT * FROM transformevent[ROWS 10 SLIDE PARTITION BY type]
+##sqlstart:
+Select * from transformEvent[range 1 day 1 hour 1 minute 1 second 1 millisecond slide partition by id]
+##sqlend
+SELECT * FROM transformevent[RANGE 1 DAYS 1 HOURS 1 MINUTES 1 SECONDS 1 MILLISECONDS SLIDE PARTITION BY id]
+##sqlstart:
+Select * from transformEvent[range 1000 milliseconds batch sort by id]
+##sqlend
+SELECT * FROM transformevent[RANGE 1000 MILLISECONDS BATCH SORT BY id]
+##sqlstart:
+Select * from transformEvent[range unbounded] as s1 inner join transformBak  s2 on S1.id=S2.id
+##sqlend
+SELECT * FROM transformevent[RANGE UNBOUNDED ] AS s1 INNER JOIN transformbak AS s2 ON s1.id = s2.id
+##sqlstart:
+Select * from transformEvent[range 10 seconds  slide]
+##sqlend
+SELECT * FROM transformevent[RANGE 10 SECONDS SLIDE ]
+##sqlstart:
+Select * from transformEvent[range 1 day 6 hour slide]
+##sqlend
+SELECT * FROM transformevent[RANGE 1 DAYS 6 HOURS SLIDE ]
+##sqlstart:
+Select * from transformEvent[range 10 seconds  slide partition by id]
+##sqlend
+SELECT * FROM transformevent[RANGE 10 SECONDS SLIDE PARTITION BY id]
+##sqlstart:
+Select * from transformEvent[range 1000 milliseconds batch]
+##sqlend
+SELECT * FROM transformevent[RANGE 1000 MILLISECONDS BATCH ]
+##sqlstart:
+Select * from transformEvent[range 1000 milliseconds batch partition by id]
+##sqlend
+SELECT * FROM transformevent[RANGE 1000 MILLISECONDS BATCH PARTITION BY id]
+##sqlstart:
+Select * from transformEvent[range 1000 milliseconds sort by dte]
+##sqlend
+SELECT * FROM transformevent[RANGE 1000 MILLISECONDS SORT BY dte]
+##sqlstart:
+insert into stream output_where_event_tbatch select sum(OrderPrice),avg(OrderPrice),count(OrderPrice) 
+from input_where_event_tbatch[range 10 seconds  slide trigger by TS exclude now] where OrderPrice=100 or OrderPrice>=701
+##sqlend
+INSERT INTO STREAM output_where_event_tbatch SELECT sum(orderprice), avg(orderprice), count(orderprice) FROM input_where_event_tbatch[RANGE 10 SECONDS SLIDE TRIGGER BY ts EXCLUDE NOW] WHERE orderprice = 100 OR orderprice >= 701
+##sqlstart:
+insert into stream output_where_event_tbatch select sum(OrderPrice),avg(OrderPrice),count(OrderPrice) 
+from input_where_event_tbatch[range 10 seconds  slide partition by id trigger by TS exclude now] where OrderPrice=100 or OrderPrice>=700
+##sqlend
+INSERT INTO STREAM output_where_event_tbatch SELECT sum(orderprice), avg(orderprice), count(orderprice) FROM input_where_event_tbatch[RANGE 10 SECONDS SLIDE PARTITION BY idTRIGGER BY ts EXCLUDE NOW] WHERE orderprice = 100 OR orderprice >= 700
+##sqlstart:
+insert into stream output_where_event_tbatch select sum(OrderPrice),avg(OrderPrice),count(OrderPrice) 
+from input_where_event_tbatch[range 10 seconds  batch trigger by TS exclude now] where OrderPrice=100 or OrderPrice>=700
+##sqlend
+INSERT INTO STREAM output_where_event_tbatch SELECT sum(orderprice), avg(orderprice), count(orderprice) FROM input_where_event_tbatch[RANGE 10 SECONDS BATCH TRIGGER BY ts EXCLUDE NOW] WHERE orderprice = 100 OR orderprice >= 700
+##sqlstart:
+insert into stream output_where_event_tbatch select sum(OrderPrice),avg(OrderPrice),count(OrderPrice) 
+from input_where_event_tbatch[range 10 seconds  batch partition by type trigger by TS exclude now] where OrderPrice=100 or OrderPrice>=700
+##sqlend
+INSERT INTO STREAM output_where_event_tbatch SELECT sum(orderprice), avg(orderprice), count(orderprice) FROM input_where_event_tbatch[RANGE 10 SECONDS BATCH PARTITION BY typeTRIGGER BY ts EXCLUDE NOW] WHERE orderprice = 100 OR orderprice >= 700
+##sqlstart:
+insert into stream rs select id,name,count(id) 
+from transformEvent[range today ts] where id > 5 group by type having id>10
+##sqlend
+INSERT INTO STREAM rs SELECT id, name, count(id) FROM transformevent[RANGE TODAY ts ] WHERE id > 5 GROUP BY type HAVING id > 10
+##sqlstart:
+insert into stream rs select id,name,count(id) 
+from transformEvent[range today ts partition by type] where id > 5 group by type having id>10
+##sqlend
+INSERT INTO STREAM rs SELECT id, name, count(id) FROM transformevent[RANGE TODAY ts PARTITION BY type] WHERE id > 5 GROUP BY type HAVING id > 10

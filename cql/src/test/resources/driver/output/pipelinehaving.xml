@@ -19,13 +19,12 @@
         <deserializer class="SimpleSerDe"/>
         <groupId>zhou123</groupId>
         <topic>Previous_input_0040_0002</topic>
-        <zookeepers>160.165.0.10:2181</zookeepers>
+        <zookeepers>192.168.0.2:2181</zookeepers>
       </KafkaInput>
       <KafkaOutput id="KafkaOutput_002" parallel="1">
         <serializer class="SimpleSerDe"/>
         <topic>Previous_output_0040_0002</topic>
-        <zookeepers>160.165.0.10:2181</zookeepers>
-        <brokers>160.138.1.22:9092</brokers>
+        <zookeepers>192.168.0.2:2181</zookeepers>
       </KafkaOutput>
       <Aggregator id="Aggregator_005" parallel="1">
         <outputExpression>s1.column1,  sum( s1.column2 ) </outputExpression>

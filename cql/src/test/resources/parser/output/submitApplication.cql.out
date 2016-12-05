@@ -1,0 +1,8 @@
+##sqlstart:
+submit application cqltest
+##sqlend
+SUBMIT APPLICATION cqltest
+##sqlstart:
+submit application force cqltest
+##sqlend
+SUBMIT APPLICATION FORCE cqltest

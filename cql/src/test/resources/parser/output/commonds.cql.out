@@ -1,0 +1,92 @@
+##sqlstart:
+add file 'hdfs:///home/user/test.jar'
+##sqlend
+ADD FILE 'hdfs:///home/user/test.jar'
+##sqlstart:
+add file '/home/user/test.jar'
+##sqlend
+ADD FILE '/home/user/test.jar'
+##sqlstart:
+add jar '/home/user/test.jar'
+##sqlend
+ADD JAR '/home/user/test.jar'
+##sqlstart:
+show functions tostring
+##sqlend
+SHOW FUNCTIONS tostring
+##sqlstart:
+show functions extended tostring
+##sqlend
+SHOW FUNCTIONS EXTENDED tostring
+##sqlstart:
+show applications testapp
+##sqlend
+SHOW APPLICATIONS testapp
+##sqlstart:
+load application '/opt/test.xml'
+##sqlend
+LOAD APPLICATION '/opt/test.xml'
+##sqlstart:
+load application 'hdfs:///opt/test.xml'
+##sqlend
+LOAD APPLICATION 'hdfs:///opt/test.xml'
+##sqlstart:
+explain application testapp 'hdfs:///opt/test.xml'
+##sqlend
+EXPLAIN APPLICATION testapp 'hdfs:///opt/test.xml'
+##sqlstart:
+explain application testapp '/opt/test.xml'
+##sqlend
+EXPLAIN APPLICATION testapp '/opt/test.xml'
+##sqlstart:
+set "x" = "1"
+##sqlend
+SET 'x' = '1'
+##sqlstart:
+set "bls" = "true"
+##sqlend
+SET 'bls' = 'true'
+##sqlstart:
+set "x" = 'abc'
+##sqlend
+SET 'x' = 'abc'
+##sqlstart:
+set "x"="1"
+##sqlend
+SET 'x' = '1'
+##sqlstart:
+set "x"="1"
+##sqlend
+SET 'x' = '1'
+##sqlstart:
+get "x"
+##sqlend
+GET 'x'
+##sqlstart:
+create function test as 'com.huawei.streaming.cql.udf.testudf'
+##sqlend
+CREATE FUNCTION test AS 'com.huawei.streaming.cql.udf.testudf'
+##sqlstart:
+drop function if exists test
+##sqlend
+DROP FUNCTION IF EXISTS test
+##sqlstart:
+submit application force testapp
+##sqlend
+SUBMIT APPLICATION FORCE testapp
+##sqlstart:
+submit application testapp
+##sqlend
+SUBMIT APPLICATION testapp
+##sqlstart:
+drop application if exists testapp
+##sqlend
+DROP APPLICATION IF EXISTS testapp
+##sqlstart:
+drop application testapp
+##sqlend
+DROP APPLICATION testapp
+##sqlstart:
+deactive application app1
+##sqlend
+DEACTIVE APPLICATION app1

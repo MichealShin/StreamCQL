@@ -90,12 +90,6 @@ public class OperatorTransition
     
     /**
      * <默认构造函数>
-     * @param streamname 流名称
-     * @param fromOperator 发起连接的算子
-     * @param toOperator 接收连接的算子
-     * @param distributedType 数据分发类型
-     * @param distributedFiles 数据分发字段，仅在按照field分发的时候用到
-     * @param schema 发起连接的算子的schema信息
      */
     public OperatorTransition(String streamname, Operator fromOperator, Operator toOperator,
         DistributeType distributedType, String distributedFiles, Schema schema)

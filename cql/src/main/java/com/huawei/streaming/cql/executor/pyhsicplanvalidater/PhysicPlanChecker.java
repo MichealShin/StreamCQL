@@ -46,8 +46,6 @@ public class PhysicPlanChecker
     
     /**
      * 检查物理执行计划
-     * @param app 物理执行计划
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 如果检查出错，则抛出异常
      */
     public void check(Application app)
         throws ExecutorException

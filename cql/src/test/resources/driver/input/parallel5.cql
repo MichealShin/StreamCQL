@@ -1,6 +1,6 @@
 set "operator.kafka.messageserializerclass"="kafka.serializer.StringEncoder";
-set "operator.kafka.zookeepers"="localhost:2181,158.1.130.21:2181";
-set "operator.kafka.brokers"="158.1.130.12:9092";
+set "operator.kafka.zookeepers"="localhost:2181,192.168.0.2:2181";
+set "operator.kafka.brokers"="192.168.0.2:9092";
 set "operator.kafka.zksessiontimeout"="20000";
 set "operator.kafka.zksynctime"="20000";
 set "serde.simpleserde.separator" = ",";

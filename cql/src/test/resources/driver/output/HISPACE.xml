@@ -1,0 +1,59 @@
+<Definitions>
+  <Application id="test">
+    <Schemas>
+      <Schema id="hispace" name="hispace">
+        <attribute name="hispace_app_id" type="java.lang.String"/>
+        <attribute name="logon_id" type="java.lang.String"/>
+        <attribute name="oper_time" type="java.sql.Timestamp"/>
+        <attribute name="oper_type" type="java.lang.String"/>
+        <attribute name="biz_channel_id" type="java.lang.String"/>
+        <attribute name="net_system_id" type="java.lang.String"/>
+        <attribute name="ip_address" type="java.lang.String"/>
+        <attribute name="reqsource" type="java.lang.String"/>
+        <attribute name="subsource" type="java.lang.String"/>
+        <attribute name="listid" type="java.lang.String"/>
+        <attribute name="position" type="java.lang.String"/>
+        <attribute name="expand" type="java.lang.String"/>
+      </Schema>
+      <Schema id="open_count" name="open_count">
+        <attribute name="opencount" type="java.lang.Long"/>
+      </Schema>
+      <Schema id="timetrans" name="timetrans">
+        <attribute name="logon_id" type="java.lang.String"/>
+        <attribute name="tp" type="java.lang.Long"/>
+        <attribute name="oper_type" type="java.lang.String"/>
+      </Schema>
+    </Schemas>
+    <Operators>
+      <KafkaInput id="KafkaInput_001" parallel="1">
+        <deserializer class="SimpleSerDe">
+          <separator>|</separator>
+        </deserializer>
+        <groupId>group1</groupId>
+        <topic>ods</topic>
+        <zookeepers>192.168.0.2:2181</zookeepers>
+      </KafkaInput>
+      <ConsoleOutput id="ConsoleOutput_002" parallel="1">
+        <serializer class="SimpleSerDe"/>
+        <printFrequence>10</printFrequence>
+      </ConsoleOutput>
+      <Functor id="Functor_005" parallel="1">
+        <outputExpression>hispace.logon_id,  currenttimemillis(  ) , hispace.oper_type</outputExpression>
+        <filterExpression>(hispace.oper_type = &apos;0&apos;)</filterExpression>
+      </Functor>
+      <Aggregator id="Aggregator_007" parallel="1">
+        <outputExpression> count( * ) </outputExpression>
+        <window name="event_tbatch">
+          <length>1000</length>
+          <timestampField>timetrans.tp</timestampField>
+          <excludeNow>false</excludeNow>
+        </window>
+      </Aggregator>
+    </Operators>
+    <Transitions>
+      <Transition name="st_001" from="KafkaInput_001" to="Functor_005" distributedType="SHUFFLE" schemaName="hispace"/>
+      <Transition name="st_002" from="Functor_005" to="Aggregator_007" distributedType="SHUFFLE" schemaName="timetrans"/>
+      <Transition name="st_006" from="Aggregator_007" to="ConsoleOutput_002" distributedType="SHUFFLE" schemaName="open_count"/>
+    </Transitions>
+  </Application>
+</Definitions>

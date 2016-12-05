@@ -36,8 +36,6 @@ public class ExecutorUtils
 {
     /**
      * 移除字符串中的流名称
-     * @param str 包含流名称的字符串
-     * @return 移除流名称的字符串
      */
     public static String removeStreamName(String str)
     {
@@ -61,9 +59,6 @@ public class ExecutorUtils
     
     /**
      * 根据id获取对应算子
-     * @param opid 算子id
-     * @param operators 算子列表
-     * @return 获取的算子
      */
     public static Operator getOperatorById(String opid, List<Operator> operators)
     {
@@ -86,8 +81,6 @@ public class ExecutorUtils
      * 获取算子中最开始的连线
      * 
      * 从To的数组中找到从来没有被From使用过的点即可
-     * @param transitions 连线列表
-     * @return 最开始的连线
      */
     public static List<OperatorTransition> getLastTransitons(List<OperatorTransition> transitions)
     {
@@ -111,8 +104,6 @@ public class ExecutorUtils
      * 一般是一条，如果是join，那么就有两条了
      * 
      * 只要找到From的点中从来没有被To使用过的点即可
-     * @param transitions 连线
-     * @return 最开始的连线
      */
     public static List<OperatorTransition> getFirstTransitons(List<OperatorTransition> transitions)
     {
@@ -132,9 +123,6 @@ public class ExecutorUtils
     
     /**
      * 获取所有连向toid的连线
-     * @param toid 算子id
-     * @param transitions 连线列表
-     * @return 对应的连线
      */
     public static List<OperatorTransition> getTransitonsByToId(String toid, List<OperatorTransition> transitions)
     {
@@ -152,9 +140,6 @@ public class ExecutorUtils
     
     /**
      * 获取所有从fromid发起的连线
-     * @param formid form的算子id
-     * @param transitions 连线列表
-     * @return 所有从fromid发起的连线
      */
     public static List<OperatorTransition> getTransitonsByFromId(String formid, List<OperatorTransition> transitions)
     {

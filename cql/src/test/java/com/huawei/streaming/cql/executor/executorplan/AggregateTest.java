@@ -18,6 +18,10 @@
 
 package com.huawei.streaming.cql.executor.executorplan;
 
+import com.huawei.streaming.cql.Driver;
+import com.huawei.streaming.cql.DriverContext;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -28,13 +32,11 @@ import org.junit.Test;
 
 import com.huawei.streaming.api.PhysicalPlan;
 import com.huawei.streaming.application.Application;
-import com.huawei.streaming.cql.Driver;
-import com.huawei.streaming.cql.DriverContext;
 import com.huawei.streaming.cql.executor.ExecutorPlanGenerator;
 import com.huawei.streaming.cql.executor.PhysicalPlanLoader;
+import com.huawei.streaming.cql.executor.PhysicalPlanLoaderTest;
 import com.huawei.streaming.operator.IRichOperator;
 import com.huawei.streaming.operator.functionstream.AggFunctionOp;
-import static org.junit.Assert.assertTrue;
 
 /**
  * 执行计划生成器测试
@@ -51,7 +53,6 @@ public class AggregateTest
     /**
      * 初始化测试类之前要执行的初始化方法
      *
-     * @throws Exception 初始化中可能抛出的异常
      */
     @BeforeClass
     public static void setUpBeforeClass()
@@ -67,7 +68,6 @@ public class AggregateTest
     /**
      * 所有测试用例执行完毕之后执行的方法
      *
-     * @throws Exception 执行异常
      */
     @AfterClass
     public static void tearDownAfterClass()
@@ -84,7 +84,6 @@ public class AggregateTest
     /**
      * 简单的filter执行用例测试
      *
-     * @throws Exception 执行异常
      */
     @Test
     public void testAggregate()
@@ -115,7 +114,7 @@ public class AggregateTest
      */
     private static void setDir()
     {
-        String classPath = AggregateTest.class.getResource("/").getPath();
+        String classPath = PhysicalPlanLoaderTest.class.getResource("/").getPath();
         
         try
         {

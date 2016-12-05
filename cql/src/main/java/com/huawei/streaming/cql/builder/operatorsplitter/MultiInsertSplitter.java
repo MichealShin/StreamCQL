@@ -58,7 +58,6 @@ public class MultiInsertSplitter implements Splitter
     /**
      * <默认构造函数>
      *
-     * @param buildUtils builder中的一些公共数据
      */
     public MultiInsertSplitter(BuilderUtils buildUtils)
     {
@@ -107,9 +106,6 @@ public class MultiInsertSplitter implements Splitter
     /**
      * filter before window 语句解析
      *
-     * @param streamName 流名称
-     * @return filter算子
-     * @throws SemanticAnalyzerException 语义分析异常
      */
     protected FilterOperator splitFiterBeforeWindow(String streamName)
         throws SemanticAnalyzerException

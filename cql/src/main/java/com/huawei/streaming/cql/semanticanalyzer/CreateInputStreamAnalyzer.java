@@ -18,7 +18,6 @@
 
 package com.huawei.streaming.cql.semanticanalyzer;
 
-import java.util.Locale;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -28,14 +27,10 @@ import com.google.common.collect.Maps;
 import com.huawei.streaming.api.AnnotationUtils;
 import com.huawei.streaming.config.StreamingConfig;
 import com.huawei.streaming.cql.exception.SemanticAnalyzerException;
-import com.huawei.streaming.cql.mapping.CQLSimpleLexerMapping;
+import com.huawei.streaming.cql.mapping.SimpleLexer;
 import com.huawei.streaming.cql.mapping.InputOutputOperatorMapping;
 import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.AnalyzeContext;
-import com.huawei.streaming.cql.semanticanalyzer.parser.context.ClassNameContext;
-import com.huawei.streaming.cql.semanticanalyzer.parser.context.ColumnNameTypeListContext;
-import com.huawei.streaming.cql.semanticanalyzer.parser.context.CreateInputStatementContext;
-import com.huawei.streaming.cql.semanticanalyzer.parser.context.ParseContext;
-import com.huawei.streaming.cql.semanticanalyzer.parser.context.StreamPropertiesContext;
+import com.huawei.streaming.cql.semanticanalyzer.parser.context.*;
 import com.huawei.streaming.exception.ErrorCode;
 
 /**
@@ -51,8 +46,6 @@ public class CreateInputStreamAnalyzer extends CreateStreamAnalyzer
     /**
      * <默认构造函数>
      *
-     * @param parseContext 语法解析内容
-     * @throws SemanticAnalyzerException 语义分析内容
      */
     public CreateInputStreamAnalyzer(ParseContext parseContext)
         throws SemanticAnalyzerException
@@ -89,14 +82,24 @@ public class CreateInputStreamAnalyzer extends CreateStreamAnalyzer
     }
     
     private void setSourceClass()
+        throws SemanticAnalyzerException
     {
         ClassNameContext sourceClassName = createInputStreamParseContext.getSourceClassName();
-        
+
         String newSourceClassName = sourceClassName.getClassName();
         if (sourceClassName.isInnerClass())
         {
-            newSourceClassName = CQLSimpleLexerMapping.getFullName(newSourceClassName);
+           String fullName = SimpleLexer.INPUT.getFullName(newSourceClassName);
+            if(fullName == null)
+            {
+                SemanticAnalyzerException exception =
+                    new SemanticAnalyzerException(ErrorCode.SEMANTICANALYZE_UNMATCH_OPERATOR, newSourceClassName);
+                LOG.error("The '{}' operator type does not match.", newSourceClassName);
+                throw exception;
+            }
+            newSourceClassName = fullName;
         }
+
         getAnalyzeContext().setRecordReaderClassName(newSourceClassName);
     }
     
@@ -107,14 +110,14 @@ public class CreateInputStreamAnalyzer extends CreateStreamAnalyzer
         Map<String, String> sourceProperties = analyzeStreamProperties(sourceProperties1);
         getAnalyzeContext().setReadWriterProperties(convertSourceSimpleConf(sourceProperties));
     }
-    
+
     private void setSerDeDefine()
         throws SemanticAnalyzerException
     {
         setSerDeClass();
         setSerDeProperties();
     }
-    
+
     private void setSerDeClass()
         throws SemanticAnalyzerException
     {
@@ -124,10 +127,10 @@ public class CreateInputStreamAnalyzer extends CreateStreamAnalyzer
             setSerDeByDefault();
             return;
         }
-        
+
         setSerDeByCQL(deserClassName);
     }
-    
+
     private void setSerDeProperties()
         throws SemanticAnalyzerException
     {
@@ -135,13 +138,11 @@ public class CreateInputStreamAnalyzer extends CreateStreamAnalyzer
         Map<String, String> serdeProperties = analyzeStreamProperties(deserProperties);
         getAnalyzeContext().setSerDeProperties(convertSerDeSimpleConf(serdeProperties));
     }
-    
+
     /**
      * 当使用了内部的输入输出的时候，允许配置属性进行简写
      * 这里对简写的配置属性进行还原，替换为全称
      *
-     * @param serdeProperties 配置属性
-     * @return 全称的配置属性
      */
     private Map<String, String> convertSerDeSimpleConf(final Map<String, String> serdeProperties)
         throws SemanticAnalyzerException
@@ -156,7 +157,7 @@ public class CreateInputStreamAnalyzer extends CreateStreamAnalyzer
         String sourceClassName = getAnalyzeContext().getRecordReaderClassName();
         return convertSimpleConf(sourceConf, sourceClassName);
     }
-    
+
     private Map<String, String> convertSimpleConf(Map<String, String> serdeProperties, String deserClassName)
         throws SemanticAnalyzerException
     {
@@ -165,31 +166,41 @@ public class CreateInputStreamAnalyzer extends CreateStreamAnalyzer
         {
             return serdeProperties;
         }
-        
+
         Map<String, String> configMapping = AnnotationUtils.getConfigMapping(apiOperator);
         Map<String, String> confs = Maps.newHashMap();
-        
+
         for (Map.Entry<String, String> et : serdeProperties.entrySet())
         {
-            String fullName = et.getKey().toLowerCase(Locale.US);
+            String fullName = et.getKey();
             String value = et.getValue();
+            //大小写完全匹配
             if (configMapping.containsKey(fullName))
             {
                 fullName = configMapping.get(fullName);
             }
             confs.put(fullName, value);
         }
-        
+
         return confs;
     }
     
     private void setSerDeByCQL(ClassNameContext deserClassName)
+        throws SemanticAnalyzerException
     {
         String newDeserClassName = deserClassName.getClassName();
-        
+
         if (deserClassName.isInnerClass())
         {
-            newDeserClassName = CQLSimpleLexerMapping.getFullName(newDeserClassName);
+            String fullName = SimpleLexer.SERDE.getFullName(newDeserClassName);
+            if(fullName == null)
+            {
+                SemanticAnalyzerException exception =
+                    new SemanticAnalyzerException(ErrorCode.SEMANTICANALYZE_UNMATCH_OPERATOR, newDeserClassName);
+                LOG.error("The '{}' operator type does not match.", newDeserClassName);
+                throw exception;
+            }
+            newDeserClassName = fullName;
         }
         getAnalyzeContext().setDeserializerClassName(newDeserClassName);
     }

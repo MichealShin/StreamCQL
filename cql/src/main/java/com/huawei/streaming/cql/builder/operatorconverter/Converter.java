@@ -30,8 +30,6 @@ public interface Converter
     
     /**
      * 验证是否满足转换要求
-     * @param op 待转换的算子
-     * @return 如果满足，返回true
      */
     boolean validate(Operator op);
 }

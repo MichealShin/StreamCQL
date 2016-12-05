@@ -1,0 +1,8 @@
+##sqlstart:
+select * from s1[range unbounded],s2[range unbounded],s3[range today ts] combine(s1.id,s2.id,s3.id)
+##sqlend
+SELECT * FROM s1[RANGE UNBOUNDED ] CROSS JOIN s2[RANGE UNBOUNDED ]  CROSS JOIN s3[RANGE TODAY ts ] COMBINE (s1.id, s2.id, s3.id)
+##sqlstart:
+select * from s1,s2,s3 combine(s1.id,s2.id,s3.id)
+##sqlend
+SELECT * FROM s1 CROSS JOIN s2  CROSS JOIN s3 COMBINE (s1.id, s2.id, s3.id)

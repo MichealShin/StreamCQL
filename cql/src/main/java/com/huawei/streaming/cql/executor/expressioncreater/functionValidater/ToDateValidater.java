@@ -38,7 +38,7 @@ public class ToDateValidater implements FunctionValidater
     public ToDateValidater()
     {
         UDFAnnotation annotation = ToDate.class.getAnnotation(UDFAnnotation.class);
-        fName = annotation == null ? null : annotation.name();
+        fName = annotation == null ? null : annotation.value();
     }
     
     /**

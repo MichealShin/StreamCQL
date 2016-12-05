@@ -1,0 +1,112 @@
+##sqlstart:
+select * from teststream
+##sqlend
+SELECT * FROM teststream
+##sqlstart:
+select a from teststream
+##sqlend
+SELECT a FROM teststream
+##sqlstart:
+select id,name from testStream
+##sqlend
+SELECT id, name FROM teststream
+##sqlstart:
+select * from testStream S1 join S2
+##sqlend
+SELECT * FROM teststream AS s1 INNER JOIN s2
+##sqlstart:
+select * from testStream as S1 join S2 on S1.id=S2.id
+##sqlend
+SELECT * FROM teststream AS s1 INNER JOIN s2 ON s1.id = s2.id
+##sqlstart:
+select * from testStream as S1 inner join S2 on S1.id=S2.id
+##sqlend
+SELECT * FROM teststream AS s1 INNER JOIN s2 ON s1.id = s2.id
+##sqlstart:
+select * from testStream as S1 cross join S2 on S1.id=S2.id
+##sqlend
+SELECT * FROM teststream AS s1 CROSS JOIN s2 ON s1.id = s2.id
+##sqlstart:
+select * from testStream as S1 natural join S2
+##sqlend
+SELECT * FROM teststream AS s1 NATURAL JOIN s2
+##sqlstart:
+select * from testStream as S1 left outer join S2 on S1.id=S2.id
+##sqlend
+SELECT * FROM teststream AS s1 LEFT OUTER JOIN s2 ON s1.id = s2.id
+##sqlstart:
+select * from testStream as S1 right outer join S2 on S1.id=S2.id
+##sqlend
+SELECT * FROM teststream AS s1 RIGHT OUTER JOIN s2 ON s1.id = s2.id
+##sqlstart:
+select * from testStream as S1 full outer join S2 on S1.id=S2.id
+##sqlend
+SELECT * FROM teststream AS s1 FULL OUTER JOIN s2 ON s1.id = s2.id
+##sqlstart:
+select count(*) from S1 group by id
+##sqlend
+SELECT count(*) FROM s1 GROUP BY id
+##sqlstart:
+select count(*) from S1 group by id,type
+##sqlend
+SELECT count(*) FROM s1 GROUP BY id, type
+##sqlstart:
+select count(*) from S1 group by id having count(*) > 10
+##sqlend
+SELECT count(*) FROM s1 GROUP BY id HAVING count(*) > 10
+##sqlstart:
+select count(*)  a from S1 group by id having a > 10
+##sqlend
+SELECT count(*) AS a FROM s1 GROUP BY id HAVING a > 10
+##sqlstart:
+select count(*)  as a from S1 group by id having a > 10
+##sqlend
+SELECT count(*) AS a FROM s1 GROUP BY id HAVING a > 10
+##sqlstart:
+select count(*)  as a from S1 having a > 10
+##sqlend
+SELECT count(*) AS a FROM s1 HAVING a > 10
+##sqlstart:
+select * from S1 order by id
+##sqlend
+SELECT * FROM s1 ORDER BY id ASC
+##sqlstart:
+select * from S1 order by id desc
+##sqlend
+SELECT * FROM s1 ORDER BY id DESC
+##sqlstart:
+select * from S1 order by id asc
+##sqlend
+SELECT * FROM s1 ORDER BY id ASC
+##sqlstart:
+select * from S1 limit 10
+##sqlend
+SELECT * FROM s1 LIMIT 10
+##sqlstart:
+select * from S1[range unbounded]
+##sqlend
+SELECT * FROM s1[RANGE UNBOUNDED ]
+##sqlstart:
+select * from S[range 10 milliseconds batch]
+##sqlend
+SELECT * FROM s[RANGE 10 MILLISECONDS BATCH ]
+##sqlstart:
+select * from S1[range 10 milliseconds batch partition by a]
+##sqlend
+SELECT * FROM s1[RANGE 10 MILLISECONDS BATCH PARTITION BY a]
+##sqlstart:
+select * from S1[range 10 milliseconds sort by a]
+##sqlend
+SELECT * FROM s1[RANGE 10 MILLISECONDS SORT BY a]
+##sqlstart:
+insert into stream S1 select * from S2
+##sqlend
+INSERT INTO STREAM s1 SELECT * FROM s2
+##sqlstart:
+select hbasescan("hb","rowkey","f1:c1")  as a from S1 having a > 10
+##sqlend
+SELECT hbasescan("hb", "rowkey", "f1:c1") AS a FROM s1 HAVING a > 10
+##sqlstart:
+select hbasescan("hb","rowkey","f1:c1,f1:c2")  as (col1,col2) from S1 having col1 is not null
+##sqlend
+SELECT hbasescan("hb", "rowkey", "f1:c1,f1:c2") AS (col1, col2) FROM s1 HAVING col1 IS NOT NULL

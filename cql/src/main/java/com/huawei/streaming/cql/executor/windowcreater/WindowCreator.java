@@ -34,11 +34,6 @@ public interface WindowCreator
 {
     /**
      * 创建window的实例
-     * @param window 窗口信息
-     * @param schemas groupby等需要的schema信息
-     * @param systemConfig 系统配置属性
-     * @return 窗口实例
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 执行期异常
      */
     IWindow createInstance(Window window, List<Schema> schemas, Map<String, String> systemConfig)
         throws ExecutorException;

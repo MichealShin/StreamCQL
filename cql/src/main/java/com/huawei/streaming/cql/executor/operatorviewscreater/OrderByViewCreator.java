@@ -47,10 +47,6 @@ public class OrderByViewCreator
     /**
      * 创建groupby实例
      *
-     * @param uotputSchemas 输出schema
-     * @param orderbyCondition orderby表达式
-     * @return orderby表达式数组
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 执行期异常
      */
     public List<SortCondition> create(List<Schema> uotputSchemas, String orderbyCondition)
         throws ExecutorException

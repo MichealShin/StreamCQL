@@ -44,7 +44,7 @@ public class SubQueryExpressionContext extends ParseContext
     public String toString()
     {
         // TODO Auto-generated method stub
-        return null;
+        return "";
     }
     
     public SelectStatementContext getSelect()

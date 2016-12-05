@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import com.huawei.streaming.util.StreamingUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,9 +93,6 @@ public class ExecutorPlanGenerator
      * 4、检查Application
      * 5、提交Application
      *
-     * @param vap 物理执行计划中的应用程序
-     * @return 执行计划
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 执行器异常
      */
     public com.huawei.streaming.application.Application generate(Application vap)
         throws ExecutorException
@@ -130,7 +128,6 @@ public class ExecutorPlanGenerator
      * 3、整理算子顺序
      * 4、添加算子到app
      *
-     * @throws Exception
      */
     private void parseOperators()
         throws ExecutorException
@@ -190,8 +187,6 @@ public class ExecutorPlanGenerator
      * 对于系统内置的输入算子，都必须属于BasicInputSourceOperator
      * 对于用户自定义的输入算子，都必须属于InputSourceOperator，所以要按照实例来识别
      *
-     * @return 解析好的输入算子
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 解析异常
      */
     private Map<String, Operator> formatInputSourceOperators()
         throws ExecutorException
@@ -268,8 +263,6 @@ public class ExecutorPlanGenerator
      * 对于系统内置的输出算子，都必须属于BasicOutputSourceOperator
      * 对于用户自定义的输入算子，都必须属于InputSourceOperator，所以要按照实例来识别
      *
-     * @return 解析好的输入算子
-     * @throws Exception 解析异常
      */
     private Map<String, Operator> formatOutputSourceOperators()
         throws ApplicationBuildException
@@ -349,8 +342,6 @@ public class ExecutorPlanGenerator
      * 由于底层API的原因，在设置上下级关系的时候，既要通过setinput和setoutput的API来设置
      * 还要通过setconfig的方式来设置，后面考虑进行规整。
      *
-     * @param operatorInfos 算子信息
-     * @throws ExecutorException 异常
      */
     private void combineOperators(Map<String, AbsOperator> operatorInfos)
         throws ExecutorException
@@ -399,7 +390,7 @@ public class ExecutorPlanGenerator
         StreamingConfig sConfig = fopInfo.getConfig();
         sConfig = (sConfig == null ? new StreamingConfig() : sConfig);
         sConfig.put(StreamingConfig.STREAMING_INNER_INPUT_STREAM_NAME, streamName);
-        sConfig.put(StreamingConfig.STREAMING_INNER_INPUT_SCHEMA, outputSchema);
+        sConfig.put(StreamingConfig.STREAMING_INNER_INPUT_SCHEMA, StreamingUtils.serializeSchema(outputSchema));
         try
         {
             fopInfo.setConfig(sConfig);
@@ -417,7 +408,7 @@ public class ExecutorPlanGenerator
         AbsOperator sopInfo = operatorInfos.get(fromOpId);
         StreamingConfig sConfig = sopInfo.getConfig();
         sConfig = (sConfig == null ? new StreamingConfig() : sConfig);
-        sConfig.put(StreamingConfig.STREAMING_INNER_OUTPUT_SCHEMA, outputSchema);
+        sConfig.put(StreamingConfig.STREAMING_INNER_OUTPUT_SCHEMA, StreamingUtils.serializeSchema(outputSchema));
         sConfig.put(StreamingConfig.STREAMING_INNER_OUTPUT_STREAM_NAME, streamName);
         try
         {
@@ -432,9 +423,6 @@ public class ExecutorPlanGenerator
     /**
      * 解析功能性算子信息
      *
-     * @param operators xml中的算子信息
-     * @return 完成解析的功能性算子信息列表
-     * @throws Exception 解析异常
      */
     private Map<String, AbsOperator> createOperatorInfos(Map<String, Operator> operators)
         throws ExecutorException
@@ -455,9 +443,6 @@ public class ExecutorPlanGenerator
      * 这些算子中包含了joinOperator，FunctionOperator等算子
      * 但是不包含input和output算子
      *
-     * @param operator 算子
-     * @return 功能性算子实例
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 解析错误
      */
     private AbsOperator createOperatorInfo(Operator operator)
         throws ExecutorException
@@ -472,7 +457,6 @@ public class ExecutorPlanGenerator
      * 解析schema信息
      * 规整schema的名称，列名称全部使用小写，schema名称也全部小写
      *
-     * @throws Exception 解析异常
      */
     private void parseSchemas()
         throws ExecutorException
@@ -495,9 +479,6 @@ public class ExecutorPlanGenerator
     /**
      * 将schema转为IEvent事件
      *
-     * @param schema schema对象
-     * @return TupleEventType数组
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 数据类型解析异常
      */
     private TupleEventType parseSchemaToIEvent(Schema schema)
         throws ExecutorException

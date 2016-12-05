@@ -29,17 +29,11 @@ public interface MergeRule
 {
     /**
      * 文件是否匹配
-     * @param srcFile 待匹配的文件
-     * @return 如果匹配，返回true
      */
     boolean match(File srcFile);
     
     /**
      * 执行规则
-     * @param srcFile 源文件
-     * @param distFile 目标文件
-     * @param jarName 当前拷贝所在的jar包
-     * @throws IOException 拷贝异常
      */
     void execute(File srcFile, File distFile, String jarName)
         throws IOException;

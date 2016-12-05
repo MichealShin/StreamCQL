@@ -70,5 +70,15 @@ public class WindowSourceVisitor extends AbsCQLParserBaseVisitor<WindowSourceCon
         return context;
     }
     
-
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WindowSourceContext visitRangeToday(@NotNull CQLParser.RangeTodayContext ctx)
+    {
+        RangeTodayVisitor visitor = new RangeTodayVisitor();
+        context.setRangeToday(visitor.visit(ctx));
+        return context;
+    }
+    
 }

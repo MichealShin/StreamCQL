@@ -53,8 +53,6 @@ public class Column implements Serializable
     
     /**
      * <默认构造函数>
-     * @param name 列名称 
-     * @param type 列类型
      */
     public Column(String name, Class< ? > type)
     {

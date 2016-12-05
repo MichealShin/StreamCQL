@@ -1,0 +1,4 @@
+##sqlstart:
+previous(1,id,name,type)
+##sqlend
+PREVIOUS(1, id, name, type)

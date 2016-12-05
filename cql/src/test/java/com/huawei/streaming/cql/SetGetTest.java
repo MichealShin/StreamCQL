@@ -18,9 +18,9 @@
 
 package com.huawei.streaming.cql;
 
-import org.junit.Test;
-
 import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
 
 /**
  * Driver正常测试用例
@@ -31,7 +31,6 @@ public class SetGetTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Test
     public void testString()
@@ -54,18 +53,18 @@ public class SetGetTest
         getResult = driver.getResult();
         assertTrue(getResult.getResults().get(0)[0].equals("Java(TM) SE Runtime Environment"));
         
-        driver.run("set xx1= '${conf:test.a.x_1}bc'");
-        driver.run("get xx1");
+        driver.run("set 'xx1'= '${conf:test.a.x_1}bc'");
+        driver.run("get 'xx1'");
         getResult = driver.getResult();
         assertTrue(getResult.getResults().get(0)[0].equals("abc"));
         
-        driver.run("set xx2= 'bc${conf:test.a.x_1}'");
-        driver.run("get xx2");
+        driver.run("set 'xx2'= 'bc${conf:test.a.x_1}'");
+        driver.run("get 'xx2'");
         getResult = driver.getResult();
         assertTrue(getResult.getResults().get(0)[0].equals("bca"));
         
-        driver.run("set xx3= 'bc${conf:test.a.x_1}bc'");
-        driver.run("get xx3");
+        driver.run("set 'xx3'= 'bc${conf:test.a.x_1}bc'");
+        driver.run("get 'xx3'");
         getResult = driver.getResult();
         assertTrue(getResult.getResults().get(0)[0].equals("bcabc"));
     }

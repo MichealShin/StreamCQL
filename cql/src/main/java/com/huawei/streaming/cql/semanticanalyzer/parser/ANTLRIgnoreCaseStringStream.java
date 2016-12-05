@@ -33,7 +33,6 @@ class ANTLRIgnoreCaseStringStream extends ANTLRInputStream
     /**
      * <默认构造函数>
      * 
-     * @param input 输入的cql语法字符串
      */
     public ANTLRIgnoreCaseStringStream(String input)
     {

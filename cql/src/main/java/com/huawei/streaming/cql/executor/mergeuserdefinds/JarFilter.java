@@ -32,8 +32,6 @@ public class JarFilter implements FileFilter
     /**
      * 判断每个文件
      *
-     * @param pathname 待过滤的文件
-     * @return 如果不需要过滤，返回true
      */
     @Override
     public boolean accept(File pathname)
@@ -48,8 +46,6 @@ public class JarFilter implements FileFilter
     
     /**
      * 判断一个文件是否是jar包
-     * @param fileName 文件路径
-     * @return 如果是jar包，返回true
      */
     public static boolean isJarFile(String fileName)
     {

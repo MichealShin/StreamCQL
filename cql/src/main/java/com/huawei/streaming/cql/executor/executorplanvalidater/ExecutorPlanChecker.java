@@ -31,7 +31,6 @@ public class ExecutorPlanChecker
     /**
      * 检查执行计划
      * 如果执行计划由问题，则抛出异常
-     * @param app 执行计划中的应用程序信息
      */
     public void check(Application app)
     {

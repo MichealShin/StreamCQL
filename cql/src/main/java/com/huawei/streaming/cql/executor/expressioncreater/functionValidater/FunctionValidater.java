@@ -29,10 +29,6 @@ public interface FunctionValidater
 {
     /**
      * 函数参数校验
-     * @param functionName 函数名称
-     * @param argumentExpressions 函数参数
-     * @param functionExpressionDesc 函数申明内容
-     * @return 校验结果，true 成功，false，失败，非法参数
      */
     boolean validate(String functionName, IExpression[] argumentExpressions,
         FunctionExpressionDesc functionExpressionDesc);

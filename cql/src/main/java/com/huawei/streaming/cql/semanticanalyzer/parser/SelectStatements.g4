@@ -81,7 +81,7 @@ insertClause
    ;
 
 fromClause
-    :	KW_FROM joinSource
+    :	KW_FROM joinSource combineCondition?
     ;
 
 /*
@@ -99,6 +99,10 @@ joinRigthBody
 onCondition
 	:	KW_ON expression
 	; 
+ 
+combineCondition
+	:	KW_COMBINE LPAREN expression (COMMA expression)+ RPAREN
+	;
 
 joinToken
     :	innerJoin
@@ -202,15 +206,20 @@ windowSource
 windowBody
 	:	rangeWindow
 	|	rowsWindow
+	|	rangeToday
 	;
 	
 rowsWindow
-	:	KW_ROWS constIntegerValue windowProperties windowDeterminer?
+	:	KW_ROWS constIntegerValue windowProperties windowDeterminer
 	;
 
 rangeWindow
-	:	KW_RANGE rangeBound windowProperties? windowDeterminer?
+	:	KW_RANGE rangeBound windowProperties? windowDeterminer
 	;
+
+rangeToday
+	:	KW_RANGE KW_TODAY expression windowDeterminer
+	;	
 
 rangeBound
 	:	rangeTime
@@ -251,12 +260,27 @@ windowProperties
 	;
 
 windowDeterminer
-	:	partitionbyDeterminer
+	:	partitionbyDeterminer?
+		sortbyDeterminer?
+		triggerbyDeterminer?
+		excludeNowDeterminer?
 	;
 
 partitionbyDeterminer
 	:	KW_PARTITION KW_BY expression
 	;
+
+sortbyDeterminer
+	:	KW_SORT KW_BY expression
+	;
+	
+triggerbyDeterminer
+	:	KW_TRIGGER KW_BY expression
+	;	
+	
+excludeNowDeterminer
+	:	KW_EXCLUDE KW_NOW
+	;	
 	
 subQuerySource
     :	LPAREN selectStatement RPAREN

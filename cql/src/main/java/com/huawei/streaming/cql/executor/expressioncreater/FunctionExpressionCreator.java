@@ -61,7 +61,6 @@ public class FunctionExpressionCreator implements ExpressionCreator
     /**
      * {@inheritDoc}
      *
-     * @throws com.huawei.streaming.cql.exception.ExecutorException
      */
     @Override
     public IExpression createInstance(ExpressionDescribe expressionDescribe, Map<String, String> systemconfig)
@@ -99,8 +98,6 @@ public class FunctionExpressionCreator implements ExpressionCreator
      * <p/>
      * 如果是count(*)里面的表达式是星号表达式，返回数据类型是空。
      *
-     * @return udaf函数表达式实例
-     * @throws com.huawei.streaming.cql.exception.ExecutorException
      */
     private IExpression createUDAFExpression()
         throws ExecutorException
@@ -185,8 +182,6 @@ public class FunctionExpressionCreator implements ExpressionCreator
     /**
      * 创建udf表达式
      *
-     * @return udf表达式实例
-     * @throws com.huawei.streaming.cql.exception.ExecutorException
      */
     private IExpression createUDFExpression()
         throws ExecutorException
@@ -212,7 +207,6 @@ public class FunctionExpressionCreator implements ExpressionCreator
     /**
      * 创建udf函数实例，这些udf函数一定都是static的方法
      *
-     * @return 函数表达式
      */
     private IExpression createStaticUDFExpression()
     {
@@ -224,8 +218,6 @@ public class FunctionExpressionCreator implements ExpressionCreator
     /**
      * 创建udf函数实例，这些udf函数一定继承自UDF类
      *
-     * @return 函数表达式
-     * @throws com.huawei.streaming.cql.exception.ExecutorException
      */
     private IExpression createInstanceOfUDFExpression(final StreamingConfig config)
         throws ExecutorException
@@ -262,7 +254,6 @@ public class FunctionExpressionCreator implements ExpressionCreator
     /**
      * 检查是否是udaf函数
      *
-     * @return 如果是，返回true
      */
     private boolean isUDAF()
     {
@@ -272,7 +263,6 @@ public class FunctionExpressionCreator implements ExpressionCreator
     /**
      * 是否是本地方法
      *
-     * @return 如果返回值是false，则表示该方法是用户自定义的方法
      */
     private boolean isNative()
     {
@@ -282,7 +272,6 @@ public class FunctionExpressionCreator implements ExpressionCreator
     /**
      * 是否是本地方法
      *
-     * @return 如果返回值是false，则表示该方法是用户自定义的方法
      */
     private boolean isExtendsUDF()
     {

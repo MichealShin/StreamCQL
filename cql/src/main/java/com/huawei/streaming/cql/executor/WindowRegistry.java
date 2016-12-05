@@ -23,18 +23,43 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.huawei.streaming.api.opereators.WindowCommons;
+import com.huawei.streaming.cql.executor.windowcreater.EventTimeBatchWindowCreator;
+import com.huawei.streaming.cql.executor.windowcreater.EventTimeSlideWindowCreator;
+import com.huawei.streaming.cql.executor.windowcreater.GroupEventTimeBatchWindowCreator;
+import com.huawei.streaming.cql.executor.windowcreater.GroupEventTimeSlideWindowCreator;
+import com.huawei.streaming.cql.executor.windowcreater.GroupLengthBatchWindowCreator;
+import com.huawei.streaming.cql.executor.windowcreater.GroupLengthSlideWindowCreator;
+import com.huawei.streaming.cql.executor.windowcreater.GroupNaturalDaySlideWindowCreator;
+import com.huawei.streaming.cql.executor.windowcreater.GroupTimeBatchWindowCreator;
+import com.huawei.streaming.cql.executor.windowcreater.GroupTimeSlideWindowCreator;
 import com.huawei.streaming.cql.executor.windowcreater.KeepAllWindowCreator;
 import com.huawei.streaming.cql.executor.windowcreater.LengthBatchWindowCreator;
 import com.huawei.streaming.cql.executor.windowcreater.LengthSlideWindowCreator;
+import com.huawei.streaming.cql.executor.windowcreater.LengthSortWindowCreator;
+import com.huawei.streaming.cql.executor.windowcreater.NaturalDaySlideWindowCreator;
 import com.huawei.streaming.cql.executor.windowcreater.TimeBatchWindowCreator;
 import com.huawei.streaming.cql.executor.windowcreater.TimeSlideWindowCreator;
+import com.huawei.streaming.cql.executor.windowcreater.TimeSortWindowCreator;
 import com.huawei.streaming.cql.executor.windowcreater.WindowCreator;
+import com.huawei.streaming.window.EventTimeBatchWindow;
+import com.huawei.streaming.window.EventTimeSlideWindow;
 import com.huawei.streaming.window.IWindow;
 import com.huawei.streaming.window.KeepAllWindow;
 import com.huawei.streaming.window.LengthBatchWindow;
 import com.huawei.streaming.window.LengthSlideWindow;
+import com.huawei.streaming.window.NaturalDaySlideWindow;
 import com.huawei.streaming.window.TimeBatchWindow;
 import com.huawei.streaming.window.TimeSlideWindow;
+import com.huawei.streaming.window.group.GroupEventTimeBatchWindow;
+import com.huawei.streaming.window.group.GroupEventTimeSlideWindow;
+import com.huawei.streaming.window.group.GroupLengthBatchWindow;
+import com.huawei.streaming.window.group.GroupLengthSlideWindow;
+import com.huawei.streaming.window.group.GroupNaturalDaySlideWindow;
+import com.huawei.streaming.window.group.GroupTimeBatchWindow;
+import com.huawei.streaming.window.group.GroupTimeSlideWindow;
+import com.huawei.streaming.window.sort.LengthSortWindow;
+import com.huawei.streaming.window.sort.TimeSortWindow;
+
 /**
  * 系统window类函数的注册
  * 之所以将window的函数注册独立开来，
@@ -68,12 +93,45 @@ public class WindowRegistry extends WindowCommons
             LengthSlideWindowCreator.class, "length,[excludeNow]"));
         registerNativeBatchWindow(new WindowInfo(LENGTH_BATCH_WINDOW, LengthBatchWindow.class,
             LengthBatchWindowCreator.class, "length,[excludeNow]"));
-
+        
+        registerNativeSlideWindow(new WindowInfo(GROUP_TIME_SLIDE_WINDOW, GroupTimeSlideWindow.class,
+            GroupTimeSlideWindowCreator.class, "length,groupbyExpression,[excludeNow]"));
+        registerNativeBatchWindow(new WindowInfo(GROUP_TIME_BATCH_WINDOW, GroupTimeBatchWindow.class,
+            GroupTimeBatchWindowCreator.class, "length,groupbyExpression,[excludeNow]"));
+        registerNativeSlideWindow(new WindowInfo(GROUP_LENGTH_SLIDE_WINDOW, GroupLengthSlideWindow.class,
+            GroupLengthSlideWindowCreator.class, "length,groupbyExpression,[excludeNow]"));
+        registerNativeBatchWindow(new WindowInfo(GROUP_LENGTH_BATCH_WINDOW, GroupLengthBatchWindow.class,
+            GroupLengthBatchWindowCreator.class, "length,groupbyExpression,[excludeNow]"));
+        
+        registerNativeSlideWindow(new WindowInfo(LENGTH_SORT_WINDOW, LengthSortWindow.class,
+            LengthSortWindowCreator.class, "length,orderbyExpression,[excludeNow]"));
+        registerNativeSlideWindow(new WindowInfo(TIME_SORT_WINDOW, TimeSortWindow.class, TimeSortWindowCreator.class,
+            "length,orderbyExpression,[excludeNow]"));
+        
+        /*
+         * 事件驱动的窗口
+         */
+        registerNativeBatchWindow(new WindowInfo(EVENT_TBATCH_WINDOW, EventTimeBatchWindow.class,
+            EventTimeBatchWindowCreator.class, "length,timestampField,[excludeNow]"));
+        registerNativeSlideWindow(new WindowInfo(EVENT_TSLIDE_WINDOW, EventTimeSlideWindow.class,
+            EventTimeSlideWindowCreator.class, "length,timestampField,[excludeNow]"));
+        registerNativeBatchWindow(new WindowInfo(GROUP_EVENT_TBATCH_WINDOW, GroupEventTimeBatchWindow.class,
+            GroupEventTimeBatchWindowCreator.class, "length,groupbyExpression,timestampField,[excludeNow]"));
+        registerNativeSlideWindow(new WindowInfo(GROUP_EVENT_TSLIDE_WINDOW, GroupEventTimeSlideWindow.class,
+            GroupEventTimeSlideWindowCreator.class, "length,groupbyExpression,timestampField,[excludeNow]"));
+        
+        /*
+         *  自然天的窗口
+         *  窗口中仅保存当天数据，超过当天即过期
+         */
+        registerNativeSlideWindow(new WindowInfo(TODAY_WINDOW, NaturalDaySlideWindow.class,
+            NaturalDaySlideWindowCreator.class, "timestampField,[excludeNow]"));
+        registerNativeSlideWindow(new WindowInfo(GROUP_TODAY_WINDOW, GroupNaturalDaySlideWindow.class,
+            GroupNaturalDaySlideWindowCreator.class, "groupbyExpression,timestampField,[excludeNow]"));
     }
     
     /**
      * 注册窗口
-     * @param winInfo 窗口信息
      */
     public static void registerWindow(WindowInfo winInfo)
     {
@@ -84,7 +142,6 @@ public class WindowRegistry extends WindowCommons
     
     /**
      * 注册窗口
-     * @param winInfo 窗口信息
      */
     private static void registerNativeSlideWindow(WindowInfo winInfo)
     {
@@ -95,7 +152,6 @@ public class WindowRegistry extends WindowCommons
     
     /**
      * 注册窗口
-     * @param winInfo 窗口信息
      */
     private static void registerNativeBatchWindow(WindowInfo winInfo)
     {
@@ -106,8 +162,6 @@ public class WindowRegistry extends WindowCommons
     
     /**
      * 获取窗口信息
-     * @param alias window别名
-     * @return 窗口信息
      */
     public static WindowInfo getWindowInfo(String alias)
     {
@@ -117,8 +171,6 @@ public class WindowRegistry extends WindowCommons
     /**
      * 根据window的别名，获取窗口实例类
      * 
-     * @param alias window别名
-     * @return 窗口实例类
      */
     public static Class< ? extends WindowCreator> getWindowCreatorByAlias(String alias)
     {
@@ -128,8 +180,6 @@ public class WindowRegistry extends WindowCommons
     /**
      * 根据窗口函数短名称获取该窗口所在类
      * 
-     * @param windowName 函数短名称
-     * @return 窗口类
      */
     public static Class< ? extends IWindow> getWindowClassByName(String windowName)
     {
@@ -140,8 +190,6 @@ public class WindowRegistry extends WindowCommons
      * 根据窗口类获取窗口所在函数短名称
      * 主要在IDE这边用到
      * 
-     * @param clazz 窗口类
-     * @return 窗口短名称
      */
     public static String getWindowNameByClass(Class< ? extends IWindow> clazz)
     {
@@ -159,8 +207,6 @@ public class WindowRegistry extends WindowCommons
      * 根据窗口类的全名称或者窗口函数短名称
      * 主要是IDE在用
      * 
-     * @param clazz 窗口类的字符串形式
-     * @return 函数短名称
      */
     public static String getWindowNameByClass(String clazz)
     {

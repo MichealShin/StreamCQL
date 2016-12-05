@@ -32,10 +32,6 @@ public class ExpressionDescFactory
 {
     /**
      * 创建表达式实例
-     * @param expressionContext 表达式语法解析结果
-     * @param schemas 表达式中用到的schema
-     * @return 表达式实例
-     * @throws SemanticAnalyzerException 语义分析异常
      */
     public static ExpressionDescribe createExpressionDesc(ExpressionContext expressionContext, List<Schema> schemas)
         throws SemanticAnalyzerException

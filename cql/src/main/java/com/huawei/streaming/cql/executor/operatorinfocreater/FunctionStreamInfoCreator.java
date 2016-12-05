@@ -62,12 +62,6 @@ public class FunctionStreamInfoCreator implements OperatorInfoCreator
     /**
      * 创建自定义算子
      *
-     * @param vapp 执行计划信息
-     * @param operator xml执行计划中的算子信息
-     * @param streamschema schema信息
-     * @param systemConfig 系统配置信息
-     * @return 创建成功的算子
-     * @throws StreamingException 实例创建异常
      */
     @Override
     public AbsOperator createInstance(Application vapp, Operator operator, EventTypeMng streamschema,

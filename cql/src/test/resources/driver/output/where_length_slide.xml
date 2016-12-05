@@ -1,7 +1,7 @@
 <Definitions>
   <Application id="app_where_length_slide">
     <confs>
-      <property key="operator.kafka.brokers" value="158.1.130.12:9092"/>
+      <property key="operator.kafka.brokers" value="192.168.0.2:9092"/>
     </confs>
     <Schemas>
       <Schema id="input_where_length_slide" name="input_where_length_slide">
@@ -23,7 +23,7 @@
         </deserializer>
         <groupId>gidkpi_1_1</groupId>
         <topic>where_length_slide_in</topic>
-        <zookeepers>158.1.130.12:2181</zookeepers>
+        <zookeepers>192.168.0.2:2181</zookeepers>
         <zkSessionTimeout>20000</zkSessionTimeout>
         <zkSyncTime>20000</zkSyncTime>
         <messageSerializerClass>kafka.serializer.StringEncoder</messageSerializerClass>
@@ -33,7 +33,7 @@
           <separator>,</separator>
         </serializer>
         <topic>where_length_slide_out</topic>
-        <zookeepers>158.1.130.12:2181</zookeepers>
+        <zookeepers>192.168.0.2:2181</zookeepers>
         <zkSessionTimeout>20000</zkSessionTimeout>
         <zkSyncTime>20000</zkSyncTime>
         <messageSerializerClass>kafka.serializer.StringEncoder</messageSerializerClass>

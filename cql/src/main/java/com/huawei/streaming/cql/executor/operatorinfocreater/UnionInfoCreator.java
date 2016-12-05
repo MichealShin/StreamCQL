@@ -78,9 +78,6 @@ public class UnionInfoCreator implements OperatorInfoCreator
     
     /**
      * 创建算子信息
-     * @param streamschema 算子对应schema
-     * @return 算子信息
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 运行期异常
      */
     protected AbsOperator createFunctionInfo(EventTypeMng streamschema)
         throws StreamingException
@@ -100,8 +97,6 @@ public class UnionInfoCreator implements OperatorInfoCreator
     
     /**
      * 获取输入表达式 参数
-     * @return streamconfig 
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 运行期异常
      */
     public StreamingConfig createInputExprsConf()
         throws ExecutorException
@@ -125,10 +120,6 @@ public class UnionInfoCreator implements OperatorInfoCreator
     
     /**
      * 获取表达式 解析结果
-     * @param scheam schema
-     * @param selectExpr 表达式字符串
-     * @return 解析表达式列表
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 解析异常
      */
     private IExpression[] getInPutExpressions(Schema scheam, String selectExpr)
         throws ExecutorException
@@ -138,8 +129,6 @@ public class UnionInfoCreator implements OperatorInfoCreator
     
     /**
      * 将schema中的列展开，构成简单的select表达式
-     * @param scheam schema
-     * @return 表达式字符串
      */
     private String getSelectExprFromSchema(Schema scheam)
     {

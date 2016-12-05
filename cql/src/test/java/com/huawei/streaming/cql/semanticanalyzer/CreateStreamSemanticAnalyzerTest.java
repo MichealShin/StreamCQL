@@ -18,6 +18,8 @@
 
 package com.huawei.streaming.cql.semanticanalyzer;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +36,6 @@ import com.huawei.streaming.cql.exception.SemanticAnalyzerException;
 import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.CreateStreamAnalyzeContext;
 import com.huawei.streaming.cql.semanticanalyzer.parser.IParser;
 import com.huawei.streaming.cql.semanticanalyzer.parser.ParserFactory;
-import static org.junit.Assert.assertTrue;
 
 /**
  * create stream test case
@@ -49,7 +50,6 @@ public class CreateStreamSemanticAnalyzerTest
     /**
      * 初始化测试类之前要执行的初始化方法
      *
-     * @throws Exception 初始化中可能抛出的异常
      */
     @BeforeClass
     public static void setUpBeforeClass()
@@ -64,7 +64,6 @@ public class CreateStreamSemanticAnalyzerTest
     /**
      * 所有测试用例执行完毕之后执行的方法
      *
-     * @throws Exception 执行异常
      */
     @AfterClass
     public static void tearDownAfterClass()
@@ -79,7 +78,6 @@ public class CreateStreamSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testCreateInputStream1()
@@ -87,8 +85,8 @@ public class CreateStreamSemanticAnalyzerTest
     {
         String sql =
             "CREATE INPUT STREAM S (id INT,Name STRING) "
-                + "SERDE 'com.huawei.streaming.sql.SerDe.csvDeserialize'  properties ('ip' = 'localhost') "
-                + "SOURCE 'com.huawei.streaming.spout.csvReader' PROPERTIES ('path' = '/local')";
+                + "SERDE 'com.huawei.streaming.serde.CSVSerDe'  properties ('ip' = 'localhost') "
+                + "SOURCE 'com.huawei.streaming.operator.inputstream.KafkaSourceOp' PROPERTIES ('path' = '/local')";
         SemanticAnalyzer analyzer = SemanticAnalyzerFactory.createAnalyzer(parser.parse(sql), initSchema());
         CreateStreamAnalyzeContext analyzeConext = (CreateStreamAnalyzeContext)analyzer.analyze();
         assertTrue(analyzeConext.getStreamName().equals("s"));
@@ -98,10 +96,10 @@ public class CreateStreamSemanticAnalyzerTest
         assertTrue(analyzeConext.getSchema().getCols().get(0).getType().equals(Integer.class.getName()));
         assertTrue(analyzeConext.getSchema().getCols().get(1).getName().equals("name"));
         assertTrue(analyzeConext.getSchema().getCols().get(1).getType().equals(String.class.getName()));
-        assertTrue(analyzeConext.getDeserializerClassName().equals("com.huawei.streaming.sql.SerDe.csvDeserialize"));
+        assertTrue(analyzeConext.getDeserializerClassName().equals("com.huawei.streaming.serde.CSVSerDe"));
         assertTrue(analyzeConext.getSerializerClassName() == null);
         assertTrue(analyzeConext.getSerDeProperties().get("ip").equals("localhost"));
-        assertTrue(analyzeConext.getRecordReaderClassName().equals("com.huawei.streaming.spout.csvReader"));
+        assertTrue(analyzeConext.getRecordReaderClassName().equals("com.huawei.streaming.operator.inputstream.KafkaSourceOp"));
         assertTrue(analyzeConext.getReadWriterProperties().get("path").equals("/local"));
         
     }
@@ -109,15 +107,14 @@ public class CreateStreamSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testCreateInputStream2()
         throws Exception
     {
         String sql =
-            "CREATE INPUT STREAM S (id long,name float) " + "SERDE 'com.huawei.streaming.sql.SerDe.csvDeserialize' "
-                + "SOURCE 'com.huawei.streaming.spout.csvReader' PROPERTIES ('path' = '/local')";
+            "CREATE INPUT STREAM S (id long,name float) " + "SERDE 'com.huawei.streaming.serde.CSVSerDe' "
+                + "SOURCE 'com.huawei.streaming.operator.inputstream.KafkaSourceOp' PROPERTIES ('path' = '/local')";
         SemanticAnalyzer analyzer = SemanticAnalyzerFactory.createAnalyzer(parser.parse(sql), initSchema());
         CreateStreamAnalyzeContext analyzeConext = (CreateStreamAnalyzeContext)analyzer.analyze();
         
@@ -128,17 +125,16 @@ public class CreateStreamSemanticAnalyzerTest
         assertTrue(analyzeConext.getSchema().getCols().get(0).getType().equals(Long.class.getName()));
         assertTrue(analyzeConext.getSchema().getCols().get(1).getName().equals("name"));
         assertTrue(analyzeConext.getSchema().getCols().get(1).getType().equals(Float.class.getName()));
-        assertTrue(analyzeConext.getDeserializerClassName().equals("com.huawei.streaming.sql.SerDe.csvDeserialize"));
+        assertTrue(analyzeConext.getDeserializerClassName().equals("com.huawei.streaming.serde.CSVSerDe"));
         assertTrue(analyzeConext.getSerializerClassName() == null);
         assertTrue(analyzeConext.getSerDeProperties().size() == 0);
-        assertTrue(analyzeConext.getRecordReaderClassName().equals("com.huawei.streaming.spout.csvReader"));
+        assertTrue(analyzeConext.getRecordReaderClassName().equals("com.huawei.streaming.operator.inputstream.KafkaSourceOp"));
         assertTrue(analyzeConext.getReadWriterProperties().get("path").equals("/local"));
     }
     
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testCreateInputStream3()
@@ -146,8 +142,8 @@ public class CreateStreamSemanticAnalyzerTest
     {
         String sql =
             "CREATE INPUT STREAM S (id double,name boolean) "
-                + "SERDE 'com.huawei.streaming.sql.SerDe.csvDeserialize' "
-                + "SOURCE 'com.huawei.streaming.spout.csvReader'";
+                + "SERDE 'com.huawei.streaming.serde.CSVSerDe' "
+                + "SOURCE 'com.huawei.streaming.operator.inputstream.KafkaSourceOp'";
         SemanticAnalyzer analyzer = SemanticAnalyzerFactory.createAnalyzer(parser.parse(sql), initSchema());
         CreateStreamAnalyzeContext analyzeConext = (CreateStreamAnalyzeContext)analyzer.analyze();
         
@@ -158,17 +154,16 @@ public class CreateStreamSemanticAnalyzerTest
         assertTrue(analyzeConext.getSchema().getCols().get(0).getType().equals(Double.class.getName()));
         assertTrue(analyzeConext.getSchema().getCols().get(1).getName().equals("name"));
         assertTrue(analyzeConext.getSchema().getCols().get(1).getType().equals(Boolean.class.getName()));
-        assertTrue(analyzeConext.getDeserializerClassName().equals("com.huawei.streaming.sql.SerDe.csvDeserialize"));
+        assertTrue(analyzeConext.getDeserializerClassName().equals("com.huawei.streaming.serde.CSVSerDe"));
         assertTrue(analyzeConext.getSerializerClassName() == null);
         assertTrue(analyzeConext.getSerDeProperties().size() == 0);
-        assertTrue(analyzeConext.getRecordReaderClassName().equals("com.huawei.streaming.spout.csvReader"));
+        assertTrue(analyzeConext.getRecordReaderClassName().equals("com.huawei.streaming.operator.inputstream.KafkaSourceOp"));
         assertTrue(analyzeConext.getReadWriterProperties().size() == 0);
     }
     
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testCreateInputStream4()
@@ -176,8 +171,8 @@ public class CreateStreamSemanticAnalyzerTest
     {
         String sql =
             "CREATE INPUT STREAM S (id INT,name STRING comment 'user name') COMMENT 'this is stream comment'"
-                + "SERDE 'com.huawei.streaming.sql.SerDe.csvDeserialize' "
-                + "SOURCE 'com.huawei.streaming.spout.csvReader'";
+                + "SERDE 'com.huawei.streaming.serde.CSVSerDe' "
+                + "SOURCE 'com.huawei.streaming.operator.inputstream.KafkaSourceOp'";
         SemanticAnalyzer analyzer = SemanticAnalyzerFactory.createAnalyzer(parser.parse(sql), initSchema());
         CreateStreamAnalyzeContext analyzeConext = (CreateStreamAnalyzeContext)analyzer.analyze();
         
@@ -188,17 +183,16 @@ public class CreateStreamSemanticAnalyzerTest
         assertTrue(analyzeConext.getSchema().getCols().get(0).getType().equals(Integer.class.getName()));
         assertTrue(analyzeConext.getSchema().getCols().get(1).getName().equals("name"));
         assertTrue(analyzeConext.getSchema().getCols().get(1).getType().equals(String.class.getName()));
-        assertTrue(analyzeConext.getDeserializerClassName().equals("com.huawei.streaming.sql.SerDe.csvDeserialize"));
+        assertTrue(analyzeConext.getDeserializerClassName().equals("com.huawei.streaming.serde.CSVSerDe"));
         assertTrue(analyzeConext.getSerializerClassName() == null);
         assertTrue(analyzeConext.getSerDeProperties().size() == 0);
-        assertTrue(analyzeConext.getRecordReaderClassName().equals("com.huawei.streaming.spout.csvReader"));
+        assertTrue(analyzeConext.getRecordReaderClassName().equals("com.huawei.streaming.operator.inputstream.KafkaSourceOp"));
         assertTrue(analyzeConext.getReadWriterProperties().size() == 0);
     }
     
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testCreateOutputStream1()
@@ -206,8 +200,8 @@ public class CreateStreamSemanticAnalyzerTest
     {
         String sql =
             "CREATE output STREAM S (id INT,Name STRING) "
-                + "SERDE 'com.huawei.streaming.sql.SerDe.csvSerialize'  properties ('ip' = 'localhost') "
-                + "SINK 'com.huawei.streaming.spout.csvWriter' PROPERTIES ('path' = '/local')";
+                + "SERDE 'com.huawei.streaming.serde.CSVSerDe'  properties ('ip' = 'localhost') "
+                + "SINK 'com.huawei.streaming.operator.outputstream.KafkaFunctionOp' PROPERTIES ('path' = '/local')";
         SemanticAnalyzer analyzer = SemanticAnalyzerFactory.createAnalyzer(parser.parse(sql), initSchema());
         CreateStreamAnalyzeContext analyzeConext = (CreateStreamAnalyzeContext)analyzer.analyze();
         
@@ -218,10 +212,10 @@ public class CreateStreamSemanticAnalyzerTest
         assertTrue(analyzeConext.getSchema().getCols().get(0).getType().equals(Integer.class.getName()));
         assertTrue(analyzeConext.getSchema().getCols().get(1).getName().equals("name"));
         assertTrue(analyzeConext.getSchema().getCols().get(1).getType().equals(String.class.getName()));
-        assertTrue(analyzeConext.getSerializerClassName().equals("com.huawei.streaming.sql.SerDe.csvSerialize"));
+        assertTrue(analyzeConext.getSerializerClassName().equals("com.huawei.streaming.serde.CSVSerDe"));
         assertTrue(analyzeConext.getDeserializerClassName() == null);
         assertTrue(analyzeConext.getSerDeProperties().get("ip").equals("localhost"));
-        assertTrue(analyzeConext.getRecordWriterClassName().equals("com.huawei.streaming.spout.csvWriter"));
+        assertTrue(analyzeConext.getRecordWriterClassName().equals("com.huawei.streaming.operator.outputstream.KafkaFunctionOp"));
         assertTrue(analyzeConext.getReadWriterProperties().get("path").equals("/local"));
         
     }
@@ -229,15 +223,14 @@ public class CreateStreamSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testCreateOutputStream2()
         throws Exception
     {
         String sql =
-            "CREATE output STREAM S (id INT,name STRING) " + "SERDE 'com.huawei.streaming.sql.SerDe.csvSerialize' "
-                + "SINK 'com.huawei.streaming.spout.csvWriter' PROPERTIES ('path' = '/local')";
+            "CREATE output STREAM S (id INT,name STRING) " + "SERDE 'com.huawei.streaming.serde.CSVSerDe' "
+                + "SINK 'com.huawei.streaming.operator.outputstream.KafkaFunctionOp' PROPERTIES ('path' = '/local')";
         SemanticAnalyzer analyzer = SemanticAnalyzerFactory.createAnalyzer(parser.parse(sql), initSchema());
         CreateStreamAnalyzeContext analyzeConext = (CreateStreamAnalyzeContext)analyzer.analyze();
         
@@ -248,25 +241,24 @@ public class CreateStreamSemanticAnalyzerTest
         assertTrue(analyzeConext.getSchema().getCols().get(0).getType().equals(Integer.class.getName()));
         assertTrue(analyzeConext.getSchema().getCols().get(1).getName().equals("name"));
         assertTrue(analyzeConext.getSchema().getCols().get(1).getType().equals(String.class.getName()));
-        assertTrue(analyzeConext.getSerializerClassName().equals("com.huawei.streaming.sql.SerDe.csvSerialize"));
+        assertTrue(analyzeConext.getSerializerClassName().equals("com.huawei.streaming.serde.CSVSerDe"));
         assertTrue(analyzeConext.getDeserializerClassName() == null);
         assertTrue(analyzeConext.getSerDeProperties().size() == 0);
-        assertTrue(analyzeConext.getRecordWriterClassName().equals("com.huawei.streaming.spout.csvWriter"));
+        assertTrue(analyzeConext.getRecordWriterClassName().equals("com.huawei.streaming.operator.outputstream.KafkaFunctionOp"));
         assertTrue(analyzeConext.getReadWriterProperties().get("path").equals("/local"));
     }
     
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testCreateOutputStream3()
         throws Exception
     {
         String sql =
-            "CREATE output STREAM S (id INT,name STRING) " + "SERDE 'com.huawei.streaming.sql.SerDe.csvSerialize' "
-                + "SINK 'com.huawei.streaming.spout.csvWriter'";
+            "CREATE output STREAM S (id INT,name STRING) " + "SERDE 'com.huawei.streaming.serde.CSVSerDe' "
+                + "SINK 'com.huawei.streaming.operator.outputstream.KafkaFunctionOp'";
         SemanticAnalyzer analyzer = SemanticAnalyzerFactory.createAnalyzer(parser.parse(sql), initSchema());
         CreateStreamAnalyzeContext analyzeConext = (CreateStreamAnalyzeContext)analyzer.analyze();
         
@@ -277,17 +269,16 @@ public class CreateStreamSemanticAnalyzerTest
         assertTrue(analyzeConext.getSchema().getCols().get(0).getType().equals(Integer.class.getName()));
         assertTrue(analyzeConext.getSchema().getCols().get(1).getName().equals("name"));
         assertTrue(analyzeConext.getSchema().getCols().get(1).getType().equals(String.class.getName()));
-        assertTrue(analyzeConext.getSerializerClassName().equals("com.huawei.streaming.sql.SerDe.csvSerialize"));
+        assertTrue(analyzeConext.getSerializerClassName().equals("com.huawei.streaming.serde.CSVSerDe"));
         assertTrue(analyzeConext.getDeserializerClassName() == null);
         assertTrue(analyzeConext.getSerDeProperties().size() == 0);
-        assertTrue(analyzeConext.getRecordWriterClassName().equals("com.huawei.streaming.spout.csvWriter"));
+        assertTrue(analyzeConext.getRecordWriterClassName().equals("com.huawei.streaming.operator.outputstream.KafkaFunctionOp"));
         assertTrue(analyzeConext.getReadWriterProperties().size() == 0);
     }
     
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testCreateOutputStream4()
@@ -295,8 +286,8 @@ public class CreateStreamSemanticAnalyzerTest
     {
         String sql =
             "CREATE output STREAM S (id INT,name STRING comment 'user name') COMMENT 'this is stream comment'"
-                + "SERDE 'com.huawei.streaming.sql.SerDe.csvSerialize' "
-                + "SINK 'com.huawei.streaming.spout.csvWriter'";
+                + "SERDE 'com.huawei.streaming.serde.CSVSerDe' "
+                + "SINK 'com.huawei.streaming.operator.outputstream.KafkaFunctionOp'";
         SemanticAnalyzer analyzer = SemanticAnalyzerFactory.createAnalyzer(parser.parse(sql), initSchema());
         CreateStreamAnalyzeContext analyzeConext = (CreateStreamAnalyzeContext)analyzer.analyze();
         
@@ -307,17 +298,16 @@ public class CreateStreamSemanticAnalyzerTest
         assertTrue(analyzeConext.getSchema().getCols().get(0).getType().equals(Integer.class.getName()));
         assertTrue(analyzeConext.getSchema().getCols().get(1).getName().equals("name"));
         assertTrue(analyzeConext.getSchema().getCols().get(1).getType().equals(String.class.getName()));
-        assertTrue(analyzeConext.getSerializerClassName().equals("com.huawei.streaming.sql.SerDe.csvSerialize"));
+        assertTrue(analyzeConext.getSerializerClassName().equals("com.huawei.streaming.serde.CSVSerDe"));
         assertTrue(analyzeConext.getDeserializerClassName() == null);
         assertTrue(analyzeConext.getSerDeProperties().size() == 0);
-        assertTrue(analyzeConext.getRecordWriterClassName().equals("com.huawei.streaming.spout.csvWriter"));
+        assertTrue(analyzeConext.getRecordWriterClassName().equals("com.huawei.streaming.operator.outputstream.KafkaFunctionOp"));
         assertTrue(analyzeConext.getReadWriterProperties().size() == 0);
     }
     
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testPipeStream1()

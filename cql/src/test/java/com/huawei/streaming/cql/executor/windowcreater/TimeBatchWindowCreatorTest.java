@@ -18,6 +18,8 @@
 
 package com.huawei.streaming.cql.executor.windowcreater;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +29,6 @@ import com.huawei.streaming.api.opereators.Window;
 import com.huawei.streaming.api.streams.Column;
 import com.huawei.streaming.api.streams.Schema;
 import com.huawei.streaming.cql.exception.SemanticAnalyzerException;
-import static org.junit.Assert.assertTrue;
 
 /**
  * create time batch window test case
@@ -39,7 +40,6 @@ public class TimeBatchWindowCreatorTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testCreateInstance()

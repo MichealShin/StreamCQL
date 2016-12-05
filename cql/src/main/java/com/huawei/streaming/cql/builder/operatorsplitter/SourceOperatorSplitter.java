@@ -30,7 +30,7 @@ import com.huawei.streaming.cql.builder.operatorconverter.InputConverter;
 import com.huawei.streaming.cql.builder.operatorconverter.OutputConverter;
 import com.huawei.streaming.cql.exception.ApplicationBuildException;
 import com.huawei.streaming.cql.exception.SemanticAnalyzerException;
-import com.huawei.streaming.cql.mapping.CQLSimpleLexerMapping;
+import com.huawei.streaming.cql.mapping.SimpleLexer;
 import com.huawei.streaming.cql.semanticanalyzer.BaseAnalyzer;
 import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.AnalyzeContext;
 import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.CreateStreamAnalyzeContext;
@@ -55,7 +55,6 @@ public class SourceOperatorSplitter implements Splitter
     
     /**
      * <默认构造函数>
-     * @param buildUtils 构建器使用的一些通用类
      */
     public SourceOperatorSplitter(BuilderUtils buildUtils)
     {
@@ -89,7 +88,7 @@ public class SourceOperatorSplitter implements Splitter
     
     private OutputStreamOperator createOutputOperator()
     {
-        String operatorName = getOperatorName(context.getRecordWriterClassName(),"Output");
+        String operatorName = getOutputOperatorName(context.getRecordWriterClassName(),"Output");
         OutputStreamOperator op = new OutputStreamOperator(buildUtils.getNextOperatorName(operatorName), parallelNumber);
         op.setName(context.getStreamAlias());
         op.setSerializerClassName(context.getSerializerClassName());
@@ -102,7 +101,7 @@ public class SourceOperatorSplitter implements Splitter
     
     private InputStreamOperator createInputSourceOperator()
     {
-        String operatorName = getOperatorName(context.getRecordReaderClassName(),"Input");
+        String operatorName = getInputOperatorName(context.getRecordReaderClassName(),"Input");
         InputStreamOperator op = new InputStreamOperator(buildUtils.getNextOperatorName(operatorName), parallelNumber);
         op.setName(context.getStreamAlias());
         op.setDeserializerClassName(context.getDeserializerClassName());
@@ -113,14 +112,25 @@ public class SourceOperatorSplitter implements Splitter
         return op;
     }
 
-    private String getOperatorName(String inputOutputClassName, String defaultName)
+    private String getInputOperatorName(String operatorClassName, String defaultName)
     {
-        if (inputOutputClassName == null)
+        if (operatorClassName == null)
         {
             return defaultName;
         }
 
-        String simpleName = CQLSimpleLexerMapping.getSimpleName(inputOutputClassName);
+        String simpleName = SimpleLexer.INPUT.getSimpleName(operatorClassName);
+        return simpleName == null ? defaultName : simpleName;
+    }
+
+    private String getOutputOperatorName(String operatorClassName, String defaultName)
+    {
+        if (operatorClassName == null)
+        {
+            return defaultName;
+        }
+
+        String simpleName = SimpleLexer.OUTPUT.getSimpleName(operatorClassName);
         return simpleName == null ? defaultName : simpleName;
     }
 
@@ -131,8 +141,6 @@ public class SourceOperatorSplitter implements Splitter
      * 但是，为了和CQL的整体规则一直，便于后面创建算子之间的连线，
      * 所以，这里创建一个空的filter算子，不带任何过滤。
      * 这样，就可以在优化器阶段将这个filter算子优化掉
-     * @return pipe stream 算子
-     * @throws ApplicationBuildException CQL异常
      */
     private Operator createPipeSourceOperator()
         throws ApplicationBuildException

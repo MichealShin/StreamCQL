@@ -46,7 +46,7 @@ public class CQLResult
     
     public String[] getHeads()
     {
-        return heads;
+        return heads == null ? new String[] {} : (String[])heads.clone();
     }
     
     public void setHeads(String[] heads)

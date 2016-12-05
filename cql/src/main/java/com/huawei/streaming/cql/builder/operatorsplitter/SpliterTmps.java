@@ -30,8 +30,6 @@ public class SpliterTmps
     
     /**
      * 获取下一索引
-     * @param index 索引
-     * @return 下一个索引
      */
     public static String formatIndex(Integer index)
     {

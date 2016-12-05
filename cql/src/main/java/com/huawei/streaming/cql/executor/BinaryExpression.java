@@ -45,9 +45,6 @@ public class BinaryExpression
     
     /**
      * <默认构造函数>
-     * @param describe 表达式名称，别名
-     * @param type  表达式类型
-     * @param expressClass 表达式类
      */
     public BinaryExpression(String describe, ExpressionOperator type, Class< ? extends IExpression> expressClass)
     {

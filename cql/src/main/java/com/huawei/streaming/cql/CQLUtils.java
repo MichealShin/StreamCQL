@@ -23,6 +23,7 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.huawei.streaming.cql.exception.CQLException;
+import com.huawei.streaming.cql.semanticanalyzer.parser.context.ExplainStatementContext;
 import com.huawei.streaming.cql.semanticanalyzer.parser.context.GetStatementContext;
 import com.huawei.streaming.cql.semanticanalyzer.parser.context.ParseContext;
 import com.huawei.streaming.cql.semanticanalyzer.parser.context.ShowApplicationsContext;
@@ -45,14 +46,12 @@ public class CQLUtils
         nonChangeableCommonds.add(ShowFunctionsContext.class);
         nonChangeableCommonds.add(ShowApplicationsContext.class);
         nonChangeableCommonds.add(GetStatementContext.class);
+        nonChangeableCommonds.add(ExplainStatementContext.class);
         nonChangeableCommonds.add(SubmitApplicationContext.class);
     }
     
     /**
      * 从文件中读取cql语句
-     * @param file 文件
-     * @return cql语句列表
-     * @throws CQLException 文件读取异常
      */
     public static List<String> readCQLsFromFile(String file) throws CQLException
     {
@@ -64,8 +63,6 @@ public class CQLUtils
     /**
      * 检查该语法是否会对查询结果造成影响
      * 如果造成影响，返回 true
-     * @param parseContext 语法解析内容
-     * @return 是否是会导致解析内容发生变化的语句
      */
     public static boolean isChangeableCommond(ParseContext parseContext)
     {
@@ -74,8 +71,6 @@ public class CQLUtils
     
     /**
      * 移除字符串前后的‘号
-     * @param str 字符串
-     * @return 新的字符串
      */
     public static String cqlStringLiteralTrim(String str)
     {
@@ -98,7 +93,6 @@ public class CQLUtils
     
     /**
      * 获取当前线程的ClassLoader，如果不存在，就返回appclassloader
-     * @return classloader
      */
     public static ClassLoader getClassLoader()
     {

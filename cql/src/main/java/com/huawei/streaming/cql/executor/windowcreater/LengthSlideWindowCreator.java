@@ -42,7 +42,7 @@ public class LengthSlideWindowCreator implements WindowCreator
     public IWindow createInstance(Window window, List<Schema> schemas, Map<String, String> systemConfig)
         throws ExecutorException
     {
-        return new LengthSlideWindow(Long.valueOf(window.getLength()).intValue());
+        return new LengthSlideWindow(window.getLength().intValue());
     }
     
 }

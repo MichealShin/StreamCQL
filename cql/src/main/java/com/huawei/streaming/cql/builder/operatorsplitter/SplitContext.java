@@ -51,7 +51,6 @@ public class SplitContext
     
     /**
      * 添加连线
-     * @param transition 连线
      */
     public void addTransitions(OperatorTransition transition)
     {
@@ -60,8 +59,6 @@ public class SplitContext
     
     /**
      * 通过id获取算子
-     * @param opid 算子id
-     * @return 找到的算子
      */
     public Operator getOperatorById(String opid)
     {
@@ -73,7 +70,6 @@ public class SplitContext
      * 
      * 从To的数组中找到从来没有被From使用过的点即可
      * 
-     * @return 最开始的连线
      */
     public List<OperatorTransition> getLastTransitons()
     {
@@ -87,7 +83,6 @@ public class SplitContext
      * 
      * 只要找到From的点中从来没有被To使用过的点即可
      * 
-     * @return 最开始的连线
      */
     public List<OperatorTransition> getFirstTransitons()
     {
@@ -96,7 +91,6 @@ public class SplitContext
     
     /**
      * 添加算子
-     * @param op 算子
      */
     public void addOperators(Operator op)
     {
@@ -105,7 +99,6 @@ public class SplitContext
     
     /**
      * 获取开始的第一个算子
-     * @return 开始的算子
      */
     public Operator getFirstOperator()
     {

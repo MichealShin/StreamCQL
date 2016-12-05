@@ -1,7 +1,7 @@
 <Definitions>
   <Application id="simple">
     <confs>
-      <property key="operator.kafka.brokers" value="158.1.130.12:9092"/>
+      <property key="operator.kafka.brokers" value="192.168.0.2:9092"/>
     </confs>
     <Schemas>
       <Schema id="s" name="s">
@@ -23,7 +23,7 @@
         </deserializer>
         <groupId>gidkpi_1_1</groupId>
         <topic>agg_2_1</topic>
-        <zookeepers>localhost:2181,158.1.130.21:2181</zookeepers>
+        <zookeepers>localhost:2181,192.168.0.2:2181</zookeepers>
         <zkSessionTimeout>20000</zkSessionTimeout>
         <zkSyncTime>20000</zkSyncTime>
         <messageSerializerClass>kafka.serializer.StringEncoder</messageSerializerClass>
@@ -33,7 +33,7 @@
           <separator>,</separator>
         </serializer>
         <topic>agg_2_2</topic>
-        <zookeepers>158.1.130.12:2181</zookeepers>
+        <zookeepers>192.168.0.2:2181</zookeepers>
         <zkSessionTimeout>20000</zkSessionTimeout>
         <zkSyncTime>20000</zkSyncTime>
         <messageSerializerClass>kafka.serializer.StringEncoder</messageSerializerClass>

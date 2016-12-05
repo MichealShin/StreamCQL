@@ -88,7 +88,6 @@ public class Schema implements Serializable
     
     /**
      * <默认构造函数>
-     * @param id  schema id
      */
     public Schema(String id)
     {
@@ -99,8 +98,6 @@ public class Schema implements Serializable
     
     /**
      * 根据名称检查该列是否已经添加到了schema中。
-     * @param schemaName 待检查的名称
-     * @return 如果已经存在，返回true
      */
     public boolean isAttributeExist(String schemaName)
     {
@@ -121,7 +118,6 @@ public class Schema implements Serializable
     
     /**
      * 添加列信息到schema中
-     * @param attribute 待添加的列信息
      */
     public void addCol(Column attribute)
     {

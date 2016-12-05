@@ -46,10 +46,6 @@ public class DriverTestUtil
     /**
      * <默认构造函数>
      *
-     * @param inputFile 待解析的SQL文件
-     * @param outputFile 要和resultfile进行对比的文件，这个文件只生成一次，之后每次和该文件进行内容对比
-     * @param resultFile 输出的结果文件，这个文件是每次都会生成的。
-     * @throws Exception 文件初始化失败
      */
     public DriverTestUtil(String inputFile, String outputFile, String resultFile)
         throws Exception
@@ -63,8 +59,6 @@ public class DriverTestUtil
     /**
      * 正常 的功能用例解析
      *
-     * @throws IOException 文件读写错误
-     * @throws StreamingException 流处理异常
      */
     public void executeAndWrite()
         throws IOException, StreamingException
@@ -80,8 +74,6 @@ public class DriverTestUtil
     /**
      * 对比测试结果
      *
-     * @return 如果结果无误，返回true
-     * @throws IOException 文件异常
      */
     public boolean compareResults()
         throws IOException

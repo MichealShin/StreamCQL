@@ -32,8 +32,6 @@ public class ApplicationBuildException extends ExecutorException
     /**
      * <默认构造函数>
      *
-     * @param errorCode 异常消息
-     * @param errorArgs 异常参数
      */
     public ApplicationBuildException(ErrorCode errorCode, String... errorArgs)
     {
@@ -43,9 +41,6 @@ public class ApplicationBuildException extends ExecutorException
     /**
      * <默认构造函数>
      *
-     * @param cause 异常堆栈
-     * @param errorCode 异常码
-     * @param errorArgs 异常参数
      */
     public ApplicationBuildException(Throwable cause, ErrorCode errorCode, String... errorArgs)
     {
@@ -56,9 +51,6 @@ public class ApplicationBuildException extends ExecutorException
      * <默认构造函数>
      * 仅供内部warp函数使用
      *
-     * @param cause 错误堆栈
-     * @param fullMessage 异常消息
-     * @param errorCode 异常码
      */
     protected ApplicationBuildException(Throwable cause, String fullMessage, ErrorCode errorCode)
     {

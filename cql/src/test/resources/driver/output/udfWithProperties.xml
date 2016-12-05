@@ -2,17 +2,17 @@
   <Application id="udfWithProperties">
     <UDFs>
       <UserFunction>
-        <name>udf2</name>
-        <clazz>com.huawei.streaming.cql.functions.DirectOutputUDF</clazz>
-        <properties>
-          <property key="cql.test.direct.output" value="b"/>
-        </properties>
-      </UserFunction>
-      <UserFunction>
         <name>udf1</name>
         <clazz>com.huawei.streaming.cql.functions.DirectOutputUDF</clazz>
         <properties>
           <property key="cql.test.direct.output" value="a"/>
+        </properties>
+      </UserFunction>
+      <UserFunction>
+        <name>udf2</name>
+        <clazz>com.huawei.streaming.cql.functions.DirectOutputUDF</clazz>
+        <properties>
+          <property key="cql.test.direct.output" value="b"/>
         </properties>
       </UserFunction>
       <UserFunction>
@@ -38,7 +38,7 @@
         </deserializer>
         <groupId>udf</groupId>
         <topic>udf</topic>
-        <zookeepers>127.0.0.1:2181</zookeepers>
+        <zookeepers>192.168.0.2:2181</zookeepers>
       </KafkaInput>
       <ConsoleOutput id="ConsoleOutput_002" parallel="1">
         <serializer class="SimpleSerDe"/>

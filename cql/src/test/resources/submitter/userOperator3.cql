@@ -1,10 +1,10 @@
 create input stream s (id int, name string)
 SOURCE KafkaInput  
-PROPERTIES ( groupid = "gidkpi_1_1",topic="agg_1_1");
+PROPERTIES ( "operator.kafka.groupid" = "gidkpi_1_1","operator.kafka.topic"="agg_1_1");
 
 create output stream rs 
 (id string, name string, type int, cc int) 
-SINK KafkaOutput properties(topic="agg_2");
+SINK KafkaOutput properties("operator.kafka.topic"="agg_2");
 
 --不带properties
 create operator userOp as "com.huawei.streaming.cql.executor.userdefined.UserOperatorTest" 

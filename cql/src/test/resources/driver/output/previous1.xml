@@ -1,0 +1,46 @@
+<Definitions>
+  <Application id="previoustest">
+    <confs>
+      <property key="operator.kafka.brokers" value="192.168.0.2:9092"/>
+      <property key="operator.kafka.messageserializerclass" value="kafka.serializer.StringEncoder"/>
+      <property key="operator.kafka.zksessiontimeout" value="20000"/>
+      <property key="operator.kafka.zksynctime" value="20000"/>
+      <property key="operator.kafka.zookeepers" value="localhost:2181,192.168.0.2:2181"/>
+      <property key="serde.simpleserde.separator" value=","/>
+    </confs>
+    <Schemas>
+      <Schema id="input_case_when" name="input_case_when">
+        <attribute name="country" type="java.lang.String"/>
+        <attribute name="sex" type="java.lang.Integer"/>
+        <attribute name="population" type="java.lang.Long"/>
+      </Schema>
+      <Schema id="output_case_when" name="output_case_when">
+        <attribute name="country" type="java.lang.String"/>
+        <attribute name="malep" type="java.lang.Long"/>
+        <attribute name="femalep" type="java.lang.Long"/>
+      </Schema>
+    </Schemas>
+    <Operators>
+      <KafkaInput id="KafkaInput_001" parallel="1">
+        <deserializer class="SimpleSerDe"/>
+        <groupId>gidkpi_1_1</groupId>
+        <topic>case_when_in</topic>
+      </KafkaInput>
+      <KafkaOutput id="KafkaOutput_002" parallel="1">
+        <serializer class="SimpleSerDe"/>
+        <topic>case_when_out</topic>
+      </KafkaOutput>
+      <Aggregator id="Aggregator_004" parallel="1">
+        <outputExpression>input_case_when.country, input_case_when.population,  previous (1,input_case_when.population ) </outputExpression>
+        <window name="today">
+          <timestampField>input_case_when.population</timestampField>
+          <excludeNow>false</excludeNow>
+        </window>
+      </Aggregator>
+    </Operators>
+    <Transitions>
+      <Transition name="st_001" from="KafkaInput_001" to="Aggregator_004" distributedType="SHUFFLE" schemaName="input_case_when"/>
+      <Transition name="st_003" from="Aggregator_004" to="KafkaOutput_002" distributedType="SHUFFLE" schemaName="output_case_when"/>
+    </Transitions>
+  </Application>
+</Definitions>

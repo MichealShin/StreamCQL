@@ -1,0 +1,68 @@
+##sqlstart:
+a is null
+##sqlend
+a IS NULL
+##sqlstart:
+a <>1
+##sqlend
+a <> 1
+##sqlstart:
+a >=1
+##sqlend
+a >= 1
+##sqlstart:
+a<1
+##sqlend
+a < 1
+##sqlstart:
+a+b=0
+##sqlend
+a + b = 0
+##sqlstart:
+(a+b) >1.0F
+##sqlend
+( a + b ) > 1.0F
+##sqlstart:
+(a-b) =0
+##sqlend
+( a - b ) = 0
+##sqlstart:
+a==null
+##sqlend
+a == NULL
+##sqlstart:
+udf(a+b) is null
+##sqlend
+udf(a + b) IS NULL
+##sqlstart:
+udf(a+b)>5
+##sqlend
+udf(a + b) > 5
+##sqlstart:
+udf(a+b)
+##sqlend
+udf(a + b)
+##sqlstart:
+a.id in ('1','2','3')
+##sqlend
+a.id  IN  ( "1", "2", "3" ) 
+##sqlstart:
+id + 100 between (150 + -50) AND (150 + 50)
+##sqlend
+id + 100  BETWEEN ( 150 + -50 ) AND ( 150 + 50 )
+##sqlstart:
+(key + 100) between (150 + -50) AND (150 + 50)
+##sqlend
+( key + 100 )  BETWEEN ( 150 + -50 ) AND ( 150 + 50 )
+##sqlstart:
+a.id like '%xx%'
+##sqlend
+a.id LIKE "%xx%"
+##sqlstart:
+a.id like 'xx%'
+##sqlend
+a.id LIKE "xx%"
+##sqlstart:
+a.id like 'xx?'
+##sqlend
+a.id LIKE "xx?"

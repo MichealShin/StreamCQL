@@ -20,8 +20,10 @@ package com.huawei.streaming.cql.executor.operatorviewscreater;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -42,6 +44,7 @@ import com.huawei.streaming.expression.AggregateExpression;
 import com.huawei.streaming.expression.AggregateGroupedExpression;
 import com.huawei.streaming.expression.ConstExpression;
 import com.huawei.streaming.expression.IExpression;
+import com.huawei.streaming.expression.PreviousExpression;
 import com.huawei.streaming.expression.PropertyValueExpression;
 import com.huawei.streaming.process.GroupBySubProcess;
 import com.huawei.streaming.process.LimitProcess;
@@ -56,6 +59,9 @@ import com.huawei.streaming.process.agg.resultmerge.AggResultSetMergeOnlyGrouped
 import com.huawei.streaming.process.agg.resultmerge.AggResultSetMergeOnlyGroupedExclude;
 import com.huawei.streaming.process.agg.resultmerge.IAggResultSetMerge;
 import com.huawei.streaming.process.sort.SortCondition;
+import com.huawei.streaming.window.IWindow;
+import com.huawei.streaming.window.sort.LengthSortWindow;
+import com.huawei.streaming.window.sort.TimeSortWindow;
 
 /**
  * Aggregate Service 以及result set Merge 实例创建
@@ -85,6 +91,10 @@ public class AggResultSetMergeViewCreator
     
     private OperatorTransition transitionOut;
     
+    private Map<String, IWindow> streamWindows;
+    
+    private IExpression expressionBeforeAggregate;
+    
     private Map<String, String> systemConfig;
     
     private List<Window> operatorWindows;
@@ -95,11 +105,81 @@ public class AggResultSetMergeViewCreator
     
     private boolean isExcludeNow = false;
     
+    private static class SingleExpressionGetterStrategy implements ExpressionGetterStrategy
+    {
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isEqual(IExpression exp)
+        {
+            if (exp instanceof AggregateExpression)
+            {
+                return true;
+            }
+            
+            if (exp instanceof AggregateGroupedExpression)
+            {
+                return true;
+            }
+            
+            if (exp instanceof PropertyValueExpression)
+            {
+                return true;
+            }
+            
+            if (exp instanceof ConstExpression)
+            {
+                return true;
+            }
+            
+            return false;
+        }
+    }
+    
+    private static class PVAndAggExpressionGetterStrategy implements ExpressionGetterStrategy
+    {
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isEqual(IExpression exp)
+        {
+            if (exp instanceof AggregateExpression)
+            {
+                return true;
+            }
+            
+            if (exp instanceof PropertyValueExpression)
+            {
+                return true;
+            }
+            
+            return false;
+        }
+    }
+    
+    private static class IsPreviousExpressionGetterStrategy implements ExpressionGetterStrategy
+    {
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isEqual(IExpression exp)
+        {
+            if (exp instanceof PreviousExpression)
+            {
+                return true;
+            }
+            return false;
+        }
+    }
+    
+
+
     /**
      * <默认构造函数>
      *
-     * @param pars 参数类
-     * @throws ExecutorException 参数解析异常
      */
     public AggResultSetMergeViewCreator(AggResultSetParameters pars)
         throws ExecutorException
@@ -140,6 +220,8 @@ public class AggResultSetMergeViewCreator
         inputSchemas = pars.getInputSchemas();
         outputSchemas = pars.getOutputSchemas();
         transitionOut = pars.getTransitionOut();
+        streamWindows = pars.getStreamWindows();
+        expressionBeforeAggregate = pars.getExpressionBeforeAggregate();
         systemConfig = pars.getSystemConfig();
         operatorWindows = pars.getOperatorWindows();
     }
@@ -157,14 +239,13 @@ public class AggResultSetMergeViewCreator
     /**
      * 创建aggregateResultSetMergeView
      *
-     * @return 创建好的实例
-     * @throws ExecutorException 解析异常
      */
     public IAggResultSetMerge create()
         throws ExecutorException
     {
         SelectSubProcess selectProcessor = createSelectProcessor();
-
+        previousProcess(selectProcessor.getExprs(), expressionBeforeAggregate, streamWindows);
+        
         if (basicAggOperator.getGroupbyExpression() != null)
         {
             isGroupbyOnly = isGroupbyColsOnly(selectProcessor.getExprs());
@@ -271,46 +352,13 @@ public class AggResultSetMergeViewCreator
      * 获取所有独立的表达式
      * 聚合也算，但是count(a+b) 只能算一个聚合表达式
      *
-     * @param expressions 表达式列表
-     * @return 所有独立的表达式
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 表达式解析异常
      */
     private List<IExpression> getSingleExpressions(List<IExpression> expressions)
         throws ExecutorException
     {
         List<IExpression> expressionContainer = Lists.newArrayList();
         
-        ExpressionsWalker getter = new ExpressionsWalker(new ExpressionGetterStrategy()
-        {
-            /**
-             * {@inheritDoc}
-             */
-            @Override
-            public boolean isEqual(IExpression exp)
-            {
-                if (exp instanceof AggregateExpression)
-                {
-                    return true;
-                }
-                
-                if (exp instanceof AggregateGroupedExpression)
-                {
-                    return true;
-                }
-                
-                if (exp instanceof PropertyValueExpression)
-                {
-                    return true;
-                }
-                
-                if (exp instanceof ConstExpression)
-                {
-                    return true;
-                }
-                
-                return false;
-            }
-        });
+        ExpressionsWalker getter = new ExpressionsWalker(new SingleExpressionGetterStrategy());
         
         for (IExpression exp : expressions)
         {
@@ -325,8 +373,6 @@ public class AggResultSetMergeViewCreator
      * 允许出现 a,b,sum(c),或者 a+b,sum(c)
      * 不允许出现a,sum(c) 或者a+b+c,sum(c);
      *
-     * @return 如果满足，返回true，如果不满足，返回false
-     * @throws com.huawei.streaming.cql.exception.ExecutorException
      */
     private boolean isGroupbyColsOnly(IExpression[] select)
         throws ExecutorException
@@ -377,8 +423,6 @@ public class AggResultSetMergeViewCreator
     /**
      * 从聚合和属性表达式中找出非聚合表达式
      *
-     * @param allpvExpressions 聚合表达式和属性表达式
-     * @return 非聚合表达式
      */
     private List<Pair<String, Integer>> parsePVExpressions(List<IExpression> allpvExpressions)
     {
@@ -403,27 +447,7 @@ public class AggResultSetMergeViewCreator
     {
         List<IExpression> expressionContainer = new ArrayList<IExpression>();
         
-        ExpressionsWalker getter = new ExpressionsWalker(new ExpressionGetterStrategy()
-        {
-            /**
-             * {@inheritDoc}
-             */
-            @Override
-            public boolean isEqual(IExpression exp)
-            {
-                if (exp instanceof AggregateExpression)
-                {
-                    return true;
-                }
-                
-                if (exp instanceof PropertyValueExpression)
-                {
-                    return true;
-                }
-                
-                return false;
-            }
-        });
+        ExpressionsWalker getter = new ExpressionsWalker(new PVAndAggExpressionGetterStrategy());
         for (IExpression exp : exps)
         {
             getter.found(exp, expressionContainer);
@@ -469,8 +493,89 @@ public class AggResultSetMergeViewCreator
         return new GroupBySubProcess(groupKeyExprs);
         
     }
-
-
+    
+    /**
+     * previous表达式处理
+     * 1、检查是否包含previous表达式
+     * 2、为每个包含previous表达式的流创建service
+     * 3、为每个previous表达式设置对应流的service
+     *
+     */
+    private void previousProcess(IExpression[] select, IExpression where, Map< String, IWindow > streamWindows)
+        throws ExecutorException
+    {
+        Map<String, List<PreviousExpression>> previous = getPrevious(select, where);
+        if (previous.size() == 0)
+        {
+            return;
+        }
+        sortWindowValidate(streamWindows);
+        for (Entry<String, List<PreviousExpression>> et : previous.entrySet())
+        {
+            List<PreviousExpression> expressions = et.getValue();
+            IWindow win = streamWindows.get(et.getKey());
+            if(win == null)
+            {
+                continue;
+            }
+            new PreviousServiceCreator().createAndSet(win, expressions);
+        }
+    }
+    
+    private void sortWindowValidate(Map<String, IWindow> streamWindows)
+        throws ExecutorException
+    {
+        for (Entry<String, IWindow> et : streamWindows.entrySet())
+        {
+            IWindow win = et.getValue();
+            if ((win instanceof TimeSortWindow) || (win instanceof LengthSortWindow))
+            {
+                ExecutorException exception =
+                    new ExecutorException(ErrorCode.SEMANTICANALYZE_PREVIOUS_WITH_SORTWINDOW, win.getClass().getName());
+                LOG.error("'PREVIOUS' can not used with Sort window.", exception);
+                throw exception;
+            }
+        }
+    }
+  
+    private Map<String, List<PreviousExpression>> getPrevious(IExpression[] select, IExpression where)
+        throws ExecutorException
+    {
+        List<IExpression> previousExpressions = Lists.newArrayList();
+        
+        ExpressionsWalker getter = new ExpressionsWalker(new IsPreviousExpressionGetterStrategy());
+        
+        if (where != null)
+        {
+            getter.found(where, previousExpressions);
+        }
+        
+        for (IExpression exp : select)
+        {
+            getter.found(exp, previousExpressions);
+            
+        }
+        
+        Map<String, List<PreviousExpression>> streamPrevious = new HashMap<String, List<PreviousExpression>>();
+        for (IExpression ie : previousExpressions)
+        {
+            PreviousExpression pe = (PreviousExpression)ie;
+            PropertyValueExpression pve = (PropertyValueExpression)pe.getProExpr();
+            int streamIndex = pve.getStreamIndex();
+            String streamName = inputSchemas.get(0).getStreamName();
+            if (streamIndex == 1)
+            {
+                streamName = inputSchemas.get(1).getStreamName();
+            }
+            if (!streamPrevious.containsKey(streamName))
+            {
+                streamPrevious.put(streamName, new ArrayList<PreviousExpression>());
+            }
+            streamPrevious.get(streamName).add(pe);
+        }
+        return streamPrevious;
+    }
+    
     private SelectSubProcess createSelectProcessor()
         throws ExecutorException
     {

@@ -18,6 +18,12 @@
 
 package com.huawei.streaming.cql;
 
+import com.huawei.streaming.cql.executor.PhysicalPlanLoader;
+import com.huawei.streaming.cql.mapping.SimpleLexer;
+import com.huawei.streaming.cql.mapping.InputOutputOperatorMapping;
+import com.huawei.streaming.cql.toolkits.operators.TCPServerInputOperator;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -30,11 +36,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.huawei.streaming.cql.executor.PhysicalPlanLoader;
-import com.huawei.streaming.cql.mapping.CQLSimpleLexerMapping;
-import com.huawei.streaming.cql.mapping.InputOutputOperatorMapping;
-import com.huawei.streaming.cql.toolkits.operators.TCPServerInputOperator;
-import static org.junit.Assert.assertTrue;
+import com.huawei.streaming.cql.parser.ApplicationParseTest;
 
 /**
  * Driver正常测试用例
@@ -58,13 +60,12 @@ public class SubmitterTest
     /**
      * 初始化测试类之前要执行的初始化方法
      *
-     * @throws Exception 初始化中可能抛出的异常
      */
     @BeforeClass
     public static void setUpBeforeClass()
         throws Exception
     {
-        CQLSimpleLexerMapping.registerOperator("TCPServerInput", TCPServerInputOperator.class);
+        SimpleLexer.registerInputOperator("TCPServerInput", TCPServerInputOperator.class);
         PhysicalPlanLoader.registerPhysicalPlanAlias("TCPServerInput",
          com.huawei.streaming.cql.toolkits.api.TCPServerInputOperator.class);
         InputOutputOperatorMapping.registerOperator(
@@ -76,13 +77,12 @@ public class SubmitterTest
     /**
      * 所有测试用例执行完毕之后执行的方法
      *
-     * @throws Exception 执行异常
      */
     @AfterClass
     public static void tearDownAfterClass()
      throws Exception
     {
-        CQLSimpleLexerMapping.unRegisterSimpleLexerMapping("TCPServerInput");
+        SimpleLexer.unRegisterInput("TCPServerInput");
         PhysicalPlanLoader.unRegisterPhysicalPlanAlias("TCPServerInput");
         InputOutputOperatorMapping.unRegisterMapping(
          com.huawei.streaming.cql.toolkits.api.TCPServerInputOperator.class);
@@ -91,7 +91,6 @@ public class SubmitterTest
     /**
      * 测试
      *
-     * @throws Exception 如果错误，抛出异常
      */
     @Ignore
     @Test
@@ -103,7 +102,7 @@ public class SubmitterTest
     
     private static void setDir()
     {
-        String classPath = SubmitterTest.class.getResource("/").getPath();
+        String classPath = ApplicationParseTest.class.getResource("/").getPath();
         
         try
         {

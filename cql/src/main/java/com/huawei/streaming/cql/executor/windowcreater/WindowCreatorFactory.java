@@ -44,11 +44,6 @@ public class WindowCreatorFactory
     /**
      * 根据窗口的别名，创建窗口实例
      *
-     * @param window 窗口
-     * @param schemas 创建窗口实例中需要的schema信息
-     * @param systemConfig 系统配置属性
-     * @return 窗口实例
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 创建窗口实例所抛出的方法
      */
     public static IWindow createNewWindow(Window window, List<Schema> schemas, Map<String, String> systemConfig)
         throws ExecutorException

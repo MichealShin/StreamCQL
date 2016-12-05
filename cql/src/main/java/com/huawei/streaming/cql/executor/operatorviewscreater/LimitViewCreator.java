@@ -35,9 +35,6 @@ public class LimitViewCreator
     
     /**
      * 创建limit实例 
-     * @param limit limit数字
-     * @return limit实例
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 执行期异常
      */
     public LimitProcess create(int limit)
         throws ExecutorException

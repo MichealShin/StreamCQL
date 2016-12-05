@@ -29,18 +29,12 @@ public interface Splitter
 {
     /**
      * 验证能否进行解析
-     * @param parseContext 待拆分内容
-     * @return 如果可以解析，则返回true
-     * @throws ApplicationBuildException 验证异常
      */
     boolean validate(AnalyzeContext parseContext)
         throws ApplicationBuildException;
     
     /**
      * 将解析结果拆分成多个算子
-     * @param parseContext 待拆分内容
-     * @return 拆分结果
-     * @throws ApplicationBuildException 拆分异常
      */
     SplitContext split(AnalyzeContext parseContext)
         throws ApplicationBuildException;

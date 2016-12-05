@@ -92,8 +92,6 @@ public class OrderByClauseAnalyzeContext extends AnalyzeContext
     
     /**
      * 添加表达式
-     * @param expression 表达式
-     * @param type orderby 类型
      */
     public void addOrderByExpression(ExpressionDescribe expression, SortEnum type)
     {

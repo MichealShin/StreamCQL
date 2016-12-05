@@ -69,7 +69,7 @@ public class LimitClauseAnalzyeContext extends AnalyzeContext
     @Override
     public String toString()
     {
-        return context.getLimitRows().toString();
+        return context.getLimitRows();
     }
     
     public Integer getLimit()

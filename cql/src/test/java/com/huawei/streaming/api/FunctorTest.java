@@ -36,6 +36,12 @@ import com.huawei.streaming.api.streams.Schema;
 import com.huawei.streaming.application.DistributeType;
 import com.huawei.streaming.cql.ConstInTestCase;
 import com.huawei.streaming.cql.LocalTaskCommons;
+import com.huawei.streaming.cql.executor.PhysicalPlanLoader;
+import com.huawei.streaming.cql.mapping.SimpleLexer;
+import com.huawei.streaming.cql.mapping.InputOutputOperatorMapping;
+import com.huawei.streaming.cql.toolkits.operators.TCPServerInputOperator;
+import com.huawei.streaming.operator.inputstream.KafkaSourceOp;
+import com.huawei.streaming.operator.outputstream.KafkaFunctionOp;
 
 /**
  * functor测试
@@ -44,23 +50,26 @@ import com.huawei.streaming.cql.LocalTaskCommons;
  */
 public class FunctorTest
 {
-    
     /**
      * 所有测试开始前 执行的方法
      *
-     * @throws Exception 异常
      */
     @BeforeClass
     public static void setUpBeforeClass()
         throws Exception
     {
         LocalTaskCommons.startZookeeperServer();
+        SimpleLexer.registerInputOperator("TCPServerInput", TCPServerInputOperator.class);
+        PhysicalPlanLoader.registerPhysicalPlanAlias("TCPServerInput",
+         com.huawei.streaming.cql.toolkits.api.TCPServerInputOperator.class);
+        InputOutputOperatorMapping.registerOperator(
+         com.huawei.streaming.cql.toolkits.api.TCPServerInputOperator.class,
+         com.huawei.streaming.cql.toolkits.operators.TCPServerInputOperator.class);
     }
     
     /**
      * 所有测试执行之后执行的清理方法
      *
-     * @throws Exception 异常
      */
     @AfterClass
     public static void tearDownAfterClass()
@@ -72,7 +81,6 @@ public class FunctorTest
     /**
      * 简单聚合功能测试
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void aggregateAPITest()
@@ -113,9 +121,6 @@ public class FunctorTest
         
         KafkaOutputOperator op = new KafkaOutputOperator("kafkaWriter", 1);
         op.setTopic("functortopic_out");
-        op.setZookeepers("127.0.0.1:2181");
-        op.setZkSessionTimeout(ConstInTestCase.I_20000);
-        op.setZkSyncTime(ConstInTestCase.I_20000);
         op.setSerializer(ser);
         return op;
     }
@@ -137,8 +142,6 @@ public class FunctorTest
         op.setGroupId("groupid");
         op.setTopic("functortopic_in");
         op.setZookeepers("127.0.0.1:2181");
-        op.setZkSessionTimeout(ConstInTestCase.I_20000);
-        op.setZkSyncTime(ConstInTestCase.I_20000);
         op.setDeserializer(deser);
         return op;
     }

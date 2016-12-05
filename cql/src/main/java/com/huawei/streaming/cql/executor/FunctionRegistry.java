@@ -74,10 +74,6 @@ public class FunctionRegistry
      *
      * 这个方法是提供给CQL接口用的。
      *
-     * @param shortName 短名称
-     * @param clazz 函数所在类
-     * @param functionProperties 函数配置参数
-     * @throws CQLException 注册的函数要覆盖本地函数的时候，会抛出异常
      */
     public void registerUDF(String shortName, Class< ? > clazz, Map<String, String> functionProperties)
         throws CQLException
@@ -108,8 +104,6 @@ public class FunctionRegistry
      *
      * 这个方法是提供给CQL接口用的。
      *
-     * @param shortName 短名称
-     * @throws CQLException 函数移除异常
      */
     public void unRegisterUDF(String shortName)
         throws CQLException
@@ -135,8 +129,6 @@ public class FunctionRegistry
     /**
      * 注册系统函数
      * 
-     * @param shortName 短名称
-     * @param clazz 函数所在类
      */
     public void registerUDAF(String shortName, Class< ? > clazz)
     {
@@ -147,8 +139,6 @@ public class FunctionRegistry
      * 根据窗口类的全名称或者窗口函数短名称
      * 主要是IDE在用
      * 
-     * @param clazz 窗口类的字符串形式
-     * @return 函数短名称
      */
     public String getFunctionNameByClass(String clazz)
     {
@@ -164,9 +154,6 @@ public class FunctionRegistry
     
     /**
      * cast函数的转换
-     * @param type 待转换的数据类型
-     * @return 转换之后的函数信息
-     * @throws SemanticAnalyzerException 语义分析异常
      */
     public FunctionInfo changeCastFunctionInfo(Class< ? > type)
         throws SemanticAnalyzerException
@@ -222,21 +209,17 @@ public class FunctionRegistry
     /**
      * 根据窗口函数类获取该窗口所在类
      * 
-     * @param clazz 函数所在类
-     * @return 函数信息
      */
     public FunctionInfo getFunctionInfoByFunctionClass(Class< ? extends UDF > clazz)
     {
         UDFAnnotation annotation = clazz.getAnnotation(UDFAnnotation.class);
-        String functionName = annotation == null ? null : annotation.name();
+        String functionName = annotation == null ? null : annotation.value();
         return functions.get(functionName);
     }
 
     /**
      * 根据窗口函数短名称获取该窗口所在类
      *
-     * @param functionName 函数名称
-     * @return 函数信息
      */
     public FunctionInfo getFunctionInfoByFunctionName(String functionName)
     {

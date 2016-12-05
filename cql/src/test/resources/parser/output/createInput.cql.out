@@ -1,0 +1,31 @@
+##sqlstart:
+CREATE INPUT STREAM S (id INT,name STRING) 
+SERDE 'com.huawei.streaming.sql.SerDe.CSVSerDe'
+SOURCE 'com.huawei.streaming.spout.csvReader' PROPERTIES ("path" = "/local")
+##sqlend
+CREATE INPUT STREAM s (id INT, name STRING) SERDE 'com.huawei.streaming.sql.SerDe.CSVSerDe' SOURCE 'com.huawei.streaming.spout.csvReader' PROPERTIES ( 'path' = '/local' )
+##sqlstart:
+CREATE INPUT STREAM S (id INT,name STRING) 
+SERDE 'com.huawei.streaming.sql.SerDe.CSVSerDe'  properties ("ip" = "localhost")
+SOURCE 'com.huawei.streaming.spout.csvReader' PROPERTIES ("path" = "/local")
+##sqlend
+CREATE INPUT STREAM s (id INT, name STRING) SERDE 'com.huawei.streaming.sql.SerDe.CSVSerDe' PROPERTIES ( 'ip' = 'localhost' ) SOURCE 'com.huawei.streaming.spout.csvReader' PROPERTIES ( 'path' = '/local' )
+##sqlstart:
+CREATE INPUT STREAM S (id INT,name String) 
+SERDE 'com.huawei.streaming.sql.SerDe.CSVSerDe'  pRoperties ("ip" = "localhost")
+SOURCE 'com.huawei.streaming.spout.csvReader' PROPERTIES ("path" = "/local")
+##sqlend
+CREATE INPUT STREAM s (id INT, name STRING) SERDE 'com.huawei.streaming.sql.SerDe.CSVSerDe' PROPERTIES ( 'ip' = 'localhost' ) SOURCE 'com.huawei.streaming.spout.csvReader' PROPERTIES ( 'path' = '/local' )
+##sqlstart:
+CREATE INPUT STREAM S (id INT,name String) 
+SERDE 'com.huawei.streaming.sql.SerDe.CSVSerDe'
+SOURCE 'com.huawei.streaming.spout.csvReader'
+##sqlend
+CREATE INPUT STREAM s (id INT, name STRING) SERDE 'com.huawei.streaming.sql.SerDe.CSVSerDe' SOURCE 'com.huawei.streaming.spout.csvReader'
+##sqlstart:
+CREATE INPUT STREAM S (id INT comment 'user id',name String comment 'user name') 
+COMMENT 'this is stream comment'
+SERDE 'com.huawei.streaming.sql.SerDe.CSVSerDe'
+SOURCE 'com.huawei.streaming.spout.csvReader'
+##sqlend
+CREATE INPUT STREAM s (id INT, name STRING) SERDE 'com.huawei.streaming.sql.SerDe.CSVSerDe' SOURCE 'com.huawei.streaming.spout.csvReader'

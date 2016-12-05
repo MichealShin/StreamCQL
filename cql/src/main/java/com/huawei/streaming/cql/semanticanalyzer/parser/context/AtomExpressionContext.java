@@ -417,8 +417,7 @@ public class AtomExpressionContext extends BaseExpressionParseContext
         {
             SemanticAnalyzerException exception =
                 new SemanticAnalyzerException(ErrorCode.SEMANTICANALYZE_DUPLICATE_COLUMN_ALLSTREAM, columnName);
-            LOG.error(exception.getMessage(), exception);
-            
+            LOG.error(ErrorCode.SEMANTICANALYZE_DUPLICATE_COLUMN_ALLSTREAM.getFullMessage(columnName), exception);
             throw exception;
         }
         
@@ -426,8 +425,7 @@ public class AtomExpressionContext extends BaseExpressionParseContext
         {
             SemanticAnalyzerException exception =
                 new SemanticAnalyzerException(ErrorCode.SEMANTICANALYZE_NO_COLUMN_ALLSTREAM, columnName);
-            LOG.error(exception.getMessage(), exception);
-            
+            LOG.error(ErrorCode.SEMANTICANALYZE_NO_COLUMN_ALLSTREAM.getFullMessage(columnName), exception);
             throw exception;
         }
     }

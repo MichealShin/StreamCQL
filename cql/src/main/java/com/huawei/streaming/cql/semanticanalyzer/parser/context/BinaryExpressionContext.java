@@ -168,8 +168,6 @@ public class BinaryExpressionContext extends BaseExpressionParseContext
      * 创建binary表达式
      *  logicExpressionAnd (KW_OR logicExpressionAnd)*
      * 从后往前计算表达式
-     * @return
-     * @throws SemanticAnalyzerException 
      */
     private ExpressionDescribe createRelationExpression(List<Schema> schemas)
         throws SemanticAnalyzerException

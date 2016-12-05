@@ -121,7 +121,6 @@ public abstract class SelectSplitter implements Splitter
     /**
      * <默认构造函数>
      *
-     * @param buildUtils 构建器使用的一些通用类
      */
     public SelectSplitter(BuilderUtils buildUtils)
     {
@@ -202,7 +201,6 @@ public abstract class SelectSplitter implements Splitter
     /**
      * from子句拆分
      *
-     * @throws ApplicationBuildException 拆分异常
      */
     protected abstract void splitFromClause()
         throws ApplicationBuildException;
@@ -210,8 +208,6 @@ public abstract class SelectSplitter implements Splitter
     /**
      * limit子句拆分
      *
-     * @return limit number
-     * @throws ApplicationBuildException 拆分异常
      */
     protected Integer parseLimit()
         throws ApplicationBuildException
@@ -226,8 +222,6 @@ public abstract class SelectSplitter implements Splitter
     /**
      * sort by子句处理
      *
-     * @return sort by 表达式
-     * @throws ApplicationBuildException 解析异常
      */
     protected String parseOrderBy()
         throws ApplicationBuildException
@@ -259,7 +253,6 @@ public abstract class SelectSplitter implements Splitter
     /**
      * group by 子句处理
      *
-     * @return group by 表达式字符串
      */
     protected String parseGroupby()
     {
@@ -269,8 +262,6 @@ public abstract class SelectSplitter implements Splitter
     /**
      * Having子句处理
      *
-     * @return Having字符串
-     * @throws ApplicationBuildException 解析异常
      */
     protected String parseHaving()
         throws ApplicationBuildException
@@ -299,9 +290,6 @@ public abstract class SelectSplitter implements Splitter
     /**
      * filter before window 语句解析
      *
-     * @param streamName 流名称
-     * @return filter算子
-     * @throws SemanticAnalyzerException 语义分析异常
      */
     protected FilterOperator splitFiterBeforeWindow(String streamName)
         throws SemanticAnalyzerException
@@ -325,11 +313,6 @@ public abstract class SelectSplitter implements Splitter
     /**
      * 创建连线
      *
-     * @param fromOp 起始算子
-     * @param toOp 结束算子
-     * @param streamName 流名称
-     * @return 连线信息
-     * @throws ApplicationBuildException 处理异常
      */
     protected OperatorTransition createTransition(Operator fromOp, Operator toOp, String streamName)
         throws ApplicationBuildException
@@ -393,8 +376,6 @@ public abstract class SelectSplitter implements Splitter
      * 如果相同，则使用select列表中的顺序列来替换
      * 如果不相同，则报错，having或者sort错误。
      *
-     * @return sort by的序列
-     * @throws ApplicationBuildException 执行异常
      */
     private List<Pair<String, Integer>> walkOrderBy()
         throws ApplicationBuildException
@@ -467,8 +448,6 @@ public abstract class SelectSplitter implements Splitter
      * 如果相同，则使用select列表中的顺序列来替换
      * 如果不相同，则报错，having或者sort错误。
      *
-     * @return having中的表达式
-     * @throws ApplicationBuildException 遍历异常
      */
     private List<Pair<String, Integer>> walkHaving()
         throws ApplicationBuildException
@@ -666,8 +645,6 @@ public abstract class SelectSplitter implements Splitter
      * Join条件检查
      * 目前只支持等值Join，并且多个join的条件必须是and
      *
-     * @param bdesc
-     * @throws ApplicationBuildException
      */
     private void joinCheck(BinaryExpressionDesc bdesc)
         throws ApplicationBuildException

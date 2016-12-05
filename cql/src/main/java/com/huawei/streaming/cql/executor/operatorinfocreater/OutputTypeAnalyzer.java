@@ -40,7 +40,6 @@ public class OutputTypeAnalyzer
     /**
      * 判断输出类型
      * 带排序窗口的都是R流输出
-     * @return
      */
     protected static OutputType createOutputType(Window window)
     {
@@ -49,8 +48,6 @@ public class OutputTypeAnalyzer
     
     /**
      * 判断是否是R流输出的窗口
-     * @param window 窗口
-     * @return 如果是R流，输出true
      */
     protected static boolean isRStreamWindow(Window window)
     {

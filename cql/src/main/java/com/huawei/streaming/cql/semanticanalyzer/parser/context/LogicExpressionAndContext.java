@@ -114,7 +114,6 @@ public class LogicExpressionAndContext extends BaseExpressionParseContext
     
     /**
      * {@inheritDoc}
-     * @throws SemanticAnalyzerException 
      */
     @Override
     public ExpressionDescribe createExpressionDesc()
@@ -132,8 +131,6 @@ public class LogicExpressionAndContext extends BaseExpressionParseContext
      * 创建binary表达式
      *  logicExpressionAnd (KW_OR logicExpressionAnd)*
      * 从后往前计算表达式
-     * @return
-     * @throws SemanticAnalyzerException 
      */
     private ExpressionDescribe createBinaryExpression()
         throws SemanticAnalyzerException

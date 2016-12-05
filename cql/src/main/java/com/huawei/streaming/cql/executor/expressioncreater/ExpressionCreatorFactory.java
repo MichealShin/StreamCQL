@@ -44,10 +44,6 @@ public class ExpressionCreatorFactory
     /**
      * 创建各类表达式实例
      *
-     * @param expressDesc 表达式描述
-     * @param systemConfig 系统全局参数
-     * @return 表达式实例
-     * @throws ExecutorException 执行器异常
      */
     public static IExpression createExpression(ExpressionDescribe expressDesc, Map<String, String> systemConfig)
         throws ExecutorException
@@ -62,12 +58,7 @@ public class ExpressionCreatorFactory
         }
         
         ExpressionCreator creator = createExpressionCreatorInstance(creatorClass);
-        try {
-            return creator.createInstance(expressDesc, systemConfig);
-        }catch(ExecutorException e){
-            LOG.error("expression : " + expressDesc.toString() + " fault");
-            throw e;
-        }
+        return creator.createInstance(expressDesc, systemConfig);
     }
     
     private static ExpressionCreator createExpressionCreatorInstance(Class< ? extends ExpressionCreator> creator)
@@ -89,9 +80,6 @@ public class ExpressionCreatorFactory
     /**
      * 创建order by表达式
      *
-     * @param parseContext order by解析内容
-     * @return order by表达式
-     * @throws ExecutorException 运行期异常
      */
     public static List<SortCondition> createOrderByExpression(OrderByClauseAnalyzeContext parseContext)
         throws ExecutorException

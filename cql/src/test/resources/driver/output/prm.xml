@@ -1,0 +1,254 @@
+<Definitions>
+  <Application id="prm">
+    <confs>
+      <property key="hbase.zookeeper.property.clientPort" value="24000"/>
+      <property key="hbase.zookeeper.quorum" value="192.168.0.2:24000,192.168.0.2:24000,192.168.0.2:24000"/>
+    </confs>
+    <Schemas>
+      <Schema id="transaction" name="transaction">
+        <attribute name="seq_no" type="java.lang.Long"/>
+        <attribute name="sm_user_id" type="java.lang.String"/>
+        <attribute name="dd_apdate" type="java.lang.Long"/>
+        <attribute name="sd_seq_num" type="java.lang.String"/>
+        <attribute name="sd_key" type="java.lang.String"/>
+        <attribute name="sd_retl_id" type="java.lang.String"/>
+        <attribute name="sd_term_id" type="java.lang.String"/>
+        <attribute name="mgroup_id" type="java.lang.String"/>
+        <attribute name="sd_term_name_loc" type="java.lang.String"/>
+        <attribute name="sd_acq_inst_id_num" type="java.lang.String"/>
+        <attribute name="sd_term_cntry" type="java.lang.String"/>
+        <attribute name="sd_term_st" type="java.lang.String"/>
+        <attribute name="sd_term_city" type="java.lang.String"/>
+        <attribute name="sd_retl_sic_cde" type="java.lang.String"/>
+        <attribute name="md_tran_amt1" type="java.lang.Double"/>
+        <attribute name="md_tran_amt3" type="java.lang.Double"/>
+        <attribute name="sd_orig_crncy_cde" type="java.lang.String"/>
+        <attribute name="md_tran_amt2" type="java.lang.Double"/>
+        <attribute name="dd_tran_dat_tim" type="java.lang.Long"/>
+        <attribute name="dd_tran_dat" type="java.lang.String"/>
+        <attribute name="dd_tran_tim" type="java.lang.String"/>
+        <attribute name="sd_pin_ind" type="java.lang.String"/>
+        <attribute name="sd_pin_tries" type="java.lang.String"/>
+        <attribute name="sd_tran_typ" type="java.lang.String"/>
+        <attribute name="sd_tran_cde" type="java.lang.String"/>
+        <attribute name="sd_resp_cde" type="java.lang.String"/>
+        <attribute name="sd_msg_typ" type="java.lang.String"/>
+        <attribute name="sd_filler_field" type="java.lang.String"/>
+        <attribute name="sd_auth_dat" type="java.lang.String"/>
+        <attribute name="sd_auth_tim" type="java.lang.String"/>
+        <attribute name="sd_pt_srv_entry_mde" type="java.lang.String"/>
+        <attribute name="sd_tran_media" type="java.lang.String"/>
+        <attribute name="sd_apprv_cde" type="java.lang.String"/>
+        <attribute name="sd_pt_srv_cond_cde" type="java.lang.String"/>
+        <attribute name="term_entry_capa" type="java.lang.String"/>
+        <attribute name="term_verif_rsut" type="java.lang.String"/>
+        <attribute name="term_capabit" type="java.lang.String"/>
+        <attribute name="cadhld_verif_meth_rsut" type="java.lang.String"/>
+        <attribute name="tran_channel_type" type="java.lang.String"/>
+        <attribute name="issu_script_rsut" type="java.lang.String"/>
+        <attribute name="chip_cond_cde" type="java.lang.String"/>
+        <attribute name="sm_user_mob_phn" type="java.lang.String"/>
+        <attribute name="sm_user_mob_phn1" type="java.lang.String"/>
+        <attribute name="sm_user_pri_govt_id" type="java.lang.String"/>
+        <attribute name="sm_user_postal_cde" type="java.lang.String"/>
+        <attribute name="sm_exp_dat" type="java.lang.String"/>
+        <attribute name="sm_crd_blk_cde" type="java.lang.String"/>
+        <attribute name="mm_open_to_buy" type="java.lang.Double"/>
+        <attribute name="score" type="java.lang.Integer"/>
+        <attribute name="object_no" type="java.lang.String"/>
+        <attribute name="object_level" type="java.lang.String"/>
+        <attribute name="is_ice" type="java.lang.String"/>
+        <attribute name="is_watch" type="java.lang.String"/>
+        <attribute name="is_mark" type="java.lang.String"/>
+        <attribute name="fraud_type" type="java.lang.String"/>
+        <attribute name="fraud_date" type="java.lang.Long"/>
+        <attribute name="rule_count" type="java.lang.Integer"/>
+        <attribute name="sd_ip_addr" type="java.lang.String"/>
+        <attribute name="sd_mac_addr" type="java.lang.String"/>
+        <attribute name="sd_accept_outsid_void_cck" type="java.lang.String"/>
+        <attribute name="sd_auth_src" type="java.lang.String"/>
+        <attribute name="sd_cup_coun" type="java.lang.Integer"/>
+        <attribute name="sd_cvd_present_flg" type="java.lang.String"/>
+        <attribute name="e_cash_balance" type="java.lang.Double"/>
+        <attribute name="sd_e_com_flg" type="java.lang.String"/>
+        <attribute name="interact_flag" type="java.lang.String"/>
+        <attribute name="tran_launch_way" type="java.lang.String"/>
+        <attribute name="sd_acct_num" type="java.lang.String"/>
+      </Schema>
+      <Schema id="realresult" name="realresult">
+        <attribute name="seq_no" type="java.lang.Long"/>
+        <attribute name="sm_user_id" type="java.lang.String"/>
+        <attribute name="dd_apdate" type="java.lang.Long"/>
+        <attribute name="sd_seq_num" type="java.lang.String"/>
+        <attribute name="sd_key" type="java.lang.String"/>
+        <attribute name="sd_retl_id" type="java.lang.String"/>
+        <attribute name="sd_term_id" type="java.lang.String"/>
+        <attribute name="mgroup_id" type="java.lang.String"/>
+        <attribute name="sd_term_name_loc" type="java.lang.String"/>
+        <attribute name="sd_acq_inst_id_num" type="java.lang.String"/>
+        <attribute name="sd_term_cntry" type="java.lang.String"/>
+        <attribute name="sd_term_st" type="java.lang.String"/>
+        <attribute name="sd_term_city" type="java.lang.String"/>
+        <attribute name="sd_retl_sic_cde" type="java.lang.String"/>
+        <attribute name="md_tran_amt1" type="java.lang.Double"/>
+        <attribute name="md_tran_amt3" type="java.lang.Double"/>
+        <attribute name="sd_orig_crncy_cde" type="java.lang.String"/>
+        <attribute name="md_tran_amt2" type="java.lang.Double"/>
+        <attribute name="dd_tran_dat_tim" type="java.lang.Long"/>
+        <attribute name="dd_tran_dat" type="java.lang.String"/>
+        <attribute name="dd_tran_tim" type="java.lang.String"/>
+        <attribute name="sd_pin_ind" type="java.lang.String"/>
+        <attribute name="sd_pin_tries" type="java.lang.String"/>
+        <attribute name="sd_tran_typ" type="java.lang.String"/>
+        <attribute name="sd_tran_cde" type="java.lang.String"/>
+        <attribute name="sd_resp_cde" type="java.lang.String"/>
+        <attribute name="sd_msg_typ" type="java.lang.String"/>
+        <attribute name="sd_filler_field" type="java.lang.String"/>
+        <attribute name="sd_auth_dat" type="java.lang.String"/>
+        <attribute name="sd_auth_tim" type="java.lang.String"/>
+        <attribute name="sd_pt_srv_entry_mde" type="java.lang.String"/>
+        <attribute name="sd_tran_media" type="java.lang.String"/>
+        <attribute name="sd_apprv_cde" type="java.lang.String"/>
+        <attribute name="sd_pt_srv_cond_cde" type="java.lang.String"/>
+        <attribute name="term_entry_capa" type="java.lang.String"/>
+        <attribute name="term_verif_rsut" type="java.lang.String"/>
+        <attribute name="term_capabit" type="java.lang.String"/>
+        <attribute name="cadhld_verif_meth_rsut" type="java.lang.String"/>
+        <attribute name="tran_channel_type" type="java.lang.String"/>
+        <attribute name="issu_script_rsut" type="java.lang.String"/>
+        <attribute name="chip_cond_cde" type="java.lang.String"/>
+        <attribute name="sm_user_mob_phn" type="java.lang.String"/>
+        <attribute name="sm_user_mob_phn1" type="java.lang.String"/>
+        <attribute name="sm_user_pri_govt_id" type="java.lang.String"/>
+        <attribute name="sm_user_postal_cde" type="java.lang.String"/>
+        <attribute name="sm_exp_dat" type="java.lang.String"/>
+        <attribute name="sm_crd_blk_cde" type="java.lang.String"/>
+        <attribute name="mm_open_to_buy" type="java.lang.Double"/>
+        <attribute name="score" type="java.lang.Integer"/>
+        <attribute name="object_no" type="java.lang.String"/>
+        <attribute name="object_level" type="java.lang.String"/>
+        <attribute name="is_ice" type="java.lang.String"/>
+        <attribute name="is_watch" type="java.lang.String"/>
+        <attribute name="is_mark" type="java.lang.String"/>
+        <attribute name="fraud_type" type="java.lang.String"/>
+        <attribute name="fraud_date" type="java.lang.Long"/>
+        <attribute name="rule_count" type="java.lang.Integer"/>
+        <attribute name="sd_ip_addr" type="java.lang.String"/>
+        <attribute name="sd_mac_addr" type="java.lang.String"/>
+        <attribute name="sd_accept_outsid_void_cck" type="java.lang.String"/>
+        <attribute name="sd_auth_src" type="java.lang.String"/>
+        <attribute name="sd_cup_coun" type="java.lang.Integer"/>
+        <attribute name="sd_cvd_present_flg" type="java.lang.String"/>
+        <attribute name="e_cash_balance" type="java.lang.Double"/>
+        <attribute name="sd_e_com_flg" type="java.lang.String"/>
+        <attribute name="interact_flag" type="java.lang.String"/>
+        <attribute name="tran_launch_way" type="java.lang.String"/>
+        <attribute name="sd_acct_num" type="java.lang.String"/>
+        <attribute name="real_pre3_1" type="java.lang.Double"/>
+        <attribute name="real_pre3_2" type="java.lang.Double"/>
+        <attribute name="real_card_m20_scont" type="java.lang.Long"/>
+        <attribute name="real_card_m20_samt" type="java.lang.Double"/>
+        <attribute name="real_card_m20_cont" type="java.lang.Long"/>
+        <attribute name="real_card_m20_amt" type="java.lang.Double"/>
+        <attribute name="real_card_m20_avgamt" type="java.lang.Double"/>
+        <attribute name="real_card_m20_maxamt" type="java.lang.Double"/>
+        <attribute name="real_card_m20_minamt" type="java.lang.Double"/>
+        <attribute name="real_retl_gt_tmed80amts_d1" type="java.lang.Integer"/>
+      </Schema>
+      <Schema id="real_cardm20" name="real_cardm20">
+        <attribute name="seq_no" type="java.lang.Long"/>
+        <attribute name="sd_key" type="java.lang.String"/>
+        <attribute name="real_card_m20_scont" type="java.lang.Long"/>
+        <attribute name="real_card_m20_samt" type="java.lang.Double"/>
+        <attribute name="real_card_m20_cont" type="java.lang.Long"/>
+        <attribute name="real_card_m20_amt" type="java.lang.Double"/>
+        <attribute name="real_card_m20_avgamt" type="java.lang.Double"/>
+        <attribute name="real_card_m20_maxamt" type="java.lang.Double"/>
+        <attribute name="real_card_m20_minamt" type="java.lang.Double"/>
+      </Schema>
+      <Schema id="retl_today" name="retl_today">
+        <attribute name="seq_no" type="java.lang.Long"/>
+        <attribute name="sd_retl_id" type="java.lang.String"/>
+        <attribute name="real_pre3_0" type="java.lang.Double"/>
+        <attribute name="real_pre3_1" type="java.lang.Double"/>
+        <attribute name="real_pre3_2" type="java.lang.Double"/>
+      </Schema>
+      <Schema id="retl_hbase_h3_temp" name="retl_hbase_h3_temp">
+        <attribute name="seq_no" type="java.lang.Long"/>
+        <attribute name="sd_retl_id" type="java.lang.String"/>
+        <attribute name="sd_term_id" type="java.lang.String"/>
+        <attribute name="hbaseval" type="java.lang.String"/>
+      </Schema>
+      <Schema id="retl_hbase_h3" name="retl_hbase_h3">
+        <attribute name="seq_no" type="java.lang.Long"/>
+        <attribute name="real_retl_gt_tmed80amts_d1" type="java.lang.Long"/>
+      </Schema>
+    </Schemas>
+    <Operators>
+      <KafkaInput id="KafkaInput_001" parallel="1">
+        <deserializer class="SimpleSerDe"/>
+        <groupId>trans_1</groupId>
+        <topic>trans</topic>
+      </KafkaInput>
+      <KafkaOutput id="KafkaOutput_002" parallel="1">
+        <serializer class="KeyValueSerDe">
+          <separator>,</separator>
+        </serializer>
+        <topic>real</topic>
+      </KafkaOutput>
+      <Aggregator id="Aggregator_005" parallel="2">
+        <outputExpression>transaction.seq_no, transaction.sd_key,  count( 1 ,( transaction.sd_resp_cde in ( &apos;001&apos;,&apos;000&apos; )  and  transaction.sd_filler_field in ( &apos;000&apos;,&apos;0000&apos; ) ) ) , case when  sum( transaction.md_tran_amt1 ,( transaction.sd_resp_cde in ( &apos;001&apos;,&apos;000&apos; )  and  transaction.sd_filler_field in ( &apos;000&apos;,&apos;0000&apos; ) ) )  is null then 2000 else  sum( transaction.md_tran_amt1 ,( transaction.sd_resp_cde in ( &apos;001&apos;,&apos;000&apos; )  and  transaction.sd_filler_field in ( &apos;000&apos;,&apos;0000&apos; ) ) )  end ,  count( 1 ,((transaction.sd_tran_cde = &apos;10&apos;) and (transaction.sd_pt_srv_entry_mde like &apos;90%&apos; and ((transaction.sd_term_cntry = &apos;CN&apos;) and ((transaction.sd_tran_typ != &apos;7&apos;) and ((transaction.sd_msg_typ = &apos;0210&apos;) and ( transaction.sd_resp_cde in ( &apos;001&apos;,&apos;000&apos; )  and  transaction.sd_filler_field in ( &apos;000&apos;,&apos;0000&apos; ) )))))) ) ,  sum( transaction.md_tran_amt1 ,((transaction.sd_tran_cde = &apos;10&apos;) and (transaction.sd_pt_srv_entry_mde like &apos;90%&apos; and ((transaction.sd_term_cntry = &apos;CN&apos;) and ((transaction.sd_tran_typ != &apos;7&apos;) and ((transaction.sd_msg_typ = &apos;0210&apos;) and ( transaction.sd_resp_cde in ( &apos;001&apos;,&apos;000&apos; )  and  transaction.sd_filler_field in ( &apos;000&apos;,&apos;0000&apos; ) )))))) ) ,  avg( transaction.md_tran_amt1 ) ,  max( transaction.md_tran_amt1 ,( transaction.sd_resp_cde in ( &apos;001&apos;,&apos;000&apos; )  and  transaction.sd_filler_field in ( &apos;000&apos;,&apos;0000&apos; ) ) ) ,  min( transaction.md_tran_amt1 ,( transaction.sd_resp_cde in ( &apos;001&apos;,&apos;000&apos; )  and  transaction.sd_filler_field in ( &apos;000&apos;,&apos;0000&apos; ) ) ) </outputExpression>
+        <groupbyExpression>transaction.sd_key</groupbyExpression>
+        <window name="group_event_tslide">
+          <length>1200000</length>
+          <groupbyExpression>transaction.sd_key</groupbyExpression>
+          <timestampField>transaction.dd_tran_dat_tim</timestampField>
+          <excludeNow>false</excludeNow>
+        </window>
+      </Aggregator>
+      <Aggregator id="Aggregator_008" parallel="2">
+        <outputExpression>transaction.seq_no, transaction.sd_retl_id, transaction.md_tran_amt1,  previous (1,transaction.md_tran_amt1 ) ,  previous (2,transaction.md_tran_amt1 ) </outputExpression>
+        <groupbyExpression>transaction.sd_retl_id</groupbyExpression>
+        <window name="group_today">
+          <groupbyExpression>transaction.sd_retl_id</groupbyExpression>
+          <timestampField>transaction.dd_tran_dat_tim</timestampField>
+          <excludeNow>false</excludeNow>
+        </window>
+      </Aggregator>
+      <Functor id="Functor_011" parallel="2">
+        <outputExpression>transaction.seq_no, transaction.sd_retl_id, transaction.sd_term_id, &apos;1&apos;</outputExpression>
+      </Functor>
+      <Join id="Join_013" parallel="2">
+        <outputExpression>retl_hbase_h3_temp.seq_no,  count( 1 ,(transaction.md_tran_amt1 &gt; case when (retl_hbase_h3_temp.hbaseval = &apos;&apos;) then 50000.0D else  todouble( retl_hbase_h3_temp.hbaseval )  end ) ) </outputExpression>
+        <groupbyExpression>retl_hbase_h3_temp.seq_no, retl_hbase_h3_temp.sd_retl_id, retl_hbase_h3_temp.sd_term_id</groupbyExpression>
+        <leftStreamName>st_004</leftStreamName>
+        <rightStreamName>st_001</rightStreamName>
+        <rightWindow name="event_tslide">
+          <length>10800000</length>
+          <timestampField>transaction.dd_tran_dat_tim</timestampField>
+          <excludeNow>false</excludeNow>
+        </rightWindow>
+        <joinType>INNER_JOIN</joinType>
+        <joinExpression>((retl_hbase_h3_temp.sd_retl_id = transaction.sd_retl_id) and (retl_hbase_h3_temp.sd_term_id = transaction.sd_term_id))</joinExpression>
+        <uniDirectionIndex>LEFT_STREAM</uniDirectionIndex>
+      </Join>
+      <Combiner id="Combiner_016" parallel="2">
+        <outputExpression>transaction.seq_no, transaction.sm_user_id, transaction.dd_apdate, transaction.sd_seq_num, transaction.sd_key, transaction.sd_retl_id, transaction.sd_term_id, transaction.mgroup_id, transaction.sd_term_name_loc, transaction.sd_acq_inst_id_num, transaction.sd_term_cntry, transaction.sd_term_st, transaction.sd_term_city, transaction.sd_retl_sic_cde, transaction.md_tran_amt1, transaction.md_tran_amt3, transaction.sd_orig_crncy_cde, transaction.md_tran_amt2, transaction.dd_tran_dat_tim, transaction.dd_tran_dat, transaction.dd_tran_tim, transaction.sd_pin_ind, transaction.sd_pin_tries, transaction.sd_tran_typ, transaction.sd_tran_cde, transaction.sd_resp_cde, transaction.sd_msg_typ, transaction.sd_filler_field, transaction.sd_auth_dat, transaction.sd_auth_tim, transaction.sd_pt_srv_entry_mde, transaction.sd_tran_media, transaction.sd_apprv_cde, transaction.sd_pt_srv_cond_cde, transaction.term_entry_capa, transaction.term_verif_rsut, transaction.term_capabit, transaction.cadhld_verif_meth_rsut, transaction.tran_channel_type, transaction.issu_script_rsut, transaction.chip_cond_cde, transaction.sm_user_mob_phn, transaction.sm_user_mob_phn1, transaction.sm_user_pri_govt_id, transaction.sm_user_postal_cde, transaction.sm_exp_dat, transaction.sm_crd_blk_cde, transaction.mm_open_to_buy, transaction.score, transaction.object_no, transaction.object_level, transaction.is_ice, transaction.is_watch, transaction.is_mark, transaction.fraud_type, transaction.fraud_date, transaction.rule_count, transaction.sd_ip_addr, transaction.sd_mac_addr, transaction.sd_accept_outsid_void_cck, transaction.sd_auth_src, transaction.sd_cup_coun, transaction.sd_cvd_present_flg, transaction.e_cash_balance, transaction.sd_e_com_flg, transaction.interact_flag, transaction.tran_launch_way, transaction.sd_acct_num, retl_today.real_pre3_1, retl_today.real_pre3_2, real_cardm20.real_card_m20_scont, real_cardm20.real_card_m20_samt, real_cardm20.real_card_m20_cont, real_cardm20.real_card_m20_amt, real_cardm20.real_card_m20_avgamt, real_cardm20.real_card_m20_maxamt, real_cardm20.real_card_m20_minamt, retl_hbase_h3.real_retl_gt_tmed80amts_d1</outputExpression>
+        <combineProperties>real_cardm20.seq_no,retl_hbase_h3.seq_no,retl_today.seq_no,transaction.seq_no</combineProperties>
+        <orderedStreams>transaction,retl_today,real_cardm20,retl_hbase_h3</orderedStreams>
+      </Combiner>
+    </Operators>
+    <Transitions>
+      <Transition name="st_001" from="KafkaInput_001" to="Aggregator_005" distributedType="FIELDS" distributedFields="transaction.sd_key" schemaName="transaction"/>
+      <Transition name="st_001" from="KafkaInput_001" to="Aggregator_008" distributedType="FIELDS" distributedFields="transaction.sd_retl_id" schemaName="transaction"/>
+      <Transition name="st_001" from="KafkaInput_001" to="Functor_011" distributedType="SHUFFLE" schemaName="transaction"/>
+      <Transition name="st_004" from="Functor_011" to="Join_013" distributedType="FIELDS" distributedFields="sd_retl_id,sd_term_id" schemaName="retl_hbase_h3_temp"/>
+      <Transition name="st_001" from="KafkaInput_001" to="Join_013" distributedType="FIELDS" distributedFields="sd_retl_id,sd_term_id" schemaName="transaction"/>
+      <Transition name="st_006" from="Aggregator_005" to="Combiner_016" distributedType="FIELDS" distributedFields="real_cardm20.seq_no" schemaName="real_cardm20"/>
+      <Transition name="st_007" from="Join_013" to="Combiner_016" distributedType="FIELDS" distributedFields="retl_hbase_h3.seq_no" schemaName="retl_hbase_h3"/>
+      <Transition name="st_008" from="Aggregator_008" to="Combiner_016" distributedType="FIELDS" distributedFields="retl_today.seq_no" schemaName="retl_today"/>
+      <Transition name="st_001" from="KafkaInput_001" to="Combiner_016" distributedType="FIELDS" distributedFields="transaction.seq_no" schemaName="transaction"/>
+      <Transition name="st_023" from="Combiner_016" to="KafkaOutput_002" distributedType="SHUFFLE" schemaName="realresult"/>
+    </Transitions>
+  </Application>
+</Definitions>

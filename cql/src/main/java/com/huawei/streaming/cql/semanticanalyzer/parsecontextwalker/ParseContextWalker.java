@@ -29,8 +29,6 @@ public interface ParseContextWalker
     
     /**
      * 遍历表达式
-     * @param parseContext 待遍历的表达式
-     * @return 是否匹配
      */
     boolean walk(ParseContext parseContext);
 }

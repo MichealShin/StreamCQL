@@ -18,16 +18,24 @@
 
 package com.huawei.streaming.api;
 
+import com.huawei.streaming.api.opereators.KafkaInputOperator;
+import com.huawei.streaming.api.opereators.KafkaOutputOperator;
+import com.huawei.streaming.cql.executor.PhysicalPlanLoader;
+import com.huawei.streaming.cql.mapping.SimpleLexer;
+import com.huawei.streaming.cql.mapping.InputOutputOperatorMapping;
+import com.huawei.streaming.cql.toolkits.operators.TCPServerInputOperator;
+import com.huawei.streaming.operator.inputstream.KafkaSourceOp;
+import com.huawei.streaming.operator.outputstream.KafkaFunctionOp;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
-import com.huawei.streaming.CQLTestBase;
 import com.huawei.streaming.api.opereators.AggregateOperator;
-import com.huawei.streaming.api.opereators.KafkaInputOperator;
-import com.huawei.streaming.api.opereators.KafkaOutputOperator;
 import com.huawei.streaming.api.opereators.Operator;
 import com.huawei.streaming.api.opereators.OperatorTransition;
 import com.huawei.streaming.api.opereators.Window;
@@ -38,19 +46,31 @@ import com.huawei.streaming.application.DistributeType;
 import com.huawei.streaming.cql.ConstInTestCase;
 import com.huawei.streaming.cql.LocalTaskCommons;
 import com.huawei.streaming.cql.executor.PhysicalPlanExecutor;
-import static org.junit.Assert.assertTrue;
 
 /**
  * 聚合API测试
  *
  */
-public class AggregateAPITest extends CQLTestBase
+public class AggregateAPITest
 {
-    
+    /**
+     * 初始化测试类之前要执行的初始化方法
+     *
+     */
+    @BeforeClass
+    public static void setUpBeforeClass()
+     throws Exception
+    {
+        SimpleLexer.registerInputOperator("TCPServerInput", TCPServerInputOperator.class);
+        PhysicalPlanLoader.registerPhysicalPlanAlias("TCPServerInput",
+         com.huawei.streaming.cql.toolkits.api.TCPServerInputOperator.class);
+        InputOutputOperatorMapping.registerOperator(
+         com.huawei.streaming.cql.toolkits.api.TCPServerInputOperator.class,
+         com.huawei.streaming.cql.toolkits.operators.TCPServerInputOperator.class);
+    }
     /**
      * 简单聚合功能测试
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void aggregateAPITest()
@@ -93,9 +113,6 @@ public class AggregateAPITest extends CQLTestBase
         
         KafkaOutputOperator op = new KafkaOutputOperator("kafkaWriter", 1);
         op.setTopic("aggtopic_out");
-        op.setZookeepers("158.1.130.21:2181");
-        op.setZkSessionTimeout(ConstInTestCase.I_20000);
-        op.setZkSyncTime(ConstInTestCase.I_20000);
         op.setSerializer(ser);
         return op;
     }
@@ -122,8 +139,6 @@ public class AggregateAPITest extends CQLTestBase
         op.setGroupId("groupid");
         op.setTopic("aggtopic_in");
         op.setZookeepers("158.1.130.21:2181");
-        op.setZkSessionTimeout(ConstInTestCase.I_20000);
-        op.setZkSyncTime(ConstInTestCase.I_20000);
         op.setDeserializer(deser);
         return op;
     }

@@ -55,8 +55,6 @@ public class TransitionRepeatValidater implements Validater
      * <p/>
      * 系统要求，一个算子，接收的流名称不能重复
      *
-     * @param transitions 原来的连线信息
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 重复异常
      */
     private void checkRepeatTransition(List<OperatorTransition> transitions)
         throws ExecutorException

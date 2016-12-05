@@ -101,8 +101,6 @@ public class WindowAnalyzeContext extends AnalyzeContext
     /**
      * 创建窗口实例
      *
-     * @return 窗口实例
-     * @throws SemanticAnalyzerException 语义分析异常
      */
     public Window createWindowByParseContext()
         throws SemanticAnalyzerException

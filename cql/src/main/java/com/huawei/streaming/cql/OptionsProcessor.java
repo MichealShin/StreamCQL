@@ -42,7 +42,6 @@ public class OptionsProcessor
     
     /**
      * <默认构造函数>
-     * @param sessionState 当前用户session
      */
     public OptionsProcessor(CQLSessionState sessionState)
     {
@@ -69,8 +68,6 @@ public class OptionsProcessor
     
     /**
      * 解析参数
-     * @param args 参数
-     * @return 参数是否被正确解析
      */
     public boolean parseAgr(String[] args)
     {

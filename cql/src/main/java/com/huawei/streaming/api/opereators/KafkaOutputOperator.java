@@ -32,7 +32,7 @@ public class KafkaOutputOperator extends InnerOutputSourceOperator
      */
     @ConfigAnnotation(StreamingConfig.OPERATOR_KAFKA_TOPIC)
     private String topic;
-    
+
     /**
      * kafka读取数据的zookeeper地址
      * 地址加端口，多个之间用逗号分隔
@@ -40,100 +40,98 @@ public class KafkaOutputOperator extends InnerOutputSourceOperator
      */
     @ConfigAnnotation(StreamingConfig.OPERATOR_KAFKA_ZOOKEEPERS)
     private String zookeepers;
-    
+
     /**
      * brokers 列表
      */
     @ConfigAnnotation(StreamingConfig.OPERATOR_KAFKA_BROKERS)
     private String brokers;
-    
+
     /**
      * zookeeper连接超时时间
      */
     @ConfigAnnotation(StreamingConfig.OPERATOR_KAFKA_ZKSESSIONTIMEOUT)
     private Integer zkSessionTimeout;
-    
+
     /**
      * kafka zk 同步时间参数
      */
     @ConfigAnnotation(StreamingConfig.OPERATOR_KAFKA_ZKSYNCTIME)
     private Integer zkSyncTime;
-    
+
     /**
      * kafka消费者中获取到数据之后的序列化类
      */
     @ConfigAnnotation(StreamingConfig.OPERATOR_KAFKA_MESSAGESERIALIZERCLASS)
     private String messageSerializerClass;
-    
+
     /**
      * <默认构造函数>
      *
-     * @param id 算子id
-     * @param parallelNumber 算子并行度
      */
     public KafkaOutputOperator(String id, int parallelNumber)
     {
         super(id, parallelNumber);
     }
-    
+
     public String getBrokers()
     {
         return brokers;
     }
-    
+
     public void setBrokers(String brokers)
     {
         this.brokers = brokers;
     }
-    
+
     public String getZookeepers()
     {
         return zookeepers;
     }
-    
+
     public void setZookeepers(String zookeepers)
     {
         this.zookeepers = zookeepers;
     }
-    
+
     public Integer getZkSessionTimeout()
     {
         return zkSessionTimeout;
     }
-    
+
     public void setZkSessionTimeout(Integer zkSessionTimeout)
     {
         this.zkSessionTimeout = zkSessionTimeout;
     }
-    
+
     public Integer getZkSyncTime()
     {
         return zkSyncTime;
     }
-    
+
     public void setZkSyncTime(Integer zkSyncTime)
     {
         this.zkSyncTime = zkSyncTime;
     }
-    
+
     public String getMessageSerializerClass()
     {
         return messageSerializerClass;
     }
-    
+
     public void setMessageSerializerClass(String messageSerializerClass)
     {
         this.messageSerializerClass = messageSerializerClass;
     }
-    
+
     public String getTopic()
     {
         return topic;
     }
-    
+
     public void setTopic(String topic)
     {
         this.topic = topic;
     }
-    
+
 }

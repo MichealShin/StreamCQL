@@ -23,11 +23,11 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -142,15 +142,13 @@ public class DriverContext
     /**
      * 从classpath中移除jar包
      *
-     * @param pathsToRemove 待移除的jar
-     * @throws IOException jar包移除异常
      */
     private static void removeFromClassPath(String[] pathsToRemove)
         throws IOException
     {
         Thread curThread = Thread.currentThread();
         URLClassLoader loader = (URLClassLoader)curThread.getContextClassLoader();
-        Set<URL> newPath = new HashSet<URL>(Arrays.asList(loader.getURLs()));
+        List<URL> newPath = new ArrayList<URL>(Arrays.asList(loader.getURLs()));
         
         if (pathsToRemove != null)
         {
@@ -162,11 +160,20 @@ public class DriverContext
                 }
                 
                 URL oneurl = (new File(onestr)).toURI().toURL();
-                newPath.remove(oneurl);
-            } 
+                
+                Iterator<URL> iterator = newPath.iterator();
+                while (iterator.hasNext())
+                {
+                    URL url = iterator.next();
+                    if (url.equals(oneurl))
+                    {
+                        iterator.remove();
+                    }
+                }
+            }
         }
 
-        loader = new URLClassLoader(newPath.toArray(new URL[0]));
+        loader = new URLClassLoader(newPath.toArray(new URL[newPath.size()]));
         curThread.setContextClassLoader(loader);
     }
     
@@ -183,7 +190,6 @@ public class DriverContext
     /**
      * 添加schema
      *
-     * @param schema schema信息
      */
     public void addSchema(Schema schema)
     {
@@ -193,8 +199,6 @@ public class DriverContext
     /**
      * 用户下发自定义参数
      *
-     * @param key 参数键
-     * @param value 参数值
      */
     public void addConf(String key, String value)
     {
@@ -211,7 +215,6 @@ public class DriverContext
     /**
      * 添加用户自定义函数
      *
-     * @param userFunction 用户函数
      */
     public void addUserDefoundFunctions(UserFunction userFunction)
     {
@@ -221,8 +224,6 @@ public class DriverContext
     /**
      * 移除用户自定义函数
      *
-     * @param functionName 函数名称
-     * @param checkExists 检查是否存在
      */
     public void removeUserDefinedFunction(String functionName, boolean checkExists)
     {
@@ -243,7 +244,6 @@ public class DriverContext
     /**
      * 添加文件
      *
-     * @param file 用户文件
      */
     public void addFile(String file)
     {
@@ -253,8 +253,6 @@ public class DriverContext
     /**
      * 添加jar包，并将其注册到系统内部，使得其他自定义接口可以使用
      *
-     * @param jar 用户jar包
-     * @throws ExecutorException 添加jar包异常
      */
     public void addJar(String jar)
         throws ExecutorException
@@ -281,7 +279,6 @@ public class DriverContext
     /**
      * 添加命令
      *
-     * @param cql 命令
      */
     public void addCQLs(String cql)
     {
@@ -292,7 +289,6 @@ public class DriverContext
     /**
      * 添加解析结果
      *
-     * @param parseContext 解析结果
      */
     public void addParseContext(ParseContext parseContext)
     {
@@ -403,7 +399,7 @@ public class DriverContext
             }
         }
         
-        return new URLClassLoader(curPath.toArray(new URL[0]), loader);
+        return new URLClassLoader(curPath.toArray(new URL[curPath.size()]), loader);
     }
     
     private URL getFileURL(String onestr)
@@ -455,7 +451,6 @@ public class DriverContext
 
     /**
      * 添加用户自定义算子定义
-     * @param createOp 用户自定义算子定义
      */
     public void addUserOperator(CreateOperatorContext createOp)
     {

@@ -86,11 +86,12 @@ public class FunctorInfoCreator implements OperatorInfoCreator
         FunctorOp fop = new FunctorOp(selectSubProcess, eventtype, filterExpression);
         
         StreamingConfig config = new StreamingConfig();
+        config.putAll(this.applicationConfig);
         if (operator.getArgs() != null)
         {
             config.putAll(operator.getArgs());
         }
-        config.putAll(this.applicationConfig);
+
         fop.setConfig(config);
         
         return OperatorInfoCreatorFactory.buildStreamOperator(operator, fop);

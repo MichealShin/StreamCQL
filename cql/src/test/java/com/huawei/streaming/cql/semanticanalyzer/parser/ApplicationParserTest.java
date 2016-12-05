@@ -18,11 +18,12 @@
 
 package com.huawei.streaming.cql.semanticanalyzer.parser;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import org.junit.Test;
 
 import com.huawei.streaming.cql.exception.ParseException;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 /**
  * parser的异常测试

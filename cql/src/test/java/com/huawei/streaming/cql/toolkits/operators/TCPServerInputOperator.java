@@ -80,6 +80,8 @@ public class TCPServerInputOperator implements IInputStreamOperator
 
     private StreamSerDe serde;
 
+    private StreamingConfig config;
+
     /**
      * {@inheritDoc}
      */
@@ -89,6 +91,16 @@ public class TCPServerInputOperator implements IInputStreamOperator
         queue = new ArrayBlockingQueue<Object[]>(DEFAULT_QUEUE_LENGTH);
         listenerPort = conf.getIntValue(StreamingConfig.OPERATOR_TCPSERVER_PORT);
         fixedLength = conf.getIntValue(StreamingConfig.OPERATOR_TCPSERVER_FIXEDLENGTH);
+        config = conf;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public StreamingConfig getConfig()
+    {
+        return config;
     }
 
     /**
@@ -148,6 +160,15 @@ public class TCPServerInputOperator implements IInputStreamOperator
     public void setSerDe(StreamSerDe streamSerDe)
     {
         this.serde = streamSerDe;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public StreamSerDe getSerDe()
+    {
+        return serde;
     }
 
     private void startNettyServer()

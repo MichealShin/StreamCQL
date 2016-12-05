@@ -18,7 +18,9 @@
 
 package com.huawei.streaming.api.opereators.serdes;
 
+import com.huawei.streaming.api.ConfigAnnotation;
 import com.huawei.streaming.api.StreamSerDeAnnoation;
+import com.huawei.streaming.config.StreamingConfig;
 import com.huawei.streaming.serde.CSVSerDe;
 
 /**
@@ -31,5 +33,16 @@ import com.huawei.streaming.serde.CSVSerDe;
 @StreamSerDeAnnoation(CSVSerDe.class)
 public class CSVSerDeAPI extends SerDeAPI
 {
-    
+    @ConfigAnnotation(StreamingConfig.STREAMING_OPERATOR_TIMEZONE)
+    private String timezoneForTimestamp;
+
+    public String getTimezoneForTimestamp()
+    {
+        return timezoneForTimestamp;
+    }
+
+    public void setTimezoneForTimestamp(String timezoneForTimestamp)
+    {
+        this.timezoneForTimestamp = timezoneForTimestamp;
+    }
 }

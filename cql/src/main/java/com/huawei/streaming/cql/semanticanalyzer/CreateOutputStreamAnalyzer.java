@@ -18,7 +18,6 @@
 
 package com.huawei.streaming.cql.semanticanalyzer;
 
-import java.util.Locale;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -28,7 +27,7 @@ import com.google.common.collect.Maps;
 import com.huawei.streaming.api.AnnotationUtils;
 import com.huawei.streaming.config.StreamingConfig;
 import com.huawei.streaming.cql.exception.SemanticAnalyzerException;
-import com.huawei.streaming.cql.mapping.CQLSimpleLexerMapping;
+import com.huawei.streaming.cql.mapping.SimpleLexer;
 import com.huawei.streaming.cql.mapping.InputOutputOperatorMapping;
 import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.AnalyzeContext;
 import com.huawei.streaming.cql.semanticanalyzer.parser.context.ClassNameContext;
@@ -50,8 +49,6 @@ public class CreateOutputStreamAnalyzer extends CreateStreamAnalyzer
     /**
      * <默认构造函数>
      *
-     * @param parseContext 语法解析内容
-     * @throws SemanticAnalyzerException 语义分析内容
      */
     public CreateOutputStreamAnalyzer(ParseContext parseContext)
         throws SemanticAnalyzerException
@@ -101,12 +98,21 @@ public class CreateOutputStreamAnalyzer extends CreateStreamAnalyzer
     }
     
     private void setSerDeByCQL(ClassNameContext serClassName)
+        throws SemanticAnalyzerException
     {
         String newSerClassName = serClassName.getClassName();
         
         if (serClassName.isInnerClass())
         {
-            newSerClassName = CQLSimpleLexerMapping.getFullName(newSerClassName);
+           String fullName = SimpleLexer.SERDE.getFullName(newSerClassName);
+            if(fullName == null)
+            {
+                SemanticAnalyzerException exception =
+                    new SemanticAnalyzerException(ErrorCode.SEMANTICANALYZE_UNMATCH_OPERATOR, newSerClassName);
+                LOG.error("The '{}' operator type does not match.", newSerClassName);
+                throw exception;
+            }
+            newSerClassName = fullName;
         }
         getAnalyzeContext().setSerializerClassName(newSerClassName);
     }
@@ -150,7 +156,7 @@ public class CreateOutputStreamAnalyzer extends CreateStreamAnalyzer
         String sinkClassName = getAnalyzeContext().getRecordWriterClassName();
         return convertSimpleConf(sinkConf, sinkClassName);
     }
-    
+
     private Map<String, String> convertSimpleConf(Map<String, String> serdeProperties, String deserClassName)
         throws SemanticAnalyzerException
     {
@@ -159,21 +165,22 @@ public class CreateOutputStreamAnalyzer extends CreateStreamAnalyzer
         {
             return serdeProperties;
         }
-        
+
         Map<String, String> configMapping = AnnotationUtils.getConfigMapping(apiOperator);
         Map<String, String> confs = Maps.newHashMap();
-        
+
         for (Map.Entry<String, String> et : serdeProperties.entrySet())
         {
-            String fullName = et.getKey().toLowerCase(Locale.US);
+            String fullName = et.getKey();
             String value = et.getValue();
+            //大小写完全匹配
             if (configMapping.containsKey(fullName))
             {
                 fullName = configMapping.get(fullName);
             }
             confs.put(fullName, value);
         }
-        
+
         return confs;
     }
     
@@ -185,13 +192,23 @@ public class CreateOutputStreamAnalyzer extends CreateStreamAnalyzer
     }
     
     private void setSinkClass()
+        throws SemanticAnalyzerException
     {
         ClassNameContext sinkClassName = createOutputStreamParseContext.getSinkClassName();
         String newSinkClassName = sinkClassName.getClassName();
         if (sinkClassName.isInnerClass())
         {
-            newSinkClassName = CQLSimpleLexerMapping.getFullName(newSinkClassName);
+            String fullName = SimpleLexer.OUTPUT.getFullName(newSinkClassName);
+            if (fullName == null)
+            {
+                SemanticAnalyzerException exception =
+                    new SemanticAnalyzerException(ErrorCode.SEMANTICANALYZE_UNMATCH_OPERATOR, newSinkClassName);
+                LOG.error("The '{}' operator type does not match.", newSinkClassName);
+                throw exception;
+            }
+            newSinkClassName = fullName;
         }
+
         getAnalyzeContext().setRecordWriterClassName(newSinkClassName);
     }
     

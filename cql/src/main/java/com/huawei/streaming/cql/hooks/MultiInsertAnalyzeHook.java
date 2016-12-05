@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 
+
 package com.huawei.streaming.cql.hooks;
 
 import com.huawei.streaming.cql.DriverContext;

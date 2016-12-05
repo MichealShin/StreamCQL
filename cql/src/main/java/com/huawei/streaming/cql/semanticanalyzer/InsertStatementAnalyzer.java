@@ -39,8 +39,6 @@ public class InsertStatementAnalyzer extends BaseAnalyzer
     
     /**
      * <默认构造函数>
-     * @param parseContext 语法解析内容
-     * @throws SemanticAnalyzerException 语义分析内容
      */
     public InsertStatementAnalyzer(ParseContext parseContext)
         throws SemanticAnalyzerException

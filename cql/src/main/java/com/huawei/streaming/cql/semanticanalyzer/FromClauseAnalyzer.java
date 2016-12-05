@@ -72,8 +72,6 @@ public class FromClauseAnalyzer extends BaseAnalyzer
     
     /**
      * <默认构造函数>
-     * @param parseContext 语法解析内容
-     * @throws SemanticAnalyzerException 语义分析内容
      */
     public FromClauseAnalyzer(ParseContext parseContext)
         throws SemanticAnalyzerException
@@ -353,7 +351,6 @@ public class FromClauseAnalyzer extends BaseAnalyzer
     /**
      * combine的校验
      * combine中不允许存在窗口
-     * @throws SemanticAnalyzerException 校验失败，抛出异常
      */
     private void combineValidate()
         throws SemanticAnalyzerException
@@ -376,10 +373,6 @@ public class FromClauseAnalyzer extends BaseAnalyzer
      * (TOK_WINDOW group_time_slide (TOK_STREAMPROPLIST (TOK_STREAMPROPERTY 100) (TOK_STREAMPROPERTY 'id,name')))
      * (TOK_WINDOW udf (TOK_STREAMPROPLIST (TOK_STREAMPROPERTY 'id' '100') (TOK_STREAMPROPERTY 'ss' 'id,name')))
      * 
-     * @param windowContext 窗口的AST语法树
-     * @param schema 窗口所在流的schema
-     * @param alias 窗口所在流别名
-     * @throws SemanticAnalyzerException 语义分析异常
      */
     private void parseWindow(WindowSourceContext windowContext, Schema schema, String alias)
         throws SemanticAnalyzerException
@@ -391,7 +384,6 @@ public class FromClauseAnalyzer extends BaseAnalyzer
     
     /**
      * 由于语义解析的需要，为不存在窗口的流创建null的默认窗口
-     * @param alias 流名称
      */
     private void createDefaultWindow(String alias)
     {
@@ -480,10 +472,6 @@ public class FromClauseAnalyzer extends BaseAnalyzer
      * 还要根据schema信息模拟出create pipestream解析结果
      * 还有insert into stream的解析结果
      * 
-     * @param subStreamName
-     * @param selectStatement
-     * @return
-     * @throws SemanticAnalyzerException
      */
     private Schema parseSubQuery(String subStreamName, SelectStatementContext selectStatement)
         throws SemanticAnalyzerException

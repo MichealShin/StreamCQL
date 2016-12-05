@@ -48,11 +48,6 @@ public class SelectViewExpressionCreator
     /**
      * 创建select表达式实例
      *
-     * @param inputSchemas 输入schema
-     * @param selectExpress select表达式
-     * @param systemConfig 系统配置参数
-     * @return select表达式数组
-     * @throws com.huawei.streaming.cql.exception.ExecutorException 执行期异常
      */
     public IExpression[] create(List<Schema> inputSchemas, String selectExpress, Map<String, String> systemConfig)
         throws ExecutorException

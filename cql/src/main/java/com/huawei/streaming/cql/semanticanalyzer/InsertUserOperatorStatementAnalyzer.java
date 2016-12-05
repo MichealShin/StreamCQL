@@ -48,8 +48,6 @@ public class InsertUserOperatorStatementAnalyzer extends BaseAnalyzer
     
     /**
      * insert用户自定义算子语义分析
-     * @param parseContext 解析内容
-     * @throws SemanticAnalyzerException 语义分析异常
      */
     public InsertUserOperatorStatementAnalyzer(ParseContext parseContext)
         throws SemanticAnalyzerException

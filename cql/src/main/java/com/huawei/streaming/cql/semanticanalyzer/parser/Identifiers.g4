@@ -46,17 +46,12 @@ cqlIdentifier
 	|	Identifier
 	;
 
-packageNameIdentifier
-    :	cqlIdentifier (DOT cqlIdentifier)*
-    ;
-
 streamProperties
     :	KW_PROPERTIES LPAREN streamPropertiesList RPAREN
     ;
 
 confName
 	:	StringLiteral
-	|   packageNameIdentifier
 	;
 
 /*
@@ -95,7 +90,7 @@ className
 	;
 
 innerClassName
-    :   packageNameIdentifier
+    :   cqlIdentifier
     ;
 
 userDefinedClassName

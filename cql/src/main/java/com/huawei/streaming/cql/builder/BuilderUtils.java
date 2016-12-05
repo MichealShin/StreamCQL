@@ -66,7 +66,6 @@ public class BuilderUtils
     
     /**
      * 获取默认的并发度
-     * @return 并发度
      */
     public int getDefaultParallelNumber()
     {
@@ -79,7 +78,6 @@ public class BuilderUtils
     
     /**
      * 获取下一个子查询的名称
-     * @return 下一个子查询的名称
      */
     public String getNextSubQueryName()
     {
@@ -89,7 +87,6 @@ public class BuilderUtils
     
     /**
      * 获取下一个流名称
-     * @return 下一个流名称
      */
     public String getNextStreamName()
     {
@@ -100,7 +97,6 @@ public class BuilderUtils
     /**
      * 获取下一个算子名称
      * 
-     * @return 算子名称
      */
     public String getNextOperatorName(String prefix)
     {
@@ -112,9 +108,6 @@ public class BuilderUtils
     /**
      * 算子名称重命名
      *
-     * @param oldName 原有名称
-     * @param newNamePrefix 新名称前缀
-     * @return 算子新名称
      */
     public static String renameOperatorName(String oldName, String newNamePrefix)
     {
@@ -130,7 +123,6 @@ public class BuilderUtils
 
     /**
      * 添加数据源定义
-     * @param context 数据源定义解析内容
      */
     public void addDataSourceDefined(CreateDataSourceAnalyzeContext context)
     {
@@ -139,8 +131,6 @@ public class BuilderUtils
     
     /**
      * 根据数据源名称获取数据源定义内容
-     * @param dataSourceName 数据源名称
-     * @return 数据源定义内容
      */
     public CreateDataSourceAnalyzeContext getDataSourceDefineByName(String dataSourceName)
     {

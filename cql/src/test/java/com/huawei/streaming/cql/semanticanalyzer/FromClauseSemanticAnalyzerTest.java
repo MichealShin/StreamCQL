@@ -18,6 +18,8 @@
 
 package com.huawei.streaming.cql.semanticanalyzer;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +45,6 @@ import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.expressiondesc.S
 import com.huawei.streaming.cql.semanticanalyzer.parser.IParser;
 import com.huawei.streaming.cql.semanticanalyzer.parser.ParserFactory;
 import com.huawei.streaming.expression.ExpressionOperator;
-import static org.junit.Assert.assertTrue;
 
 /**
  * from子句语义分析测试用例
@@ -58,7 +59,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 初始化测试类之前要执行的初始化方法
      *
-     * @throws Exception 初始化中可能抛出的异常
      */
     @BeforeClass
     public static void setUpBeforeClass()
@@ -73,7 +73,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 所有测试用例执行完毕之后执行的方法
      *
-     * @throws Exception 执行异常
      */
     @AfterClass
     public static void tearDownAfterClass()
@@ -88,7 +87,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testOneStream()
@@ -107,7 +105,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testOneStreamWithAlias1()
@@ -128,7 +125,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testOneStreamWithAlias2()
@@ -147,7 +143,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testOneStreamWithWindow1()
@@ -168,7 +163,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testOneStreamWithWindow2()
@@ -190,7 +184,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testOneStreamWithWindow3()
@@ -206,12 +199,32 @@ public class FromClauseSemanticAnalyzerTest
         assertTrue(fromContext.getInputSchemas().get(ConstInTestCase.I_0).getId().equals("s1"));
         assertTrue(fromContext.getInputSchemas().get(ConstInTestCase.I_0).getName().equalsIgnoreCase("b"));
     }
-
     
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
+     */
+    @Test
+    public void testOneStreamWithWindow4()
+        throws Exception
+    {
+        SemanticAnalyzer analyzer =
+            SemanticAnalyzerFactory.createAnalyzer(parser.parse("select * from s1[rows 7 slide sort by id]"),
+                initSchema());
+        SelectAnalyzeContext selectContext = (SelectAnalyzeContext)analyzer.analyze();
+        FromClauseAnalyzeContext fromContext = selectContext.getFromClauseContext();
+        
+        assertTrue(fromContext.getInputSchemas().size() == 1);
+        assertTrue(fromContext.getInputSchemas().get(ConstInTestCase.I_0).getStreamName() == null);
+        assertTrue(fromContext.getInputSchemas().get(ConstInTestCase.I_0).getId().equals("s1"));
+        assertTrue(fromContext.getWindows().get("s1").getName().equals("length_sort"));
+        assertTrue(fromContext.getWindows().get("s1").getLength().equals(ConstInTestCase.L_7));
+        assertTrue(fromContext.getWindows().get("s1").getOrderbyExpression().trim().equals("id"));
+    }
+    
+    /**
+     * 测试用例
+     *
      */
     @Test
     public void testJoin1()
@@ -254,7 +267,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testJoin2()
@@ -296,7 +308,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testJoin3()
@@ -339,7 +350,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testJoin4()
@@ -383,7 +393,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testJoin5()
@@ -426,7 +435,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testJoin6()
@@ -469,7 +477,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testJoin7()
@@ -511,7 +518,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testJoin8()
@@ -555,7 +561,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testJoin9()
@@ -598,7 +603,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testJoin10()
@@ -643,7 +647,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testJoin11()
@@ -686,7 +689,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testJoin12()
@@ -714,7 +716,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testJoin13()
@@ -766,7 +767,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testJoin14()
@@ -817,7 +817,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testJoin15()
@@ -859,7 +858,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testJoin16()
@@ -888,7 +886,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testStreamFilter1()
@@ -915,7 +912,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testStreamFilter2()
@@ -941,7 +937,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testStreamFilter3()
@@ -973,7 +968,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testStreamFilter4()
@@ -1002,7 +996,6 @@ public class FromClauseSemanticAnalyzerTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testStreamFilter5()

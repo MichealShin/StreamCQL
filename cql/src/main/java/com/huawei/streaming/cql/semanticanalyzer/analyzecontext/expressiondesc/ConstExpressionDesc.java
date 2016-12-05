@@ -48,8 +48,6 @@ public class ConstExpressionDesc implements ExpressionDescribe
     /**
      * <默认构造函数>
      *
-     * @param constValue 常量值
-     * @param type 常量数据类型
      */
     public ConstExpressionDesc(Object constValue, Class< ? > type)
     {
@@ -75,7 +73,7 @@ public class ConstExpressionDesc implements ExpressionDescribe
 
         try
         {
-            dataType = StreamingDataType.getDataType(type);
+            dataType = StreamingDataType.getStreamingDataType(type);
         }
         catch (StreamingException e)
         {

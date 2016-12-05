@@ -1,7 +1,7 @@
 <Definitions>
   <Application id="app_group_by">
     <confs>
-      <property key="operator.kafka.brokers" value="158.1.130.12:9092"/>
+      <property key="operator.kafka.brokers" value="192.168.0.2:9092"/>
     </confs>
     <Schemas>
       <Schema id="input_group_by" name="input_group_by">
@@ -22,7 +22,7 @@
         </deserializer>
         <groupId>gidkpi_1_1</groupId>
         <topic>group_by_in</topic>
-        <zookeepers>158.1.130.12:2181</zookeepers>
+        <zookeepers>192.168.0.2:2181</zookeepers>
         <zkSessionTimeout>20000</zkSessionTimeout>
         <zkSyncTime>20000</zkSyncTime>
         <messageSerializerClass>kafka.serializer.StringEncoder</messageSerializerClass>
@@ -32,7 +32,7 @@
           <separator>,</separator>
         </serializer>
         <topic>group_by_out</topic>
-        <zookeepers>158.1.130.12:2181</zookeepers>
+        <zookeepers>192.168.0.2:2181</zookeepers>
         <zkSessionTimeout>20000</zkSessionTimeout>
         <zkSyncTime>20000</zkSyncTime>
         <messageSerializerClass>kafka.serializer.StringEncoder</messageSerializerClass>

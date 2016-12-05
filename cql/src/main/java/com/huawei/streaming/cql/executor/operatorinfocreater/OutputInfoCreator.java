@@ -55,13 +55,15 @@ public class OutputInfoCreator implements OperatorInfoCreator
         throws StreamingException
     {
         OutputStreamOperator op = (OutputStreamOperator)operator;
-        
+
+        //参数顺序应该是默认参数--> 全局参数--》局部参数
         StreamingConfig config = new StreamingConfig();
+        config.putAll(systemConfig);
         if (operator.getArgs() != null)
         {
             config.putAll(operator.getArgs());
         }
-        config.putAll(systemConfig);
+
         
         StreamSerDe ser = createSerializerInstance(op, config);
         IOutputStreamOperator fop = createRecordWriterInstance(op.getRecordWriterClassName());
@@ -77,10 +79,6 @@ public class OutputInfoCreator implements OperatorInfoCreator
     /**
      * 创建序列化类实例
      *
-     * @param op 输出算子
-     * @param config 配置信息
-     * @return 序列化类实例
-     * @throws ExecutorException 实例创建异常
      */
     private StreamSerDe createSerializerInstance(OutputStreamOperator op, StreamingConfig config)
         throws ExecutorException
@@ -129,28 +127,32 @@ public class OutputInfoCreator implements OperatorInfoCreator
     /**
      * 创建recordwriter实例
      *
-     * @param sinkClass 输出算子类名称
-     * @return 输出算子实例
-     * @throws com.huawei.streaming.cql.exception.ExecutorException
      */
     private IOutputStreamOperator createRecordWriterInstance(String sinkClass)
         throws ExecutorException
     {
-        IOutputStreamOperator fop = null;
+        Object operator = null;
         try
         {
-            fop =
-                (IOutputStreamOperator)Class.forName(sinkClass, true, CQLUtils.getClassLoader())
-                    .newInstance();
+            operator = Class.forName(sinkClass, true, CQLUtils.getClassLoader()).newInstance();
         }
         catch (ReflectiveOperationException e)
         {
-            ExecutorException exception =
-                new ExecutorException(ErrorCode.SEMANTICANALYZE_UNKOWN_CLASS, sinkClass);
+            ExecutorException exception = new ExecutorException(ErrorCode.SEMANTICANALYZE_UNKOWN_CLASS, sinkClass);
             LOG.error("Can't find record writer class.", exception);
             throw exception;
         }
-        return fop;
+
+        if (operator instanceof IOutputStreamOperator)
+        {
+            return (IOutputStreamOperator)operator;
+        }
+        else
+        {
+            ExecutorException exception = new ExecutorException(ErrorCode.SEMANTICANALYZE_UNMATCH_OPERATOR, sinkClass);
+            LOG.error("The '{}' operator type does not match.", sinkClass);
+            throw exception;
+        }
     }
     
 }

@@ -69,7 +69,6 @@ public class CQLErrorListener extends BaseErrorListener
     /**
      * 获取保存的语法异常
      *
-     * @return 语法异常，如果语法没有异常，则为空
      */
     public ParseException getRecException()
     {
@@ -78,10 +77,6 @@ public class CQLErrorListener extends BaseErrorListener
     
     /**
      * 获取错误单词总入口
-     * @param recognizer
-     * @param offendingSymbol
-     * @param charPositionInLine
-     * @return 错误单词
      */
     private String getOffendingSymbol(Recognizer<?, ?> recognizer, Object offendingSymbol, int charPositionInLine)
     {
@@ -96,9 +91,6 @@ public class CQLErrorListener extends BaseErrorListener
     
     /**
      * 在语法解析器可以定位到错误单词的基础下获取错误单词
-     * @param recognizer
-     * @param offendingSymbol
-     * @return 错误单词
      */
     private String getOffendingSymbolWithHint(Recognizer<?, ?> recognizer, Object offendingSymbol)
     {
@@ -115,9 +107,6 @@ public class CQLErrorListener extends BaseErrorListener
     }
     /**
      * 从偏移量处向前找第一个非空格的位置
-     * @param input 字符串
-     * @param offset 偏移量
-     * @return 第一个非空格字符的位置
      */
     private int findPositionNotSpaceBackForward(String input, int offset)
     {
@@ -134,9 +123,6 @@ public class CQLErrorListener extends BaseErrorListener
     
     /**
      * 在语法解析器未能定位到错误单词的情况下使用错误偏移量找出附近的单词
-     * @param input 完整CQL语句
-     * @param charPositionInLine 发生错误的偏移量
-     * @return 找到的单词
      */
     private String getOffendingSymbolWithoutHint(String input, int charPositionInLine)
     {

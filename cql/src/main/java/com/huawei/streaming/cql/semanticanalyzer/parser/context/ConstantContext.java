@@ -41,8 +41,6 @@ public class ConstantContext extends BaseExpressionParseContext
     
     /**
      * <默认构造函数>
-     * @param datatype 数据类型
-     * @param value 值
      * 
      */
     public ConstantContext(Class< ? > datatype, Object value)

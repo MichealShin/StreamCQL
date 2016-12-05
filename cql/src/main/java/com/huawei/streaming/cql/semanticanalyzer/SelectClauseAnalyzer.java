@@ -62,8 +62,6 @@ public class SelectClauseAnalyzer extends BaseAnalyzer
     /**
      * <默认构造函数>
      *
-     * @param parseContext 语法解析内容
-     * @throws SemanticAnalyzerException 语义分析内容
      */
     public SelectClauseAnalyzer(ParseContext parseContext)
         throws SemanticAnalyzerException
@@ -331,14 +329,14 @@ public class SelectClauseAnalyzer extends BaseAnalyzer
     
     private FieldExpressionContext createFieldExpression(String schemaName, String columnName)
     {
-        AtomExpressionContext atomExp = createAtomExpression(columnName);
+        AtomExpressionContext atomExp = craeteAtomExpression(columnName);
         FieldExpressionContext fexp = new FieldExpressionContext();
         fexp.setStreamNameOrAlias(schemaName);
         fexp.setAtomExpression(atomExp);
         return fexp;
     }
     
-    private AtomExpressionContext createAtomExpression(String columnName)
+    private AtomExpressionContext craeteAtomExpression(String columnName)
     {
         AtomExpressionContext atomExp = new AtomExpressionContext();
         atomExp.setColumnName(columnName);
@@ -348,8 +346,6 @@ public class SelectClauseAnalyzer extends BaseAnalyzer
     /**
      * 是否包含了Schema名称
      *
-     * @param allColumns 表达式是否以流名称开头，比如：a.id
-     * @return 如果是，返回true
      */
     private boolean isStarWithStreamNameExpression(StreamAllColumnsContext allColumns)
     {

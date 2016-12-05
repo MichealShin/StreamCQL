@@ -31,7 +31,6 @@ public class ParserFactory
      * 创建完整的CQL解析器
      * 不论是select还是create语句，只要是完整的一句话就可以
      * 但是不包含select的子句或者where的子句之类
-     * @return FullParser
      */
     public static IParser createApplicationParser()
     {
@@ -40,7 +39,6 @@ public class ParserFactory
     
     /**
      * 创建select子句的解析器，select子句不带select关键字
-     * @return 解析器
      */
     public static IParser createSelectClauseParser()
     {
@@ -49,7 +47,6 @@ public class ParserFactory
     
     /**
      * 创建groupby子句的解析器，不带groupby关键字
-     * @return 解析器
      */
     public static IParser createGroupbyClauseParser()
     {
@@ -58,7 +55,6 @@ public class ParserFactory
     
     /**
      * 创建orderby子句解析器，不带orderby关键字
-     * @return orderby子句解析器
      */
     public static IParser createOrderbyClauseParser()
     {
@@ -67,7 +63,6 @@ public class ParserFactory
     
     /**
      * 数据源参数解析器
-     * @return 数据源参数语法解析器
      */
     public static IParser createDataSourceArgumentsParser()
     {

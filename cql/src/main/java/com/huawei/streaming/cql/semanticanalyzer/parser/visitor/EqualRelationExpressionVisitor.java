@@ -61,6 +61,15 @@ public class EqualRelationExpressionVisitor extends AbsCQLParserBaseVisitor<Equa
         return context;
     }
     
-
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public EqualRelationExpressionContext visitExpressionExists(@NotNull CQLParser.ExpressionExistsContext ctx)
+    {
+        ExpressionExistsVisitor visitor = new ExpressionExistsVisitor();
+        context.setExists(visitor.visit(ctx));
+        return context;
+    }
     
 }

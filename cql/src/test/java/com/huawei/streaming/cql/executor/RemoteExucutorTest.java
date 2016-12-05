@@ -38,7 +38,6 @@ public class RemoteExucutorTest
     /**
      * 所有测试开始前 执行的方法
      *
-     * @throws Exception 异常
      */
     @BeforeClass
     public static void setUpBeforeClass()
@@ -50,7 +49,6 @@ public class RemoteExucutorTest
     /**
      * 所有测试执行之后执行的清理方法
      *
-     * @throws Exception 异常
      */
     @AfterClass
     public static void tearDownAfterClass()
@@ -62,7 +60,6 @@ public class RemoteExucutorTest
     /**
      * 简单功能测试
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testExecuteSimpleFilter()
@@ -74,7 +71,6 @@ public class RemoteExucutorTest
     /**
      * 简单功能测试
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testExecuteSimplePlusFilter()

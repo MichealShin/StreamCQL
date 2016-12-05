@@ -57,13 +57,15 @@ public class InputInfoCreator implements OperatorInfoCreator
         throws StreamingException
     {
         InputStreamOperator op = (InputStreamOperator)operator;
-        
+
+        //参数顺序应该是默认参数--> 全局参数--》局部参数
         StreamingConfig config = new StreamingConfig();
+        config.putAll(systemConfig);
         if (operator.getArgs() != null)
         {
             config.putAll(operator.getArgs());
         }
-        config.putAll(systemConfig);
+
         
         StreamSerDe des = createDeserClassInstance(op, config);
         IInputStreamOperator sourceOperator = createSourceReaderInstance(op.getRecordReaderClassName());
@@ -79,10 +81,6 @@ public class InputInfoCreator implements OperatorInfoCreator
     /**
      * 创建反序列化类实例
      *
-     * @param op 输入算子
-     * @param config 配置属性
-     * @return 反序列化类实例
-     * @throws ExecutorException 创建实例异常
      */
     private StreamSerDe createDeserClassInstance(InputStreamOperator op, StreamingConfig config)
         throws ExecutorException
@@ -121,19 +119,14 @@ public class InputInfoCreator implements OperatorInfoCreator
     /**
      * 创建sourceReader实例
      *
-     * @param sourceClass 输入算子类名称
-     * @return InputStream 信息
-     * @throws ExecutorException 执行异常
      */
     private IInputStreamOperator createSourceReaderInstance(String sourceClass)
         throws ExecutorException
     {
-        IInputStreamOperator sourceOperator = null;
+        Object operator = null;
         try
         {
-            sourceOperator =
-                (IInputStreamOperator)Class.forName(sourceClass, true, CQLUtils.getClassLoader())
-                    .newInstance();
+            operator = Class.forName(sourceClass, true, CQLUtils.getClassLoader()).newInstance();
         }
         catch (Exception e)
         {
@@ -142,7 +135,17 @@ public class InputInfoCreator implements OperatorInfoCreator
             LOG.error("Can't find source reader class.'", exception);
             throw exception;
         }
-        return sourceOperator;
+
+        if (operator instanceof IInputStreamOperator)
+        {
+            return (IInputStreamOperator)operator;
+        }
+        else
+        {
+            ExecutorException exception = new ExecutorException(ErrorCode.SEMANTICANALYZE_UNMATCH_OPERATOR, sourceClass);
+            LOG.error("The '{}' operator type does not match.", sourceClass);
+            throw exception;
+        }
     }
     
 }

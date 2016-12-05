@@ -33,10 +33,12 @@ import com.huawei.streaming.serde.SimpleSerDe;
 @StreamSerDeAnnoation(SimpleSerDe.class)
 public class SimpleSerDeAPI extends SerDeAPI
 {
-    
     @ConfigAnnotation(StreamingConfig.SERDE_SIMPLESERDE_SEPARATOR)
     private String separator;
-    
+
+    @ConfigAnnotation(StreamingConfig.STREAMING_OPERATOR_TIMEZONE)
+    private String timezoneForTimestamp;
+
     public String getSeparator()
     {
         return separator;
@@ -45,5 +47,15 @@ public class SimpleSerDeAPI extends SerDeAPI
     public void setSeparator(String separator)
     {
         this.separator = separator;
+    }
+
+    public String getTimezoneForTimestamp()
+    {
+        return timezoneForTimestamp;
+    }
+
+    public void setTimezoneForTimestamp(String timezoneForTimestamp)
+    {
+        this.timezoneForTimestamp = timezoneForTimestamp;
     }
 }

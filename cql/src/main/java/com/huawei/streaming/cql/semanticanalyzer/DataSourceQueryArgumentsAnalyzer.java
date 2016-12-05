@@ -49,8 +49,6 @@ public class DataSourceQueryArgumentsAnalyzer extends BaseAnalyzer
     /**
      * <默认构造函数>
      *
-     * @param parsecontext 语法解析内容
-     * @throws SemanticAnalyzerException 语义分析内容
      */
     public DataSourceQueryArgumentsAnalyzer(ParseContext parsecontext)
         throws SemanticAnalyzerException

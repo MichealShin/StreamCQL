@@ -70,7 +70,7 @@ public class LoadApplicationAnalyzeContext extends AnalyzeContext
     public String toString()
     {
         // TODO Auto-generated method stub
-        return null;
+        return "";
     }
     
     public String getAppFilePath()

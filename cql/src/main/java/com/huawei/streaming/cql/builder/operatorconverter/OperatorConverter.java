@@ -31,9 +31,6 @@ public interface OperatorConverter extends Converter
     /**
      * 转换调用函数
      * 
-     * @param op 待转换的算子
-     * @return 转换之后的算子
-     * @throws ApplicationBuildException 类型转换异常
      */
     Operator convert(Operator op)
         throws ApplicationBuildException;

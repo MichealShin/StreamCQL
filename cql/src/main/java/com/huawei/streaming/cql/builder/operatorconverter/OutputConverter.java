@@ -79,14 +79,19 @@ public class OutputConverter implements OperatorConverter
         return convertBasicOutputSourceOperator(op, inputop, rss);
     }
     
-    private InnerOutputSourceOperator convertBasicOutputSourceOperator(Operator op, OutputStreamOperator inputop,
+    private InnerOutputSourceOperator convertBasicOutputSourceOperator(Operator op, OutputStreamOperator outputop,
         String rs)
         throws ApplicationBuildException
     {
         InnerOutputSourceOperator biop = createInnerOutputOperatorInstance(op, rs);
         AnnotationUtils.setConfigToObject(biop, op.getArgs());
         removeRepeatConfig(op.getArgs(), biop);
-        SerDeAPI deserapi = serConverter.convert(inputop);
+        if(op.getArgs() != null && op.getArgs().size() != 0)
+        {
+            outputop.setArgs(op.getArgs());
+        }
+
+        SerDeAPI deserapi = serConverter.convert(outputop);
         biop.setSerializer(deserapi);
         return biop;
     }

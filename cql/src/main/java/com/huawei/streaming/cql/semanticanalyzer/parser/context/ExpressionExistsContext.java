@@ -83,7 +83,7 @@ public class ExpressionExistsContext extends BaseExpressionParseContext
     {
         SemanticAnalyzerException exception =
             new SemanticAnalyzerException(ErrorCode.SEMANTICANALYZE_UNSUPPORTED_GRAMMAR, "exists");
-        LOG.error(exception.getMessage(), exception);
+        LOG.error(ErrorCode.SEMANTICANALYZE_UNSUPPORTED_GRAMMAR.getFullMessage("exists"), exception);
         
         throw exception;
     }

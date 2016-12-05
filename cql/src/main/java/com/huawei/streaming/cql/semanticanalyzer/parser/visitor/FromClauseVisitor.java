@@ -58,5 +58,16 @@ public class FromClauseVisitor extends AbsCQLParserBaseVisitor<FromClauseContext
         context.setSourceContext(visitor.visit(ctx));
         return context;
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public FromClauseContext visitCombineCondition(@NotNull CQLParser.CombineConditionContext ctx)
+    {
+        CombineConditionVisitor visitor = new CombineConditionVisitor();
+        context.setCombine(visitor.visit(ctx));
+        return context;
+    }
+    
 }

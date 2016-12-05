@@ -51,8 +51,6 @@ public class JarFilesMerger
     
     /**
      * <默认构造函数>
-     * @param tmpJarUnzipDir 临时输出路径
-     * @param tmpOutputDir jar包的解压路径
      */
     public JarFilesMerger(File tmpJarUnzipDir, File tmpOutputDir)
     {
@@ -62,7 +60,6 @@ public class JarFilesMerger
     
     /**
      * 和并jar文件
-     * @throws IOException 文件合并异常
      */
     public void mergeJarFiles()
         throws IOException
@@ -77,6 +74,11 @@ public class JarFilesMerger
         {
             String jarName = jarsUnzipDirectory.getName();
             File[] childs = jarsUnzipDirectory.listFiles(new DirectoryFilter());
+            if(childs == null)
+            {
+                continue;
+            }
+
             for (File child : childs)
             {
                 LOG.info("start to copy {}", child.getName());
@@ -145,7 +147,10 @@ public class JarFilesMerger
             }
         }
         
-        destDir.setLastModified(srcDir.lastModified());
+        if (!destDir.setLastModified(srcDir.lastModified()))
+        {
+            LOG.warn("{} setLastModified failure.", destDir.getCanonicalPath());
+        }
     }
     
     private void doCopyFile(File srcFile, File destFile, String jarName)
@@ -158,7 +163,7 @@ public class JarFilesMerger
         
         if (destFile.exists())
         {
-            LOG.info("{} exists" + destFile.getAbsolutePath());
+            LOG.info("{} exists.", destFile.getCanonicalPath());
             for (MergeRule rule : rules)
             {
                 if (rule.match(srcFile))
