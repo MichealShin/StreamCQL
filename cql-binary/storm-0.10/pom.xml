@@ -23,10 +23,10 @@
         <artifactId>streamCQL</artifactId>
         <groupId>com.huawei.streaming</groupId>
         <version>2.0</version>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>stream-cql-bianry-storm_0.10</artifactId>
+    <artifactId>stream-cql-bianry-storm-0.10</artifactId>
 
     <build>
         <plugins>

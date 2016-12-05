@@ -35,11 +35,11 @@
     <modules>
         <module>streaming</module>
         <module>adapter/storm</module>
-        <module>adapter/storm_0.10</module>
+        <module>adapter/storm-0.10</module>
         <module>adapter/jstorm</module>
         <module>cql</module>
         <module>cql-binary/storm</module>
-        <module>cql-binary/storm_0.10</module>
+        <module>cql-binary/storm-0.10</module>
         <module>cql-binary/jstorm</module>
     </modules>
 

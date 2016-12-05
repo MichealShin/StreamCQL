@@ -65,7 +65,7 @@
                         <phase>package</phase>
                         <goals><goal>shade</goal></goals>
                         <configuration>
-                            <finalName>stream-jstorm_0.10-${project.version}-jar-with-dependencies</finalName>
+                            <finalName>stream-jstorm-0.10-${project.version}-jar-with-dependencies</finalName>
                             <artifactSet>
                                 <excludes>
                                     <exclude>junit:junit</exclude>
