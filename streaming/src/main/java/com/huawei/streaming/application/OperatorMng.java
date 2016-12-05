@@ -71,8 +71,6 @@ public class OperatorMng
      * 算子名称是否有效：如果不重复则有效
      * <功能详细描述>
      *
-     * @param opName 算子名称
-     * @return 名称是否有效
      */
     public boolean isNameValid(String opName)
     {
@@ -87,8 +85,6 @@ public class OperatorMng
     /**
      * 增加源算子信息
      *
-     * @param source 源算子信息
-     * @return 源算子加入是否成功
      */
     public boolean addInputStreamOperator(IRichOperator source)
     {
@@ -103,8 +99,6 @@ public class OperatorMng
     /**
      * 添加输出算子
      *
-     * @param output 输出算子
-     * @return 是否添加成功
      */
     public boolean addOutputStreamOperator(IRichOperator output)
     {
@@ -119,8 +113,6 @@ public class OperatorMng
     /**
      * 添加功能算子
      *
-     * @param operator 功能算子
-     * @return 是否添加成功
      */
     public boolean addFunctionStreamOperator(IRichOperator operator)
     {
@@ -135,7 +127,6 @@ public class OperatorMng
     /**
      * 获取输出算子
      *
-     * @return 输出算子列表
      */
     public List<IRichOperator> getOutputOps()
     {
@@ -151,7 +142,6 @@ public class OperatorMng
      * 获得所有功能算子信息
      * <功能详细描述>
      *
-     * @return 所有源算子信息
      */
     public List<IRichOperator> getFunctionOps()
     {
@@ -167,7 +157,6 @@ public class OperatorMng
     /**
      * 获得所有源算子信息
      *
-     * @return 所有源算子信息
      */
     public List<IRichOperator> getSourceOps()
     {
@@ -196,8 +185,6 @@ public class OperatorMng
      * 生成功能算子拓扑顺序
      * <功能详细描述>
      *
-     * @return 功能算子有序列表
-     * @throws StreamingException 流处理异常
      */
     public List<IRichOperator> genFunctionOpsOrder()
         throws StreamingException
@@ -240,7 +227,14 @@ public class OperatorMng
             {
                 String funname = iterator.next();
                 fun = functionsAndOutputs.get(funname);
-                for (String inputname : fun.getInputStream())
+                List<String> inputStreams = fun.getInputStream();
+                if (inputStreams == null)
+                {
+                    //为空，则没有输入算子，异常，退出循环
+                    break;
+                }
+
+                for (String inputname : inputStreams)
                 {
                     if (!deletedStreamName.contains(inputname))
                     {
@@ -302,7 +296,7 @@ public class OperatorMng
         if (sortedFunctions.size() != functionsAndOutputs.size())
         {
             StreamingException exception = new StreamingException(ErrorCode.PLATFORM_INVALID_TOPOLOGY);
-            LOG.error(exception.getMessage(), exception);
+            LOG.error(ErrorCode.PLATFORM_INVALID_TOPOLOGY.getFullMessage(), exception);
             throw exception;
         }
     }
@@ -313,7 +307,7 @@ public class OperatorMng
         if (stopFlag)
         {
             StreamingException exception = new StreamingException(ErrorCode.PLATFORM_INVALID_TOPOLOGY);
-            LOG.error(exception.getMessage(), exception);
+            LOG.error(ErrorCode.PLATFORM_INVALID_TOPOLOGY.getFullMessage(), exception);
             throw exception;
         }
     }
@@ -324,7 +318,7 @@ public class OperatorMng
         if (null == sortedFunctions || sortedFunctions.size() > 0)
         {
             StreamingException exception = new StreamingException(ErrorCode.PLATFORM_INVALID_TOPOLOGY);
-            LOG.error(exception.getMessage(), exception);
+            LOG.error(ErrorCode.PLATFORM_INVALID_TOPOLOGY.getFullMessage(), exception);
             throw exception;
         }
     }

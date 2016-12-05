@@ -33,9 +33,6 @@ public interface IFunctionStreamOperator extends IStreamOperator
     /**
      * 运行时的执行接口
      *
-     * @param streamName 流名称
-     * @param event 事件
-     * @throws StreamingException 流处理异常
      */
     void execute(String streamName, TupleEvent event) throws StreamingException;
 
@@ -43,7 +40,6 @@ public interface IFunctionStreamOperator extends IStreamOperator
      * 设置数据发送对象
      * 运行时调用
      *
-     * @param emitterMap 数据发送对象
      */
     void setEmitter(Map<String, IEmitter> emitterMap);
 }

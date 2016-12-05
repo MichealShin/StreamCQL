@@ -35,43 +35,36 @@ public interface IRichOperator extends IOperator, Configurable
 {
     /**
      * 获取算子id
-     * @return 算子id
      */
     String getOperatorId();
     
     /**
      * 获取算子并发度
-     * @return 算子的并发度
      */
     int getParallelNumber();
     
     /**
      * 获取输入流名称
-     * @return 输入流名称
      */
     List<String> getInputStream();
     
     /**
      * 获取输出流名称
-     * @return 输出流名称
      */
     String getOutputStream();
     
     /**
      * 获取输入schema
-     * @return 输入schema
      */
     Map<String, IEventType> getInputSchema();
     
     /**
      * 获取输出schema
-     * @return 输出schema
      */
     IEventType getOutputSchema();
     
     /**
      * 获取分组信息
-     * @return 分组信息
      */
     Map<String, GroupInfo> getGroupInfo();
 }

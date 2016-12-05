@@ -27,6 +27,7 @@ import com.huawei.streaming.event.TupleEvent;
 import com.huawei.streaming.exception.StreamingException;
 import com.huawei.streaming.expression.IExpression;
 import com.huawei.streaming.operator.FunctionOperator;
+import com.huawei.streaming.util.StreamingUtils;
 
 /**
  * 
@@ -75,7 +76,7 @@ public class UnionFunctionOp extends FunctionOperator
         }
         if (config.containsKey(StreamingConfig.STREAMING_INNER_OUTPUT_SCHEMA))
         {
-            this.outSchema = (IEventType)config.get(StreamingConfig.STREAMING_INNER_OUTPUT_SCHEMA);
+            this.outSchema = StreamingUtils.deSerializeSchema((String)config.get(StreamingConfig.STREAMING_INNER_OUTPUT_SCHEMA));
         }
     }
     
@@ -98,7 +99,10 @@ public class UnionFunctionOp extends FunctionOperator
         throws StreamingException
     {
         IEvent unionevent = union.unionEvent(event);
-        getEmitter().emit(unionevent.getAllValues());
+        if(unionevent != null)
+        {
+            getEmitter().emit(unionevent.getAllValues());
+        }
     }
     
     /**

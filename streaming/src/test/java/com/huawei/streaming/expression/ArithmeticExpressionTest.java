@@ -43,7 +43,6 @@ public class ArithmeticExpressionTest
     
     /**
      * 测试用例一：2+3
-     * @throws StreamingException 异常
      */
     @Test
     public void testEvaluate1()
@@ -65,7 +64,6 @@ public class ArithmeticExpressionTest
     
     /**
      * 测试用例二：2-3
-     * @throws StreamingException 异常
      */
     @Test
     public void testEvaluate2()
@@ -87,7 +85,6 @@ public class ArithmeticExpressionTest
     
     /**
      * 测试用例三：2*3
-     * @throws StreamingException 异常
      */
     @Test
     public void testEvaluate3()
@@ -109,7 +106,6 @@ public class ArithmeticExpressionTest
     
     /**
      * 测试用例四：2/3
-     * @throws StreamingException 异常
      */
     @Test
     public void testEvaluate4()
@@ -128,33 +124,10 @@ public class ArithmeticExpressionTest
         int expectedResult = SupportConst.I_TWO / SupportConst.I_THREE;
         Assert.assertEquals(expectedResult, actualResult);
     }
-    
-    /**
-     * 测试用例五：2.4/0.1
-     * 该用例测出一个问题：精度问题
-     * 该用例目前仍测试不过
-     */
-    //    @Test
-    //    public void testEvaluate5()
-    //    {
-    //        //构造测试数据,2.4/0.1
-    //        ArithmeticExpression arithmeticExpression =
-    //            new ArithmeticExpression(ExpressionOperator.DIVIDE, new ConstExpression(2.4), 
-    //                    new ConstExpression(0.1));
-    //        IEvent theEvent = new TupleEvent();
-    //        
-    //        //操作测试数据
-    //        Object actualResult = arithmeticExpression.evaluate(theEvent);
-    //        
-    //        //检验操作是否得到期望结果
-    //        double expectedResult = 24;
-    //        Assert.assertEquals(expectedResult, actualResult);
-    //    }
-    
+
     /**
      * 测试用例六：2.4/0
      * 该用例测出一个问题：除数为0问题
-     * @throws StreamingException 异常
      */
     @Test
     public void testEvaluate6()
@@ -176,7 +149,6 @@ public class ArithmeticExpressionTest
     /**
      * 测试用例七：2.4/null,有一个参数为null
      * 该用例测出一个问题：除数为0问题
-     * @throws StreamingException 异常
      */
     @Test
     public void testEvaluate7()

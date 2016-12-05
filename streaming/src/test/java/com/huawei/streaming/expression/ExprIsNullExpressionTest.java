@@ -51,7 +51,6 @@ public class ExprIsNullExpressionTest
     
     /** <setup>
      * <功能详细描述>
-     * @throws java.lang.Exception Exception
      */
     @Before
     public void setUp()
@@ -64,7 +63,6 @@ public class ExprIsNullExpressionTest
     
     /** <cleanup>
      * <功能详细描述>
-     * @throws java.lang.Exception Exception
      */
     @After
     public void tearDown()
@@ -105,7 +103,6 @@ public class ExprIsNullExpressionTest
     
     /**
      * testEvaluate(IEvent)
-     * @throws StreamingException 异常
      */
     @Test
     public void testEvaluateIEvent()
@@ -136,7 +133,6 @@ public class ExprIsNullExpressionTest
     
     /**
      * testEvaluate(IEvent[])
-     * @throws StreamingException 异常
      */
     @Test
     public void testEvaluateIEventArray()
@@ -167,7 +163,6 @@ public class ExprIsNullExpressionTest
     
     /**
      * testGetType
-     * @throws StreamingException 异常
      */
     @Test
     public void testGetType()

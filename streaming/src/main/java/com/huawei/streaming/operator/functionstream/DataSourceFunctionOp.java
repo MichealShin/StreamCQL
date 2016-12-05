@@ -71,12 +71,6 @@ public class DataSourceFunctionOp extends JoinFunctionOp
     
     /**
      * <默认构造函数>
-     * @param leftWindow 左流窗口，如果没有窗口，则为null
-     * @param dataSource 数据源
-     * @param cqlExpressions 数据源中的cql表达式
-     * @param joinComposer Join处理方式
-     * @param filterProcess 对于join之后的结果进行过滤
-     * @param setProcessor 聚合以及select操作
      */
     public DataSourceFunctionOp(IWindow leftWindow, DataSourceContainer dataSource, Map<String, IExpression> cqlExpressions,
         IJoinComposer joinComposer, JoinFilterProcessor filterProcess, IJoinSetProcessor setProcessor)
@@ -86,13 +80,6 @@ public class DataSourceFunctionOp extends JoinFunctionOp
     
     /**
      * <默认构造函数>
-     * @param leftWindow 左流窗口，如果没有窗口，则为null
-     * @param dataSource 数据源
-     * @param cqlExpressions 数据源中的cql表达式
-     * @param joinComposer Join处理方式
-     * @param filterProcess 对于join之后的结果进行过滤
-     * @param setProcessor 聚合以及select操作
-     * @param type         输出类型
      */
     public DataSourceFunctionOp(IWindow leftWindow, DataSourceContainer dataSource, Map<String, IExpression> cqlExpressions,
         IJoinComposer joinComposer, JoinFilterProcessor filterProcess, IJoinSetProcessor setProcessor, OutputType type)
@@ -170,9 +157,6 @@ public class DataSourceFunctionOp extends JoinFunctionOp
 
     /**
      * 计算数据库查询结果，并将数据发送到右流中，发送完成后再发送一个标识事件
-     * @param event 左流事件
-     * @return  void
-     * @exception/throws StreamingException
      */
     private void evaluateDataSource(TupleEvent event)
         throws StreamingException

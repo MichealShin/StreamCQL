@@ -193,7 +193,7 @@ public class TupleEventType implements IEventType
      */
     public String toString()
     {
-        return "\"" +name +"\"";
+        return name;
     }
     
 }

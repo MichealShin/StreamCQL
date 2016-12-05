@@ -24,7 +24,7 @@ import java.util.Map;
  * 求取字符串长度
  * 
  */
-@UDFAnnotation(name = "strlength")
+@UDFAnnotation("strlength")
 public class StringLength extends UDF
 {
     /**
@@ -34,7 +34,6 @@ public class StringLength extends UDF
     
     /**
      * <默认构造函数>
-     * @param config udf函数中需要的参数，这些参数要在cql中通过全局变量进行设置。
      */
     public StringLength(Map<String, String> config)
     {
@@ -43,8 +42,6 @@ public class StringLength extends UDF
     
     /**
      * 计算函数
-     * @param str 待计算字符串
-     * @return 计算出来的字符串长度
      */
     public int evaluate(String str)
     {

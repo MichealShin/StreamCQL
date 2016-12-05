@@ -45,10 +45,6 @@ public class PropertyValueExpression extends PropertyBasedExpression
     /**
      * <默认构造函数>
      *
-     * @param id 流索引
-     * @param propertyName 属性名称
-     * @param type 属性类型
-     * @throws StreamingException 表达式构建异常
      */
     public PropertyValueExpression(int id, String propertyName, Class< ? > type)
         throws StreamingException
@@ -67,8 +63,6 @@ public class PropertyValueExpression extends PropertyBasedExpression
     /**
      * <默认构造函数>
      *
-     * @param propertyName 属性名称
-     * @param type 属性类型
      */
     public PropertyValueExpression(String propertyName, Class< ? > type)
     {
@@ -79,7 +73,6 @@ public class PropertyValueExpression extends PropertyBasedExpression
     /**
      * 返回 streamIndex
      *
-     * @return 返回 streamIndex
      */
     public final int getStreamIndex()
     {

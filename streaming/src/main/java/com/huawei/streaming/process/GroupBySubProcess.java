@@ -54,7 +54,6 @@ public class GroupBySubProcess implements Serializable
     
     /**
      * <获取分组表达式>
-     * @return 分组表达式
      */
     public IExpression[] getGroupKeyExprs()
     {

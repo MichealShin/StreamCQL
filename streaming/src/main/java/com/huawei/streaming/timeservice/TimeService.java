@@ -101,21 +101,24 @@ public class TimeService implements Serializable
         timerTask.setFuture(future);
     }
     
+    
+    private static class TimerThreadFactory implements ThreadFactory
+    {
+        // set new thread as daemon thread and name appropriately
+        public Thread newThread(Runnable r)
+        {
+            Thread t = new Thread(r, "com.huawei.streaming.Timer");
+            t.setDaemon(true);
+            return t;
+        }
+    }
+    
     /**
      * <返回定时器线程池>
      */
     private void getScheduledThreadPoolExecutorDaemonThread()
     {
-        timer = new ScheduledThreadPoolExecutor(1,new ThreadFactory()
-        {
-            // set new thread as daemon thread and name appropriately
-            public Thread newThread(Runnable r)
-            {
-                Thread t = new Thread(r, "com.huawei.streaming.Timer");
-                t.setDaemon(true);
-                return t;
-            }
-        });
+        timer = new ScheduledThreadPoolExecutor(1,new TimerThreadFactory());
 
         timer.setExecuteExistingDelayedTasksAfterShutdownPolicy(false);
         timer.setContinueExistingPeriodicTasksAfterShutdownPolicy(false);

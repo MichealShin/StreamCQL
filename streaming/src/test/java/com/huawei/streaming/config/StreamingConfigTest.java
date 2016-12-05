@@ -44,7 +44,6 @@ public class StreamingConfigTest
     /**
      * 测试类启动之前的初始化
      *
-     * @throws Exception 初始化异常
      */
     @BeforeClass
     public static void setUpBeforeClass() throws Exception
@@ -55,7 +54,6 @@ public class StreamingConfigTest
     /**
      * 测试类启动之后的清理
      *
-     * @throws Exception 清理异常
      */
     @AfterClass
     public static void tearDownAfterClass() throws Exception
@@ -67,7 +65,6 @@ public class StreamingConfigTest
     /**
      * 测试前准备
      *
-     * @throws Exception 测试异常
      */
     @Before
     public void setUp() throws Exception
@@ -78,7 +75,6 @@ public class StreamingConfigTest
     /**
      * 测试后清理
      *
-     * @throws Exception 测试异常
      */
     @After
     public void tearDown() throws Exception
@@ -89,7 +85,6 @@ public class StreamingConfigTest
     /**
      * 测试int类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetIntValue() throws Exception
@@ -101,7 +96,6 @@ public class StreamingConfigTest
     /**
      * 测试int类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetIntValue2() throws Exception
@@ -121,7 +115,6 @@ public class StreamingConfigTest
     /**
      * 测试int类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetIntValue3() throws Exception
@@ -141,7 +134,6 @@ public class StreamingConfigTest
     /**
      * 测试int类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetIntValue4() throws Exception
@@ -161,7 +153,6 @@ public class StreamingConfigTest
     /**
      * 测试int类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetIntValue5() throws Exception
@@ -180,7 +171,6 @@ public class StreamingConfigTest
     /**
      * 测试类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetLongValue() throws Exception
@@ -192,7 +182,6 @@ public class StreamingConfigTest
     /**
      * 测试类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetLongValue2() throws Exception
@@ -204,7 +193,6 @@ public class StreamingConfigTest
     /**
      * 测试类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetLongValue3() throws Exception
@@ -224,7 +212,6 @@ public class StreamingConfigTest
     /**
      * 测试类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetLongValue4() throws Exception
@@ -243,7 +230,6 @@ public class StreamingConfigTest
     /**
      * 测试类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetDoubleValue() throws Exception
@@ -255,7 +241,6 @@ public class StreamingConfigTest
     /**
      * 测试类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetDoubleValue2() throws Exception
@@ -267,7 +252,6 @@ public class StreamingConfigTest
     /**
      * 测试类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetDoubleValue3() throws Exception
@@ -287,7 +271,6 @@ public class StreamingConfigTest
     /**
      * 测试类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetDoubleValue4() throws Exception
@@ -306,7 +289,6 @@ public class StreamingConfigTest
     /**
      * 测试类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetFloatValue() throws Exception
@@ -318,7 +300,6 @@ public class StreamingConfigTest
     /**
      * 测试类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetFloatValue2() throws Exception
@@ -330,7 +311,6 @@ public class StreamingConfigTest
     /**
      * 测试类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetFloatValue3() throws Exception
@@ -350,7 +330,6 @@ public class StreamingConfigTest
     /**
      * 测试类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetFloatValue4() throws Exception
@@ -369,7 +348,6 @@ public class StreamingConfigTest
     /**
      * 测试类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetStringValue() throws Exception
@@ -381,7 +359,6 @@ public class StreamingConfigTest
     /**
      * 测试类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetStringValue2() throws Exception
@@ -400,7 +377,6 @@ public class StreamingConfigTest
     /**
      * 测试类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetBooleanValue() throws Exception
@@ -412,7 +388,6 @@ public class StreamingConfigTest
     /**
      * 测试类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetBooleanValue2() throws Exception
@@ -424,7 +399,6 @@ public class StreamingConfigTest
     /**
      * 测试类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetBooleanValue3() throws Exception
@@ -436,7 +410,6 @@ public class StreamingConfigTest
     /**
      * 测试类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetBooleanValue4() throws Exception
@@ -448,7 +421,6 @@ public class StreamingConfigTest
     /**
      * 测试类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetBooleanValue5() throws Exception
@@ -460,7 +432,6 @@ public class StreamingConfigTest
     /**
      * 测试类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetBooleanValue6() throws Exception
@@ -472,7 +443,6 @@ public class StreamingConfigTest
     /**
      * 测试类型转换
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetBooleanValue7() throws Exception

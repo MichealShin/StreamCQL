@@ -46,7 +46,6 @@ public class OrderBySubProcess implements Serializable
     /**
      * 
      * <默认构造函数>
-     * @param sortConditions 排序条件
      */
     public OrderBySubProcess(List<SortCondition> sortConditions)
     {
@@ -56,8 +55,6 @@ public class OrderBySubProcess implements Serializable
     
     /**
      * 执行排序操作，获得排好序的事件列表
-     * @param theEvents     事件列表
-     * @return  TupleEvent[] 排好序的事件列表
      */
     public IEvent[] process(IEvent[] theEvents)
     {
@@ -113,9 +110,15 @@ public class OrderBySubProcess implements Serializable
                         if (((String)o1).compareTo((String)o2) != 0)
                         {
                             //对升序和降序进行区分处理
-                            return sortConditions.get(i).getSortEnum() 
-                                == SortEnum.ASC ? ((String)o1).compareTo((String)o2) 
-                                    : -((String)o1).compareTo((String)o2);
+                            int compareResult = ((String)o1).compareTo((String)o2);
+                            if (sortConditions.get(i).getSortEnum() == SortEnum.ASC)
+                            {
+                                return compareResult;
+                            }
+                            else
+                            {
+                                return -compareResult;
+                            }
                         }
                         else
                         {

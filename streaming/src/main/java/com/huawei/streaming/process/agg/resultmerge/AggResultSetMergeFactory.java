@@ -55,12 +55,6 @@ public class AggResultSetMergeFactory
     /**
      * <创建结果合并处理类>
      * <功能详细描述>
-     * @param aggregator 聚合
-     * @param selector 输出
-     * @param groupby 分组
-     * @param order 排序
-     * @param limit 限量
-     * @return IResultSetMerge 结果合并
      */
     public static IResultSetMerge makeAggResultSetMerge(IAggregationService aggregator, SelectSubProcess selector,
         GroupBySubProcess groupby, OrderBySubProcess order, LimitProcess limit)
@@ -118,8 +112,6 @@ public class AggResultSetMergeFactory
     /**
      * <检测select子句中是否只包含聚合操作表达式>
      * <功能详细描述>
-     * @param selector
-     * @return
      */
     private static boolean detectOnlyAgg(SelectSubProcess selector)
     {

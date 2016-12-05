@@ -18,9 +18,14 @@
 
 package com.huawei.streaming.udfs;
 
+import com.google.common.collect.Maps;
+import com.huawei.streaming.config.StreamingConfig;
+import com.huawei.streaming.exception.StreamingException;
+import com.huawei.streaming.util.datatype.TimeConstants;
 import static org.junit.Assert.*;
 
 import java.text.SimpleDateFormat;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -35,9 +40,15 @@ public class ToTimeStampTest
      * 测试用例
      */
     @Test
-    public void testEvaluate()
+    public void testEvaluate() throws StreamingException
     {
-        ToTimeStamp udf = new ToTimeStamp(null);
+        Map<String, String> config = Maps.newHashMap();
+        StreamingConfig conf = new StreamingConfig();
+        for(Map.Entry<String, Object> et : conf.entrySet())
+        {
+            config.put(et.getKey(), et.getValue().toString());
+        }
+        ToTimeStamp udf = new ToTimeStamp(config);
         String s1 = "2014-09-25 17:07:00";
         assertNotNull(udf.evaluate(s1));
         String s2 = "2014-09-25 17:07:00.056";
@@ -46,16 +57,16 @@ public class ToTimeStampTest
         assertNull(udf.evaluate(s3));
         String s4 = "2014-09-25 17:07:00.56";
         assertNotNull(udf.evaluate(s4));
-        String s5 = "2014-09-25 17:07:00.9999999";
+        String s5 = "2014-09-25 17:07:00.999";
         assertNotNull(udf.evaluate(s5));
         String s7 = "2014-09-25 17:07:00.9999999999";
         assertNull(udf.evaluate(s7));
-        String s6 = "2014-09-25 17:07:00.999999";
+        String s6 = "2014-09-25 17:07:00.999";
         assertNotNull(udf.evaluate(s6));
-        SimpleDateFormat formatter = new SimpleDateFormat(UDFConstants.TIMESTAMP_MSTIME_FORMAT);
+        SimpleDateFormat formatter = new SimpleDateFormat(TimeConstants.TIMESTAMP_MSTIME_FORMAT);
         formatter.setLenient(false);
         System.out.println(formatter.format(udf.evaluate("2014-09-25 17:07:00.9")));
-        System.out.println(formatter.format(udf.evaluate("2014-09-25 17:07:00.999999999")));
+        System.out.println(formatter.format(udf.evaluate("2014-09-25 17:07:00.999")));
 
         s1 = "2014-9-9 7:7:5";
         assertNotNull(udf.evaluate(s1));

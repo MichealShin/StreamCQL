@@ -71,7 +71,6 @@ public class JoinProcessView extends ProcessView
     /**
      * 获得所有父视图
      * <功能详细描述>
-     * @return 返回所有父视图
      */
     public IViewable[] getParents()
     {

@@ -74,10 +74,6 @@ public abstract class ResultSetMergeImpl implements IAggResultSetMerge
     /**
      * <结果排序并根据输出限量，得到新的结果集>
      * <对结果集进行排序，然后根据输出限量。>
-     * @param selectNewEvents 对新事件处理的结果集
-     * @param selectOldEvents 对旧事件处理的结果集
-     * @param type 输出类型
-     * @return 处理后的结果集
      */
     public Pair<IEvent[], IEvent[]> orderAndLimit(IEvent[] selectNewEvents, IEvent[] selectOldEvents, OutputType type)
     {

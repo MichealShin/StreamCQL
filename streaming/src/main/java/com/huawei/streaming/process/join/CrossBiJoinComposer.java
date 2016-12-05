@@ -123,9 +123,6 @@ public class CrossBiJoinComposer implements IJoinComposer
     /**
      * 针对每个更新数据，与对方流有效数据进行全匹配
      * 如果对方 流中没有有效数据，至少输出一条结果数据
-     * @param events 更新数据
-     * @param streamIndex 更新数据流的ID
-     * @param result 组合结果
      */
     private void compose(IEvent[] events, int streamIndex, Set<MultiKey> result)
     {
@@ -151,9 +148,6 @@ public class CrossBiJoinComposer implements IJoinComposer
     /**
      * 进行全匹配JOIN
      * 如果joinTemp结果无事件，至少输出一条结果
-     * @param lookupEvent 待匹配事件
-     * @param index 待匹配事件所在流ID
-     * @param result 匹配的双流事件
      */
     private void perEventCompose(IEvent lookupEvent, int index, Collection<IEvent[]> result)
     {

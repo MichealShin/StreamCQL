@@ -18,23 +18,21 @@
 
 package com.huawei.streaming.operator.outputstream;
 
-import java.util.Properties;
-
+import com.huawei.streaming.config.KafkaConfig;
+import com.huawei.streaming.config.StreamingConfig;
+import com.huawei.streaming.event.TupleEvent;
+import com.huawei.streaming.exception.StreamSerDeException;
+import com.huawei.streaming.exception.StreamingException;
 import com.huawei.streaming.operator.IOutputStreamOperator;
 import com.huawei.streaming.serde.BaseSerDe;
 import com.huawei.streaming.serde.StreamSerDe;
 import kafka.javaapi.producer.Producer;
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.huawei.streaming.config.KafkaConfig;
-import com.huawei.streaming.config.StreamingConfig;
-import com.huawei.streaming.event.TupleEvent;
-import com.huawei.streaming.exception.StreamSerDeException;
-import com.huawei.streaming.exception.StreamingException;
+import java.util.Properties;
 
 /**
  * 基于kafka的处理，完成Storm中的bolt的功能
@@ -45,33 +43,44 @@ public class KafkaFunctionOp implements IOutputStreamOperator
      * 序列化id
      */
     private static final long serialVersionUID = -3954667394060365585L;
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(KafkaFunctionOp.class);
-    
+
     private transient Producer<Integer, String> producer;
-    
+
     private String topic;
 
     private Properties kafkaProperties;
 
     private StreamSerDe serde;
 
+    private StreamingConfig config;
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public void setConfig(StreamingConfig conf) throws StreamingException
+    public void setConfig(StreamingConfig conf)
+        throws StreamingException
     {
         kafkaProperties = new Properties();
         kafkaProperties.put(KafkaConfig.KAFKA_PRO_ZK_CONNECT,
-         conf.getStringValue(StreamingConfig.OPERATOR_KAFKA_ZOOKEEPERS));
+            conf.getStringValue(StreamingConfig.OPERATOR_KAFKA_ZOOKEEPERS));
         kafkaProperties.put(KafkaConfig.KAFKA_SERIAL_CLASS,
-         conf.getStringValue(StreamingConfig.OPERATOR_KAFKA_MESSAGESERIALIZERCLASS));
+            conf.getStringValue(StreamingConfig.OPERATOR_KAFKA_MESSAGESERIALIZERCLASS));
         kafkaProperties.put(KafkaConfig.KAFKA_SESSION_TIME,
-         conf.getStringValue(StreamingConfig.OPERATOR_KAFKA_ZKSESSIONTIMEOUT));
-        kafkaProperties.put(KafkaConfig.KAFKA_SYNC_TIME, conf.getStringValue(StreamingConfig.OPERATOR_KAFKA_ZKSYNCTIME));
+            conf.getStringValue(StreamingConfig.OPERATOR_KAFKA_ZKSESSIONTIMEOUT));
+        kafkaProperties.put(KafkaConfig.KAFKA_SYNC_TIME,
+            conf.getStringValue(StreamingConfig.OPERATOR_KAFKA_ZKSYNCTIME));
         kafkaProperties.put(KafkaConfig.KAFKA_BROKER_LIST, conf.getStringValue(StreamingConfig.OPERATOR_KAFKA_BROKERS));
         topic = conf.getStringValue(StreamingConfig.OPERATOR_KAFKA_TOPIC);
+        this.config = conf;
+    }
+
+    @Override
+    public StreamingConfig getConfig()
+    {
+        return config;
     }
 
     /**
@@ -83,7 +92,7 @@ public class KafkaFunctionOp implements IOutputStreamOperator
     {
         producer = new Producer<Integer, String>(new ProducerConfig(kafkaProperties));
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -100,18 +109,18 @@ public class KafkaFunctionOp implements IOutputStreamOperator
         {
             LOG.warn("Ignore a serde exception.", e);
         }
-        
-        if(result == null)
+
+        if (result == null)
         {
             LOG.warn("Ignore a null result in output.");
             return;
         }
-        
+
         LOG.debug("The Output result is {}.", result);
         producer.send(new KeyedMessage<Integer, String>(topic, result));
         LOG.debug("Kafka send success.");
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -132,5 +141,11 @@ public class KafkaFunctionOp implements IOutputStreamOperator
     public void setSerDe(StreamSerDe streamSerDe)
     {
         this.serde = streamSerDe;
+    }
+
+    @Override
+    public StreamSerDe getSerDe()
+    {
+        return serde;
     }
 }

@@ -26,7 +26,7 @@ import java.util.Map;
  * 绝对值原始数据什么类型，返回值就是什么数据类型
  * 
  */
-@UDFAnnotation(name = "abs")
+@UDFAnnotation("abs")
 public class Abs extends UDF
 {
     
@@ -38,7 +38,6 @@ public class Abs extends UDF
     /**
      * <默认构造函数>
      *
-     * @param config udf函数中需要的参数，这些参数要在cql中通过全局变量进行设置。
      */
     public Abs(Map<String, String> config)
     {
@@ -47,8 +46,6 @@ public class Abs extends UDF
     
     /**
      * Integer 类型求取绝对值
-     * @param number 数字
-     * @return 绝对值
      */
     public Integer evaluate(Integer number)
     {
@@ -62,8 +59,6 @@ public class Abs extends UDF
     
     /**
      * Long 类型求取绝对值
-     * @param number 数字
-     * @return 绝对值
      */
     public Long evaluate(Long number)
     {
@@ -77,8 +72,6 @@ public class Abs extends UDF
     
     /**
      * Float 类型求取绝对值
-     * @param number 数字
-     * @return 绝对值
      */
     public Float evaluate(Float number)
     {
@@ -92,8 +85,6 @@ public class Abs extends UDF
     
     /**
      * Integer 类型求取绝对值
-     * @param number 数字
-     * @return 绝对值
      */
     public Double evaluate(Double number)
     {
@@ -107,8 +98,6 @@ public class Abs extends UDF
     
     /**
      * Decimal 类型求取绝对值
-     * @param number 数字
-     * @return 绝对值
      */
     public BigDecimal evaluate(BigDecimal number)
     {

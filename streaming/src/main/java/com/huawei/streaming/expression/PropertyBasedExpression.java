@@ -69,7 +69,6 @@ public abstract class PropertyBasedExpression implements IExpression
     
     /**
      * <返回属性名称>
-     * @return 属性名称
      */
     public String getPropertyName()
     {
@@ -78,7 +77,6 @@ public abstract class PropertyBasedExpression implements IExpression
     
     /**
      * 对propertyName进行赋值
-     * @param propertyName  属性名称
      */
     public void setPropertyName(String propertyName)
     {
@@ -87,7 +85,6 @@ public abstract class PropertyBasedExpression implements IExpression
     
     /**
      * 返回 propertyType
-     * @return propertyType
      */
     public Class< ? > getPropertyType()
     {
@@ -96,7 +93,6 @@ public abstract class PropertyBasedExpression implements IExpression
     
     /**
      * 对propertyType进行赋值
-     * @param propertyType  属性类型
      */
     public void setPropertyType(Class< ? > propertyType)
     {

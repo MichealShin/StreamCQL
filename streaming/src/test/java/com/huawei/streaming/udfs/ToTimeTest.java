@@ -18,6 +18,11 @@
 
 package com.huawei.streaming.udfs;
 
+import java.util.Map;
+
+import com.google.common.collect.Maps;
+import com.huawei.streaming.config.StreamingConfig;
+import com.huawei.streaming.exception.StreamingException;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -33,9 +38,15 @@ public class ToTimeTest
      * 时间转换测试
      */
     @Test
-    public void testEvaluate()
+    public void testEvaluate() throws StreamingException
     {
-        ToTime udf = new ToTime(null);
+        Map<String, String> config = Maps.newHashMap();
+        StreamingConfig conf = new StreamingConfig();
+        for(Map.Entry<String, Object> et : conf.entrySet())
+        {
+            config.put(et.getKey(), et.getValue().toString());
+        }
+        ToTime udf = new ToTime(config);
         assertNull(udf.evaluate("2014-09-25 17:07:00"));
         assertNotNull(udf.evaluate("17:07:00"));
         assertNull(udf.evaluate("17:07:90"));

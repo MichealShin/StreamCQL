@@ -22,7 +22,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 
-import com.huawei.streaming.udfs.UDFConstants;
+import com.huawei.streaming.util.datatype.TimeConstants;
 
 /**
  * Utility class that handles byte arrays, conversions to/from other types,
@@ -66,27 +66,21 @@ public class Bytes
     /**
      * 字符串格式时间类型长度
      */
-    public static final int SIZEOF_TIME_STRING = UDFConstants.TIME_FORMAT.getBytes(CHARSET).length;
+    public static final int SIZEOF_TIME_STRING = TimeConstants.TIME_FORMAT.getBytes(CHARSET).length;
 
     /**
      * 日期格式字符串长度
      */
-    public static final int SIZEOF_DATE_STRING = UDFConstants.DATE_FORMAT.getBytes(CHARSET).length;
+    public static final int SIZEOF_DATE_STRING = TimeConstants.DATE_FORMAT.getBytes(CHARSET).length;
 
     /**
      * timestamp类型字符串长度
      */
-    public static final int SIZEOF_TIMESTAMP_STRING = UDFConstants.TIMESTAMP_FORMAT.getBytes(CHARSET).length;
+    public static final int SIZEOF_TIMESTAMP_STRING = TimeConstants.TIMESTAMP_FORMAT.getBytes(CHARSET).length;
 
     /**
      * Put bytes at the specified byte array position.
      *
-     * @param tgtBytes the byte array
-     * @param tgtOffset position in the array
-     * @param srcBytes array to write out
-     * @param srcOffset source offset
-     * @param srcLength source length
-     * @return incremented offset
      */
     private static int putBytes(byte[] tgtBytes, int tgtOffset, byte[] srcBytes, int srcOffset, int srcLength)
     {
@@ -98,8 +92,6 @@ public class Bytes
     /**
      * toString
      *
-     * @param b Presumed UTF-8 encoded byte array.
-     * @return String made from <code>b</code>
      */
     public static String toString(final byte[] b)
     {
@@ -115,10 +107,6 @@ public class Bytes
      * an UnsupportedEncodingException occurs, this method will eat it
      * and return null instead.
      *
-     * @param b Presumed UTF-8 encoded byte array.
-     * @param off offset into array
-     * @param len length of utf-8 sequence
-     * @return String made from <code>b</code> or null
      */
     private static String toString(final byte[] b, int off, int len)
     {
@@ -143,8 +131,6 @@ public class Bytes
     /**
      * Converts a string to a UTF-8 byte array.
      *
-     * @param s string
-     * @return the byte array
      */
     public static byte[] toBytes(String s)
     {
@@ -162,8 +148,6 @@ public class Bytes
      * Convert a boolean to a byte array. True becomes -1
      * and false becomes 0.
      *
-     * @param b value
-     * @return <code>b</code> encoded in a byte array.
      */
     public static byte[] toBytes(final boolean b)
     {
@@ -173,8 +157,6 @@ public class Bytes
     /**
      * Reverses {@link #toBytes(boolean)}
      *
-     * @param b array
-     * @return True or false.
      */
     public static boolean toBoolean(final byte[] b)
     {
@@ -188,8 +170,6 @@ public class Bytes
     /**
      * Convert a long value to a byte array using big-endian.
      *
-     * @param val value to convert
-     * @return the byte array
      */
     public static byte[] toBytes(long val)
     {
@@ -207,8 +187,6 @@ public class Bytes
      * Converts a byte array to a long value. Reverses
      * {@link #toBytes(long)}
      *
-     * @param bytes array
-     * @return the long value
      */
     public static long toLong(byte[] bytes)
     {
@@ -218,16 +196,11 @@ public class Bytes
     /**
      * Converts a byte array to a long value.
      *
-     * @param bytes array of bytes
-     * @param offset offset into array
-     * @param length length of data (must be {@link #SIZEOF_LONG})
-     * @return the long value
-     * @throws IllegalArgumentException if length is not {@link #SIZEOF_LONG} or
      * if there's not enough room in the array at the offset indicated.
      */
     private static long toLong(byte[] bytes, int offset, final int length)
     {
-        if (length != SIZEOF_LONG || offset + length > bytes.length)
+        if (offset + length > bytes.length)
         {
             throw explainWrongLengthOrOffset(bytes, offset, length, SIZEOF_LONG);
         }
@@ -261,8 +234,6 @@ public class Bytes
     /**
      * Presumes float encoded as IEEE 754 floating-point "single format"
      *
-     * @param bytes byte array
-     * @return Float made from passed byte array.
      */
     public static float toFloat(byte[] bytes)
     {
@@ -272,9 +243,6 @@ public class Bytes
     /**
      * Presumes float encoded as IEEE 754 floating-point "single format"
      *
-     * @param bytes array to convert
-     * @param offset offset into array
-     * @return Float made from passed byte array.
      */
     private static float toFloat(byte[] bytes, int offset)
     {
@@ -283,8 +251,6 @@ public class Bytes
 
 
     /**
-     * @param f float value
-     * @return the float represented as byte []
      */
     public static byte[] toBytes(final float f)
     {
@@ -293,8 +259,6 @@ public class Bytes
     }
 
     /**
-     * @param bytes byte array
-     * @return Return double made from passed bytes.
      */
     public static double toDouble(final byte[] bytes)
     {
@@ -302,9 +266,6 @@ public class Bytes
     }
 
     /**
-     * @param bytes byte array
-     * @param offset offset where double is
-     * @return Return double made from passed bytes.
      */
     private static double toDouble(final byte[] bytes, final int offset)
     {
@@ -316,8 +277,6 @@ public class Bytes
      * Serialize a double as the IEEE 754 double format output. The resultant
      * array will be 8 bytes long.
      *
-     * @param d value
-     * @return the double represented as byte []
      */
     public static byte[] toBytes(final double d)
     {
@@ -328,8 +287,6 @@ public class Bytes
     /**
      * Convert an int value to a byte array
      *
-     * @param val value
-     * @return the byte array
      */
     public static byte[] toBytes(int val)
     {
@@ -346,8 +303,6 @@ public class Bytes
     /**
      * Converts a byte array to an int value
      *
-     * @param bytes byte array
-     * @return the int value
      */
     public static int toInt(byte[] bytes)
     {
@@ -357,9 +312,6 @@ public class Bytes
     /**
      * Converts a byte array to an int value
      *
-     * @param bytes byte array
-     * @param offset offset into array
-     * @return the int value
      */
     private static int toInt(byte[] bytes, int offset)
     {
@@ -369,19 +321,15 @@ public class Bytes
     /**
      * Converts a byte array to an int value
      *
-     * @param bytes byte array
-     * @param offset offset into array
-     * @param length length of int (has to be {@link #SIZEOF_INT})
-     * @return the int value
-     * @throws IllegalArgumentException if length is not {@link #SIZEOF_INT} or
      * if there's not enough room in the array at the offset indicated.
      */
     private static int toInt(byte[] bytes, int offset, final int length)
     {
-        if (length != SIZEOF_INT || offset + length > bytes.length)
+        if (offset + length > bytes.length)
         {
             throw explainWrongLengthOrOffset(bytes, offset, length, SIZEOF_INT);
         }
+
         int n = 0;
         for (int i = offset; i < (offset + length); i++)
         {
@@ -394,11 +342,6 @@ public class Bytes
     /**
      * Put an int value out to the specified byte array position.
      *
-     * @param bytes the byte array
-     * @param offset position in the array
-     * @param val int to write out
-     * @return incremented offset
-     * @throws IllegalArgumentException if the byte array given doesn't have
      * enough room at the offset specified.
      */
     private static int putInt(byte[] bytes, int offset, int val)
@@ -421,8 +364,6 @@ public class Bytes
     /**
      * Convert a BigDecimal value to a byte array
      *
-     * @param val
-     * @return the byte array
      */
     public static byte[] toBytes(BigDecimal val)
     {
@@ -436,8 +377,6 @@ public class Bytes
     /**
      * Converts a byte array to a BigDecimal
      *
-     * @param bytes
-     * @return the char value
      */
     public static BigDecimal toBigDecimal(byte[] bytes)
     {
@@ -447,10 +386,6 @@ public class Bytes
     /**
      * Converts a byte array to a BigDecimal value
      *
-     * @param bytes
-     * @param offset
-     * @param length
-     * @return the char value
      */
     private static BigDecimal toBigDecimal(byte[] bytes, int offset, final int length)
     {

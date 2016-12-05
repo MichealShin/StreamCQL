@@ -23,9 +23,11 @@ import java.util.List;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
+import com.huawei.streaming.config.StreamingConfig;
 import com.huawei.streaming.event.Attribute;
 import com.huawei.streaming.event.TupleEventType;
 import com.huawei.streaming.exception.StreamSerDeException;
+import com.huawei.streaming.exception.StreamingException;
 import static org.junit.Assert.*;
 
 /**
@@ -37,7 +39,6 @@ public class CSVSerDeTest
 {
 
     private static TupleEventType schema;
-    private static TupleEventType schema2;
 
     static
     {
@@ -50,12 +51,17 @@ public class CSVSerDeTest
     }
 
     @Test
-    public void testDeSerialize1() throws StreamSerDeException
+    public void testDeSerialize1() throws StreamSerDeException, StreamingException
     {
+        StreamingConfig config = new StreamingConfig();
         CSVSerDe csvSerDe = new CSVSerDe();
+        csvSerDe.setConfig(config);
         csvSerDe.setSchema(schema);
+        csvSerDe.initialize();
         SimpleSerDe deser = new SimpleSerDe();
         deser.setSchema(schema);
+        deser.setConfig(config);
+        deser.initialize();
         String s =  "0,USER4,1379927089198";
         List<Object[]> results = csvSerDe.deSerialize(s);
         assertTrue(results.get(0).length == 3);
@@ -64,12 +70,17 @@ public class CSVSerDeTest
     }
 
     @Test
-    public void testDeSerialize2() throws StreamSerDeException
+    public void testDeSerialize2() throws StreamSerDeException, StreamingException
     {
+        StreamingConfig config = new StreamingConfig();
         CSVSerDe csvSerDe = new CSVSerDe();
         csvSerDe.setSchema(schema);
+        csvSerDe.setConfig(config);
+        csvSerDe.initialize();
         SimpleSerDe deser = new SimpleSerDe();
         deser.setSchema(schema);
+        deser.setConfig(config);
+        deser.initialize();
         String s =  "2,\"\"\"a\"\"\",\"\"\"b\"\"\"";
         List<Object[]> results = csvSerDe.deSerialize(s);
         assertTrue(results.get(0).length == 3);
@@ -79,12 +90,18 @@ public class CSVSerDeTest
     }
 
     @Test
-    public void testDeSerialize3() throws StreamSerDeException
+    public void testDeSerialize3() throws StreamSerDeException, StreamingException
     {
+        StreamingConfig config = new StreamingConfig();
         CSVSerDe csvSerDe = new CSVSerDe();
         csvSerDe.setSchema(schema);
+        csvSerDe.setConfig(config);
         SimpleSerDe deser = new SimpleSerDe();
         deser.setSchema(schema);
+        deser.setConfig(config);
+        csvSerDe.initialize();
+        deser.initialize();
+
         String s =  "3,\"a,b\",\"\"\"a,b\"\"\"";
         List<Object[]> results = csvSerDe.deSerialize(s);
         assertTrue(results.get(0).length == 3);
@@ -95,12 +112,17 @@ public class CSVSerDeTest
 
 
     @Test
-    public void testSerialize() throws StreamSerDeException
+    public void testSerialize() throws StreamSerDeException, StreamingException
     {
+        StreamingConfig config = new StreamingConfig();
         CSVSerDe csvSerDe = new CSVSerDe();
         csvSerDe.setSchema(schema);
+        csvSerDe.setConfig(config);
         SimpleSerDe deser = new SimpleSerDe();
         deser.setSchema(schema);
+        deser.setConfig(config);
+        csvSerDe.initialize();
+        deser.initialize();
         String s =  "3,\"a,b\",\"\"\"a,b\"\"\"";
         List<Object[]>  results= csvSerDe.deSerialize(s);
         assertTrue(csvSerDe.serialize(results).equals(s));

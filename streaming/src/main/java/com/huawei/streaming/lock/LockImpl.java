@@ -29,7 +29,7 @@ public class LockImpl implements ILock, Serializable
 {
     private static final long serialVersionUID = -226664943615880273L;
     
-    private FIFOMutex lock = new FIFOMutex();
+    private FIFOMutex fifoLock = new FIFOMutex();
     
     /**
      * {@inheritDoc}
@@ -37,7 +37,7 @@ public class LockImpl implements ILock, Serializable
     @Override
     public void lock()
     {
-        lock.lock();
+        fifoLock.lock();
         
     }
     
@@ -47,7 +47,7 @@ public class LockImpl implements ILock, Serializable
     @Override
     public void unlock()
     {
-        lock.unlock();
+        fifoLock.unlock();
         
     }
     
@@ -57,7 +57,7 @@ public class LockImpl implements ILock, Serializable
     @Override
     public boolean isLocked()
     {
-        return lock.isLocked();
+        return fifoLock.isLocked();
     }
     
 }

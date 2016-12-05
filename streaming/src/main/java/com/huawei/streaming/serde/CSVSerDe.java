@@ -24,7 +24,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.huawei.streaming.config.StreamingConfig;
 import com.huawei.streaming.exception.StreamSerDeException;
@@ -58,25 +57,8 @@ public class CSVSerDe extends BaseSerDe
     }
 
     /**
-     * 初始化方法
-     * 序列化对象一定是只初始化一次，
-     * 之后每次调用，都执行执行一次序列化。
-     *
-     * @throws com.huawei.streaming.exception.StreamSerDeException 初始化的时候，可能抛出的异常
-     */
-    @Override
-    public void initialize() throws StreamSerDeException
-    {
-
-    }
-
-    /**
      * 将原始数据按照设定格式分解
      *
-     * @param data 原始数据
-     * @return Object数组
-     * @throws com.huawei.streaming.exception.StreamSerDeException 反序列化异常
-     * @throws
      */
     @Override
     public List< Object[] > deSerialize(Object data)

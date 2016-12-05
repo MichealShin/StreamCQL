@@ -56,7 +56,6 @@ public class LengthBatchWindowTest
     
     /**
      * <setup>
-     * @throws Exception 异常
      */
     @Before
     public void setUp()
@@ -71,7 +70,6 @@ public class LengthBatchWindowTest
     
     /**
      * <cleanup>
-     * @throws Exception 异常
      */
     @After
     public void tearDown()

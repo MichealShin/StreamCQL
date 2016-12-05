@@ -69,7 +69,7 @@ public class NotExpression implements IBooleanExpression
         {
             StreamingException exception =
                 new StreamingException(ErrorCode.SEMANTICANALYZE_NOT_EXPRESSION_BOOLEAN_TYPE);
-            LOG.error(exception.getMessage(), exception);
+            LOG.error(ErrorCode.SEMANTICANALYZE_NOT_EXPRESSION_BOOLEAN_TYPE.getFullMessage(), exception);
             throw exception;
         }
         

@@ -36,16 +36,15 @@ public class DataSourceTokenReplacedHandlerTest
     private static Map<String, Object> expValues = Maps.newHashMap();
     static
     {
-        expValues.put("s.id", new String("1"));
-        expValues.put(" s.id", new String("2"));
-        expValues.put("s.id ", new String("3"));
-        expValues.put("udf(a,b,c)", new String("udfvalues"));
-        expValues.put("", new String("nullvalues"));
+        expValues.put("s.id", "1");
+        expValues.put(" s.id", "2");
+        expValues.put("s.id ", "3");
+        expValues.put("udf(a,b,c)", "udfvalues");
+        expValues.put("", "nullvalues");
     }
     
     /**
      * 测试用例
-     * @throws StreamingException 测试异常
      */
     @Test
     public void testParse1()
@@ -61,7 +60,6 @@ public class DataSourceTokenReplacedHandlerTest
     
     /**
      * 测试用例
-     * @throws StreamingException 测试异常
      */
     @Test
     public void testParse2()
@@ -76,7 +74,6 @@ public class DataSourceTokenReplacedHandlerTest
     
     /**
      * 测试用例
-     * @throws StreamingException 测试异常
      */
     @Test
     public void testParse3()
@@ -91,7 +88,6 @@ public class DataSourceTokenReplacedHandlerTest
     
     /**
      * 测试用例
-     * @throws StreamingException 测试异常
      */
     @Test
     public void testParse4()

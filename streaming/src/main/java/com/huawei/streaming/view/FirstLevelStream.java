@@ -55,7 +55,6 @@ public final class FirstLevelStream implements IViewable
     
     /**
      * <接受外部数据>
-     * @param theEvent 新事件
      */
     public final void add(IEvent theEvent)
     {
@@ -152,7 +151,6 @@ public final class FirstLevelStream implements IViewable
     
     /**
      * 返回 lastInsertedEvent
-     * @return 返回 lastInsertedEvent
      */
     public final IEvent getLastInsertedEvent()
     {

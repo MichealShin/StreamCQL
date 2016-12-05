@@ -70,7 +70,6 @@ public class FullOutBiJoinComposerTest
     
     /**
      * <setup>
-     * @throws Exception 异常
      */
     @Before
     public void setUp()
@@ -101,7 +100,6 @@ public class FullOutBiJoinComposerTest
     
     /**
      * <cleanup>
-     * @throws Exception 异常
      */
     @After
     public void tearDown()

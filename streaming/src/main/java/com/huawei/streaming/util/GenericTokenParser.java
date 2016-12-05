@@ -39,9 +39,6 @@ public class GenericTokenParser implements Serializable
     
     /**
      * <默认构造函数>
-     * @param openToken 开始字符串
-     * @param closeToken 结束字符串
-     * @param handler 匹配字符串处理类
      */
     public GenericTokenParser(String openToken, String closeToken, TokenHandler handler)
     {
@@ -52,9 +49,6 @@ public class GenericTokenParser implements Serializable
     
     /**
      * 解析字符串>
-     * @param text 字符串
-     * @return 完成解析替换之后的字符串
-     * @throws StreamingException 字符串解析处理异常
      */
     public String parse(String text)
         throws StreamingException

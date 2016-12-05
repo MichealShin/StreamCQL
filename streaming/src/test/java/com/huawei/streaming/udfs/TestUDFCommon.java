@@ -28,7 +28,15 @@ public class TestUDFCommon
      * 1
      */
     public static final int I_1 = 1;
-    
+    /**
+     * 2
+     */
+    public static final int I_2 = 2;
+    /**
+     * 3
+     */
+    public static final int I_3 = 3;
+
     /**
      * 9
      */
@@ -58,7 +66,7 @@ public class TestUDFCommon
      * 17
      */
     public static final int I_17 = 17;
-    
+
     /**
      * 28
      */

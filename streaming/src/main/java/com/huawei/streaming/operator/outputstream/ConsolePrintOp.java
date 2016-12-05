@@ -57,6 +57,9 @@ public class ConsolePrintOp implements IOutputStreamOperator
 
     private StreamSerDe serde;
 
+    private StreamingConfig config;
+
+
     /**
      * {@inheritDoc}
      */
@@ -64,6 +67,16 @@ public class ConsolePrintOp implements IOutputStreamOperator
     public void setConfig(StreamingConfig conf) throws StreamingException
     {
         this.frequent = conf.getIntValue(StreamingConfig.OPERATOR_CONSOLEPRINT_FREQUENCE);
+        this.config = conf;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public StreamingConfig getConfig()
+    {
+        return config;
     }
 
     /**
@@ -105,6 +118,15 @@ public class ConsolePrintOp implements IOutputStreamOperator
     public void setSerDe(StreamSerDe streamSerDe)
     {
         this.serde = streamSerDe;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public StreamSerDe getSerDe()
+    {
+        return serde;
     }
 
     /**

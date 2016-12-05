@@ -135,7 +135,6 @@ public class SimpleEventCollection implements IEventCollection
     /**
      * 获得所有保存的事件（窗口有效事件）
      * <功能详细描述>
-     * @return 所有保存的事件
      */
     public Set<IEvent> lookupAll()
     {
@@ -145,7 +144,6 @@ public class SimpleEventCollection implements IEventCollection
     /**
      * 如果当前保存结果为空，返回一个含有一个所有值为空的事件集合
      * <功能详细描述>
-     * @return 含有一个所有值为空的事件集合
      */
     public Set<IEvent> lookupAllWithNull()
     {

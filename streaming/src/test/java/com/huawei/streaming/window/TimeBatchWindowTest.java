@@ -58,7 +58,6 @@ public class TimeBatchWindowTest
     
     /**
      * <setup>
-     * @throws Exception 异常
      */
     @Before
     public void setUp()
@@ -73,7 +72,6 @@ public class TimeBatchWindowTest
     
     /**
      * <cleanup>
-     * @throws Exception 异常
      */
     @After
     public void tearDown()

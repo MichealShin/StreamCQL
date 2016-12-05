@@ -19,7 +19,7 @@
 package com.huawei.streaming.common;
 
 import java.io.Serializable;
-import java.util.Random;
+import java.security.SecureRandom;
 
 /**
  * 根据数据类型随机生成要求数据
@@ -36,16 +36,13 @@ public class RandomValueGen implements Serializable
     
     private static final int INTEGER_RANGE = 10000;
     
-    private static int incremental = 0;
+    private int incremental = 0;
     
-    private static Random ran = new Random();
+    private SecureRandom ran = new SecureRandom();
     
     /**
      * 随机生成整数
      * <功能详细描述>
-     * @param range 整数范围
-     * @param negative 是否可为负数
-     * @return 生成的整数
      */
     public int getInteger(int range, boolean negative)
     {
@@ -67,9 +64,6 @@ public class RandomValueGen implements Serializable
     /**
      * 随机生成双精度数
      * <功能详细描述>
-     * @param range 双精度数范围
-     * @param negative 是否可为负数
-     * @return 生成的双精度数
      */
     public double getDouble(int range, boolean negative)
     {
@@ -91,9 +85,6 @@ public class RandomValueGen implements Serializable
     /**
      * 随机生成浮点数
      * <功能详细描述>
-     * @param range 浮点数范围
-     * @param negative 是否可为负数
-     * @return 生成的浮点数
      */
     public double getFloat(int range, boolean negative)
     {
@@ -115,7 +106,6 @@ public class RandomValueGen implements Serializable
     /**
      * 随机生成BOOL值
      * <功能详细描述>
-     * @return BOOL值
      */
     public boolean getBoolean()
     {
@@ -125,7 +115,6 @@ public class RandomValueGen implements Serializable
     /**
      * 随机生成long数
      * <功能详细描述>
-     * @return long数
      */
     public long getLong()
     {
@@ -135,9 +124,6 @@ public class RandomValueGen implements Serializable
     /**
      * 生成字串
      * <功能详细描述>
-     * @param base 基础字串
-     * @param prefix 是前辍或后辍
-     * @return 字串
      */
     public String getString(String base, boolean prefix)
     {
@@ -151,7 +137,6 @@ public class RandomValueGen implements Serializable
     /**
      * 生成递增整数
      * <功能详细描述>
-     * @return 递增整数
      */
     public int getIncremantal()
     {

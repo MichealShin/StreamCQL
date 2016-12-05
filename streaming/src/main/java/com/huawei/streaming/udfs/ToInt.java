@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
  * 数据类型转换函数
  * 
  */
-@UDFAnnotation(name = "toint")
+@UDFAnnotation("toint")
 public class ToInt extends UDF
 {
     private static final long serialVersionUID = -4516472038115224500L;
@@ -40,7 +40,6 @@ public class ToInt extends UDF
 
     /**
      * <默认构造函数>
-     * @param config 参数
      */
     public ToInt(Map<String, String> config)
     {
@@ -50,8 +49,6 @@ public class ToInt extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Integer evaluate(String s)
     {
@@ -64,7 +61,7 @@ public class ToInt extends UDF
         {
             return Integer.valueOf(s);
         }
-        catch (Exception e)
+        catch (NumberFormatException e)
         {
             LOG.warn(EVALUATE_IGNORE_MESSAGE);
             return null;
@@ -74,8 +71,6 @@ public class ToInt extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Integer evaluate(Long s)
     {
@@ -83,22 +78,13 @@ public class ToInt extends UDF
         {
             return null;
         }
-        try
-        {
-            return s.intValue();
-        }
-        catch (Exception e)
-        {
-            LOG.warn(EVALUATE_IGNORE_MESSAGE);
-            return null;
-        }
+
+        return s.intValue();
     }
 
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Integer evaluate(Integer s)
     {
@@ -108,8 +94,6 @@ public class ToInt extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Integer evaluate(Timestamp s)
     {
@@ -123,8 +107,6 @@ public class ToInt extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Integer evaluate(BigDecimal s)
     {
@@ -138,8 +120,6 @@ public class ToInt extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Integer evaluate(Date s)
     {
@@ -154,8 +134,6 @@ public class ToInt extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Integer evaluate(Time s)
     {
@@ -169,8 +147,6 @@ public class ToInt extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Integer evaluate(Float s)
     {
@@ -184,8 +160,6 @@ public class ToInt extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Integer evaluate(Double s)
     {

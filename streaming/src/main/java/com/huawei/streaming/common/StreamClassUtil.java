@@ -49,8 +49,6 @@ public class StreamClassUtil
      * <返回包装类>
      * <功能详细描述>
      *
-     * @param type 原始类
-     * @return 包装类
      */
     public static Class< ? > getWrapType(Class< ? > type)
     {
@@ -91,8 +89,6 @@ public class StreamClassUtil
      * <判断是否数字类型>
      * <功能详细描述>
      *
-     * @param type 类型
-     * @return true 数字类型 ， false 非数字类型
      */
     public static boolean isNumberic(Class< ? > type)
     {
@@ -128,10 +124,6 @@ public class StreamClassUtil
      * <根据算术运算的左右表达式类型，推测结果类型>
      * <功能详细描述>
      *
-     * @param leftType 左表达式类型
-     * @param rightType 右表达式类型
-     * @return 结果类型
-     * @throws IllegalDataTypeException 推测返回结果类型失败
      */
     public static Class< ? > getArithmaticType(Class< ? > leftType, Class< ? > rightType)
         throws IllegalDataTypeException
@@ -178,9 +170,6 @@ public class StreamClassUtil
      * <根据一系列表达式类型，推测返回类型。例如case表达式>
      * <功能详细描述>
      *
-     * @param childTypes 表达式类型数组,
-     * @return 结果类型
-     * @throws IllegalDataTypeException 推测返回结果类型失败
      */
     public static Class< ? > getCommonType(List<Class< ? >> childTypes)
         throws IllegalDataTypeException
@@ -266,9 +255,6 @@ public class StreamClassUtil
      * <将Number数值根据指定类型转化为对应类型的值>
      * <功能详细描述>
      *
-     * @param result 待转化数值
-     * @param resultType 指定类型
-     * @return 指定类型值
      */
     public static Number getNumbericValueForType(Number result, Class< ? > resultType)
     {
@@ -321,8 +307,6 @@ public class StreamClassUtil
      * <将Number数值转化为BigDecimal类型的值>
      * <功能详细描述>
      *
-     * @param result 待转化数值, 不能为空
-     * @return BigDecimal类型的值
      */
     public static BigDecimal getBigDecimalValue(Number result)
     {
@@ -349,8 +333,6 @@ public class StreamClassUtil
      * <判断数值是否为浮点型>
      * <判断数值是否为浮点型>
      *
-     * @param value 数值
-     * @return true = 浮点型 ， false = 非浮点型
      */
     public static boolean isFloatingPointNumber(Number value)
     {
@@ -365,10 +347,6 @@ public class StreamClassUtil
      * <返回比较类型>
      * <返回比较类型>
      *
-     * @param typeOne 左值类型
-     * @param typeTwo 右值类型
-     * @return 比较类型
-     * @throws IllegalDataTypeException 推测返回结果类型失败
      */
     public static Class< ? > getCompareType(Class< ? > typeOne, Class< ? > typeTwo)
         throws IllegalDataTypeException
@@ -399,7 +377,7 @@ public class StreamClassUtil
             IllegalDataTypeException exp =
                 new IllegalDataTypeException(ErrorCode.SEMANTICANALYZE_EXPRESSION_DATATYPE_COMPARE, typeOneName,
                     typeTwoName);
-            LOG.error(exp.getMessage(), exp);
+            LOG.error(ErrorCode.SEMANTICANALYZE_EXPRESSION_DATATYPE_COMPARE.getFullMessage(typeOneName,typeTwoName), exp);
             throw exp;
         }
         
@@ -410,8 +388,6 @@ public class StreamClassUtil
      * <判断是否Booelan类型>
      * <功能详细描述>
      *
-     * @param type 类型
-     * @return true Booelan类型 ， false 非Booelan类型
      */
     public static boolean isBoolean(Class< ? > type)
     {
@@ -426,8 +402,6 @@ public class StreamClassUtil
      * <判断是否Date或者Timestamp类型>
      * <功能详细描述>
      *
-     * @param type 类型
-     * @return true Date或者Timestamp类型 ， false 非Date或者Timestamp类型
      */
     public static boolean isDateOrTimestamp(Class< ? > type)
     {

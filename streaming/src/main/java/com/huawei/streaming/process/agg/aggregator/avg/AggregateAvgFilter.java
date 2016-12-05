@@ -95,7 +95,6 @@ public class AggregateAvgFilter extends AggregateAvg
     
     /**
      * 深度clone
-     * @return clone的新对象
      */
     public IAggregate cloneAggregate()
     {

@@ -99,8 +99,6 @@ public class AggregateAvg extends AbstractAggregate
     
     /**
      * 新事件来时的处理
-     * @param value 新来的值
-     * @param filter 过滤条件
      */
     @Override
     public void enter(Object value, boolean filter)
@@ -116,8 +114,6 @@ public class AggregateAvg extends AbstractAggregate
     
     /**
      * 旧事件离开时的处理
-     * @param value 旧的值
-     * @param filter 过滤条件
      */
     @Override
     public void leave(Object value, boolean filter)
@@ -147,7 +143,6 @@ public class AggregateAvg extends AbstractAggregate
     
     /**
      * 深度clone
-     * @return clone的新对象
      */
     public IAggregate cloneAggregate()
     {
@@ -162,7 +157,6 @@ public class AggregateAvg extends AbstractAggregate
     
     /**
      * 对resultType进行赋值
-     * @param  resultType 类型
      */
     protected void setResultType(Class< ? > resultType)
     {
@@ -171,7 +165,6 @@ public class AggregateAvg extends AbstractAggregate
     
     /**
      * 对concreteAvg进行赋值
-     * @param concreteAvg 具体Avg
      */
     protected void setConcreteAvg(IAggregate concreteAvg)
     {

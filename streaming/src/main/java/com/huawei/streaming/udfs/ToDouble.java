@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
  * 数据类型转换函数
  *
  */
-@UDFAnnotation(name = "todouble")
+@UDFAnnotation("todouble")
 public class ToDouble extends UDF
 {
     private static final long serialVersionUID = -4516472038115224500L;
@@ -41,7 +41,6 @@ public class ToDouble extends UDF
     /**
      * <默认构造函数>
      *
-     * @param config 参数
      */
     public ToDouble(Map< String, String > config)
     {
@@ -51,8 +50,6 @@ public class ToDouble extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Double evaluate(String s)
     {
@@ -65,7 +62,7 @@ public class ToDouble extends UDF
         {
             return Double.valueOf(s);
         }
-        catch (Exception e)
+        catch (NumberFormatException e)
         {
             LOG.warn(EVALUATE_IGNORE_MESSAGE);
             return null;
@@ -75,8 +72,6 @@ public class ToDouble extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Double evaluate(Long s)
     {
@@ -84,33 +79,27 @@ public class ToDouble extends UDF
         {
             return null;
         }
-        try
-        {
-            return s.doubleValue();
-        }
-        catch (Exception e)
-        {
-            LOG.warn(EVALUATE_IGNORE_MESSAGE);
-            return null;
-        }
+
+        return s.doubleValue();
     }
 
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Double evaluate(Integer s)
     {
-        return s == null ? 0.0f : evaluate(s.toString());
+        if (s == null)
+        {
+            return null;
+        }
+
+        return s.doubleValue();
     }
 
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Double evaluate(Timestamp s)
     {
@@ -125,8 +114,6 @@ public class ToDouble extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Double evaluate(BigDecimal s)
     {
@@ -140,8 +127,6 @@ public class ToDouble extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Double evaluate(Date s)
     {
@@ -156,8 +141,6 @@ public class ToDouble extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Double evaluate(Time s)
     {
@@ -172,8 +155,6 @@ public class ToDouble extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Double evaluate(Double s)
     {
@@ -183,8 +164,6 @@ public class ToDouble extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Double evaluate(Float s)
     {

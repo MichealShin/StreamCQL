@@ -30,27 +30,65 @@ import com.huawei.streaming.event.TupleEvent;
 import com.huawei.streaming.event.TupleEventType;
 import com.huawei.streaming.exception.StreamSerDeException;
 import com.huawei.streaming.exception.StreamingException;
-import com.huawei.streaming.util.DataTypeUtils;
 import com.huawei.streaming.util.StreamingDataType;
+import com.huawei.streaming.util.datatype.DataTypeParser;
 
 /**
  * 序列化基础类，实现了数据实例化的一些基本方法
- * 
+ *
  */
 public abstract class BaseSerDe implements StreamSerDe
 {
     private static final long serialVersionUID = 6699441541558471301L;
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(BaseSerDe.class);
-    
+
     private TupleEventType schema;
-    
+
     private StreamingConfig config;
 
+    private DataTypeParser[] parsers;
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void initialize()
+     throws StreamSerDeException
+    {
+        LOG.info("Start to initialize baseSerDe.");
+
+        if (schema == null)
+        {
+            LOG.error("Can not found schema to serialize/deserialize.");
+            throw new StreamSerDeException("Can not found schema to serialize/deserialize.");
+        }
+
+        if (config == null)
+        {
+            LOG.error("Can not found config to serialize/deserialize.");
+            throw new StreamSerDeException("Can not found config to serialize/deserialize.");
+        }
+
+        parsers = new DataTypeParser[schema.getSize()];
+        Class< ? >[] attributes = schema.getAllAttributeTypes();
+
+        try
+        {
+            for (int i = 0; i < schema.getSize(); i++)
+            {
+                parsers[i] = StreamingDataType.getDataTypeParser(attributes[i], config);
+            }
+        }
+        catch (StreamingException e)
+        {
+             LOG.error("Failed to create dataType parser instance.");
+            throw new StreamSerDeException("Failed to create dataType parser instance.");
+        }
+        LOG.info("Finished to initialize baseSerDe.");
+    }
     /**
      * 转换tupleevent到数据列表
-     * @param event 事件
-     * @return 数据
      */
     public static List<Object[]> changeEventsToList(TupleEvent event)
     {
@@ -92,9 +130,6 @@ public abstract class BaseSerDe implements StreamSerDe
 
     /**
      * 根据数据列的数组创建所有datatype的实例
-     * @param values 数据列数组
-     * @return Datatype数据数组
-     * @throws StreamSerDeException 数据反序列化异常
      */
     protected List<Object[]> createAllInstance(List<Object[]> values)
         throws StreamSerDeException
@@ -103,38 +138,69 @@ public abstract class BaseSerDe implements StreamSerDe
         {
             return Lists.newArrayList();
         }
-        
+
         List<Object[]> list = new ArrayList<Object[]>(values.size());
         for (Object[] strarr : values)
         {
             validateColumnSize(strarr);
-            Object[] arr = new Object[schema.getAllAttributes().length];
-            for (int i = 0; i < schema.getAllAttributeTypes().length; i++)
-            {
-                arr[i] = createInstance(schema.getAllAttributeTypes()[i], strarr[i]);
-            }
+            Object[] arr = createInstance(strarr);
             list.add(arr);
         }
         return list;
     }
-    
+
+    private Object[] createInstance(Object[] strarr) throws StreamSerDeException
+    {
+        Object[] arr = new Object[parsers.length];
+
+        for (int i = 0; i < parsers.length; i++)
+        {
+            try
+            {
+                if (strarr[i] == null)
+                {
+                    arr[i] = null;
+                }
+                else
+                {
+                    arr[i] = parsers[i].createValue(strarr[i].toString());
+                }
+            }
+            catch (StreamingException e)
+            {
+                throw new StreamSerDeException(e.getMessage(), e);
+            }
+        }
+        return arr;
+    }
+
     /**
      * 将计算结果输出为字符串形式
-     * @param value 计算结果
-     * @return 字符串形式的计算结果
-     * @throws StreamSerDeException 无法转化为字符串类型
+     * 由于都是内部调用，所以values数组不为空
      */
-    protected String serializeToString(Object value) throws StreamSerDeException
+    protected String[] serializeRowToString(Object[] values) throws StreamSerDeException
+    {
+        String[] result = new String[values.length];
+        for(int i=0;i<values.length;i++)
+        {
+            result[i] = serializeToString(parsers[i], values[i]);
+        }
+        return result;
+    }
+
+    /**
+     * 将计算结果输出为字符串形式
+     */
+    private String serializeToString(DataTypeParser parser, Object value) throws StreamSerDeException
     {
         if(null == value)
         {
             return "";
         }
-        
+
         try
         {
-            StreamingDataType dataType = StreamingDataType.getDataType(value.getClass());
-            return dataType.toStringValue(value);
+            return parser.toStringValue(value);
         }
         catch (StreamingException e)
         {
@@ -142,7 +208,7 @@ public abstract class BaseSerDe implements StreamSerDe
             throw new StreamSerDeException("Failed to convert value to string type, this output line will ignord.");
         }
     }
-    
+
     private void validateColumnSize(Object[] strArr)
         throws StreamSerDeException
     {
@@ -151,7 +217,7 @@ public abstract class BaseSerDe implements StreamSerDe
             LOG.warn("Can not found output schema. ");
             throw new StreamSerDeException("Can not found output schema. ");
         }
-        
+
         if (strArr.length != schema.getAllAttributeTypes().length)
         {
             //序列化反序列化异常使用warn级别，因为仅仅会导致当前数据丢掉，不会导致进程退出
@@ -162,56 +228,31 @@ public abstract class BaseSerDe implements StreamSerDe
                     + schema.getAllAttributeTypes().length + ", deserializer size :" + strArr.length);
         }
     }
-    
-    /**
-     * 为所有的数据列创建空对象
-     * @return 空的数据类型数组
-     * @throws StreamSerDeException 数据反序列化异常
-     */
-    protected List<Object[]> createAllNull()
-        throws StreamSerDeException
-    {
-        Object[] arr = new Object[schema.getAllAttributes().length];
-        for (int i = 0; i < schema.getAllAttributeTypes().length; i++)
-        {
-            arr[i] = createInstance(schema.getAllAttributeTypes()[i]);
-        }
-        List<Object[]> list = Lists.newArrayList();
-        list.add(arr);
-        return list;
-    }
-    
+
     /**
      * 创建一个空数据。数据类型来自clazz
-     * @param clazz 空数据对应的数据类型class
-     * @return 创建好的空数据
-     * @throws StreamSerDeException 数据反序列化异常
      */
-    protected Object createInstance(Class< ? extends Object> clazz)
+    protected Object createInstance(int index)
         throws StreamSerDeException
     {
-        return createInstance(clazz, null);
+        return createInstance(index, null);
     }
-    
+
     /**
      * 根据指定类型创建数据实例
-     * @param clazz 数据类型
-     * @param value 数据值
-     * @return 数据实例
-     * @throws StreamSerDeException 数据反序列化异常
      */
-    protected Object createInstance(Class< ? > clazz, Object value)
+    protected Object createInstance(int index, Object value)
         throws StreamSerDeException
     {
         try
         {
-            return DataTypeUtils.createValue(clazz, value == null ? null : value.toString());
+            return parsers[index].createValue(value == null ? null : value.toString());
         }
         catch (StreamingException e)
         {
             throw new StreamSerDeException(e.getMessage(), e);
         }
-        
+
     }
 
     /**

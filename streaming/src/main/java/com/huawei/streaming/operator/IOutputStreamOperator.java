@@ -30,15 +30,16 @@ public interface IOutputStreamOperator extends IStreamOperator
     /**
      * 运行时的执行接口
      *
-     * @param streamName 流名称
-     * @param event 事件
-     * @throws StreamingException 流处理异常
      */
     void execute(String streamName, TupleEvent event) throws StreamingException;
 
     /**
      * 设置序列化和反序列化类
-     * @param serde
      */
     void setSerDe(StreamSerDe serde);
+
+    /**
+     * 获取序列化类
+     */
+    StreamSerDe getSerDe();
 }

@@ -70,7 +70,6 @@ public class WholeProcedureTest2
     /**
      * <Test>
      * <功能详细描述>
-     * @throws IllegalDataTypeException 异常
      */
     @Test
     public void test()

@@ -57,10 +57,6 @@ public class ArithmeticExpression extends OperatorBasedExpression
     
     /**
      * <默认构造函数>
-     * @param op 算术运算
-     * @param leftExpr 左表达式
-     * @param rightExpr 右表达式
-     * @throws StreamingException 表达式构建异常
      */
     public ArithmeticExpression(ExpressionOperator op, IExpression leftExpr, IExpression rightExpr)
         throws StreamingException
@@ -74,7 +70,7 @@ public class ArithmeticExpression extends OperatorBasedExpression
         {
             StreamingException exception =
                 new StreamingException(ErrorCode.SEMANTICANALYZE_ARITHMETIC_EXPRESSION_NUMBER_TYPE);
-            LOG.error(exception.getMessage(), exception);
+            LOG.error(ErrorCode.SEMANTICANALYZE_ARITHMETIC_EXPRESSION_NUMBER_TYPE.getFullMessage(), exception);
             throw exception;
         }
         
@@ -82,7 +78,7 @@ public class ArithmeticExpression extends OperatorBasedExpression
         {
             StreamingException exception =
                 new StreamingException(ErrorCode.SEMANTICANALYZE_ARITHMETIC_EXPRESSION_NUMBER_TYPE);
-            LOG.error(exception.getMessage(), exception);
+            LOG.error(ErrorCode.SEMANTICANALYZE_ARITHMETIC_EXPRESSION_NUMBER_TYPE.getFullMessage(), exception);
             throw exception;
         }
         
@@ -132,9 +128,6 @@ public class ArithmeticExpression extends OperatorBasedExpression
     
     /**
      * <算术运算>
-     * @param left  左值
-     * @param right 右值
-     * @return 算术运算结果
      */
     private Object compute(Object left, Object right)
     {
@@ -163,7 +156,6 @@ public class ArithmeticExpression extends OperatorBasedExpression
     
     /**
      * 对type进行赋值
-     * @param type 类型
      */
     public void setType(Class< ? > type)
     {
@@ -209,7 +201,6 @@ public class ArithmeticExpression extends OperatorBasedExpression
     /**
      * <根据表达式和运算，预测结果类型>
      * <功能详细描述>
-     * @return 预测类型
      */
     public Class< ? > validateType()
     {

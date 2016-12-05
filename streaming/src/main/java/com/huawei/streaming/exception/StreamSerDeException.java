@@ -36,7 +36,6 @@ public class StreamSerDeException extends Exception
     
     /**
      * <默认构造函数>
-     * @param message 异常消息
      */
     public StreamSerDeException(String message)
     {
@@ -45,7 +44,6 @@ public class StreamSerDeException extends Exception
     
     /**
      * <默认构造函数>
-     * @param cause 异常堆栈
      */
     public StreamSerDeException(Throwable cause)
     {
@@ -54,8 +52,6 @@ public class StreamSerDeException extends Exception
     
     /**
      * <默认构造函数>
-     * @param message 异常消息
-     * @param cause 异常堆栈
      */
     public StreamSerDeException(String message, Throwable cause)
     {

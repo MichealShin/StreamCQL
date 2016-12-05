@@ -96,8 +96,6 @@ public class AggregateSum extends AbstractAggregate
     
     /**
      * 新事件来时的处理
-     * @param value 新来的值
-     * @param filter 过滤条件
      */
     @Override
     public void enter(Object value, boolean filter)
@@ -107,8 +105,6 @@ public class AggregateSum extends AbstractAggregate
     
     /**
      * 旧事件来时的处理
-     * @param value 过期的值
-     * @param filter 过滤条件
      */
     @Override
     public void leave(Object value, boolean filter)
@@ -133,7 +129,6 @@ public class AggregateSum extends AbstractAggregate
     
     /**
      * 深度clone
-     * @return clone的新对象
      */
     public IAggregate cloneAggregate()
     {
@@ -149,7 +144,6 @@ public class AggregateSum extends AbstractAggregate
     
     /**
      * 对resultType进行赋值
-     * @param resultType 结果类型
      */
     protected void setResultType(Class< ? > resultType)
     {
@@ -158,7 +152,6 @@ public class AggregateSum extends AbstractAggregate
     
     /**
      * 对concreteSum进行赋值
-     * @param concreteSum 具体Sum类
      */
     protected void setConcreteSum(IAggregate concreteSum)
     {

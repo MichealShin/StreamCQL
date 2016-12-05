@@ -78,9 +78,6 @@ public class SplitOp extends FunctionOperator
     /**
      * <默认构造函数>
      *
-     * @param selector 每个流对应的select表达式
-     * @param filter 每个流对应的过滤表达式
-     * @param schema 每个流对应的输出schema
      */
     public SplitOp(Map<String, SelectSubProcess> selector, Map<String, IExpression> filter,
         Map<String, IEventType> schema)
@@ -131,7 +128,6 @@ public class SplitOp extends FunctionOperator
             firststream.addView(filter);
             firststream.start();
             firstStreamList.add(firststream);
-            //            outputList.add(outputStorm);
         }
     }
     

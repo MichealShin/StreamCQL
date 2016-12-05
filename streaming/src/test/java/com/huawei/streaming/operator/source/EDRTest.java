@@ -57,7 +57,6 @@ public class EDRTest
     
     /**
      * 执行TCP Server
-     * @throws StreamingException 流处理异常
      */
     public void execute()
         throws StreamingException
@@ -120,24 +119,23 @@ public class EDRTest
         public void exceptionCaught(ChannelHandlerContext ctx, ExceptionEvent e)
             throws Exception
         {
-            LOG.error("Client has an error,Error cause:" + e.getCause().getMessage());
             e.getChannel().close();
         }
         
         private String parseEDR(byte[] bt)
         {
-            int EDR_MESSAGE_MSISDN_OFFSET = 101;
-            int EDR_MESSAGE_MSISDN_LENGTH = 16;
-            int EDR_MESSAGE_QUOTA_NAME_OFFSET = 707;
-            int EDR_MESSAGE_QUOTA_NAME_LENGTH = 32;
-            int EDR_MESSAGE_QUOTA_CONSUMPTION_OFFSET = 740;
-            int EDR_MESSAGE_QUOTA_AVAILABLE_OFFSET = 744;
-            int EDR_MESSAGE_CASEID_OFFSET = 1163;
+            int edrMessageMsisdnOffset = 101;
+            int edrMessageMsisdnLength = 16;
+            int edrMessageQuotaNameOffset = 707;
+            int edrMessageQuotaNameLength = 32;
+            int edrMessageQuotaConsumptionOffset = 740;
+            int edrMessageQuotaAvailableOffset = 744;
+            int edrMessageCaseIdOffset = 1163;
             StringBuffer sb = new StringBuffer();
             int triggerType = (int)bt[0];
             sb.append(triggerType);
             sb.append(",");
-            for (int i = EDR_MESSAGE_MSISDN_OFFSET; i < EDR_MESSAGE_MSISDN_OFFSET + EDR_MESSAGE_MSISDN_LENGTH; ++i)
+            for (int i = edrMessageMsisdnOffset; i < edrMessageMsisdnOffset + edrMessageMsisdnLength; ++i)
             {
                 if (bt[i] == 0x0)
                 {
@@ -147,8 +145,8 @@ public class EDRTest
             }
             sb.append(",");
             
-            for (int i = EDR_MESSAGE_QUOTA_NAME_OFFSET; i < EDR_MESSAGE_QUOTA_NAME_OFFSET
-                + EDR_MESSAGE_QUOTA_NAME_LENGTH; ++i)
+            for (int i = edrMessageQuotaNameOffset; i < edrMessageQuotaNameOffset
+                + edrMessageQuotaNameLength; ++i)
             {
                 if (bt[i] == 0x0)
                 {
@@ -160,7 +158,7 @@ public class EDRTest
             byte[] bytes = new byte[4];
             for (int i = 0; i < 4; ++i)
             {
-                bytes[i] = bt[EDR_MESSAGE_QUOTA_CONSUMPTION_OFFSET + i];
+                bytes[i] = bt[edrMessageQuotaConsumptionOffset + i];
             }
             int consumption = bytesToInt(bytes);
             sb.append(consumption);
@@ -168,7 +166,7 @@ public class EDRTest
             
             for (int i = 0; i < 4; ++i)
             {
-                bytes[i] = bt[EDR_MESSAGE_QUOTA_AVAILABLE_OFFSET + i];
+                bytes[i] = bt[edrMessageQuotaAvailableOffset + i];
             }
             int AVAILABLE = bytesToInt(bytes);
             sb.append(AVAILABLE);
@@ -176,7 +174,7 @@ public class EDRTest
             
             for (int i = 0; i < 2; ++i)
             {
-                bytes[i] = bt[EDR_MESSAGE_CASEID_OFFSET + i];
+                bytes[i] = bt[edrMessageCaseIdOffset + i];
             }
             int caseid = bytesToShort(bytes);
             sb.append(caseid);

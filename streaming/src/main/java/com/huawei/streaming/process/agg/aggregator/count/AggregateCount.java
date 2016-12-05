@@ -59,7 +59,6 @@ public class AggregateCount extends AbstractAggregate
     
     /**
      * 新增数据计算
-     * @param value 计算数据
      */
     protected void enter(Object value)
     {
@@ -83,7 +82,6 @@ public class AggregateCount extends AbstractAggregate
     
     /**
      * 过期数据计算
-     * @param value 过期数据
      */
     protected void leave(Object value)
     {
@@ -116,7 +114,6 @@ public class AggregateCount extends AbstractAggregate
     
     /**
      * 深度clone
-     * @return clone的新对象
      */
     public IAggregate cloneAggregate()
     {

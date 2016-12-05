@@ -61,7 +61,7 @@ public class LogicExpression extends OperatorBasedExpression implements IBoolean
         {
             StreamingException exception =
                 new StreamingException(ErrorCode.SEMANTICANALYZE_LOGIC_EXPRESSION_BOOLEAN_TYPE);
-            LOG.error(exception.getMessage(), exception);
+            LOG.error(ErrorCode.SEMANTICANALYZE_LOGIC_EXPRESSION_BOOLEAN_TYPE.getFullMessage(), exception);
             throw exception;
         }
         

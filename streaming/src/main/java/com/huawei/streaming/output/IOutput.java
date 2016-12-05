@@ -30,7 +30,6 @@ public interface IOutput extends Serializable
     /**
      * 输出处理
      * <功能详细描述>
-     * @param object 输出对象
      */
     public void output(Object object);
 }

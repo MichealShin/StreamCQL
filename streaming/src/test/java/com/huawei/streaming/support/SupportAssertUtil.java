@@ -36,8 +36,6 @@ public class SupportAssertUtil
     /**
      * <数据是否一致>
      * <功能详细描述>
-     * @param expected 期望值
-     * @param actual 实际值
      */
     public static void assertEqualsExactOrder(Object[] expected, Object[] actual)
     {
@@ -86,8 +84,6 @@ public class SupportAssertUtil
     /**
      * 对比IEvent事件数组是否值相同
      * <功能详细描述>
-     * @param expected 期望IEvent事件数组
-     * @param actual 实际IEvent事件数组
      */
     public static void assertEuqalsArrayValue(IEvent[] expected, IEvent[] actual)
     {
@@ -102,21 +98,12 @@ public class SupportAssertUtil
             Assert.assertEquals(expectedValue.getStreamName(), value.getStreamName());
             
             assertIEventEqualsValue(expectedValue, value);
-            //            Object[] actvalue = value.getAllValues();
-            //            Object[] expvalue = expectedValue.getAllValues();
-            //            
-            //            for (int j = 0; j < actvalue.length; j++)
-            //            {
-            //                Assert.assertEquals(actvalue[i], expvalue[i]);
-            //            }
         }
     }
     
     /**
      * 对比IEvent事件是否值相同
      * <功能详细描述>
-     * @param expected 期望事件
-     * @param actual 实际事件
      */
     public static void assertIEventEqualsValue(IEvent expected, IEvent actual)
     {
@@ -136,8 +123,6 @@ public class SupportAssertUtil
     /**
      * 对比Multikey是否值相同
      * <功能详细描述>
-     * @param expected 期望Multikey
-     * @param actual 实际Multikey
      */
     public static void assertMultikeyEqualsValue(MultiKey expected, MultiKey actual)
     {
@@ -155,8 +140,6 @@ public class SupportAssertUtil
     /**
      * 对比Multikey数组是否值相同
      * <功能详细描述>
-     * @param expected 期望Multikey数组
-     * @param actual 实际Multikey数组
      */
     public static void assertEuqalsArrayValue(MultiKey[] expected, MultiKey[] actual)
     {

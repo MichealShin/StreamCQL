@@ -28,7 +28,7 @@ import java.util.Map;
  * substring(string|binary A, int start, int len)
  * 
  */
-@UDFAnnotation(name = "substr")
+@UDFAnnotation("substr")
 public class SubString extends UDF
 {
     /**
@@ -42,7 +42,6 @@ public class SubString extends UDF
     
     /**
      * <默认构造函数>
-     * @param config udf函数中需要的参数，这些参数要在cql中通过全局变量进行设置。
      */
     public SubString(Map<String, String> config)
     {
@@ -52,10 +51,6 @@ public class SubString extends UDF
     
     /**
      * substring(string|binary A, int start, int len)
-     * @param s 字符串
-     * @param pos 开始索引
-     * @param len sub长度
-     * @return 裁剪后的字符串
      */
     public String evaluate(String s, int pos, int len)
     {
@@ -76,14 +71,11 @@ public class SubString extends UDF
             return "";
         }
         
-        return new String(s.toString().substring(idx[0], idx[1]));
+        return s.substring(idx[0], idx[1]);
     }
     
     /**
      * substring(string|binary A, int start) 
-     * @param s 待裁剪字符串
-     * @param pos 起始位置
-     * @return 裁剪后的字符串
      */
     public String evaluate(String s, int pos)
     {

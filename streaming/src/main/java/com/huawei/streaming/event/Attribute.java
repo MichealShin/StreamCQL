@@ -67,7 +67,6 @@ public class Attribute implements Serializable
     /**
      * 获得属性数据类型
      * <功能详细描述>
-     * @return 属性数据类型
      */
     public Class< ? > getAttDataType()
     {
@@ -77,7 +76,6 @@ public class Attribute implements Serializable
     /**
      * 获得属性名称
      * <功能详细描述>
-     * @return 属性名称
      */
     public String getAttName()
     {
@@ -87,7 +85,6 @@ public class Attribute implements Serializable
     /**
      * 设置属性数据类型
      * <功能详细描述>
-     * @param attDataType 属性数据类型
      */
     protected void setAttDataType(Class< ? > attDataType)
     {

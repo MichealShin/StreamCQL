@@ -23,7 +23,6 @@ import java.util.TreeMap;
 
 /**
  * 为Max/Min功能提供的sort公用类
- * @param <K>
  */
 public class SortCountedSet<K> implements Serializable
 {
@@ -57,7 +56,6 @@ public class SortCountedSet<K> implements Serializable
     /**
      * Add a key to the set. Add with a reference count of one if the key didn't exist in the set.
      * Increase the reference count by one if the key already exists.
-     * @param key to add
      */
     public void add(K key)
     {
@@ -75,8 +73,6 @@ public class SortCountedSet<K> implements Serializable
     
     /**
      * Add a key to the set with the given number of references.
-     * @param key to add
-     * @param numReferences initial number of references
      */
     public void add(K key, int numReferences)
     {
@@ -92,7 +88,6 @@ public class SortCountedSet<K> implements Serializable
     /**
      * Remove a key from the set. Removes the key if the reference count is one.
      * Decreases the reference count by one if the reference count is more then one.
-     * @param key to add
      *
      */
     public void remove(K key)
@@ -119,7 +114,6 @@ public class SortCountedSet<K> implements Serializable
     
     /**
      * Returns the largest key value, or null if the collection is empty.
-     * @return largest key value, null if none
      */
     public K maxValue()
     {
@@ -132,7 +126,6 @@ public class SortCountedSet<K> implements Serializable
     
     /**
      * Returns the smallest key value, or null if the collection is empty.
-     * @return smallest key value, null if none
      */
     public K minValue()
     {
@@ -145,7 +138,6 @@ public class SortCountedSet<K> implements Serializable
     
     /**
      * Returns the number of data points.
-     * @return point count
      */
     public long getCountPoints()
     {

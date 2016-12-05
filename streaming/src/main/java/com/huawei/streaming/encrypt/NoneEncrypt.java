@@ -15,34 +15,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.huawei.streaming.udfs;
+package com.huawei.streaming.encrypt;
+
+import com.huawei.streaming.exception.StreamingException;
 
 /**
- * UDF函数中使用到的常量
+ * 不加解密实现
  *
  */
-public class UDFConstants
+public class NoneEncrypt implements StreamingEncrypt, StreamingDecrypt
 {
-    /**
-     * timestamp字符串格式
-     */
-    public static final String TIMESTAMP_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    private static final long serialVersionUID = 3223100455779626176L;
 
     /**
-     * date类型的字符串格式
+     * {@inheritDoc}
      */
-    public static final String DATE_FORMAT = "yyyy-MM-dd";
+    @Override
+    public String encrypt(String str) throws StreamingException
+    {
+        return str;
+    }
 
     /**
-     * Time类型字符串格式
+     * {@inheritDoc}
      */
-    public static final String TIME_FORMAT = "HH:mm:ss";
-
-    /**
-     * 带纳秒的时间戳字段
-     * 一般用于格式化输出
-     * 只能精确到毫秒
-     */
-    public static final String TIMESTAMP_MSTIME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
-    
+    @Override
+    public String decrypt(String key) throws StreamingException
+    {
+        return key;
+    }
 }

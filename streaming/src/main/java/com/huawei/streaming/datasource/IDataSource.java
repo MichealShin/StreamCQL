@@ -36,37 +36,29 @@ public interface IDataSource extends Serializable
      * 编译时接口
      * 各种配置属性的缺失，可以在该阶段快速发现
      *
-     * @param conf 配置属性
-     * @throws StreamingException 参数设置异常，缺少参数或参数类型错误
      */
     void setConfig(StreamingConfig conf) throws StreamingException;
 
     /**
      * 设置用户的查询schema
-     * @param eventType 查询结果对应的schema
      */
     void setSchema(TupleEventType eventType);
 
     /**
      * 运行时的初始化接口
      *
-     * @throws StreamingException 流处理异常
      */
     void initialize() throws StreamingException;
 
 
     /**
      * 执行数据源查询操作
-     * @param replacedQueryArguments 完成了参数替换的查询参数
-     * @return 查询结果，按照查询schema的顺序列出的计算结果
-     * @throws StreamingException 查询异常
      */
     List< Object[] > execute(List< Object > replacedQueryArguments) throws StreamingException;
 
     /**
      * 运行时的销毁接口
      *
-     * @throws StreamingException 流处理异常
      */
     void destroy() throws StreamingException;
 }

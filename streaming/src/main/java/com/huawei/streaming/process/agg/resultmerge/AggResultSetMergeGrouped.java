@@ -101,10 +101,6 @@ public class AggResultSetMergeGrouped extends ResultSetMergeImpl
     /**
      * 对数据进行分组聚合表达式处理
      * 
-     * @param newData 新数据
-     * @param oldData 旧数据
-     * @param newDataGroupByKeys 新数据分组键值
-     * @param oldDataGroupByKeys 旧数据分组键值
      */
     protected void processAggregateData(IEvent[] newData, IEvent[] oldData, Object[] newDataGroupByKeys,
         Object[] oldDataGroupByKeys)
@@ -130,8 +126,6 @@ public class AggResultSetMergeGrouped extends ResultSetMergeImpl
     
     /**
      * <产生分组健>
-     * @param events 事件集合
-     * @return 事件对应分组健集合
      */
     private Object[] generateGroupKeys(IEvent[] events)
     {
@@ -155,8 +149,6 @@ public class AggResultSetMergeGrouped extends ResultSetMergeImpl
     
     /**
      * <产生事件分组健>
-     * @param theEvent 事件
-     * @return 分组健
      */
     protected Object generateGroupKey(IEvent theEvent)
     {
@@ -175,9 +167,6 @@ public class AggResultSetMergeGrouped extends ResultSetMergeImpl
     
     /**
      * <属性表达式和聚合操作值获取>
-     * @param data 事件
-     * @param groupByKeys 分组健数组
-     * @return 结果集
      */
     private IEvent[] generateOutputEvents(IEvent[] data, Object[] groupByKeys)
     {
@@ -204,7 +193,6 @@ public class AggResultSetMergeGrouped extends ResultSetMergeImpl
     
     /**
      * <返回聚合操作>
-     * @return 聚合操作
      */
     protected IAggregationService getAggregator()
     {
@@ -213,7 +201,6 @@ public class AggResultSetMergeGrouped extends ResultSetMergeImpl
     
     /**
      * <返回选择操作>
-     * @return 选择操作
      */
     protected SelectSubProcess getSelector()
     {
@@ -247,10 +234,6 @@ public class AggResultSetMergeGrouped extends ResultSetMergeImpl
     /**
      * 对Join数据进行分组聚合表达式处理
      * 
-     * @param newEvents 新数据
-     * @param oldEvents 旧数据
-     * @param newDataGroupByKeys 新数据分组键值
-     * @param oldDataGroupByKeys 旧数据分组键值
      */
     protected void processJoinAggregateData(Set<MultiKey> newEvents, Set<MultiKey> oldEvents,
         Object[] newDataGroupByKeys, Object[] oldDataGroupByKeys)
@@ -303,8 +286,6 @@ public class AggResultSetMergeGrouped extends ResultSetMergeImpl
     /**
      * <根据JOIN后事件集合，得到分组键值>
      * <根据JOIN后事件集合，得到分组键值>
-     * @param eventsPerStream  JOIN后事件集合
-     * @return 分组键值
      */
     protected Object generateGroupKey(IEvent[] eventsPerStream)
     {

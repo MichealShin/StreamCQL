@@ -30,15 +30,11 @@ public interface IAggregationService extends Serializable
 {
     /**
      * <对新事件进行处理>
-     * @param theEvent 新事件
-     * @param optionalGroupKey 可能的分组键
      */
     public void processEnter(IEvent theEvent, Object optionalGroupKey);
     
     /**
      * <对旧事件进行处理>
-     * @param theEvent 旧事件
-     * @param optionalGroupKeyP 可能的分组键
      */
     public void processLeave(IEvent theEvent, Object optionalGroupKeyP);
     
@@ -49,48 +45,37 @@ public interface IAggregationService extends Serializable
     
     /**
      * <根据聚合操作在数组中的索引，得到聚合操作结果>
-     * @param column 聚合操作在聚合操作数组中的索引
-     * @return 聚合操作结果
      */
     public Object getValue(int column);
     
     /**
      * <根据聚合操作在数组中的索引，得到聚合操作结果类型>
-     * @param column 聚合操作在聚合操作数组中的索引
-     * @return 聚合操作结果类型
      */
     public Class< ? > getValueType(int column);
     
     /**
      * <根据分组键设置当前聚合操作对象，从而获取分组键对应的聚合操作结果。>
-     * @param groupKey 分组键
      */
     public void setCurrentAggregator(Object groupKey);
     
     /**
      * <是否具有groupby操作>
      * <功能详细描述>
-     * @return true: 具有groupby 操作， false ：不具有groupby操作
      */
     public boolean isGrouped();
     
     /**
      * <对Join新事件进行处理>
-     * @param theEvents 新事件
-     * @param optionalGroupKey 可能的分组键
      */
     public void processEnter(IEvent[] theEvents, Object optionalGroupKey);
     
     /**
      * <对Join旧事件进行处理>
-     * @param theEvents 旧事件
-     * @param optionalGroupKeyP 可能的分组键
      */
     public void processLeave(IEvent[] theEvents, Object optionalGroupKeyP);
 
     /**
      * <为每个分组创建对应聚合服务>
-     * @param groupKey 分组键
      */
     public void setAggregatorForKey(Object groupKey);
 }

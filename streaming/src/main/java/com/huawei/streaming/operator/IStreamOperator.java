@@ -33,22 +33,24 @@ public interface IStreamOperator extends Serializable
      * 编译时接口
      * 各种配置属性的缺失，可以在该阶段快速发现
      *
-     * @param conf 配置属性
-     * @throws StreamingException 参数设置异常，缺少参数或参数类型错误
      */
     void setConfig(StreamingConfig conf) throws StreamingException;
 
     /**
+     * 获取配置属性
+     * 编译时接口
+     */
+    StreamingConfig getConfig();
+
+    /**
      * 运行时的初始化接口
      *
-     * @throws StreamingException 流处理异常
      */
     void initialize() throws StreamingException;
 
     /**
      * 运行时的销毁接口
      *
-     * @throws StreamingException 流处理异常
      */
     void destroy() throws StreamingException;
 }

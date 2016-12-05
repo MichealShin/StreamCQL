@@ -81,7 +81,6 @@ public abstract class AggsComputeBased implements IAggregationService
     
     /**
      * <返回表达式>
-     * @return 表达式数组
      */
     protected List<Pair<IExpression, IExpression>> getExprs()
     {
@@ -90,7 +89,6 @@ public abstract class AggsComputeBased implements IAggregationService
     
     /**
      * <返回算子>
-     * @return 算子数组
      */
     protected IAggregate[] getAggregators()
     {

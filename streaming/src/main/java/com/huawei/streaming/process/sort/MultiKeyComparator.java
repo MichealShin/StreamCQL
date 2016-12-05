@@ -97,10 +97,6 @@ public class MultiKeyComparator implements Comparator<MultiKey>, Serializable
     
     /**
      * <比较两个对象>
-     * @param valueOne 比较对象1
-     * @param valueTwo 比较对象2
-     * @param sortEnum 排序方式
-     * @return 比较结果
      */
     @SuppressWarnings("unchecked")
     protected static int compareValues(Object valueOne, Object valueTwo, SortEnum sortEnum)

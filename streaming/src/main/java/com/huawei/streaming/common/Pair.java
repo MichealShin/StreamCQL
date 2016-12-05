@@ -23,8 +23,6 @@ import java.io.Serializable;
 /**
  * <Pari>
  * 
- * @param <K> 类型
- * @param <T> 类型
  */
 public class Pair<K, T> implements Serializable
 {
@@ -51,7 +49,6 @@ public class Pair<K, T> implements Serializable
     
     /**
      * <返回左值>
-     * @return 左值
      */
     public K getFirst()
     {
@@ -60,7 +57,6 @@ public class Pair<K, T> implements Serializable
     
     /**
      * <设置左值>
-     * @param first 左值
      */
     public void setFirst(K first)
     {
@@ -69,7 +65,6 @@ public class Pair<K, T> implements Serializable
     
     /**
      * <返回右值>
-     * @return 右值
      */
     public T getSecond()
     {
@@ -78,7 +73,6 @@ public class Pair<K, T> implements Serializable
     
     /**
      * <设置右值>
-     * @param second 右值
      */
     public void setSecond(T second)
     {

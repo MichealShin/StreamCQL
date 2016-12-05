@@ -75,9 +75,6 @@ public class MethodExpression implements IExpression
     
     /**
      * 构造函数
-     * @param declareClass 类
-     * @param methodName 方法名
-     * @param expr 方法的参数，为表达式
      */
     public MethodExpression(Class< ? > declareClass, String methodName, IExpression[] expr)
     {
@@ -88,9 +85,6 @@ public class MethodExpression implements IExpression
     
     /**
      * 构造函数
-     * @param object 对象
-     * @param methodName 方法名
-     * @param expr 方法的参数，为表达式
      */
     public MethodExpression(Object object, String methodName, IExpression[] expr)
     {
@@ -102,8 +96,6 @@ public class MethodExpression implements IExpression
     
     /**
      * 调用Java方法求值
-     * @param theEvent 新来的事件
-     * @return 调用Java方法获得的结果
      */
     @Override
     public Object evaluate(IEvent theEvent)
@@ -143,8 +135,6 @@ public class MethodExpression implements IExpression
     
     /**
      * 根据参数获取函数
-     * @param exprs     函数的参数列表
-     * @return  void
      */
     private void resolveMethod(IExpression[] exprs)
     {
@@ -164,11 +154,11 @@ public class MethodExpression implements IExpression
         if (null == method)
         {
             UDFAnnotation annotation = declareClass.getAnnotation(UDFAnnotation.class);
-            String funcitonName = annotation == null ? declareClass.getSimpleName() : annotation.name();
+            String funcitonName = annotation == null ? declareClass.getSimpleName() : annotation.value();
             //运行时调用，和resolveType方法不同
             StreamingRuntimeException exception =
              new StreamingRuntimeException(ErrorCode.FUNCTION_UNSUPPORTED_PARAMETERS, funcitonName);
-            LOG.error(exception.getMessage());
+            LOG.error(ErrorCode.FUNCTION_UNSUPPORTED_PARAMETERS.getFullMessage(funcitonName));
             throw exception;
         }
         FastClass declaringClass =
@@ -190,10 +180,10 @@ public class MethodExpression implements IExpression
         if (null == method)
         {
             UDFAnnotation annotation = declareClass.getAnnotation(UDFAnnotation.class);
-            String funcitonName = annotation == null ? declareClass.getSimpleName() : annotation.name();
+            String functionName = annotation == null ? declareClass.getSimpleName() : annotation.value();
             StreamingRuntimeException exception =
-             new StreamingRuntimeException(ErrorCode.FUNCTION_UNSUPPORTED_PARAMETERS, funcitonName);
-            LOG.error(exception.getMessage());
+             new StreamingRuntimeException(ErrorCode.FUNCTION_UNSUPPORTED_PARAMETERS, functionName);
+            LOG.error(ErrorCode.FUNCTION_UNSUPPORTED_PARAMETERS.getFullMessage(functionName));
             throw exception;
         }
         FastClass declaringClass =
@@ -234,8 +224,6 @@ public class MethodExpression implements IExpression
     
     /**
      * 根据事件列表计算函数值
-     * @param eventsPerStream 事件列表
-     * @return Object 计算结果
      */
     public Object evaluate(IEvent[] eventsPerStream)
     {

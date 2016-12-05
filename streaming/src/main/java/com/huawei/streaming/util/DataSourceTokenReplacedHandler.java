@@ -42,7 +42,6 @@ public class DataSourceTokenReplacedHandler implements TokenHandler, Serializabl
     /**
      * <默认构造函数>
      *
-     * @param expValues 替换列表
      */
     public DataSourceTokenReplacedHandler(Map<String, Object> expValues)
     {
@@ -68,7 +67,7 @@ public class DataSourceTokenReplacedHandler implements TokenHandler, Serializabl
         
         StreamingException exception =
             new StreamingException(ErrorCode.SEMANTICANALYZE_DATASOURDE_NO_ARGUMENT, content);
-        LOG.error(exception.getMessage(), exception);
+        LOG.error(ErrorCode.SEMANTICANALYZE_DATASOURDE_NO_ARGUMENT.getFullMessage(content), exception);
         throw exception;
     }
 }

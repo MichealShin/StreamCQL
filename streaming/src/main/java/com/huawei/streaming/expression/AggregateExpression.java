@@ -80,7 +80,6 @@ public class AggregateExpression implements IExpression
     
     /**
      * <是否去重>
-     * @return 是否去重
      */
     public boolean isDistinct()
     {

@@ -39,10 +39,6 @@ public class ApplicationFactory
     /**
      * 创建应用程序
      *
-     * @param conf 配置属性， 待创建的应用程序的类名称就保存在这里
-     * @param name 应用程序名称
-     * @return 创建好的应用程序
-     * @throws StreamingException 创建异常
      */
     public static Application createApplication(StreamingConfig conf, String name)
         throws StreamingException
@@ -64,7 +60,7 @@ public class ApplicationFactory
             }
             
             StreamingException exception = new StreamingException(e, ErrorCode.UNKNOWN_SERVER_COMMON_ERROR);
-            LOG.error(exception.getMessage(), e);
+            LOG.error(ErrorCode.UNKNOWN_SERVER_COMMON_ERROR.getFullMessage(), e);
             throw exception;
         }
     }

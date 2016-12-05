@@ -56,9 +56,6 @@ public class ExprIsNullExpression implements IBooleanExpression
     /**
      * <默认构造函数>
      *
-     * @param expr 待比较表达式
-     * @param isNull 是否等于Null
-     * @throws StreamingException 表达式构建异常
      */
     public ExprIsNullExpression(IExpression expr, Boolean isNull)
         throws StreamingException

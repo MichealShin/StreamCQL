@@ -124,8 +124,6 @@ public class TimeSlideEventList implements Iterable, Serializable
     
     /**
      * 加入事件
-     * @param timestamp 时间
-     * @param theEvent 事件
      */
     public void add(final long timestamp, final IEvent theEvent)
     {
@@ -188,7 +186,6 @@ public class TimeSlideEventList implements Iterable, Serializable
     
     /**
      * 删除事件
-     * @param theEvent 待删除事件
      */
     @SuppressWarnings("unchecked")
     public final void remove(final IEvent theEvent)
@@ -226,8 +223,6 @@ public class TimeSlideEventList implements Iterable, Serializable
     
     /**
      * 根据时间获取过期事件
-     * @param currentTime 时间
-     * @return 过期事件
      */
     @SuppressWarnings("unchecked")
     public IEvent[] getOldData(final long currentTime)

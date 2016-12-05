@@ -122,7 +122,6 @@ public class AggsComputeGrouped extends AggsComputeBased
     
     /**
      * <完成聚合操作数组对象的深层次拷贝>
-     * @return 聚合操作数组拷贝
      */
     private IAggregate[] cloneaggregators()
     {

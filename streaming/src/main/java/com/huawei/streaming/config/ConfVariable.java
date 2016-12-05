@@ -74,7 +74,6 @@ public class ConfVariable
      * 构造函数
      * 获取配置属性字符串并解析类型和内部名称
      *
-     * @param value 配置属性字符串
      */
     public ConfVariable(final String value)
     {
@@ -92,16 +91,6 @@ public class ConfVariable
             preStr = newValue.substring(0, startIndex);
             postStr = newValue.substring(endIndex + 1);
             
-            if (preStr == null)
-            {
-                preStr = "";
-            }
-            
-            if (postStr == null)
-            {
-                postStr = "";
-            }
-            
             String variableString = newValue.substring(startIndex, endIndex + 1);
             parseVariableConf(variableString);
         }
@@ -118,11 +107,6 @@ public class ConfVariable
      * 设置配置属性的值
      * 主要供set方法使用
      *
-     * @param confVariable 变量名称
-     * @param conf 系统配置属性
-     * @param userConf 用户 自定义配置属性
-     * @return 配置属性的值
-     * @throws StreamingException 解析异常
      */
     public static String getValue(ConfVariable confVariable, Map<String, Object> conf, Map<String, String> userConf)
         throws StreamingException
@@ -147,23 +131,18 @@ public class ConfVariable
      * 供Get方法使用
      * 通过get命令，就可以直接获取系统变量，环境变量
      *
-     * @param confVariable 变量名称
-     * @param conf 系统配置属性
-     * @param userConf 用户 自定义配置属性
-     * @return 配置属性的值
-     * @throws StreamingException 解析异常
      */
     public static String getKey(ConfVariable confVariable, Map<String, Object> conf, Map<String, String> userConf)
         throws StreamingException
     {
         String value = null;
-        switch (confVariable.type)
+        if (ConfValueType.SYSTEM == confVariable.type)
         {
-            case SYSTEM:
-                value = System.getProperty(confVariable.getName());
-                break;
-            default:
-                value = getConfValue(confVariable.getName(), conf, userConf);
+            value = System.getProperty(confVariable.getName());
+        }
+        else
+        {
+            value = getConfValue(confVariable.getName(), conf, userConf);
         }
         
         return confVariable.getPreStr() + value + confVariable.getPostStr();
@@ -183,7 +162,7 @@ public class ConfVariable
         }
         
         StreamingException exception = new StreamingException(ErrorCode.CONFIG_NOT_FOUND, name);
-        LOG.error(exception.getMessage(), exception);
+        LOG.error(ErrorCode.CONFIG_NOT_FOUND.getFullMessage(name), exception);
         throw exception;
     }
     

@@ -18,8 +18,13 @@
 
 package com.huawei.streaming.udfs;
 
+import java.util.Map;
+
+import com.google.common.collect.Maps;
+import com.huawei.streaming.config.StreamingConfig;
 import static org.junit.Assert.assertTrue;
 
+import com.huawei.streaming.exception.StreamingException;
 import org.junit.Test;
 
 /**
@@ -34,11 +39,20 @@ public class MonthTest
      */
     @Test
     public void testEvaluate()
+        throws StreamingException
     {
-        Month udf = new Month(null);
-        assertTrue(udf.evaluate("2013-10-17 09:58:00") == TestUDFCommon.I_10);
+        Map<String, String> config = Maps.newHashMap();
+        StreamingConfig conf = new StreamingConfig();
+        for(Map.Entry<String, Object> et : conf.entrySet())
+        {
+            config.put(et.getKey(), et.getValue().toString());
+        }
+        Month udf = new Month(config);
         assertTrue(udf.evaluate("2013-00-17") == null);
-        
+        udf = new Month(config);
+        assertTrue(udf.evaluate("2013-10-17 09:58:00") == TestUDFCommon.I_10);
+        assertTrue(udf.evaluate("2013-02-28 09:00:01.0 +0800") == TestUDFCommon.I_2);
+        assertTrue(udf.evaluate("2013-02-28 09:00:01.0 -0800") == TestUDFCommon.I_3);
     }
     
 }

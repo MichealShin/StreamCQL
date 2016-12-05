@@ -26,7 +26,6 @@ public interface IAggregateClone
 {
     /**
      * <深度克隆对象返回新对象>
-     * @return Aggregate新对象
      */
     public IAggregate cloneAggregate();
 }

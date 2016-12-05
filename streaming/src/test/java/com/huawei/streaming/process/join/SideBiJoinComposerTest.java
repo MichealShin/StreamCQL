@@ -69,7 +69,6 @@ public class SideBiJoinComposerTest
     
     /**
      * <setup>
-     * @throws Exception 异常
      */
     @Before
     public void setUp()
@@ -100,7 +99,6 @@ public class SideBiJoinComposerTest
     
     /**
      * <cleanup>
-     * @throws Exception 异常
      */
     @After
     public void tearDown()

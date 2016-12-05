@@ -29,14 +29,11 @@ public interface Configurable
 {
     /**
      * 设置配置属性
-     * @param conf 配置属性
-     * @throws StreamingException 参数设置异常，缺少参数或参数类型错误
      */
     void setConfig(StreamingConfig conf) throws StreamingException;
     
     /**
      * 获取配置属性
-     * @return 配置属性
      */
     StreamingConfig getConfig();
 }

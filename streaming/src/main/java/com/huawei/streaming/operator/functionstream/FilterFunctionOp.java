@@ -56,9 +56,6 @@ public class FilterFunctionOp extends FunctionOperator
     
     /**
      * <默认构造函数>
-     * @param exp 表达式
-     * @param selector select处理类
-     * @param tupleEventType event类型
      */
     public FilterFunctionOp(IExpression exp, SelectSubProcess selector, IEventType tupleEventType)
     {

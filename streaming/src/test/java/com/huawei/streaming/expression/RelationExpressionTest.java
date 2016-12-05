@@ -40,7 +40,6 @@ public class RelationExpressionTest
 {
     /**
      * 测试用例一：2>3
-     * @throws IllegalDataTypeException 异常
      */
     @Test
     public void testEvaluate1()
@@ -61,7 +60,6 @@ public class RelationExpressionTest
     
     /**
      * 测试用例二：2>=3
-     * @throws IllegalDataTypeException 异常
      */
     @Test
     public void testEvaluate2()
@@ -82,7 +80,6 @@ public class RelationExpressionTest
     
     /**
      * 测试用例三：2<3
-     * @throws IllegalDataTypeException 异常
      */
     @Test
     public void testEvaluate3()
@@ -103,7 +100,6 @@ public class RelationExpressionTest
     
     /**
      * 测试用例四：2<=3
-     * @throws IllegalDataTypeException 异常
      */
     @Test
     public void testEvaluate4()
@@ -124,7 +120,6 @@ public class RelationExpressionTest
     
     /**
      * 测试用例五：2==3
-     * @throws IllegalDataTypeException 异常
      */
     @Test
     public void testEvaluate5()
@@ -145,7 +140,6 @@ public class RelationExpressionTest
     
     /**
      * 测试用例五：2!=3
-     * @throws IllegalDataTypeException 异常
      */
     @Test
     public void testEvaluate6()
@@ -166,7 +160,6 @@ public class RelationExpressionTest
     
     /**
      * 测试用例五：1==1.0
-     * @throws IllegalDataTypeException 异常
      */
     @Test
     public void testEvaluate7()
@@ -186,7 +179,6 @@ public class RelationExpressionTest
     
     /**
      * 测试用例一：true = true  / true = false  / false = false
-     * @throws IllegalDataTypeException 异常
      */
     @Test
     public void testEvaluate8()
@@ -221,7 +213,6 @@ public class RelationExpressionTest
     
     /**
      * 测试用例一：true != true  / true != false  / false != false
-     * @throws IllegalDataTypeException 异常
      */
     @Test
     public void testEvaluate9()

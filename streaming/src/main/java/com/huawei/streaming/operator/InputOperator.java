@@ -21,6 +21,7 @@ package com.huawei.streaming.operator;
 import java.util.List;
 import java.util.Map;
 
+import com.huawei.streaming.util.StreamingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,13 +62,13 @@ public final class InputOperator extends AbsOperator
     public void setConfig(StreamingConfig conf) throws StreamingException
     {
         super.setConfig(conf);
-        this.outputSchema = (IEventType)(conf.get(StreamingConfig.STREAMING_INNER_OUTPUT_SCHEMA));
+        this.outputSchema = StreamingUtils.deSerializeSchema((String)(conf.get(StreamingConfig.STREAMING_INNER_OUTPUT_SCHEMA)));
         this.outputStreamName = (String)conf.get(StreamingConfig.STREAMING_INNER_OUTPUT_STREAM_NAME);
         if (conf.containsKey(StreamingConfig.STREAMING_INNER_OUTPUT_SCHEMA))
         {
             if (null != serde)
             {
-                serde.setSchema((TupleEventType)conf.get(StreamingConfig.STREAMING_INNER_OUTPUT_SCHEMA));
+                serde.setSchema((TupleEventType) outputSchema);
             }
         }
     }
@@ -79,10 +80,12 @@ public final class InputOperator extends AbsOperator
     public final void initialize()
      throws StreamingException
     {
+        LOG.info("Start to initialize input operator.");
         initializeSerDe();
         inputStream.setEmitter(getEmitter());
         inputStream.setSerDe(getSerDe());
         inputStream.initialize();
+        LOG.info("Finished to initialize input operator.");
     }
 
     /**
@@ -114,7 +117,6 @@ public final class InputOperator extends AbsOperator
 
     /**
      * 设置反序列化类
-     * @param streamSerDe 反序列化类
      */
     public void setSerDe(StreamSerDe streamSerDe)
     {
@@ -123,7 +125,6 @@ public final class InputOperator extends AbsOperator
 
     /**
      * 获取反序列化类
-     * @return 反序列化类
      */
     public StreamSerDe getSerDe()
     {
@@ -132,11 +133,18 @@ public final class InputOperator extends AbsOperator
 
     /**
      * 设置输入流算子
-     * @param stream 输入流算子
      */
     public void setInputStreamOperator(IInputStreamOperator stream)
     {
         this.inputStream = stream;
+    }
+
+    /**
+     * 获取输入流算子
+     */
+    public IInputStreamOperator getInputStreamOperator()
+    {
+        return inputStream;
     }
 
     /**
@@ -210,7 +218,7 @@ public final class InputOperator extends AbsOperator
         if(getSerDe() == null)
         {
             StreamingException exception = new StreamingException(ErrorCode.SEMANTICANALYZE_UNKNOWN_SERDE);
-            LOG.error(exception.getMessage());
+            LOG.error(ErrorCode.SEMANTICANALYZE_UNKNOWN_SERDE.getFullMessage());
             throw exception;
         }
 

@@ -64,10 +64,6 @@ public class Union implements Serializable
     /**
      * <默认构造函数>
      *
-     * @param name 输出流名称
-     * @param schema 输出流事件类型
-     * @param out Map<输入流名称，所选择的属性表达式>
-     * @throws StreamingException 表达式构建异常
      */
     public Union(String name, IEventType schema, Map<String, IExpression[]> out)
         throws StreamingException
@@ -102,8 +98,6 @@ public class Union implements Serializable
      * 根据输入流名称及定义的选择字段，输出结果事件
      * <功能详细描述>
      *
-     * @param event 输入事件
-     * @return 输出事件
      */
     public IEvent unionEvent(IEvent event)
     {

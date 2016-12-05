@@ -71,7 +71,6 @@ public class SplitProcessor extends ProcessorImpl
         
         /**
          * 返回 condition
-         * @return 返回 condition
          */
         public IBooleanExpression getCondition()
         {
@@ -80,7 +79,6 @@ public class SplitProcessor extends ProcessorImpl
         
         /**
          * 返回 selector
-         * @return 返回 selector
          */
         public SelectSubProcess getSelector()
         {
@@ -136,9 +134,6 @@ public class SplitProcessor extends ProcessorImpl
     
     /**
      * <得到选择结果>
-     * @param select 选择操作
-     * @param theData 事件
-     * @return 结果
      */
     private IEvent[] getSelectEvents(IBooleanExpression condition, SelectSubProcess select, IEvent[] theData)
     {

@@ -41,7 +41,6 @@ public class LimitProcess implements Serializable
     /**
      * 
      * <默认构造函数>
-     * @param limitNum 需要的条数
      */
     public LimitProcess(int limitNum)
     {
@@ -55,8 +54,6 @@ public class LimitProcess implements Serializable
     
     /**
      * 执行limit操作
-     * @param theEvents     事件列表
-     * @return  TupleEvent[] 指定条数的事件列表
      */
     public IEvent[] process(IEvent[] theEvents)
     {

@@ -431,7 +431,14 @@ public enum ErrorCode
     /**
      * 用户自定义算子中的输出schema校验失败
      */
-    SEMANTICANALYZE_INVALID_OUTPUTSCHEMA("04056", "Invalid output schema in user defined operator."),    
+    SEMANTICANALYZE_INVALID_OUTPUTSCHEMA("04056", "Invalid output schema in user defined operator."),
+
+    /**
+     * 算子不匹配
+     * 通常用于算子名称正确，但是却被使用在了错误的地方
+     * 比如output位置使用了input算子
+     */
+    SEMANTICANALYZE_UNMATCH_OPERATOR("04057", "The ''{0}'' operator type does not match."),
 
     // CQL-05 拓扑异常，包含Streaming算子解析异常
     /**
@@ -463,6 +470,16 @@ public enum ErrorCode
      * 执行计划文件内容错误
      */
     TOP_PHYSICPLAN_ERROR_CONTEXT("05005", "Unrecognized physic plan file context in path ''{0}''."),
+
+    /**
+     * 算子初始化失败
+     */
+    TOP_ERROR_INIT_OPERATOR("05006", "Failed to initialize ''{0}'' operator."),
+
+    /**
+     * 无法识别的时区
+     */
+    TOP_ERROR_TIME_ZONE("05007", "Unrecognized time zone ''{0}''."),
 
     // CQL-06 函数解析异常
     /**
@@ -593,7 +610,7 @@ public enum ErrorCode
     /**
      * 消息格式化工具
      */
-    private MessageFormat format;
+    private MessageFormat formater;
     
     private ErrorCode(String code, String msg)
     {
@@ -605,18 +622,16 @@ public enum ErrorCode
         this.errorCode = CODE_PREFIX + code;
         this.message = msg;
         this.sqlState = state;
-        this.format = new MessageFormat(message);
+        this.formater = new MessageFormat(message);
     }
     
     /**
      * 获取全部异常信息
      *
-     * @param reasons 异常原因
-     * @return 异常信息
      */
     public String getFullMessage(String... reasons)
     {
-        format(reasons);
+        formatMessage(reasons);
         
         StringBuilder sb = new StringBuilder();
         sb.append(ERROR_HEAD);
@@ -655,8 +670,8 @@ public enum ErrorCode
         return formattedMessage;
     }
     
-    private void format(String... reasons)
+    private synchronized void formatMessage(String... reasons)
     {
-        this.formattedMessage = format.format(reasons);
+        this.formattedMessage = formater.format(reasons);
     }
 }

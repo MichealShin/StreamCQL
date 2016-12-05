@@ -26,7 +26,6 @@ public interface ITimerCallBack
 {
     /**
      *  <定时器回调执行方法>
-     * @param currentTime 系统当前时间
      */
     void timerCallBack(long currentTime);
 }

@@ -128,7 +128,6 @@ public class KeepAllWindow extends ViewImpl implements IWindow, IRenew
     
     /**
      * 返回窗口事件缓存集
-     * @return 窗口事件缓存集
      */
     public IDataCollection getDataCollection()
     {

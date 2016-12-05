@@ -108,7 +108,6 @@ public class JoinProcessorTest
     
     /**
      * <setup>
-     * @throws Exception 异常
      */
     @Before
     public void setUp()
@@ -530,7 +529,6 @@ public class JoinProcessorTest
     /**
      * testSelfJoin
      * <功能详细描述>
-     * @throws StreamingException 异常
      */
     @Test
     public void testSelfJoin()

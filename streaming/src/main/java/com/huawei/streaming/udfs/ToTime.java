@@ -18,45 +18,46 @@
 
 package com.huawei.streaming.udfs;
 
-import java.sql.Time;
-import java.text.SimpleDateFormat;
-import java.util.Map;
-
+import com.google.common.base.Strings;
+import com.huawei.streaming.config.StreamingConfig;
+import com.huawei.streaming.exception.StreamingException;
+import com.huawei.streaming.util.datatype.TimeParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Strings;
+import java.sql.Time;
+import java.util.Map;
 
 /**
  * 数据类型转换函数
- * 
+ *
  */
-@UDFAnnotation(name = "totime")
+@UDFAnnotation("totime")
 public class ToTime extends UDF
 {
     private static final long serialVersionUID = -4516472038115224500L;
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(ToTime.class);
-    
-    private final SimpleDateFormat formatter = new SimpleDateFormat(UDFConstants.TIME_FORMAT);
-    
+
+    private final TimeParser timeParser;
+
     /**
      * <默认构造函数>
-     * @param config 参数
      */
     public ToTime(Map<String, String> config)
+        throws StreamingException
     {
         super(config);
-        /*
-         * 设置时间严格匹配
-         */
-        formatter.setLenient(false);
+        StreamingConfig conf = new StreamingConfig();
+        for (Map.Entry<String, String> et : config.entrySet())
+        {
+            conf.put(et.getKey(), et.getValue());
+        }
+        timeParser = new TimeParser(conf);
     }
-    
+
     /**
      * 类型转换实现
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Time evaluate(String s)
     {
@@ -64,13 +65,12 @@ public class ToTime extends UDF
         {
             return null;
         }
-        
+
         try
         {
-            formatter.parse(s);
-            return Time.valueOf(s);
+            return (Time)timeParser.createValue(s);
         }
-        catch (Exception e)
+        catch (StreamingException e)
         {
             LOG.warn(EVALUATE_IGNORE_MESSAGE);
             return null;

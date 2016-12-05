@@ -29,7 +29,6 @@ public interface IInputStreamOperator extends IStreamOperator
     /**
      * 运行时的执行接口
      *
-     * @throws StreamingException 流处理异常
      */
     void execute() throws StreamingException;
 
@@ -37,13 +36,16 @@ public interface IInputStreamOperator extends IStreamOperator
      * 设置数据发送对象
      * 运行时调用
      *
-     * @param emitter 数据发送对象
      */
     void setEmitter(IEmitter emitter);
 
     /**
      * 设置序列化和反序列化类
-     * @param serde
      */
     void setSerDe(StreamSerDe serde);
+
+    /**
+     * 获取序列化和反序列化类
+     */
+    StreamSerDe getSerDe();
 }

@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
  * 数据类型转换函数
  *
  */
-@UDFAnnotation(name = "tofloat")
+@UDFAnnotation("tofloat")
 public class ToFloat extends UDF
 {
     private static final long serialVersionUID = -4516472038115224500L;
@@ -41,7 +41,6 @@ public class ToFloat extends UDF
     /**
      * <默认构造函数>
      *
-     * @param config 参数
      */
     public ToFloat(Map< String, String > config)
     {
@@ -51,8 +50,6 @@ public class ToFloat extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Float evaluate(String s)
     {
@@ -65,7 +62,7 @@ public class ToFloat extends UDF
         {
             return Float.valueOf(s);
         }
-        catch (Exception e)
+        catch (NumberFormatException e)
         {
             LOG.warn(EVALUATE_IGNORE_MESSAGE);
             return null;
@@ -75,8 +72,6 @@ public class ToFloat extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Float evaluate(Long s)
     {
@@ -84,33 +79,27 @@ public class ToFloat extends UDF
         {
             return null;
         }
-        try
-        {
-            return s.floatValue();
-        }
-        catch (Exception e)
-        {
-            LOG.warn(EVALUATE_IGNORE_MESSAGE);
-            return null;
-        }
+
+        return s.floatValue();
     }
 
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Float evaluate(Integer s)
     {
-        return s == null ? 0.0f : evaluate(s.toString());
+        if (s == null)
+        {
+            return null;
+        }
+
+        return s.floatValue();
     }
 
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Float evaluate(Timestamp s)
     {
@@ -125,8 +114,6 @@ public class ToFloat extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Float evaluate(BigDecimal s)
     {
@@ -140,8 +127,6 @@ public class ToFloat extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Float evaluate(Date s)
     {
@@ -156,8 +141,6 @@ public class ToFloat extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Float evaluate(Time s)
     {
@@ -171,8 +154,6 @@ public class ToFloat extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Float evaluate(Float s)
     {
@@ -182,8 +163,6 @@ public class ToFloat extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Float evaluate(Double s)
     {

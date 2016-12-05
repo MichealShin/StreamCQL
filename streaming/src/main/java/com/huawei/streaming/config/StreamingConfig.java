@@ -106,6 +106,14 @@ public class StreamingConfig extends HashMap<String, Object> implements Serializ
      */
     public static final String STREAMING_TEMPLATE_DIRECTORY = "streaming.template.directory";
 
+    /**
+     * CQL 默认时区
+     * 默认为客户端当前时区
+     * 可以通过设置修改时区
+     * 时区格式举例：GMT+08:00, Asia/Shanghai, America/Los_Angeles
+     */
+    public static final String STREAMING_OPERATOR_TIMEZONE = "streaming.operator.timezone";
+
     /*-----------------------Stream算子基本配置信息end---------------------------*/
     
     /*-----------------------storm相关配置属性 start---------------------------*/
@@ -196,12 +204,7 @@ public class StreamingConfig extends HashMap<String, Object> implements Serializ
      * zookeeper principal
      */
     public static final String STREAMING_SECURITY_ZOOKEEPER_PRINCIPAL = "streaming.security.zookeeper.principal";
-    
-    /**
-     * storm principal
-     */
-    public static final String STREAMING_SECURITY_STORM_PRINCIPAL = "streaming.security.storm.principal";
-    
+
     /**
      * 用户 principal
      * 人机账户登录的时候可以为空
@@ -330,54 +333,54 @@ public class StreamingConfig extends HashMap<String, Object> implements Serializ
     public static final String OPERATOR_TCPCLIENT_PACKAGELENGTH = "operator.tcpclient.packagelength";
     /*-----------------------TCP相关配置信息end---------------------------*/
     
+
     /*-------------------------kafka相关配置信息-----------------------*/
-    
+
     /**
      * kafka的zookeeper连接的配置参数
      */
     public static final String OPERATOR_KAFKA_ZOOKEEPERS = "operator.kafka.zookeepers";
-    
+
     /**
      * kafka客户端的id配置参数
      */
     public static final String OPERATOR_KAFKA_GROUPID = "operator.kafka.groupid";
-    
+
     /**
      * 序列化类配置参数
      */
     public static final String OPERATOR_KAFKA_MESSAGESERIALIZERCLASS = "operator.kafka.messageserializerclass";
-    
+
     /**
      * zookeeper的session有效时间
      * 单位：毫秒
      */
     public static final String OPERATOR_KAFKA_ZKSESSIONTIMEOUT = "operator.kafka.zksessiontimeout";
-    
+
     /**
      * kafka的zk.synctime.ms参数
      * 单位：毫秒
      */
     public static final String OPERATOR_KAFKA_ZKSYNCTIME = "operator.kafka.zksynctime";
-    
+
     /**
      * kafka的metadata.broker.list参数
      */
     public static final String OPERATOR_KAFKA_BROKERS = "operator.kafka.brokers";
-    
+
     /**
      * kafka的topic参数
      */
     public static final String OPERATOR_KAFKA_TOPIC = "operator.kafka.topic";
-    
-    
+
+
     /**
      * 从头开始读取kafka数据
      */
     public static final String OPERATOR_KAFKA_READ_FROMBEGINNING = "operator.kafka.read.frombeginning";
 
-    
+
     /*-------------------------kafka相关配置信息end-----------------------*/
-    
     /*------------------------HeadStream相关配置信息start---------------*/
     
     /**
@@ -477,51 +480,6 @@ public class StreamingConfig extends HashMap<String, Object> implements Serializ
     public static final String OPERATOR_UNION_INPUTNAMES_AND_SCHEMA = "operator.union.inputnames.and.schema";
     
     /*------------------------Union相关配置属性 end--------------------*/
-    
-    /*------------------------MQ相关配置信息_Start-------------------------------*/
-    
-    /**
-     * MQ 地址和端口，可以配置多个，用逗号分隔，
-     * 比如：
-     * 192.168.0.15:22136,192.168.0.16:22136
-     */
-    public static final String OPERATOR_MQ_SERVICES = "operator.mq.services";
-    
-    /**
-     * 事件id列表，格式为数字，如果有多个，用逗号隔开
-     * producer只能设置一个，consumer可以设置多个
-     */
-    public static final String OPERATOR_MQ_EVENTIDS = "operator.mq.eventids";
-    
-    /**
-     * 客户端身份标识，多客户端访问同一队列时候，queueName必须一样
-     * Streaming内部设置了默认值，默认支持多线程访问同一队列
-     */
-    public static final String OPERATOR_MQ_QUEUENAME = "operator.mq.queuename";
-    
-    /**
-     * queue type(High level : 0 ,Middle level : 1)
-     * 队列优先级类型， 高优先级0，一般1
-     */
-    public static final String OPERATOR_MQ_QUEUETYPE = "operator.mq.queuetype";
-    
-    /**
-     * life time for message,boundless if 0
-     * 消息的声明周期，0表示永远存在
-     */
-    public static final String OPERATOR_MQ_LIFETIME = "operator.mq.lifetime";
-    
-    /**
-     * MQ消息获取之后的超时时间，如果超过这个时间还没删除，该消息就会重新被获取，单位：毫秒
-     */
-    public static final String OPERATOR_MQ_DELETETIMEOUT = "operator.mq.deletetimeout";
-    
-    /**
-     * 创建消息队列socket超时时间，单位毫秒
-     */
-    public static final String OPERATOR_MQ_READTIMEOUT = "operator.mq.readtimeout";
-    
-    /*------------------------MQ相关配置信息_End-------------------------------*/
     
     /*----------------------------------Combine算子相关配置属性start-----------------------------*/
     
@@ -659,8 +617,7 @@ public class StreamingConfig extends HashMap<String, Object> implements Serializ
             }
             catch (StreamingException e)
             {
-                LOG.error(e.getLocalizedMessage(), e);
-                System.err.println(e.getMessage());
+                LOG.warn("Ignore a StreamingException");
             }
         }
         return configMap;
@@ -672,7 +629,19 @@ public class StreamingConfig extends HashMap<String, Object> implements Serializ
         InputStream stream = null;
         try
         {
-            stream = StreamingConfig.class.getClassLoader().getResourceAsStream(configFile);
+            ClassLoader classLoader = StreamingConfig.class.getClassLoader();
+            if(classLoader == null )
+            {
+                LOG.warn("can't found streaming-site.xml");
+                return configBeanList;
+            }
+
+            stream = classLoader.getResourceAsStream(configFile);
+            if(stream == null)
+            {
+                LOG.warn("can't found streaming-site.xml");
+                return configBeanList;
+            }
             XStream xstream = getXStream();
             xstream.alias(LIST_ALIAS, List.class);
             configBeanList = (List<ConfigBean>)xstream.fromXML(stream);
@@ -691,7 +660,6 @@ public class StreamingConfig extends HashMap<String, Object> implements Serializ
     /**
      * 获取 XML对象
      *
-     * @return XStream xml对象
      */
     private static XStream getXStream()
     {
@@ -704,7 +672,6 @@ public class StreamingConfig extends HashMap<String, Object> implements Serializ
      * <拷贝默认参数>
      * <拷贝默认参数>
      *
-     * @return 默认参数
      */
     private Map<String, Object> defaultClone()
     {
@@ -719,9 +686,6 @@ public class StreamingConfig extends HashMap<String, Object> implements Serializ
     
     /**
      * 获取指定参数类型
-     * @param key 参数名称
-     * @return 转换好的参数类型
-     * @throws StreamingException 参数不存在，抛出异常
      */
     public int getIntValue(String key)
         throws StreamingException
@@ -736,23 +700,20 @@ public class StreamingConfig extends HashMap<String, Object> implements Serializ
             catch (NumberFormatException e)
             {
                 StreamingException exception= new StreamingException(ErrorCode.CONFIG_FORMAT, strValue, "int");
-                LOG.error(exception.getLocalizedMessage());
+                LOG.error(ErrorCode.CONFIG_FORMAT.getFullMessage(strValue, "int"));
                 throw exception;
             }
         }
         else
         {
             StreamingException exception = new StreamingException(ErrorCode.CONFIG_NOT_FOUND, key);
-            LOG.error(exception.getLocalizedMessage());
+            LOG.error(ErrorCode.CONFIG_NOT_FOUND.getFullMessage(key));
             throw exception;
         }
     }
     
     /**
      * 获取指定参数类型
-     * @param key 参数名称
-     * @return 转换好的参数类型
-     * @throws StreamingException 参数不存在，抛出异常
      */
     public long getLongValue(String key)
         throws StreamingException
@@ -766,23 +727,20 @@ public class StreamingConfig extends HashMap<String, Object> implements Serializ
             catch (NumberFormatException e)
             {
                 StreamingException exception= new StreamingException(ErrorCode.CONFIG_FORMAT, get(key).toString(), "long");
-                LOG.error(exception.getLocalizedMessage());
+                LOG.error(ErrorCode.CONFIG_FORMAT.getFullMessage(get(key).toString(), "long"));
                 throw exception;
             }
         }
         else
         {
             StreamingException exception = new StreamingException(ErrorCode.CONFIG_NOT_FOUND, key);
-            LOG.error(exception.getLocalizedMessage());
+            LOG.error(ErrorCode.CONFIG_NOT_FOUND.getFullMessage(key));
             throw exception;
         }
     }
     
     /**
      * 获取指定参数类型
-     * @param key 参数名称
-     * @return 转换好的参数类型
-     * @throws StreamingException 参数不存在，抛出异常
      */
     public double getDoubleValue(String key)
         throws StreamingException
@@ -796,23 +754,20 @@ public class StreamingConfig extends HashMap<String, Object> implements Serializ
             catch (NumberFormatException e)
             {
                 StreamingException exception= new StreamingException(ErrorCode.CONFIG_FORMAT, get(key).toString(), "double");
-                LOG.error(exception.getLocalizedMessage());
+                LOG.error(ErrorCode.CONFIG_FORMAT.getFullMessage(get(key).toString(), "double"));
                 throw exception;
             }
         }
         else
         {
             StreamingException exception = new StreamingException(ErrorCode.CONFIG_NOT_FOUND, key);
-            LOG.error(exception.getLocalizedMessage());
+            LOG.error(ErrorCode.CONFIG_NOT_FOUND.getFullMessage(key));
             throw exception;
         }
     }
     
     /**
      * 获取指定参数类型
-     * @param key 参数名称
-     * @return 转换好的参数类型
-     * @throws StreamingException 参数不存在，抛出异常
      */
     public float getFloatValue(String key)
         throws StreamingException
@@ -826,23 +781,20 @@ public class StreamingConfig extends HashMap<String, Object> implements Serializ
             catch (NumberFormatException e)
             {
                 StreamingException exception= new StreamingException(ErrorCode.CONFIG_FORMAT, get(key).toString(), "float");
-                LOG.error(exception.getLocalizedMessage());
+                LOG.error(ErrorCode.CONFIG_FORMAT.getFullMessage(get(key).toString(), "float"));
                 throw exception;
             }
         }
         else
         {
             StreamingException exception = new StreamingException(ErrorCode.CONFIG_NOT_FOUND, key);
-            LOG.error(exception.getLocalizedMessage());
+            LOG.error(ErrorCode.CONFIG_NOT_FOUND.getFullMessage(key));
             throw exception;
         }
     }
     
     /**
      * 获取指定参数类型
-     * @param key 参数名称
-     * @return 转换好的参数类型
-     * @throws StreamingException 参数不存在，抛出异常
      */
     public String getStringValue(String key)
         throws StreamingException
@@ -854,16 +806,13 @@ public class StreamingConfig extends HashMap<String, Object> implements Serializ
         else
         {
             StreamingException exception = new StreamingException(ErrorCode.CONFIG_NOT_FOUND, key);
-            LOG.error(exception.getLocalizedMessage());
+            LOG.error(ErrorCode.CONFIG_NOT_FOUND.getFullMessage(key));
             throw exception;
         }
     }
     
     /**
      * 获取指定参数类型
-     * @param key 参数名称
-     * @return 转换好的参数类型
-     * @throws StreamingException 参数不存在，抛出异常
      */
     public boolean getBooleanValue(String key)
         throws StreamingException
@@ -877,14 +826,14 @@ public class StreamingConfig extends HashMap<String, Object> implements Serializ
             catch (Exception e)
             {
                 StreamingException exception= new StreamingException(ErrorCode.CONFIG_FORMAT, get(key).toString(), "boolean");
-                LOG.error(exception.getLocalizedMessage());
+                LOG.error(ErrorCode.CONFIG_FORMAT.getFullMessage(get(key).toString(), "boolean"));
                 throw exception;
             }
         }
         else
         {
             StreamingException exception = new StreamingException(ErrorCode.CONFIG_NOT_FOUND, key);
-            LOG.error(exception.getLocalizedMessage());
+            LOG.error(ErrorCode.CONFIG_NOT_FOUND.getFullMessage(key));
             throw exception;
         }
     }

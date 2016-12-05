@@ -61,8 +61,6 @@ public class SupportGroupView extends ViewImpl
     
     /**
      * <根据事件求分组值>
-     * @param theEvent 事件
-     * @return 分组值
      */
     protected Object getGroupKey(IEvent theEvent)
     {
@@ -118,8 +116,6 @@ public class SupportGroupView extends ViewImpl
     /**
      * <返回对应分组值的新数据>
      * <功能详细描述>
-     * @param groupKey 分组值
-     * @return 新数据
      */
     public IEvent[] getLastNewDataByGroupKey(Object groupKey)
     {
@@ -129,7 +125,6 @@ public class SupportGroupView extends ViewImpl
     /**
      * <清除对应分组值的新数据>
      * <功能详细描述>
-     * @param groupKey 分组值
      */
     public void clearLastNewDataByGroupKey(Object groupKey)
     {
@@ -140,8 +135,6 @@ public class SupportGroupView extends ViewImpl
     /**
      * <返回对应分组值的旧数据>
      * <功能详细描述>
-     * @param groupKey 分组值
-     * @return 旧数据
      */
     public IEvent[] getLastOldDataByGroupKey(Object groupKey)
     {
@@ -151,7 +144,6 @@ public class SupportGroupView extends ViewImpl
     /**
      * <清除对应分组值的旧数据>
      * <功能详细描述>
-     * @param groupKey 分组值
      */
     public void clearLastOldDataByGroupKey(Object groupKey)
     {

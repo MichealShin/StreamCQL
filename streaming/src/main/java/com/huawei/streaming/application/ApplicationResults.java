@@ -27,21 +27,17 @@ public interface ApplicationResults
 {
     /**
      * 获取列格式化字符串
-     * @return 列格式化字符串
      */
     String getFormatter();
     
     /**
      * 获取应用程序查询结果的标题头
-     * @return 标题头
      */
     String[] getResultHeader();
     
     /**
      * 获取查询结果
      * 查询结果的列数量必须和标题头的数组数量一致
-     * @param  container 应用程序名称中必须包含的字符串，不区分大小写
-     * @return 查询结果
      */
     List<String[]> getResults(String container);
     

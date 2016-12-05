@@ -62,7 +62,7 @@
     </property>
     <property>
         <name>streaming.storm.thrift.transport.plugin</name>
-        <value>backtype.storm.security.auth.SimpleTransportPlugin</value>
+        <value>org.apache.storm.security.auth.SimpleTransportPlugin</value>
         <description>"backtype.storm.security.auth.kerberos.KerberosSaslTransportPlugin" for security</description>
     </property>
     <property>
@@ -113,26 +113,6 @@
     <property>
         <name>operator.tcpclient.sessiontimeout</name>
         <value>20000</value>
-        <description></description>
-    </property>
-    <property>
-        <name>operator.mq.queuetype</name>
-        <value>1</value>
-        <description></description>
-    </property>
-    <property>
-        <name>operator.mq.lifetime</name>
-        <value>0</value>
-        <description></description>
-    </property>
-    <property>
-        <name>operator.mq.deletetimeout</name>
-        <value>30000</value>
-        <description></description>
-    </property>
-    <property>
-        <name>operator.mq.readtimeout</name>
-        <value>0</value>
         <description></description>
     </property>
     <property>
@@ -195,7 +175,7 @@
         <value>10</value>
         <description></description>
     </property>
-     <property>
+    <property>
         <name>datasource.rdb.decryptclass</name>
         <value>com.huawei.streaming.encrypt.DefaultDecrypt</value>
         <description></description>
@@ -203,6 +183,11 @@
     <property>
         <name>datasource.rdb.decrypttype</name>
         <value>ALL</value>
+        <description></description>
+    </property>
+    <property>
+        <name>streaming.operator.timezone</name>
+        <value>${system:user.timezone}</value>
         <description></description>
     </property>
     <property>

@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
  * 数据类型转换函数
  * 
  */
-@UDFAnnotation(name = "todecimal")
+@UDFAnnotation("todecimal")
 public class ToDecimal extends UDF
 {
     private static final long serialVersionUID = -4516472038115224500L;
@@ -37,7 +37,6 @@ public class ToDecimal extends UDF
 
     /**
      * <默认构造函数>
-     * @param config 参数
      */
     public ToDecimal(Map< String, String > config)
     {
@@ -46,8 +45,6 @@ public class ToDecimal extends UDF
 
     /**
      * 类型转换实现
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public BigDecimal evaluate(String s)
     {
@@ -55,7 +52,7 @@ public class ToDecimal extends UDF
         {
             return BigDecimal.valueOf(Double.valueOf(s));
         }
-        catch (Exception e)
+        catch (NumberFormatException e)
         {
             LOG.warn(EVALUATE_IGNORE_MESSAGE);
             return null;
@@ -64,26 +61,14 @@ public class ToDecimal extends UDF
 
     /**
      * 类型转换实现
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public BigDecimal evaluate(int s)
     {
-        try
-        {
-            return BigDecimal.valueOf(s);
-        }
-        catch (Exception e)
-        {
-            LOG.warn(EVALUATE_IGNORE_MESSAGE);
-            return null;
-        }
+        return BigDecimal.valueOf(s);
     }
     
     /**
      * 类型转换实现
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public BigDecimal evaluate(long s)
     {
@@ -91,7 +76,7 @@ public class ToDecimal extends UDF
         {
             return BigDecimal.valueOf(s);
         }
-        catch (Exception e)
+        catch (NumberFormatException e)
         {
             LOG.warn(EVALUATE_IGNORE_MESSAGE);
             return null;
@@ -100,9 +85,6 @@ public class ToDecimal extends UDF
     
     /**
      * 类型转换实现
-     * @param s 待转换数据
-     * @param scale 标度
-     * @return 转换之后结果
      */
     public BigDecimal evaluate(long s, int scale)
     {
@@ -110,7 +92,7 @@ public class ToDecimal extends UDF
         {
             return BigDecimal.valueOf(s, scale);
         }
-        catch (Exception e)
+        catch (NumberFormatException e)
         {
             LOG.warn(EVALUATE_IGNORE_MESSAGE);
             return null;
@@ -119,8 +101,6 @@ public class ToDecimal extends UDF
     
     /**
      * 类型转换实现
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public BigDecimal evaluate(Double s)
     {
@@ -128,7 +108,7 @@ public class ToDecimal extends UDF
         {
             return BigDecimal.valueOf(s);
         }
-        catch (Exception e)
+        catch (NumberFormatException e)
         {
             LOG.warn(EVALUATE_IGNORE_MESSAGE);
             return null;
@@ -137,8 +117,6 @@ public class ToDecimal extends UDF
     
     /**
      * 类型转换实现
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public BigDecimal evaluate(Float s)
     {
@@ -146,7 +124,7 @@ public class ToDecimal extends UDF
         {
             return BigDecimal.valueOf(s);
         }
-        catch (Exception e)
+        catch (NumberFormatException e)
         {
             LOG.warn(EVALUATE_IGNORE_MESSAGE);
             return null;

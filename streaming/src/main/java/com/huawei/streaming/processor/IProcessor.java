@@ -30,8 +30,6 @@ public interface IProcessor extends Serializable
 {
     /**
      * <数据处理>
-     * @param newData 新事件
-     * @param oldData 旧事件
      */
     public void process(IEvent[] newData, IEvent[] oldData);
 }

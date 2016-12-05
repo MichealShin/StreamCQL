@@ -60,8 +60,6 @@ public class StreamingException extends Exception
     /**
      * <默认构造函数>
      *
-     * @param code 异常码
-     * @param errorArgs 异常参数
      */
     public StreamingException(ErrorCode code, String... errorArgs)
     {
@@ -71,9 +69,6 @@ public class StreamingException extends Exception
     /**
      * <默认构造函数>
      *
-     * @param cause 错误堆栈
-     * @param code 异常码
-     * @param errorArgs 异常参数
      */
     public StreamingException(Throwable cause, ErrorCode code, String... errorArgs)
     {
@@ -85,9 +80,6 @@ public class StreamingException extends Exception
      * <默认构造函数>
      * 仅供内部warp函数使用
      *
-     * @param cause 错误堆栈
-     * @param fullMessage 异常消息
-     * @param code 异常码
      */
     protected StreamingException(Throwable cause, String fullMessage, ErrorCode code)
     {
@@ -98,8 +90,6 @@ public class StreamingException extends Exception
     /**
      * 包装StreamingException
      *
-     * @param exception StreamingException
-     * @return 包装好的CQLException
      */
     public static StreamingException wrapException(Exception exception)
     {

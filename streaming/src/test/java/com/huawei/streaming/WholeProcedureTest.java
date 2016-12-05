@@ -64,7 +64,6 @@ public class WholeProcedureTest
     /**
      * <Test>
      * <功能详细描述>
-     * @throws InterruptedException 异常
      */
     @Test
     public void test()
@@ -97,7 +96,6 @@ public class WholeProcedureTest
         eventTypeMng.addEventType(outtupleEventType);
         
         FirstLevelStream firststream = new FirstLevelStream();
-        //LengthBatchWindow lengthbatchwin = new LengthBatchWindow(10);
         TimeBatchWindow window = new TimeBatchWindow(INT_500);
         ProcessView processview = new ProcessView();
         
@@ -108,12 +106,7 @@ public class WholeProcedureTest
                 true));
         exprs.add(pair);
         exprs.add(pair);
-        
-        //Pair<?,?>[] exprs = new Pair<?,?>[SupportConst.I_TWO];
-        
-        /*exprs[1].setFirst(new PropertyValueExpression("a", Integer.class));
-        exprs[1].setSecond(new ConstExpression(Boolean.TRUE));*/
-        
+
         IAggregate[] aggregators = new IAggregate[SupportConst.I_TWO];
         aggregators[0] = new AggregateDistinctValue(new AggregateSum(Integer.class));
         aggregators[1] = new AggregateAvg(Integer.class);
@@ -164,7 +157,5 @@ public class WholeProcedureTest
         firststream.stop();
         
         System.out.println(endTime - startTime);
-        
-        /*fail("Not yet implemented");*/
     }
 }

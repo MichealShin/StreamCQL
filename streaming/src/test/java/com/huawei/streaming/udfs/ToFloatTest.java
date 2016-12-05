@@ -18,8 +18,13 @@
 
 package com.huawei.streaming.udfs;
 
+import java.util.Map;
+
 import org.junit.Test;
 
+import com.google.common.collect.Maps;
+import com.huawei.streaming.config.StreamingConfig;
+import com.huawei.streaming.exception.StreamingException;
 import static org.junit.Assert.*;
 
 /**
@@ -33,13 +38,19 @@ public class ToFloatTest
      * 测试数据类型转换
      */
     @Test
-    public void testEvaluate()
+    public void testEvaluate() throws StreamingException
     {
-        ToFloat toFloat = new ToFloat(null);
-        ToDate toDate = new ToDate(null);
-        ToTime toTime = new ToTime(null);
-        ToTimeStamp toTimeStamp = new ToTimeStamp(null);
-        ToDecimal toDecimal = new ToDecimal(null);
+        Map<String, String> config = Maps.newHashMap();
+        StreamingConfig conf = new StreamingConfig();
+        for(Map.Entry<String, Object> et : conf.entrySet())
+        {
+            config.put(et.getKey(), et.getValue().toString());
+        }
+        ToFloat toFloat = new ToFloat(config);
+        ToDate toDate = new ToDate(config);
+        ToTime toTime = new ToTime(config);
+        ToTimeStamp toTimeStamp = new ToTimeStamp(config);
+        ToDecimal toDecimal = new ToDecimal(config);
         assertTrue(toFloat.evaluate(1).equals(1.0F));
         assertTrue(toFloat.evaluate(1F).equals(1.0F));
         assertTrue(toFloat.evaluate(1.0f).equals(1.0F));
@@ -51,8 +62,8 @@ public class ToFloatTest
         assertTrue(toFloat.evaluate("1").equals(1.0F));
         assertTrue(toFloat.evaluate("1.9").equals(1.9F));
         assertTrue(toFloat.evaluate(toDecimal.evaluate("1.9")).equals(1.9F));
-        assertTrue(toFloat.evaluate(toDate.evaluate("1970-01-01")).equals(-28800000.0F));
-        assertTrue(toFloat.evaluate(toTime.evaluate("15:40:00")).equals(27600000.0F));
+        assertTrue(toFloat.evaluate(toDate.evaluate("1970-01-01")).equals(0.0F));
+        assertTrue(toFloat.evaluate(toTime.evaluate("15:40:00")).equals(56400000.0F));
         assertTrue(toFloat.evaluate(toTimeStamp.evaluate("1970-01-01 15:40:00.000000")).equals(27600000.0F));
     }
 }

@@ -33,9 +33,6 @@ public class CollectionUtil
     
     /**
      * <将新事件加入到排序集合中，如果排序集合中已经存在新事件对应的排序，则将新事件相同排序键值事件的最前面，后续事件移出时，保证最后移出。>
-     * @param sortKeys 排序键值
-     * @param event 新事件
-     * @param sortedEvents 事件排序集合
      */
     public static void addEventByKeyIntoFront(Object sortKeys, IEvent event, TreeMap<Object, Object> sortedEvents)
     {
@@ -70,10 +67,6 @@ public class CollectionUtil
     
     /**
      * <从事件排序集合中删除待删除事件，如果集合中有该事件，则删除。否则不删除>
-     * @param sortKeys 排序键值
-     * @param event 待删除事件
-     * @param sortedEvents 事件排序集合
-     * @return 是否删除，true 删除， false 不删除
      */
     public static boolean removeEventByKey(Object sortKeys, IEvent event, TreeMap<Object, Object> sortedEvents)
     {
@@ -113,9 +106,6 @@ public class CollectionUtil
     
     /**
      * <将新事件加入到排序集合中，如果排序集合中已经存在新事件对应的时间，则将新事件相同排序键值事件的最后面，后续事件移出时，保证最后移出。>
-     * @param timestamp 时间
-     * @param event 事件 
-     * @param sortedEvents 排序集合
      */
     public static void addEventByKeyIntoBack(Long timestamp, IEvent event, TreeMap<Object, Object> sortedEvents)
     {

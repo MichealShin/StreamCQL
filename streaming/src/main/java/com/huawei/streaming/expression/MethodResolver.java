@@ -160,10 +160,6 @@ public class MethodResolver
     
     /**
      * 根据类、方法名、参数类型匹配最合适的方法
-     * @param declareClass   待查找的类
-     * @param methodName     待查找的方法名
-     * @param paramTypes     方法参数类型
-     * @return  Method       匹配到的方法
      */
     public static Method resolveMethod(Class< ? > declareClass, String methodName, Class< ? >[] paramTypes)
     {
@@ -230,9 +226,6 @@ public class MethodResolver
     
     /**
      * 获得函数参数类型的匹配度，以需要转换的参数个数来衡量
-     * @param declareParamTypes     类中函数的参数类型
-     * @param realParamTypes     待匹配的参数类型
-     * @return  -1：参数不匹配;0：参数精确（完全）匹配;其他：需要转换的参数个数
      */
     private static int compareParamTypes(Class< ? >[] declareParamTypes, Class< ? >[] realParamTypes)
     {
@@ -271,9 +264,6 @@ public class MethodResolver
     
     /**
      * 判断两个类型是否绝对匹配，绝对匹配指类型一样、父子类关系、包装类关系
-     * @param declareParamType     类中函数的参数类型
-     * @param realParamType     待匹配的实际参数类型
-     * @return  true:可以绝对匹配，false:不可绝对匹配
      */
     private static boolean isIdentityConversion(Class< ? > declareParamType, Class< ? > realParamType)
     {
@@ -295,9 +285,6 @@ public class MethodResolver
     /**
      * 
      * 判断是否可以转型，按照java语言的默认规则
-     * @param declareParamType     类中函数的参数类型
-     * @param realParamType     待匹配的实际参数类型
-     * @return  true:可以转型;false:不支持转型
      */
     private static boolean isWideningConversion(Class< ? > declareParamType, Class< ? > realParamType)
     {

@@ -65,9 +65,6 @@ public abstract class Application
     /**
      * <默认构造函数>
      *
-     * @param appName 应用名称、
-     * @param config 配置属性
-     * @throws StreamingException 流处理异常
      */
     public Application(String appName, StreamingConfig config)
         throws StreamingException
@@ -93,8 +90,6 @@ public abstract class Application
     /**
      * 增加数据流描述Schema
      *
-     * @param schema 事件类型（schema）
-     * @throws StreamingException 流处理异常
      */
     public void addEventSchema(TupleEventType schema)
         throws StreamingException
@@ -112,7 +107,6 @@ public abstract class Application
     /**
      * 添加功能
      *
-     * @param operator 功能算子
      */
     public void addFunctionStream(IRichOperator operator)
     {
@@ -122,7 +116,6 @@ public abstract class Application
     /**
      * 添加输出算子
      *
-     * @param output 输出算子
      */
     public void addOutputStream(IRichOperator output)
     {
@@ -132,7 +125,6 @@ public abstract class Application
     /**
      * 添加输入算子
      *
-     * @param input 输入算子
      */
     public void addInputStream(IRichOperator input)
     {
@@ -142,7 +134,6 @@ public abstract class Application
     /**
      * 获取流算子的所有schema
      *
-     * @return 算子schema管理
      */
     public EventTypeMng getStreamSchema()
     {
@@ -152,9 +143,6 @@ public abstract class Application
     /**
      * 通过输出流名称寻找对应算子
      *
-     * @param streamName 流名称
-     * @return 算子
-     * @throws StreamingException 流处理异常
      */
     public IRichOperator getOperatorByOutputStreamName(String streamName)
         throws StreamingException
@@ -195,7 +183,6 @@ public abstract class Application
     /**
      * 获取所有的输入流
      *
-     * @return 输入流列表
      */
     public List<IRichOperator> getInputStreams()
     {
@@ -229,7 +216,6 @@ public abstract class Application
     /**
      * 获取所有的功能流算子
      *
-     * @return 功能流算子列表
      */
     public List<IRichOperator> getFunctionstreams()
     {
@@ -251,7 +237,6 @@ public abstract class Application
     /**
      * 获取所有的输出流
      *
-     * @return 输出流列表
      */
     public List<IRichOperator> getOutputStreams()
     {
@@ -261,8 +246,6 @@ public abstract class Application
     /**
      * 根据名称获取对应的schema
      *
-     * @param name 名称
-     * @return schema
      */
     public IEventType getEventType(String name)
     {
@@ -272,8 +255,6 @@ public abstract class Application
     /**
      * 获取已经排好序的功能算子，这个功能算子包含output算子
      *
-     * @return 算子列表
-     * @throws StreamingException 流处理异常
      */
     public List<IRichOperator> genFunctionOpsOrder()
         throws StreamingException
@@ -284,7 +265,6 @@ public abstract class Application
     /**
      * 获取应用程序名称
      *
-     * @return 应用程序名称
      */
     public String getAppName()
     {
@@ -294,7 +274,6 @@ public abstract class Application
     /**
      * 获取配置属性
      *
-     * @return 配置属性
      */
     public StreamingConfig getConf()
     {
@@ -304,7 +283,6 @@ public abstract class Application
     /**
      * 应用远程提交
      *
-     * @throws StreamingException 流处理异常
      */
     public abstract void launch()
         throws StreamingException;
@@ -312,8 +290,6 @@ public abstract class Application
     /**
      * 查询应用程序
      *
-     * @return 如果存在，返回true
-     * @throws StreamingException 任务查询异常
      */
     public abstract ApplicationResults getApplications()
         throws StreamingException;
@@ -321,8 +297,6 @@ public abstract class Application
     /**
      * 检查任务是否存在
      *
-     * @return 如果存在，返回true
-     * @throws StreamingException 任务删除异常
      */
     public abstract boolean isApplicationExists()
         throws StreamingException;
@@ -330,7 +304,6 @@ public abstract class Application
     /**
      * 删除远程应用
      *
-     * @throws StreamingException 任务删除异常
      */
     public abstract void killApplication()
         throws StreamingException;
@@ -338,7 +311,27 @@ public abstract class Application
     /**
      * 设置用户已经打包好的Jar包
      *
-     * @param userJar 用户jar包
      */
     public abstract void setUserPackagedJar(String userJar);
+
+    /**
+     * 去活应用程序
+     * 将应用程序从运行状态变为deactive状态，从而暂停应用程序的运行。
+     */
+    public abstract void deactiveApplication()
+        throws StreamingException;
+    
+    /**
+     * 激活应用程序
+     * 将deactive状态的应用程序激活，变成active状态
+     */
+    public abstract void activeApplication()
+        throws StreamingException;
+    
+   /**
+    * 重分配应用程序
+    * 重新分配application的worker数量
+    */
+    public abstract void rebalanceApplication(int workerNum)
+        throws StreamingException;
 }

@@ -20,6 +20,7 @@ package com.huawei.streaming.util;
 
 import org.junit.Test;
 
+import com.huawei.streaming.config.StreamingConfig;
 import com.huawei.streaming.exception.StreamingException;
 import static org.junit.Assert.*;
 
@@ -32,25 +33,25 @@ public class StreamingDataTypeTest
 
     /**
      * 测试用例
-     * @throws  StreamingException 数据类型转换异常
      */
     @Test
     public void testCreateValue() throws StreamingException
     {
-       assertTrue(StreamingDataType.LONG.createValue("1").equals(1l));
-       assertTrue(StreamingDataType.FLOAT.createValue("1.0f").equals(1.0f));
-       assertTrue(StreamingDataType.DOUBLE.createValue("1.0d").equals(1.0d));
+       StreamingConfig conf = new StreamingConfig();
+       assertTrue(StreamingDataType.LONG.createParser(conf).createValue("1").equals(1l));
+       assertTrue(StreamingDataType.FLOAT.createParser(conf).createValue("1.0f").equals(1.0f));
+       assertTrue(StreamingDataType.DOUBLE.createParser(conf).createValue("1.0d").equals(1.0d));
     }
 
     /**
      * 测试用例
-     * @throws  StreamingException 数据类型转换异常
      */
     @Test
     public void testToStringValue() throws StreamingException
     {
-        assertTrue(StreamingDataType.LONG.toStringValue(1L).equals("1"));
-        assertTrue(StreamingDataType.LONG.toStringValue(1.0F).equals("1.0"));
-        assertTrue(StreamingDataType.LONG.toStringValue(1.0D).equals("1.0"));
+        StreamingConfig conf = new StreamingConfig();
+        assertTrue(StreamingDataType.LONG.createParser(conf).toStringValue(1L).equals("1"));
+        assertTrue(StreamingDataType.LONG.createParser(conf).toStringValue(1.0F).equals("1.0"));
+        assertTrue(StreamingDataType.LONG.createParser(conf).toStringValue(1.0D).equals("1.0"));
     }
 }

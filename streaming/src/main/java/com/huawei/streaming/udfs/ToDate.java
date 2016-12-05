@@ -18,47 +18,50 @@
 
 package com.huawei.streaming.udfs;
 
+import com.google.common.base.Strings;
+import com.huawei.streaming.config.StreamingConfig;
+import com.huawei.streaming.exception.StreamingException;
+import com.huawei.streaming.util.datatype.DateParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Strings;
-
 /**
  * 数据类型转换函数
- * 
+ *
  */
-@UDFAnnotation(name = "todate")
+@UDFAnnotation("todate")
 public class ToDate extends UDF
 {
     private static final long serialVersionUID = -4516472038115224500L;
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(ToDate.class);
-    private final SimpleDateFormat formatter = new SimpleDateFormat(UDFConstants.DATE_FORMAT);
+
+    private final DateParser dateParser;
 
     private SimpleDateFormat dateFormat = null;
-    
+
     /**
      * <默认构造函数>
-     * @param config 参数
      */
     public ToDate(Map<String, String> config)
+        throws StreamingException
     {
         super(config);
-        /*
-         * 设置时间严格匹配
-         */
-        formatter.setLenient(false);
+        StreamingConfig conf = new StreamingConfig();
+        for (Map.Entry<String, String> et : config.entrySet())
+        {
+            conf.put(et.getKey(), et.getValue());
+        }
+        dateParser = new DateParser(conf);
     }
-    
+
     /**
      * 类型转换实现
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Date evaluate(String s)
     {
@@ -66,25 +69,21 @@ public class ToDate extends UDF
         {
             return null;
         }
-        
+
         //默认支持yyyy-[m]m-[d]d格式
         try
         {
-            formatter.parse(s);
-            return Date.valueOf(s);
+            return (Date)dateParser.createValue(s);
         }
-        catch (Exception e)
+        catch (StreamingException e)
         {
             LOG.warn(EVALUATE_IGNORE_MESSAGE);
             return null;
         }
     }
-    
+
     /**
      * 类型转换实现
-     * @param s 待转换数据
-     * @param format 时间类型格式化
-     * @return 转换之后结果
      */
     public Date evaluate(String s, String format)
     {
@@ -92,10 +91,10 @@ public class ToDate extends UDF
         {
             return null;
         }
-        
+
         return eval(s, format);
     }
-    
+
     private Date eval(String s, String format)
     {
         if (null == dateFormat)
@@ -105,8 +104,9 @@ public class ToDate extends UDF
              * 设置时间严格匹配
              */
             dateFormat.setLenient(false);
+            dateFormat.setTimeZone(dateParser.getTimeZone());
         }
-        
+
         java.util.Date date = null;
         try
         {
@@ -117,8 +117,8 @@ public class ToDate extends UDF
             LOG.warn(EVALUATE_IGNORE_MESSAGE);
             return null;
         }
-        
+
         return new Date(date.getTime());
     }
-    
+
 }

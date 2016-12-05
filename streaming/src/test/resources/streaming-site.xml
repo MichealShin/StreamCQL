@@ -15,28 +15,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+<!--
+  ~ Copyright Notice:
+  ~     Copyright  2013-2024, Huawei Technologies Co., Ltd.  ALL Rights Reserved.
+  ~
+  ~     Warning: This computer software sourcecode is protected by copyright law
+  ~     and international treaties. Unauthorized reproduction or distribution
+  ~     of this sourcecode, or any portion of it, may result in severe civil and
+  ~     criminal penalties, and will be prosecuted to the maximum extent
+  ~     possible under the law.
+  -->
 
-package com.huawei.streaming.util;
-
-import com.huawei.streaming.exception.StreamingException;
-
-/**
- * 数据类型公用类
- * 
- */
-public class DataTypeUtils
-{
-    /**
-     * 创建指定类型数据实例
-     * @param type 数据类型
-     * @param value 字符串形式的字符值
-     * @return 数据实例
-     * @throws StreamingException 数据类型创建异常
-     */
-    public static Object createValue(Class< ? > type, String value)
-        throws StreamingException
-    {
-        StreamingDataType dataType = StreamingDataType.getDataType(type);
-        return dataType.createValue(value);
-    }
-}
+<configuration>
+    <property>
+        <name>streaming.operator.timezone</name>
+        <value>GMT+08:00</value>
+        <description></description>
+    </property>
+</configuration>

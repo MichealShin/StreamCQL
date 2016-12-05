@@ -30,8 +30,6 @@ public class SupportViewDataCheck
     /**
      * <checkOldData>
      * <功能详细描述>
-     * @param childView 视图
-     * @param events 期望值
      */
     public static void checkOldData(SupportView childView, IEvent[] events)
     {
@@ -44,8 +42,6 @@ public class SupportViewDataCheck
     /**
      * <checkNewData>
      * <功能详细描述>
-     * @param childView 视图
-     * @param events 期望值
      */
     public static void checkNewData(SupportView childView, IEvent[] events)
     {

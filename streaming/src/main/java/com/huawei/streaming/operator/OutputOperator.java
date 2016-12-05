@@ -21,6 +21,7 @@ package com.huawei.streaming.operator;
 import java.util.List;
 import java.util.Map;
 
+import com.huawei.streaming.util.StreamingUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,11 +72,18 @@ public final class OutputOperator extends AbsOperator
 
     /**
      * 设置输出流算子
-     * @param stream 输出流算子
      */
     public void setOutputStreamOperator(IOutputStreamOperator stream)
     {
         this.outputStream = stream;
+    }
+
+    /**
+     * 获取输出流算子
+     */
+    public IOutputStreamOperator getOutputStreamOperator()
+    {
+        return this.outputStream;
     }
 
     /**
@@ -85,15 +93,16 @@ public final class OutputOperator extends AbsOperator
     public void setConfig(StreamingConfig conf) throws StreamingException
     {
         super.setConfig(conf);
+        TupleEventType tupleEventType = StreamingUtils.deSerializeSchema((String)conf.get(StreamingConfig.STREAMING_INNER_INPUT_SCHEMA));
+
         this.addInputStream((String)conf.get(StreamingConfig.STREAMING_INNER_INPUT_STREAM_NAME));
-        this.addInputSchema((String)conf.get(StreamingConfig.STREAMING_INNER_INPUT_STREAM_NAME),
-            (IEventType)conf.get(StreamingConfig.STREAMING_INNER_INPUT_SCHEMA));
+        this.addInputSchema((String)conf.get(StreamingConfig.STREAMING_INNER_INPUT_STREAM_NAME),tupleEventType);
         
         if (conf.containsKey(StreamingConfig.STREAMING_INNER_INPUT_SCHEMA))
         {
             if (null != serde)
             {
-                serde.setSchema((TupleEventType)conf.get(StreamingConfig.STREAMING_INNER_INPUT_SCHEMA));
+                serde.setSchema(tupleEventType);
             }
         }
     }
@@ -112,7 +121,6 @@ public final class OutputOperator extends AbsOperator
 
     /**
      * 获取序列化类
-     * @return 序列化类
      */
     public StreamSerDe getSerDe()
     {
@@ -121,7 +129,6 @@ public final class OutputOperator extends AbsOperator
     
     /**
      * 设置序列化类
-     * @param serde 序列化类
      */
     public void setSerDe(StreamSerDe serde)
     {
@@ -221,7 +228,6 @@ public final class OutputOperator extends AbsOperator
 
     /**
      * 添加输入流
-     * @param streamName 输入流名称
      */
     public void addInputStream(String streamName)
     {
@@ -236,8 +242,6 @@ public final class OutputOperator extends AbsOperator
     
     /**
      * 添加输入流schema
-     * @param streamName 流名称
-     * @param schema 输入流schema
      */
     public void addInputSchema(String streamName, IEventType schema)
     {
@@ -252,7 +256,7 @@ public final class OutputOperator extends AbsOperator
         if(getSerDe() == null)
         {
             StreamingException exception = new StreamingException(ErrorCode.SEMANTICANALYZE_UNKNOWN_SERDE);
-            LOG.error(exception.getMessage());
+            LOG.error(ErrorCode.SEMANTICANALYZE_UNKNOWN_SERDE.getFullMessage());
             throw exception;
         }
 

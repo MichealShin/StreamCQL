@@ -26,7 +26,6 @@ import java.util.Map;
 /**
  * <对象引用个数集合>
  * 
- * @param <K> 类型
  */
 public class RefCountedSet<K> implements Serializable
 {
@@ -60,8 +59,6 @@ public class RefCountedSet<K> implements Serializable
     /**
      * <增加值到集合>
      * <将值加入集合中，如果值不存在集合中，则引用个数为1；如果值已经存在集合中，则将引用个数加1.>
-     * @param key 待加入集合的值
-     * @return true 值第一次加入集合；false 值已经存在集合中
      */
     public boolean add(K key)
     {
@@ -81,8 +78,6 @@ public class RefCountedSet<K> implements Serializable
     
     /**
      * <增加值的引用值到集合中>
-     * @param key 待加入集合的值
-     * @param numReferences 引用个数
      */
     public void add(K key, int numReferences)
     {
@@ -99,8 +94,6 @@ public class RefCountedSet<K> implements Serializable
     /**
      * <从集合中删除值>
      * <从集合中删除值，如果集合中值对应的引用个数为0，则从集合中删除值；如果引用个数大于1， 则将引用个数减1.>
-     * @param key 待删除值
-     * @return true 值被删除； false 值还存在集合中
      */
     public boolean remove(K key)
     {
@@ -126,8 +119,6 @@ public class RefCountedSet<K> implements Serializable
     /**
      * <从集合中删除值，不管引用个数为多少>
      * <功能详细描述>
-     * @param key 待删除值
-     * @return true 值被删除； fasle 值没有被找到
      */
     public boolean removeAll(K key)
     {
@@ -137,7 +128,6 @@ public class RefCountedSet<K> implements Serializable
     
     /**
      * <返回集合迭代器>
-     * @return 集合迭代器
      */
     public Iterator<Map.Entry<K, Integer>> entryIterator()
     {
@@ -146,7 +136,6 @@ public class RefCountedSet<K> implements Serializable
     
     /**
      * <返回集合Key值迭代器>
-     * @return Key值迭代器
      */
     public Iterator<K> keyIterator()
     {
@@ -155,7 +144,6 @@ public class RefCountedSet<K> implements Serializable
     
     /**
      * <返回集合大小>
-     * @return 大小
      */
     public int size()
     {
@@ -164,7 +152,6 @@ public class RefCountedSet<K> implements Serializable
     
     /**
      * <返回引用集合>
-     * @return 引用集合
      */
     public Map<K, Integer> getRefSet()
     {
@@ -173,7 +160,6 @@ public class RefCountedSet<K> implements Serializable
     
     /**
      * <返回个数>
-     * @return 个数
      */
     public int getNumValues()
     {
@@ -182,7 +168,6 @@ public class RefCountedSet<K> implements Serializable
     
     /**
      * <设置个数>
-     * @param numValues 个数
      */
     public void setNumValues(int numValues)
     {

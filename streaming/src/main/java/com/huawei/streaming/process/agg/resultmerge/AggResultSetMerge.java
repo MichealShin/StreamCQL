@@ -92,8 +92,6 @@ public class AggResultSetMerge extends ResultSetMergeImpl
     /**
      * 处理聚合表达式
      * 新数据加入聚合计算，旧数据移除聚合计算
-     * @param newData 新数据
-     * @param oldData 旧数据
      */
     protected void processAggregateData(IEvent[] newData, IEvent[] oldData)
     {
@@ -118,7 +116,6 @@ public class AggResultSetMerge extends ResultSetMergeImpl
     
     /**
      * <返回聚合操作>
-     * @return 聚合操作
      */
     protected IAggregationService getAggregator()
     {
@@ -127,7 +124,6 @@ public class AggResultSetMerge extends ResultSetMergeImpl
     
     /**
      * <返回选择操作>
-     * @return 选择操作
      */
     protected SelectSubProcess getSelector()
     {
@@ -163,8 +159,6 @@ public class AggResultSetMerge extends ResultSetMergeImpl
     /**
      * 对Join结果进行聚合表达式处理
      * 新数据加入聚合计算，旧数据移除聚合计算
-     * @param newEvents 新数据
-     * @param oldEvents 旧数据
      */
     protected void processJoinAggregateData(Set<MultiKey> newEvents, Set<MultiKey> oldEvents)
     {

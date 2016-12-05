@@ -47,7 +47,6 @@ public class AggregateAvgDecimal implements IAggregate
     /**
      * 聚合函数加入值
      * 
-     * @param value 数据
      */
     protected void enter(Object value)
     {
@@ -72,7 +71,6 @@ public class AggregateAvgDecimal implements IAggregate
     /**
      * 聚合函数删除值
      * 
-     * @param value 数据
      */
     protected void leave(Object value)
     {

@@ -28,8 +28,6 @@ public class AggregateFilterUtil
     /**
      * <检查过滤条件>
      * <功能详细描述>
-     * @param filter 过滤条件
-     * @return true 满足， false 不满足
      */
     public static boolean checkFilter(Boolean filter)
     {

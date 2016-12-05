@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.huawei.streaming.util.StreamingUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +65,6 @@ public class FunctionStreamOperator extends AbsOperator
     
     /**
      * 设置功能算子
-     * @param stream 功能算子
      */
     public void setInputStreamOperator(IFunctionStreamOperator operator)
     {
@@ -81,8 +81,8 @@ public class FunctionStreamOperator extends AbsOperator
         super.setConfig(conf);
         this.addInputStream((String)conf.get(StreamingConfig.STREAMING_INNER_INPUT_STREAM_NAME));
         this.addInputSchema((String)conf.get(StreamingConfig.STREAMING_INNER_INPUT_STREAM_NAME),
-            (IEventType)conf.get(StreamingConfig.STREAMING_INNER_INPUT_SCHEMA));
-        this.outputSchema = (IEventType)(conf.get(StreamingConfig.STREAMING_INNER_OUTPUT_SCHEMA));
+                StreamingUtils.deSerializeSchema((String) conf.get(StreamingConfig.STREAMING_INNER_INPUT_SCHEMA)));
+        this.outputSchema = StreamingUtils.deSerializeSchema((String)(conf.get(StreamingConfig.STREAMING_INNER_OUTPUT_SCHEMA)));
         this.outputStreamName = (String)conf.get(StreamingConfig.STREAMING_INNER_OUTPUT_STREAM_NAME);
     }
     
@@ -160,7 +160,6 @@ public class FunctionStreamOperator extends AbsOperator
     
     /**
      * 添加输入流
-     * @param streamName 输入流名称
      */
     public void addInputStream(String streamName)
     {
@@ -175,8 +174,6 @@ public class FunctionStreamOperator extends AbsOperator
     
     /**
      * 添加输入流schema
-     * @param streamName 流名称
-     * @param schema 输入流schema
      */
     public void addInputSchema(String streamName, IEventType schema)
     {

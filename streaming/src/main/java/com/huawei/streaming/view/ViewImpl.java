@@ -50,11 +50,9 @@ public abstract class ViewImpl implements IView
     
     /**
      * 子视图集合
-     * TODO 改成一个
-     * TODO 分组窗移除
      */
     private final ArrayList<IView> subViews;
-
+    
     /**
      * <默认构造函数>
      */
@@ -62,7 +60,7 @@ public abstract class ViewImpl implements IView
     {
         subViews = new ArrayList<IView>();
     }
-
+    
     /**
      * {@inheritDoc}
      */
@@ -114,7 +112,7 @@ public abstract class ViewImpl implements IView
             LOG.error(msg);
             throw new RuntimeException(msg);
         }
-
+        
         subViews.add(view);
         view.setParent(this);
         return view;
@@ -131,7 +129,7 @@ public abstract class ViewImpl implements IView
             LOG.error(msg);
             throw new RuntimeException(msg);
         }
-
+        
         boolean isRemoved = subViews.remove(view);
         view.setParent(null);
         return isRemoved;
@@ -139,8 +137,6 @@ public abstract class ViewImpl implements IView
     
     /**
      * <发送数据到子视图>
-     * @param newData 新事件
-     * @param oldData 旧事件
      */
     public void updateChild(IEvent[] newData, IEvent[] oldData)
     {

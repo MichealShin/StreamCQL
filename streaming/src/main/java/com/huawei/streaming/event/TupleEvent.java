@@ -116,7 +116,6 @@ public class TupleEvent implements IEvent
      *@param streamName 流名称
      *@param eventType 事件类型
      *@param values 事件值
-     *@throws StreamSerDeException 
      */
     public TupleEvent(String streamName, IEventType eventType, Object[] values)
     {
@@ -147,13 +146,8 @@ public class TupleEvent implements IEvent
             throw new RuntimeException("The tuple size and it's EventType is not match. EventType:" + eventType);
         }
         
-        this.tuple = new Object[att.length];
+        this.tuple = values;
         this.eventType = eventType;
-        for (int i = 0; i < att.length; i++)
-        {
-            tuple[i] = values[i];
-        }
-        
     }
     
     /**
@@ -230,8 +224,8 @@ public class TupleEvent implements IEvent
     {
         if (index < 0 || index >= tuple.length)
         {
-            LOG.error("Invalid index:{}", index);
-            throw new RuntimeException("Invalid index:" + index);
+            LOG.error("Invalid index.");
+            throw new RuntimeException("Invalid index.");
         }
         return tuple[index];
     }

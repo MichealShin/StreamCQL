@@ -80,7 +80,6 @@ public abstract class OperatorBasedExpression implements IExpression
     
     /**
      * <返回运算操作>
-     * @return 运算操作
      */
     public ExpressionOperator getOp()
     {
@@ -89,7 +88,6 @@ public abstract class OperatorBasedExpression implements IExpression
     
     /**
      * <返回左表达式>
-     * @return 左表达式
      */
     public IExpression getLeftExpr()
     {
@@ -98,7 +96,6 @@ public abstract class OperatorBasedExpression implements IExpression
     
     /**
      * <返回右表达式>
-     * @return 右表达式
      */
     public IExpression getRightExpr()
     {
@@ -107,7 +104,6 @@ public abstract class OperatorBasedExpression implements IExpression
     
     /**
      * 返回 type
-     * @return 类型
      */
     public Class< ? > getType()
     {
@@ -116,7 +112,6 @@ public abstract class OperatorBasedExpression implements IExpression
     
     /**
      * 对type进行赋值
-     * @param type 类型
      */
     public void setType(Class< ? > type)
     {

@@ -23,7 +23,7 @@ import java.io.InputStream;
 /** An InputStream that reads data from a byte array 
  *  and optionally fills the byte array from another OutputStream as needed.
  * Utility methods are provided for efficiently reading primitive types and strings.
- * @author Nathan Sweet <misc@n4te.com> */
+ */
 public class Input extends InputStream
 {
     private byte[] buffer;
@@ -39,36 +39,36 @@ public class Input extends InputStream
         this.capacity = bufferSize;
         buffer = new byte[bufferSize];
     }
-    
+
     /** Creates a new Input for reading from a byte array.
      * @param buffer An exception is thrown if more bytes than this are read. */
     public Input(byte[] buffer)
     {
         setBuffer(buffer, 0, buffer.length);
     }
-    
+
     /** Creates a new Input for reading from a byte array.
      * @param buffer An exception is thrown if more bytes than this are read. */
     public Input(byte[] buffer, int offset, int count)
     {
         setBuffer(buffer, offset, count);
     }
-    
+
     /** Creates a new Input for reading from an InputStream with a buffer size of 4096. */
-    public Input(InputStream inputStream)
+    public Input(InputStream input)
     {
         this(4096);
-        if (inputStream == null)
+        if (input == null)
             throw new IllegalArgumentException("inputStream cannot be null.");
-        this.inputStream = inputStream;
+        this.inputStream = input;
     }
-    
+
     /** Sets a new buffer. The position and total are reset, discarding any buffered bytes. */
     public void setBuffer(byte[] bytes)
     {
         setBuffer(bytes, 0, bytes.length);
     }
-    
+
     /** Sets a new buffer. The position and total are reset, discarding any buffered bytes. */
     public void setBuffer(byte[] bytes, int offset, int count)
     {
@@ -81,44 +81,44 @@ public class Input extends InputStream
         total = 0;
         inputStream = null;
     }
-    
+
     /** Returns the number of bytes read. */
-    public int total()
+    public int getTotal()
     {
         return total + position;
     }
-    
+
     /** Returns the current position in the buffer. */
-    public int position()
+    public int getPosition()
     {
         return position;
     }
-    
+
     /** Sets the current position in the buffer. */
     public void setPosition(int position)
     {
         this.position = position;
     }
-    
+
     /** Returns the limit for the buffer. */
-    public int limit()
+    public int getLimit()
     {
         return limit;
     }
-    
+
     /** Sets the limit in the buffer. */
     public void setLimit(int limit)
     {
         this.limit = limit;
     }
-    
+
     /** Sets the position and total to zero. */
     public void rewind()
     {
         position = 0;
         total = 0;
     }
-    
+
     /** Discards the specified number of bytes. */
     public void skip(int count)
         throws IOException
@@ -134,7 +134,7 @@ public class Input extends InputStream
             require(skipCount);
         }
     }
-    
+
     /** Fills the buffer with more bytes. Can be overridden to fill the bytes from a source other than the InputStream. */
     protected int fill(byte[] buffer, int offset, int count)
         throws IOException
@@ -150,7 +150,7 @@ public class Input extends InputStream
             throw new IOException(ex);
         }
     }
-    
+
     /** @param required Must be > 0. The buffer is filled until it has at least this many bytes.
      * @return the number of bytes remaining.
      * @throws IOException if EOS is reached before required bytes are read (buffer underflow). */
@@ -162,12 +162,12 @@ public class Input extends InputStream
             return remaining;
         if (required > capacity)
             throw new IOException("Buffer too small: capacity: " + capacity + ", required: " + required);
-        
+
         // Compact.
         System.arraycopy(buffer, position, buffer, 0, remaining);
         total += position;
         position = 0;
-        
+
         while (true)
         {
             int count = fill(buffer, remaining, capacity - remaining);
@@ -184,7 +184,7 @@ public class Input extends InputStream
         limit = remaining;
         return remaining;
     }
-    
+
     /** @param optional Try to fill the buffer with this many bytes.
      * @return the number of bytes remaining, but not more than optional, or -1 if the EOS was reached and the buffer is empty. */
     private int optional(int optional)
@@ -194,12 +194,12 @@ public class Input extends InputStream
         if (remaining >= optional)
             return optional;
         optional = Math.min(optional, capacity);
-        
+
         // Compact.
         System.arraycopy(buffer, position, buffer, 0, remaining);
         total += position;
         position = 0;
-        
+
         while (true)
         {
             int count = fill(buffer, remaining, capacity - remaining);
@@ -212,9 +212,9 @@ public class Input extends InputStream
         limit = remaining;
         return remaining == 0 ? -1 : Math.min(remaining, optional);
     }
-    
+
     // InputStream
-    
+
     /** Reads a single byte as an int from 0 to 255, or -1 if there are no more bytes are available. */
     public int read()
         throws IOException
@@ -223,7 +223,7 @@ public class Input extends InputStream
             return -1;
         return buffer[position++] & 0xFF;
     }
-    
+
     /** Reads bytes.length bytes or less and writes them to the specified byte[], starting at 0, and returns the number of bytes
      * read. */
     public int read(byte[] bytes)
@@ -231,7 +231,7 @@ public class Input extends InputStream
     {
         return read(bytes, 0, bytes.length);
     }
-    
+
     /** Reads count bytes or less and writes them to the specified byte[], starting at offset, and returns the number of bytes read
      * or -1 if no more bytes are available. */
     public int read(byte[] bytes, int offset, int count)
@@ -262,7 +262,7 @@ public class Input extends InputStream
         }
         return startingCount - count;
     }
-    
+
     /** Discards the specified number of bytes. */
     public long skip(long count)
         throws IOException
@@ -278,7 +278,7 @@ public class Input extends InputStream
     }
 
     // byte
-    
+
     /** Reads a single byte. */
     public byte readByte()
         throws IOException
@@ -286,7 +286,7 @@ public class Input extends InputStream
         require(1);
         return buffer[position++];
     }
-    
+
     /** Reads a byte as an int from 0 to 255. */
     public int readByteUnsigned()
         throws IOException
@@ -294,7 +294,7 @@ public class Input extends InputStream
         require(1);
         return buffer[position++] & 0xFF;
     }
-    
+
     /** Reads the specified number of bytes into a new byte[]. */
     public byte[] readBytes(int length)
         throws IOException
@@ -303,14 +303,14 @@ public class Input extends InputStream
         readBytes(bytes, 0, length);
         return bytes;
     }
-    
+
     /** Reads bytes.length bytes and writes them to the specified byte[], starting at index 0. */
     public void readBytes(byte[] bytes)
         throws IOException
     {
         readBytes(bytes, 0, bytes.length);
     }
-    
+
     /** Reads count bytes and writes them to the specified byte[], starting at offset. */
     public void readBytes(byte[] bytes, int offset, int count)
         throws IOException
@@ -330,5 +330,5 @@ public class Input extends InputStream
             require(copyCount);
         }
     }
-    
+
 }

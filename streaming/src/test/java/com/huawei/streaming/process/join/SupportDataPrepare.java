@@ -45,9 +45,6 @@ public class SupportDataPrepare
     /**
      * 数据生成准备
      * <功能详细描述>
-     * @param itemid itemid
-     * @param sellid sellid
-     * @return 数据生成
      */
     public static Pair<IEvent[][], IEvent[][]> dataPrepare(int itemid, int sellid)
     {
@@ -86,8 +83,6 @@ public class SupportDataPrepare
     /**
      * 生成ITEM事件
      * <功能详细描述>
-     * @param itemid itemid
-     * @return ITEM事件
      */
     public static IEvent genItemEvent(int itemid)
     {
@@ -103,8 +98,6 @@ public class SupportDataPrepare
     /**
      * 生成SELL事件
      * <功能详细描述>
-     * @param sellid sellid
-     * @return SELL事件
      */
     public static IEvent genSellEvent(int sellid)
     {

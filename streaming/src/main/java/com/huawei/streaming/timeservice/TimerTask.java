@@ -72,7 +72,6 @@ public class TimerTask implements Runnable
     
     /**
      * <设置运行结果>
-     * @param future 运行结果
      */
     public void setFuture(ScheduledFuture< ? > future)
     {

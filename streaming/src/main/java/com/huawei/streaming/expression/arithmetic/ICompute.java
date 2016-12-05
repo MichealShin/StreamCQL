@@ -30,45 +30,30 @@ public interface ICompute extends Serializable
     /**
      * 加法算术运算
      * 
-     * @param left 左值
-     * @param right 右值
-     * @return 计算结果
      */
     public Number add(Number left, Number right);
     
     /**
      * 减法算术运算
      * 
-     * @param left 左值
-     * @param right 右值
-     * @return 计算结果
      */
     public Number subtract(Number left, Number right);
     
     /**
      * 乘法算术运算
      * 
-     * @param left 左值
-     * @param right 右值
-     * @return 计算结果
      */
     public Number multiply(Number left, Number right);
     
     /**
      * 除法算术运算
      * 
-     * @param left 左值
-     * @param right 右值
-     * @return 计算结果
      */
     public Number divide(Number left, Number right);
     
     /**
      * 求模算术运算
      * 
-     * @param left 左值
-     * @param right 右值
-     * @return 计算结果
      */
     public Number mod(Number left, Number right);
 }

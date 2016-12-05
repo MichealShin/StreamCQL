@@ -58,12 +58,6 @@ public class Combine extends Union
     
     /**
      * <默认构造函数>
-     * @param outStreamName 输出流名
-     * @param outSchema 输出schema
-     * @param outSelect 各个输入流及所对应的输出的表达式
-     * @param inputStreamNameList 输入流名列表
-     * @param keyMap 各个输入流及其会合所用的列名
-     * @throws StreamingException 表达式构建异常
      */
     public Combine(String outStreamName, IEventType outSchema, Map<String, IExpression[]> outSelect,
         List<String> inputStreamNameList, Map<String, String> keyMap)
@@ -76,8 +70,6 @@ public class Combine extends Union
     
     /**
      * 计算事件会合结果
-     * @param event 输入事件
-     * @return 会合的结果
      */
     @Override
     public IEvent unionEvent(IEvent event)
@@ -100,8 +92,6 @@ public class Combine extends Union
     
     /**
      * 根据新到的事件生成会合事件，如果没有达到会合条件则返回null
-     * @param event     新到的事件
-     * @return  IEvent 生成的会合事件
      */
     private IEvent generateEvent(IEvent event)
     {
@@ -136,7 +126,6 @@ public class Combine extends Union
     
     /**
      * 删除会合成功的老事件 
-     * @param keyValue     需要删除的旧事件的的主键的值
      */
     private void removeOldEvent(Object keyValue)
     {
@@ -157,9 +146,6 @@ public class Combine extends Union
     
     /**
      * 根据输入流名，主键的值获得对应事件
-     * @param streamName     输入流名
-     * @param keyValue     主键对应的值
-     * @return  IEvent 查找到的事件
      */
     private IEvent getEvent(String streamName, Object keyValue)
     {

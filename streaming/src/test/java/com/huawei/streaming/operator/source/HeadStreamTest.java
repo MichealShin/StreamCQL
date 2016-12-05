@@ -30,6 +30,7 @@ import com.huawei.streaming.event.Attribute;
 import com.huawei.streaming.event.IEventType;
 import com.huawei.streaming.event.TupleEventType;
 import com.huawei.streaming.operator.inputstream.HeadStreamSourceOp;
+import com.huawei.streaming.operator.inputstream.HeadStreamSourceOp.HeadStream;
 
 /**
  * <HeadStreamTest>
@@ -46,7 +47,6 @@ public class HeadStreamTest
     
     /**
      * <setup>
-     * @throws Exception 异常
      */
     @Before
     public void setUp()
@@ -72,7 +72,6 @@ public class HeadStreamTest
     
     /**
      * <cleanup>
-     * @throws Exception 异常
      */
     @After
     public void tearDown()
@@ -89,10 +88,8 @@ public class HeadStreamTest
     @Test
     public void testGetOutput()
     {
-        head = new HeadStreamSourceOp().new HeadStream(eType, null);
-        
+        head = new HeadStream(eType);
         Object[] result = head.getOutput();
-        
         Assert.assertEquals(eType.getSize(), result.length);
     }
 }

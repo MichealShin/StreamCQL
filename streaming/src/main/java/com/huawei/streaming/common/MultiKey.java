@@ -36,7 +36,7 @@ public class MultiKey implements Serializable
     
     private final Object[] keys;
     
-    private final int hashCode;
+    private final int hashValue;
     
     /**
      * <默认构造函数>
@@ -59,13 +59,12 @@ public class MultiKey implements Serializable
             }
         }
         
-        this.hashCode = total;
+        this.hashValue = total;
         this.keys = keys;
     }
     
     /**
      * <返回大小>
-     * @return 大小
      */
     public final int size()
     {
@@ -74,8 +73,6 @@ public class MultiKey implements Serializable
     
     /**
      * <返回索引对应值>
-     * @param index 索引
-     * @return 值
      */
     public final Object get(int index)
     {
@@ -101,7 +98,6 @@ public class MultiKey implements Serializable
     
     /**
      * <返回数据>
-     * @return 数据
      */
     public Object[] getKeys()
     {
@@ -113,7 +109,7 @@ public class MultiKey implements Serializable
      */
     public final int hashCode()
     {
-        return hashCode;
+        return hashValue;
     }
     
     /**

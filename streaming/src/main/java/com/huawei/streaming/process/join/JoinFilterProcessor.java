@@ -58,7 +58,6 @@ public class JoinFilterProcessor implements Serializable
     /**
      * 根据表达式过滤
      * <功能详细描述>
-     * @param eventsPerStream 包含多流事件的JOIN结果
      */
     public void filter(Set<MultiKey> eventsPerStream)
     {

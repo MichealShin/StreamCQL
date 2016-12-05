@@ -97,7 +97,6 @@ public class CSVParser
     /**
      * Constructs CSVParser with supplied separator.
      *
-     * @param separator the delimiter to use for separating entries.
      */
     public CSVParser(char separator)
     {
@@ -107,8 +106,6 @@ public class CSVParser
     /**
      * Constructs CSVParser with supplied separator and quote char.
      *
-     * @param separator the delimiter to use for separating entries
-     * @param quotechar the character to use for quoted elements
      */
     public CSVParser(char separator, char quotechar)
     {
@@ -118,9 +115,6 @@ public class CSVParser
     /**
      * Constructs CSVReader with supplied separator and quote char.
      *
-     * @param separator the delimiter to use for separating entries
-     * @param quotechar the character to use for quoted elements
-     * @param escape    the character to use for escaping a separator or quote
      */
     public CSVParser(char separator, char quotechar, char escape)
     {
@@ -131,10 +125,6 @@ public class CSVParser
      * Constructs CSVReader with supplied separator and quote char.
      * Allows setting the "strict quotes" flag
      *
-     * @param separator    the delimiter to use for separating entries
-     * @param quotechar    the character to use for quoted elements
-     * @param escape       the character to use for escaping a separator or quote
-     * @param strictQuotes if true, characters outside the quotes are ignored
      */
     public CSVParser(char separator, char quotechar, char escape, boolean strictQuotes)
     {
@@ -145,11 +135,6 @@ public class CSVParser
      * Constructs CSVReader with supplied separator and quote char.
      * Allows setting the "strict quotes" and "ignore leading whitespace" flags
      *
-     * @param separator               the delimiter to use for separating entries
-     * @param quotechar               the character to use for quoted elements
-     * @param escape                  the character to use for escaping a separator or quote
-     * @param strictQuotes            if true, characters outside the quotes are ignored
-     * @param ignoreLeadingWhiteSpace if true, white space in front of a quote in a field is ignored
      */
     public CSVParser(char separator, char quotechar, char escape, boolean strictQuotes, boolean ignoreLeadingWhiteSpace)
     {
@@ -180,7 +165,6 @@ public class CSVParser
     
     /**
      * something was left over from last call(s)
-     * @return true if something was left over from last call(s)
      */
     public boolean isPending()
     {
@@ -189,9 +173,6 @@ public class CSVParser
     
     /**
      * Parses an incoming String and returns an array of elements.
-     * @return an array of elements.
-     * @param nextLine incoming String
-     * @exception IOException IOException
      */
     public String[] parseLineMulti(String nextLine)
         throws IOException
@@ -201,9 +182,6 @@ public class CSVParser
     
     /**
      * Parses an incoming String and returns an array of elements.
-     * @return an array of elements.
-     * @param nextLine incoming String
-     * @exception IOException IOException
      */
     public String[] parseLine(String nextLine)
         throws IOException
@@ -214,10 +192,6 @@ public class CSVParser
     /**
      * Parses an incoming String and returns an array of elements.
      *
-     * @param nextLine the string to parse
-     * @param multi
-     * @return the comma-tokenized list of elements, or null if nextLine is null
-     * @throws IOException if bad things happen during the read
      */
     private String[] parseLine(String nextLine, boolean multi)
         throws IOException
@@ -343,10 +317,6 @@ public class CSVParser
     /**
      * precondition: the current character is a quote or an escape
      *
-     * @param nextLine the current line
-     * @param inQuotes true if the current context is quoted
-     * @param i        current index in line
-     * @return true if the following character is a quote
      */
     private boolean isNextCharacterEscapedQuote(String nextLine, boolean inQuotes, int i)
     {
@@ -358,10 +328,6 @@ public class CSVParser
     /**
      * precondition: the current character is an escape
      *
-     * @param nextLine the current line
-     * @param inQuotes true if the current context is quoted
-     * @param i        current index in line
-     * @return true if the following character is a quote
      */
     protected boolean isNextCharacterEscapable(String nextLine, boolean inQuotes, int i)
     {
@@ -373,8 +339,6 @@ public class CSVParser
     /**
      * precondition: sb.length() > 0
      *
-     * @param sb A sequence of characters to examine
-     * @return true if every character in the sequence is whitespace
      */
     protected boolean isAllWhiteSpace(CharSequence sb)
     {

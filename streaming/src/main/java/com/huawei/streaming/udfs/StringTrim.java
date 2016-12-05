@@ -24,7 +24,7 @@ import java.util.Map;
  * 移除字符串前后特殊字符
  * 
  */
-@UDFAnnotation(name = "trim")
+@UDFAnnotation("trim")
 public class StringTrim extends UDF
 {
     
@@ -35,7 +35,6 @@ public class StringTrim extends UDF
     
     /**
      * <默认构造函数>
-     * @param config udf函数中需要的参数，这些参数要在cql中通过全局变量进行设置。
      */
     public StringTrim(Map<String, String> config)
     {
@@ -44,14 +43,12 @@ public class StringTrim extends UDF
     
     /**
      * trim
-     * @param s 字符串
-     * @return 移除空格之后的字符串
      */
     public String evaluate(String s)
     {
         if (s == null)
         {
-            return new String();
+            return "";
         }
         
         return s.trim();

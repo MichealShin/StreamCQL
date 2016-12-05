@@ -64,8 +64,6 @@ public class DataSourceContainer implements Serializable
     
     /**
      * 设置查询参数
-     * @param queryArguments 数据源查询参数
-     * @throws StreamingException 参数设置异常
      */
     public void setQueryArguments(String[] queryArguments) throws StreamingException
     {
@@ -76,7 +74,6 @@ public class DataSourceContainer implements Serializable
 
     /**
      * 设置数据源实现
-     * @param iDataSource 数据源实现
      */
     public void setDataSource(IDataSource iDataSource)
     {
@@ -94,7 +91,6 @@ public class DataSourceContainer implements Serializable
     /**
      * 运行时的初始化接口
      *
-     * @throws StreamingException 流处理异常
      */
     public void initialize() throws StreamingException
     {
@@ -106,9 +102,6 @@ public class DataSourceContainer implements Serializable
      * 
      * 已经经过了入参和返回值的检查，确保了输入参数和返回值不可能为Null
      * 
-     * @param cqlExpressionValues 查询参数
-     * @return 查询结果
-     * @throws StreamingException 执行异常
      */
     public List< Object[] > evaluate(Map<String, Object> cqlExpressionValues)
         throws StreamingException
@@ -122,7 +115,6 @@ public class DataSourceContainer implements Serializable
     /**
      * 运行时的销毁接口
      *
-     * @throws StreamingException 流处理异常
      */
     public void destroy() throws StreamingException
     {
@@ -137,7 +129,6 @@ public class DataSourceContainer implements Serializable
      * 然后将计算结果组织成Map<String,Object>的形式，用来调用evaluate方法。
      * 
      * 每个"${}"中的内容为一项参数
-     * @return CQL参数列表，参数有可能是udf函数，也可能是其他表达式
      */
     public String[] getCQLQueryArguments()
     {
@@ -146,7 +137,6 @@ public class DataSourceContainer implements Serializable
 
     /**
      * 获取数据源的schema
-     * @return 数据源schema
      */
     public TupleEventType getEventType()
     {
@@ -155,10 +145,7 @@ public class DataSourceContainer implements Serializable
 
     /**
      * 在查询之前，替换CQL查询结果
-     * @param cqlExpressionValues 表达式计算完成之后的CQL计算结果
-     * @return 替换之后的QueryArguments，
      *          必须是新new出来的，绝对不要影响到原有参数
-     * @throws StreamingException 遍历异常
      */
     private List< Object > createReplacedQueryArguments(Map<String, Object> cqlExpressionValues)
         throws StreamingException
@@ -173,7 +160,6 @@ public class DataSourceContainer implements Serializable
     
     /**
      * 校验查询参数长度是否和定义一致
-     * @param cqlExpressionValues 查询参数
      */
     private void validateEvaluateArguments(Map<String, Object> cqlExpressionValues)
     {
@@ -191,7 +177,6 @@ public class DataSourceContainer implements Serializable
      * 获取数据源执行的参数长度
      * 数据源执行参数长度从数据源参数列表中获取，
      * 参数长度取决于数据源参数列表中的"${}"数量
-     * @return 数据源执行的参数长度
      */
     private int getEvaluateArgumentsLength()
     {
@@ -228,8 +213,6 @@ public class DataSourceContainer implements Serializable
      * s.id就是CQL的查询参数，这条语句中只有一个CQL表达式参数，
      * 所以evaluate接口的数组长度也必须是1
      * 
-     * @param args 数据源参数列表
-     * @throws StreamingException 参数解析异常
      */
     private void parseQueryArguments(String[] args)
         throws StreamingException

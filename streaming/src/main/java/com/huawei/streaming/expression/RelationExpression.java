@@ -58,10 +58,6 @@ public class RelationExpression extends OperatorBasedExpression implements IBool
     /**
      * <默认构造函数>
      *
-     * @param op 运算操作
-     * @param leftExpr 左表达式
-     * @param rightExpr 右表达式
-     * @throws IllegalDataTypeException 数据类型转换错误
      */
     public RelationExpression(ExpressionOperator op, IExpression leftExpr, IExpression rightExpr)
         throws IllegalDataTypeException
@@ -90,7 +86,7 @@ public class RelationExpression extends OperatorBasedExpression implements IBool
             IllegalDataTypeException exception =
                 new IllegalDataTypeException(ErrorCode.SEMANTICANALYZE_EXPRESSION_DATATYPE_COMPARE, typeOne.getName(),
                     typeTwo.getName());
-            LOG.error(exception.getMessage(), exception);
+            LOG.error(ErrorCode.SEMANTICANALYZE_EXPRESSION_DATATYPE_COMPARE.getFullMessage(), exception);
             throw exception;
         }
         
@@ -119,7 +115,8 @@ public class RelationExpression extends OperatorBasedExpression implements IBool
             IllegalDataTypeException exception =
                 new IllegalDataTypeException(ErrorCode.SEMANTICANALYZE_EXPRESSION_DATATYPE_COMPARE, typeOne.getName(),
                     typeTwo.getName());
-            LOG.error(exception.getMessage(), exception);
+            LOG.error(ErrorCode.SEMANTICANALYZE_EXPRESSION_DATATYPE_COMPARE.getFullMessage(typeOne.getName(),
+                typeTwo.getName()), exception);
             throw exception;
         }
         
@@ -163,7 +160,6 @@ public class RelationExpression extends OperatorBasedExpression implements IBool
     /**
      * 对type进行赋值
      *
-     * @param type 类型
      */
     public void setType(Class< ? > type)
     {
@@ -189,7 +185,6 @@ public class RelationExpression extends OperatorBasedExpression implements IBool
      * <根据表达式和运算，预测结果类型>
      * <功能详细描述>
      *
-     * @return 预测类型
      */
     public Class< ? > validateType()
     {
@@ -200,9 +195,6 @@ public class RelationExpression extends OperatorBasedExpression implements IBool
      * 计算表达式结果
      * <功能详细描述>
      *
-     * @param lo 左值
-     * @param ro 右值
-     * @return 结果
      */
     private Object compute(Object lo, Object ro)
     {

@@ -19,7 +19,7 @@
 package com.huawei.streaming.config;
 
 /**
- * 
+ *
  * <Kafka连接配置信息>
  * <Kafka连接配置信息>
  */
@@ -29,52 +29,52 @@ public class KafkaConfig
      * kafka的生产者zookeeper连接的配置参数
      */
     public static final String KAFKA_PRO_ZK_CONNECT = "zk.connect";
-    
+
     /**
      * kafka的消费者zookeeper连接的配置参数
      */
     public static final String KAFKA_CON_ZK_CONNECT = "zookeeper.connect";
-    
+
     /**
      * broker list
      */
     public static final String KAFKA_BROKER_LIST = "metadata.broker.list";
-    
+
     /**
      * kafka客户端的id配置参数
      */
     public static final String KAFKA_GROUP_ID = "group.id";
-    
+
     /**
      * 序列化类配置参数
      */
     public static final String KAFKA_SERIAL_CLASS = "serializer.class";
-    
+
     /**
      * zookeeper的session有效时间
      */
     public static final String KAFKA_SESSION_TIME = "zk.sessiontimeout.ms";
-    
+
     /**
      * kafka的zk.synctime.ms参数
      */
     public static final String KAFKA_SYNC_TIME = "zk.synctime.ms";
-    
+
     /**
      * kafka的topic参数
      */
     public static final String KAFKA_TOPIC = "kafka_topic";
-    
+
     /**
      * 分隔符
      */
     public static final String KAFKA_SEPARATOR = "kafka_separator";
-    
+
     /**
      * 格式化类型，TXT、CSV等
      */
     public static final String KAFKA_FORMAT_TYPE = "kafka_format_type";
-    
+
     /**
      * kakfa offset配置
      */

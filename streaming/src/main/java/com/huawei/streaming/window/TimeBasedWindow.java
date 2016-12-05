@@ -57,7 +57,7 @@ public abstract class TimeBasedWindow extends ViewImpl implements IWindow, ITime
     /**
      * 锁对象，当前线程与定时器线程访问数据时需要先获取锁。
      */
-    private ILock lock;
+    private ILock windowLock;
     
     /**
      * 窗口事件缓存集合
@@ -66,26 +66,25 @@ public abstract class TimeBasedWindow extends ViewImpl implements IWindow, ITime
     
     /**
      * <默认构造函数>
-     *@param keepTime 窗口保持时间
+     *@param winKeepTime 窗口保持时间
      */
-    public TimeBasedWindow(long keepTime)
+    public TimeBasedWindow(long winKeepTime)
     {
         super();
-        if (keepTime > 0)
+        if (winKeepTime > 0)
         {
-            this.keepTime = keepTime;
-            LOG.debug("Time window KeepTime: {}.", keepTime);
+            this.keepTime = winKeepTime;
+            LOG.debug("Time window KeepTime: {}.", winKeepTime);
         }
         else
         {
-            LOG.error("Invalid keepTime: {}.", keepTime);
-            throw new IllegalArgumentException("Invalid keepTime: " + keepTime);
+            LOG.error("Invalid keepTime: {}.", winKeepTime);
+            throw new IllegalArgumentException("Invalid keepTime: " + winKeepTime);
         }
     }
     
     /**
      * <获取时间窗口保持时间>
-     * @return 窗口保持时间
      */
     protected long getKeepTime()
     {
@@ -94,7 +93,6 @@ public abstract class TimeBasedWindow extends ViewImpl implements IWindow, ITime
     
     /**
      * <获取定时器服务>
-     * @return 定时器服务对象
      */
     public TimeService getTimeservice()
     {
@@ -103,7 +101,6 @@ public abstract class TimeBasedWindow extends ViewImpl implements IWindow, ITime
     
     /**
      * <设置定时器服务>
-     * @param timeservice 定时器服务
      */
     public void setTimeservice(TimeService timeservice)
     {
@@ -116,7 +113,7 @@ public abstract class TimeBasedWindow extends ViewImpl implements IWindow, ITime
     @Override
     public void lock()
     {
-        lock.lock();
+        windowLock.lock();
         
     }
     
@@ -126,7 +123,7 @@ public abstract class TimeBasedWindow extends ViewImpl implements IWindow, ITime
     @Override
     public void unlock()
     {
-        lock.unlock();
+        windowLock.unlock();
         
     }
     
@@ -136,7 +133,7 @@ public abstract class TimeBasedWindow extends ViewImpl implements IWindow, ITime
     @Override
     public boolean isLocked()
     {
-        return lock.isLocked();
+        return windowLock.isLocked();
     }
     
     /**
@@ -145,9 +142,9 @@ public abstract class TimeBasedWindow extends ViewImpl implements IWindow, ITime
      */
     public void initLock()
     {
-        if (lock == null)
+        if (windowLock == null)
         {
-            lock =  new LockImpl();
+            windowLock =  new LockImpl();
         }
     }
     
@@ -193,7 +190,6 @@ public abstract class TimeBasedWindow extends ViewImpl implements IWindow, ITime
     
     /**
      * 返回窗口事件缓存集
-     * @return 窗口事件缓存集
      */
     public IDataCollection getDataCollection()
     {

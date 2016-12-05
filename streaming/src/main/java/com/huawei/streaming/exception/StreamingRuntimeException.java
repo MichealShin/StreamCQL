@@ -84,8 +84,6 @@ public class StreamingRuntimeException extends RuntimeException
     /**
      * <默认构造函数>
      *
-     * @param code 异常码
-     * @param errorArgs 异常参数
      */
     public StreamingRuntimeException(ErrorCode code, String... errorArgs)
     {
@@ -95,9 +93,6 @@ public class StreamingRuntimeException extends RuntimeException
     /**
      * <默认构造函数>
      *
-     * @param cause 错误堆栈
-     * @param code 异常码
-     * @param errorArgs 异常参数
      */
     public StreamingRuntimeException(Throwable cause, ErrorCode code, String... errorArgs)
     {

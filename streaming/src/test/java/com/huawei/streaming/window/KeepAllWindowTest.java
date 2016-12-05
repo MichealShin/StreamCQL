@@ -51,7 +51,6 @@ public class KeepAllWindowTest
     
     /**
      * <setup>
-     * @throws Exception 异常
      */
     @Before
     public void setUp()
@@ -66,7 +65,6 @@ public class KeepAllWindowTest
     
     /**
      * <cleanup>
-     * @throws Exception 异常
      */
     @After
     public void tearDown()

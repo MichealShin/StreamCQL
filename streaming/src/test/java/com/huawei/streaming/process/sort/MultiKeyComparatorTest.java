@@ -48,7 +48,6 @@ public class MultiKeyComparatorTest
     
     /**
      * <setup>
-     * @throws Exception 异常
      */
     @Before
     public void setUp()
@@ -59,7 +58,6 @@ public class MultiKeyComparatorTest
     
     /**
      * <cleanup>
-     * @throws Exception 异常
      */
     @After
     public void tearDown()

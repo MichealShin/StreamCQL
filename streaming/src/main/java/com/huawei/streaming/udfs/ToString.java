@@ -23,33 +23,37 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.huawei.streaming.config.StreamingConfig;
 import com.huawei.streaming.exception.StreamingException;
 import com.huawei.streaming.util.StreamingDataType;
+import com.huawei.streaming.util.datatype.DataTypeParser;
 
 /**
  * 转换为字符串的udf函数
  * 
  */
-@UDFAnnotation(name = "tostring")
+@UDFAnnotation("tostring")
 public class ToString extends UDF
 {
     private static final Logger LOG = LoggerFactory.getLogger(ToString.class);
     
     private static final long serialVersionUID = -4516472038115224500L;
-    
+
+    private DataTypeParser parser;
+
+    private StreamingConfig conf;
     /**
      * <默认构造函数>
-     * @param config 参数
      */
     public ToString(Map<String, String> config)
     {
         super(config);
+        conf = new StreamingConfig();
+        conf.putAll(config);
     }
     
     /**
      * 类型转换实现
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public String evaluate(Object s)
     {
@@ -60,8 +64,11 @@ public class ToString extends UDF
         
         try
         {
-            StreamingDataType dataType = StreamingDataType.getDataType(s.getClass());
-            return dataType.toStringValue(s);
+            if(parser == null)
+            {
+                parser = StreamingDataType.getDataTypeParser(s.getClass(), conf);
+            }
+            return parser.toStringValue(s);
         }
         catch (StreamingException e)
         {

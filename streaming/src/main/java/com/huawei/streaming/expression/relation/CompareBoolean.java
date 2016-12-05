@@ -106,10 +106,6 @@ public class CompareBoolean implements ICompare
     /**
      * 判断关系表达式返回值， 当左对象和右对象为空时返回空，否则根据条件变量返回。
      * 
-     * @param left 左对象
-     * @param right 右对象
-     * @param condition 条件
-     * @return Booelean
      */
     public static Boolean truthValue(Object left, Object right, boolean condition)
     {

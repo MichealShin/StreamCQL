@@ -37,7 +37,6 @@ public interface ILock
     
     /**
      * 是否被锁定
-     * @return 是否被锁定
      */
     boolean isLocked();
     

@@ -147,7 +147,6 @@ public class SupportEventMng
     
     /**
      * 返回 timeEventType
-     * @return 返回 timeEventType
      */
     public TupleEventType getTimeEventType()
     {

@@ -55,8 +55,6 @@ public class EventTypeMng implements Serializable
     /**
      * 增加事件类型
      * <功能详细描述>
-     * @param schema schema
-     * @return
      */
     public void addEventType(IEventType schema)
     {
@@ -86,8 +84,6 @@ public class EventTypeMng implements Serializable
     /**
      * 根据事件类型名称获得具体事件类型
      * <功能详细描述>
-     * @param name 事件类型名称
-     * @return 事件类型
      */
     public IEventType getEventType(String name)
     {

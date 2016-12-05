@@ -34,24 +34,18 @@ public interface IIndexedEventCollection extends IEventCollection
     /**
      * 获得事件的索引值
      * <功能详细描述>
-     * @param event 事件
-     * @return 索引值
      */
     public MultiKey getIndex(IEvent event);
     
     /**
      * 根据KEY值，获得同一KEY的相关事件集合
      * <功能详细描述>
-     * @param key KEY值
-     * @return 同一KEY的相关事件集合
      */
     public Set<IEvent> lookup(MultiKey key);
     
     /**
      * 根据KEY值，获得同一KEY的相关事件集合如果没有匹配的，返回全部值为NULL的一个事件
      * <功能详细描述>
-     * @param key KEY值
-     * @return 同一KEY的相关事件集合,如果没有匹配的，返回全部值为NULL的一个事件
      */
     public Set<IEvent> lookupWithNull(MultiKey key);
 }

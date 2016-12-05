@@ -57,9 +57,6 @@ public class FunctorOp extends FunctionOperator
     
     /**
      * 有参构造函数
-     * @param selector 选择处理器
-     * @param tupleEventType Event Type
-     * @param fiterExp 条件过滤表达式
      */
     public FunctorOp(SelectSubProcess selector, IEventType tupleEventType, IExpression fiterExp)
     {

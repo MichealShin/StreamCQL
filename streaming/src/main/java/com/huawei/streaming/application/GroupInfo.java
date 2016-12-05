@@ -39,9 +39,7 @@ public class GroupInfo implements Serializable
     private DistributeType ditributeType;
     
     private List<String> fields;
-    
-    //    private CustomStreamGrouping grouping;
-    
+
     public String getStreamName()
     {
         return streamName;
@@ -71,20 +69,5 @@ public class GroupInfo implements Serializable
     {
         this.fields = fields;
     }
-    
-    /**
-     * 尚不考虑用户自定义分发方式
-     */
-    /*
-    public CustomStreamGrouping getGrouping()
-    {
-        return grouping;
-    }
 
-    public void setGrouping(CustomStreamGrouping grouping)
-    {
-        this.grouping = grouping;
-    }
-    */
-    
 }

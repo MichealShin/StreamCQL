@@ -61,8 +61,6 @@ public class TimeObjectList implements Iterable
     
     /**
      * <加入事件>
-     * @param timestamp 时间
-     * @param obj 事件
      */
     public void add(long timestamp, Object obj)
     {
@@ -105,8 +103,6 @@ public class TimeObjectList implements Iterable
     
     /**
      * <根据时间获取过期事件>
-     * @param currentTime 时间
-     * @return 过期事件
      */
     @SuppressWarnings("unchecked")
     public IEvent[] getOldData(long currentTime)

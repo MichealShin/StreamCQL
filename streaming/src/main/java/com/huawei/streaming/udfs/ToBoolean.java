@@ -28,7 +28,7 @@ import java.util.Map;
  * 数据类型转换函数
  * 
  */
-@UDFAnnotation(name = "toboolean")
+@UDFAnnotation("toboolean")
 public class ToBoolean extends UDF
 {
     private static final long serialVersionUID = -4516472038115224500L;
@@ -36,7 +36,6 @@ public class ToBoolean extends UDF
     
     /**
      * <默认构造函数>
-     * @param config 参数
      */
     public ToBoolean(Map<String, String> config)
     {
@@ -45,8 +44,6 @@ public class ToBoolean extends UDF
     
     /**
      * 类型转换实现
-     * @param i 待转换数据
-     * @return 转换之后结果
      */
     public Boolean evaluate(Boolean i)
     {
@@ -56,8 +53,6 @@ public class ToBoolean extends UDF
     
     /**
      * 类型转换实现
-     * @param i 待转换数据
-     * @return 转换之后结果
      */
     public Boolean evaluate(Integer i)
     {
@@ -73,8 +68,6 @@ public class ToBoolean extends UDF
     
     /**
      * 类型转换实现
-     * @param i 待转换数据
-     * @return 转换之后结果
      */
     public Boolean evaluate(Long i)
     {
@@ -90,8 +83,6 @@ public class ToBoolean extends UDF
     
     /**
      * 类型转换实现
-     * @param i 待转换数据
-     * @return 转换之后结果
      */
     public Boolean evaluate(Float i)
     {
@@ -107,8 +98,6 @@ public class ToBoolean extends UDF
     
     /**
      * 类型转换实现
-     * @param i 待转换数据
-     * @return 转换之后结果
      */
     public Boolean evaluate(Double i)
     {
@@ -124,8 +113,6 @@ public class ToBoolean extends UDF
     
     /**
      * 类型转换实现
-     * @param i 待转换数据
-     * @return 转换之后结果
      */
     public Boolean evaluate(BigDecimal i)
     {
@@ -141,8 +128,6 @@ public class ToBoolean extends UDF
     
     /**
      * 类型转换实现
-     * @param i 待转换数据
-     * @return 转换之后结果
      */
     public Boolean evaluate(String i)
     {
@@ -158,8 +143,6 @@ public class ToBoolean extends UDF
     
     /**
      * 类型转换实现
-     * @param i 待转换数据
-     * @return 转换之后结果
      */
     public Boolean evaluate(Time i)
     {
@@ -175,8 +158,6 @@ public class ToBoolean extends UDF
     
     /**
      * 类型转换实现
-     * @param i 待转换数据
-     * @return 转换之后结果
      */
     public Boolean evaluate(Date i)
     {
@@ -192,8 +173,6 @@ public class ToBoolean extends UDF
     
     /**
      * 类型转换实现
-     * @param i 待转换数据
-     * @return 转换之后结果
      */
     public Boolean evaluate(Timestamp i)
     {

@@ -95,9 +95,6 @@ public class AggResultSetMergeOnlyGrouped extends AggResultSetMergeGrouped
     
     /**
      * <产生分组健，并保存分组健和事件对应关系>
-     * @param events 事件
-     * @param keysAndEvents 分组健和事件对应关系
-     * @return 分组健
      */
     protected Object[] generateGroupKeys(IEvent[] events, Map<Object, IEvent> keysAndEvents)
     {
@@ -122,8 +119,6 @@ public class AggResultSetMergeOnlyGrouped extends AggResultSetMergeGrouped
     
     /**
      * <产生结果集>
-     * @param keysAndEvents 分组键事件对应关系
-     * @return 结果集
      */
     protected IEvent[] generateOutputEvents(Map<Object, IEvent> keysAndEvents)
     {
@@ -185,8 +180,6 @@ public class AggResultSetMergeOnlyGrouped extends AggResultSetMergeGrouped
     /**
      * <根据JOIN事件产生结果>
      * <功能详细描述>
-     * @param keysAndEvents JOIN事件集合
-     * @return 结果事件
      */
     protected IEvent[] generateOutputEventsJoin(Map<Object, IEvent[]> keysAndEvents)
     {
@@ -213,9 +206,6 @@ public class AggResultSetMergeOnlyGrouped extends AggResultSetMergeGrouped
     
     /**
      * <产生分组健，并保存分组健和事件对应关系>
-     * @param eventSet JOIN事件
-     * @param keysAndEvents 分组健和事件对应关系
-     * @return 分组健
      */
     protected Object[] generateGroupKeys(Set<MultiKey> eventSet, Map<Object, IEvent[]> keysAndEvents)
     {

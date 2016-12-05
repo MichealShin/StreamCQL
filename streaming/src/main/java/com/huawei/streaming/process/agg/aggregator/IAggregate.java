@@ -28,27 +28,21 @@ public interface IAggregate extends Serializable
 {
     /**
      * <表达式值加入Aggregate算子>
-     * @param value 表达式值
-     * @param filter 过滤条件
      */
     public void enter(Object value, boolean filter);
     
     /**
      * <表达式值离开Aggregate算子>
-     * @param value 表达式值
-     * @param filter 过滤条件
      */
     public void leave(Object value, boolean filter);
     
     /**
      * <返回Aggregate算子结果>
-     * @return 算子结果
      */
     public Object getValue();
     
     /**
      * <返回Aggregate算子结果类型>
-     * @return 算子结果
      */
     public Class< ? > getValueType();
     

@@ -42,26 +42,21 @@ public interface IEventCollection extends Serializable
      *     and then add. Most other non-unique indexes will add first and then remove
      *     since the an event can be both in the add and the remove stream.
      * </p>
-     * @param newData to add
-     * @param oldData to remove
      */
     void addRemove(IEvent[] newData, IEvent[] oldData);
     
     /**
      * Add events to collection.
-     * @param events to add
      */
     public void add(IEvent[] events);
     
     /**
      * Remove events from collection.
-     * @param events to remove
      */
     public void remove(IEvent[] events);
     
     /**
      * Returns true if the index is empty, or false if not
-     * @return true for empty index
      */
     public boolean isEmpty();
     
@@ -73,14 +68,12 @@ public interface IEventCollection extends Serializable
     /**
      * 获得保存事件的流名称
      * <功能详细描述>
-     * @return 流名称 
      */
     public String getStreamName();
     
     /**
      * 生成一个所有属性值为NULL的空事件
      * <功能详细描述>
-     * @return 所有属性值为NULL的空事件
      */
     public IEvent genNullEvent();
 }

@@ -112,8 +112,6 @@ public class SelectSubProcess implements Serializable
     
     /**
      * <根据Select中获取表达式得到结果集>
-     * @param theEvents 事件集合
-     * @return 结果集合
      */
     public IEvent[] process(IEvent[] theEvents)
     {
@@ -171,8 +169,6 @@ public class SelectSubProcess implements Serializable
     
     /**
      * <根据Select中获取表达式得到结果集>
-     * @param theEvent 事件
-     * @return 结果
      */
     public IEvent processSingle(IEvent theEvent)
     {
@@ -200,7 +196,6 @@ public class SelectSubProcess implements Serializable
     
     /**
      * <返回属性列表达式>
-     * @return 属性列表达式
      */
     public IExpression[] getExprs()
     {
@@ -209,7 +204,6 @@ public class SelectSubProcess implements Serializable
     
     /**
      * <返回属性列名称>
-     * @return 属性名称
      */
     public String[] getNames()
     {
@@ -218,7 +212,6 @@ public class SelectSubProcess implements Serializable
     
     /**
      * <返回属性列类型>
-     * @return 属性列类型
      */
     public Class< ? >[] getTypes()
     {
@@ -227,7 +220,6 @@ public class SelectSubProcess implements Serializable
     
     /**
      * <返回过滤表达式>
-     * @return 过滤表达式
      */
     public IExpression getHaving()
     {
@@ -236,7 +228,6 @@ public class SelectSubProcess implements Serializable
     
     /**
      * <返回事件类型>
-     * @return 事件类型
      */
     public IEventType getEventType()
     {
@@ -245,7 +236,6 @@ public class SelectSubProcess implements Serializable
     
     /**
      * <返回流名称>
-     * @return 流名称
      */
     public String getStreamName()
     {
@@ -255,8 +245,6 @@ public class SelectSubProcess implements Serializable
     /**
      * 处理Join后的Select结果集
      * <功能详细描述>
-     * @param eventsPerStream JOIN结果
-     * @return 满足条件的事件
      */
     public IEvent[] process(Set<MultiKey> eventsPerStream)
     {
@@ -288,8 +276,6 @@ public class SelectSubProcess implements Serializable
     
     /**
      * <根据Select中获取表达式得到JOIN结果集>
-     * @param eventsPerStream 事件
-     * @return 结果
      */
     public IEvent processSingle(IEvent[] eventsPerStream)
     {

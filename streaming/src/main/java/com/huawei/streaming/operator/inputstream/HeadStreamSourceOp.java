@@ -54,7 +54,7 @@ public class HeadStreamSourceOp implements IInputStreamOperator
     
     private static final int MAX_TIME = 1000000000;
     
-    private HeadStream headStream;
+    private transient HeadStream headStream;
     
     /**
      * 时间单位，默认秒,配置参数
@@ -91,24 +91,37 @@ public class HeadStreamSourceOp implements IInputStreamOperator
      */
     private long delay = 0;
     
-    private ScheduledExecutorService scheduler;
+    private transient ScheduledExecutorService scheduler;
     
     /**
      * 发送次数计数器
      */
     private int counts = 0;
-
+    
     private IEmitter emitter;
-
+    
     private StreamSerDe serde;
+    
+    private StreamingConfig config;
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setConfig(StreamingConfig conf)
+        throws StreamingException
+    {
+        config = conf;
+        initParameters(conf);
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void setConfig(StreamingConfig conf) throws StreamingException
+    public StreamingConfig getConfig()
     {
-        initParameters(conf);
+        return config;
     }
 
     /**
@@ -119,7 +132,7 @@ public class HeadStreamSourceOp implements IInputStreamOperator
         throws StreamingException
     {
         LOG.info("Init HeadStreamSource Operator...");
-        this.headStream = new HeadStream(serde.getSchema(), null);
+        this.headStream = new HeadStream(serde.getSchema());
         if (delay > 0)
         {
             LOG.info("Preparing send... delay={}", delay);
@@ -136,6 +149,17 @@ public class HeadStreamSourceOp implements IInputStreamOperator
         
     }
     
+    private static class HeadStreamThreadFactory implements ThreadFactory
+    {
+        // set new thread as daemon thread and name appropriately
+        public Thread newThread(Runnable r)
+        {
+            Thread t = new Thread(r, HeadStreamSourceOp.class.getName());
+            t.setDaemon(true);
+            return t;
+        }
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -150,16 +174,7 @@ public class HeadStreamSourceOp implements IInputStreamOperator
         {
             
             LOG.info("Init scheduler...");
-            scheduler = Executors.newSingleThreadScheduledExecutor(new ThreadFactory()
-            {
-                // set new thread as daemon thread and name appropriately
-                public Thread newThread(Runnable r)
-                {
-                    Thread t = new Thread(r, HeadStreamSourceOp.class.getName());
-                    t.setDaemon(true);
-                    return t;
-                }
-            });
+            scheduler = Executors.newSingleThreadScheduledExecutor(new HeadStreamThreadFactory());
             
             ScheduleRunner emitTask = new ScheduleRunner();
             emitTask.setEmitter(emitter);
@@ -178,7 +193,7 @@ public class HeadStreamSourceOp implements IInputStreamOperator
                     throw new RuntimeException("Too huge event num, not supported.");
                 }
                 //当前周期转换为最小的微秒时间单位
-                interval = (period * MAX_TIME) / this.eventNumPerPeriod;
+                interval = ((long)period * MAX_TIME) / this.eventNumPerPeriod;
                 timeUnit = TimeUnit.NANOSECONDS;
             }
             else
@@ -246,31 +261,29 @@ public class HeadStreamSourceOp implements IInputStreamOperator
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public StreamSerDe getSerDe()
+    {
+        return serde;
+    }
+
+    /**
      * 随机数发送对象体
      * 
      */
-    public class HeadStream implements Serializable
+    public static class HeadStream
     {
-        /**
-         * 注释内容
-         */
-        private static final long serialVersionUID = -9194879769685134700L;
-                
         private IEventType eventType;
         
         private RandomValueGen randomGen = new RandomValueGen();
         
         /**
-         * 输出表达式，为空时表示随机生成
-         */
-        private IExpression[] outExpression;
-        
-        /**
          * <默认构造函数>
          *@param eType 输出eType
-         *@param outExp 输出表达式
          */
-        public HeadStream(IEventType eType, IExpression[] outExp)
+        public HeadStream(IEventType eType)
         {
             if (null == eType)
             {
@@ -279,20 +292,11 @@ public class HeadStreamSourceOp implements IInputStreamOperator
             }
 
             this.eventType = eType;
-            
-            if (null != outExp && outExp.length != eType.getSize())
-            {
-                LOG.error("The expressions does not match to output eventType. "
-                    + "size of expression={}, size of event schema={}.", outExp.length, eType.getSize());
-                throw new RuntimeException("The expressions does not match to output eventType.");
-            }
-            this.outExpression = outExp;
         }
         
         /**
          * 获得一个生成的事件
          * <功能详细描述>
-         * @return 生成的事件
          */
         @SuppressWarnings("rawtypes")
         public Object[] getOutput()
@@ -305,37 +309,14 @@ public class HeadStreamSourceOp implements IInputStreamOperator
             /**
              * 随机生成所需数据
              */
-            if (outExpression == null || 0 == outExpression.length)
+
+            for (int i = 0; i < atts.length; i++)
             {
-                for (int i = 0; i < atts.length; i++)
-                {
-                    att = atts[i];
-                    cla = att.getAttDataType();
-                    values[i] = genRandomValue(cla);
-                }
+                att = atts[i];
+                cla = att.getAttDataType();
+                values[i] = genRandomValue(cla);
             }
-            /**
-             * 按用户要求生成所需数据
-             */
-            else
-            {
-                for (int i = 0; i < atts.length; i++)
-                {
-                    att = atts[i];
-                    cla = att.getAttDataType();
-                    
-                    if (null != outExpression[i])
-                    {
-                        //TODO:待进一步实现
-                        values[i] = outExpression[i].evaluate(new TupleEvent());
-                    }
-                    else
-                    {
-                        values[i] = genRandomValue(cla);
-                    }
-                }
-            }
-            
+
             return values;
         }
         
@@ -378,8 +359,6 @@ public class HeadStreamSourceOp implements IInputStreamOperator
         
         /**
          * 设置emitter
-         * @param emitobj emitter对象
-         * @return 执行方法体
          */
         public ScheduleRunner setEmitter(IEmitter emitobj)
         {

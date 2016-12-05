@@ -16,12 +16,11 @@ public class ConfVariableTest
 {
     private static StreamingConfig config;
 
-    private static String CONF_VAR = "test";
+    private final static String CONF_VAR = "test";
 
     /**
      * 测试类启动之前的初始化
      *
-     * @throws Exception 初始化异常
      */
     @BeforeClass
     public static void setUpBeforeClass() throws Exception
@@ -32,7 +31,6 @@ public class ConfVariableTest
     /**
      * 测试类启动之后的清理
      *
-     * @throws Exception 清理异常
      */
     @AfterClass
     public static void tearDownAfterClass() throws Exception
@@ -44,7 +42,6 @@ public class ConfVariableTest
     /**
      * 测试前准备
      *
-     * @throws Exception 测试异常
      */
     @Before
     public void setUp() throws Exception
@@ -55,7 +52,6 @@ public class ConfVariableTest
     /**
      * 测试后清理
      *
-     * @throws Exception 测试异常
      */
     @After
     public void tearDown() throws Exception
@@ -66,7 +62,6 @@ public class ConfVariableTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetSystemValue() throws Exception
@@ -79,7 +74,6 @@ public class ConfVariableTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetSystemValue2() throws Exception
@@ -92,7 +86,6 @@ public class ConfVariableTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetConfValue() throws Exception
@@ -105,7 +98,6 @@ public class ConfVariableTest
     /**
      * 测试用例
      *
-     * @throws Exception 测试异常
      */
     @Test
     public void testGetConfValue2() throws Exception

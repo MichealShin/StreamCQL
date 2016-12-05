@@ -60,7 +60,6 @@ public class FilterViewTest
     /**
      * <Test>
      * <功能详细描述>
-     * @throws IllegalDataTypeException 异常
      */
     @Test
     public void test()
@@ -110,7 +109,6 @@ public class FilterViewTest
         firststream.start();
         
         //发送数据
-        //        long startTime = System.currentTimeMillis();
         for (int i = 0; i < INT_200; i++)
         {
             values.put("A", i);
@@ -121,7 +119,5 @@ public class FilterViewTest
         }
         
         firststream.stop();
-        
-        //        fail("Not yet implemented");
     }
 }

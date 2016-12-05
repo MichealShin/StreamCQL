@@ -43,8 +43,6 @@ public class SortCondition implements Serializable
     /**
      * 
      * <默认构造函数>
-     * @param attribute 待排序的列名
-     * @param sortEnum 排序方式
      */
     public SortCondition(String attribute, SortEnum sortEnum)
     {

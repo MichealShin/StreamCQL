@@ -33,7 +33,6 @@ public class DataSourceTokenCollectorHandlerTest
 {
     /**
      * 测试用例
-     * @throws StreamingException 测试异常
      */
     @Test
     public void testParse1()
@@ -49,7 +48,6 @@ public class DataSourceTokenCollectorHandlerTest
     
     /**
      * 测试用例
-     * @throws StreamingException 测试异常
      */
     @Test
     public void testParse2()
@@ -66,7 +64,6 @@ public class DataSourceTokenCollectorHandlerTest
     
     /**
      * 测试用例
-     * @throws StreamingException 测试异常
      */
     @Test
     public void testParse3()

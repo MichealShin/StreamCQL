@@ -135,7 +135,6 @@ public class JoinProcessor extends ProcessorImpl
     /**
      * 设置是否为单向
      * <功能详细描述>
-     * @param uni 是否为单向
      */
     public void setUnidirectional(Boolean uni)
     {
@@ -145,7 +144,6 @@ public class JoinProcessor extends ProcessorImpl
     /**
      * 设置单向流索引
      * <功能详细描述>
-     * @param index 单向流索引
      */
     public void setUniStreamIndex(int index)
     {
@@ -155,7 +153,6 @@ public class JoinProcessor extends ProcessorImpl
     /**
      * 设置是否单流JOIN
      * <功能详细描述>
-     * @param self 是否单流JOIN
      */
     public void setSelfJoin(Boolean self)
     {
@@ -212,17 +209,6 @@ public class JoinProcessor extends ProcessorImpl
             //如果为单向
             if (unidirectional)
             {
-                //TODO 是否要删掉？
-                //                //如果为单流JOIN
-                //                if (selfJoin)
-                //                {
-                //                    newDataPerStream[1 - uniStreamIndex] = null;
-                //                    oldDataPerStream[1 - uniStreamIndex] = null;
-                //                    //                    oldDataPerStream[uniStreamIndex] = null;
-                //                }
-                //                //如果为多流JOIN
-                //                else
-                //                {
                 if (!selfJoin)
                 {
                     if (streamIndex != uniStreamIndex)
@@ -230,7 +216,6 @@ public class JoinProcessor extends ProcessorImpl
                         return;
                     }
                 }
-                //                }
             }
             
             composedEvents = joinComposer.join(newDataPerStream, oldDataPerStream);
@@ -328,8 +313,6 @@ public class JoinProcessor extends ProcessorImpl
     
     /**
      * <返回事件对应类型在Join操作中索引>
-     * @param event 事件
-     * @return Join索引
      */
     private int getStreamIndex(IEvent event)
     {
@@ -347,9 +330,6 @@ public class JoinProcessor extends ProcessorImpl
     
     /**
      * <从新事件和旧事件中获取事件，如果新事件不为空，则从新事件获取，否则从旧事件中获取>
-     * @param newData 新事件
-     * @param oldData 旧事件
-     * @return 事件
      */
     private IEvent getCurrentEvent(IEvent[] newData, IEvent[] oldData)
     {

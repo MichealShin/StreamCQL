@@ -74,7 +74,6 @@ public class FIFOMutex implements Serializable
     
     /**
      * <是否被锁定>
-     * @return 是否被锁定
      */
     public boolean isLocked()
     {

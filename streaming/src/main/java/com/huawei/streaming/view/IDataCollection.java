@@ -32,15 +32,12 @@ public interface IDataCollection extends Serializable
     /**
      * <接受窗口传递的新事件和旧事件>
      * <接受窗口传递的新事件和旧事件， 集合中增加新事件，删除旧事件。>
-     * @param newData 新事件
-     * @param oldData 旧事件
      */
     public void update(IEvent[] newData, IEvent[] oldData);
     
     /**
      * <根据已有缓存集创建新缓存集>
      * <根据已有缓存集创建新缓存集>
-     * @return 新缓存集
      */
     public IDataCollection renew();
 }

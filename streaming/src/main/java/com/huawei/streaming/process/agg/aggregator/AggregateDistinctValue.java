@@ -126,7 +126,6 @@ public class AggregateDistinctValue implements IAggregate, IAggregateClone
     
     /**
      *  返回内部聚合操作
-     * @return 内部聚合操作
      */
     public IAggregate getInner()
     {

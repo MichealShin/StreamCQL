@@ -72,7 +72,6 @@ public class AggregateMinFilter extends AggregateMin
     
     /**
      * 深度clone
-     * @return clone的新对象
      */
     public IAggregate cloneAggregate()
     {

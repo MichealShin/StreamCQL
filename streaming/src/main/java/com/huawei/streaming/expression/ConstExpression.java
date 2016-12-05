@@ -48,7 +48,6 @@ public class ConstExpression implements IExpression
     /**
      * 
      * <默认构造函数>
-     * @param value 常量值
      */
     public ConstExpression(Object value)
     {
@@ -84,8 +83,6 @@ public class ConstExpression implements IExpression
     
     /**
      * 执行操作，获取常量值
-     * @param theEvent 事件
-     * @return 常量值
      */
     @Override
     public Object evaluate(IEvent theEvent)
@@ -102,8 +99,6 @@ public class ConstExpression implements IExpression
     
     /**
      * 根据事件列表计算表达式值
-     * @param eventsPerStream 事件列表
-     * @return Object 表达式值，由于是常量表达式，故表达式值是个与事件无关的常量
      */
     @Override
     public Object evaluate(IEvent[] eventsPerStream)

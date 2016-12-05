@@ -19,11 +19,13 @@
 package com.huawei.streaming.serde;
 
 import com.huawei.streaming.config.StreamingConfig;
+import com.huawei.streaming.util.datatype.TimestampParser;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +38,6 @@ import com.huawei.streaming.event.TupleEventType;
 import com.huawei.streaming.exception.StreamSerDeException;
 import com.huawei.streaming.exception.StreamingException;
 import com.huawei.streaming.support.SupportConst;
-import com.huawei.streaming.util.StreamingDataType;
 
 /**
  * 
@@ -50,6 +51,8 @@ public class SimpleSerdeTest
     
     private static TupleEventType schema;
     private static TupleEventType schema2;
+    private static TupleEventType schema3;
+    private static TupleEventType schema4;
 
     static
     {
@@ -62,23 +65,34 @@ public class SimpleSerdeTest
         schema = new TupleEventType("S1", atts);
 
         List<Attribute> atts2 = Lists.newArrayList();
-        atts2.add(new Attribute(Boolean.class, "a"));
+        atts2.add(new Attribute(Timestamp.class, "a"));
         schema2 = new TupleEventType("S2", atts2);
+
+        List<Attribute> atts3 = Lists.newArrayList();
+        atts3.add(new Attribute(Timestamp.class, "a"));
+        atts3.add(new Attribute(String.class, "b"));
+        schema3 = new TupleEventType("S3", atts3);
+
+
+        List<Attribute> atts4 = Lists.newArrayList();
+        atts4.add(new Attribute(Boolean.class, "a"));
+        schema4 = new TupleEventType("S4", atts4);
     }
     
     /**
      * <testDeserialize1>
      * <功能详细描述>
-     * @throws com.huawei.streaming.exception.StreamSerDeException StreamSerDeException
-     * @throws IOException IOException
      */
     @Ignore
     @Test
     public void testDeserialize1()
-        throws StreamSerDeException, IOException
+     throws StreamSerDeException, IOException, StreamingException
     {
+        StreamingConfig config = new StreamingConfig();
         SimpleSerDe deser = new SimpleSerDe();
+        deser.setConfig(config);
         deser.setSchema(schema);
+        deser.initialize();
         String s =
             "0,USER4,1379927089198,,USER4,RETL0,TERM_RETL0,2,RETL0,,CN,GZ,XA,02,"
                 + "29539.825183043013,29539.825183043013,CNY,4923.304197173836,"
@@ -91,15 +105,16 @@ public class SimpleSerdeTest
     /**
      * <testDeserialize2>
      * <功能详细描述>
-     * @throws StreamSerDeException StreamSerDeException
-     * @throws IOException IOException
      */
     @Test
     public void testDeserialize2()
-        throws StreamSerDeException, IOException
+     throws StreamSerDeException, IOException, StreamingException
     {
+        StreamingConfig config = new StreamingConfig();
         SimpleSerDe deser = new SimpleSerDe();
+        deser.setConfig(config);
         deser.setSchema(schema);
+        deser.initialize();
         String s = ",,,";
         int len = deser.deSerialize(s).get(0).length;
         assertTrue(len == SupportConst.I_FOUR);
@@ -108,15 +123,16 @@ public class SimpleSerdeTest
     /**
      * <testDeserialize3>
      * <功能详细描述>
-     * @throws StreamSerDeException StreamSerDeException
-     * @throws IOException IOException
      */
     @Test
     public void testDeserialize3()
-        throws StreamSerDeException, IOException
+     throws StreamSerDeException, IOException, StreamingException
     {
+        StreamingConfig config = new StreamingConfig();
         SimpleSerDe deser = new SimpleSerDe();
+        deser.setConfig(config);
         deser.setSchema(schema);
+        deser.initialize();
         String s = "a,b,c,";
         int len = deser.deSerialize(s).get(0).length;
         assertTrue(len == SupportConst.I_FOUR);
@@ -125,15 +141,16 @@ public class SimpleSerdeTest
     /**
      * <testDeserialize3>
      * <功能详细描述>
-     * @throws StreamSerDeException StreamSerDeException
-     * @throws IOException IOException
      */
     @Test
     public void testDeserialize4()
-        throws StreamSerDeException, IOException
+     throws StreamSerDeException, IOException, StreamingException
     {
+        StreamingConfig config = new StreamingConfig();
         SimpleSerDe deser = new SimpleSerDe();
+        deser.setConfig(config);
         deser.setSchema(schema);
+        deser.initialize();
         String s = "";
         assertTrue(deser.deSerialize(s).size() == SupportConst.I_ZERO);
     }
@@ -141,15 +158,16 @@ public class SimpleSerdeTest
     /**
      * <testDeserialize3>
      * <功能详细描述>
-     * @throws StreamSerDeException StreamSerDeException
-     * @throws IOException IOException
      */
     @Test
     public void testDeserialize5()
-     throws StreamSerDeException, IOException
+     throws StreamSerDeException, IOException, StreamingException
     {
+        StreamingConfig config = new StreamingConfig();
         SimpleSerDe deser = new SimpleSerDe();
-        deser.setSchema(schema2);
+        deser.setConfig(config);
+        deser.setSchema(schema4);
+        deser.initialize();
         assertTrue((Boolean)deser.deSerialize("true").get(0)[0]);
         assertTrue((Boolean)deser.deSerialize("TRUE").get(0)[0]);
         assertTrue((Boolean)deser.deSerialize("tRue").get(0)[0]);
@@ -165,27 +183,28 @@ public class SimpleSerdeTest
     /**
      * <testSerialize>
      * <功能详细描述>
-     * @throws StreamSerDeException StreamSerDeException
-     * @throws IOException IOException
-     * @throws StreamingException 参数构建异常
      */
     @Test
     public void testSerialize()
         throws StreamSerDeException, IOException, StreamingException
     {
-        Object[] obj = {StreamingDataType.TIMESTAMP.createValue("2014-10-05 11:08:00")};
+        StreamingConfig config = new StreamingConfig();
+        Object[] obj = {new TimestampParser(config).createValue("2014-10-05 11:08:00")};
         List<Object[]> events = new ArrayList<Object[]>();
         events.add(obj);
-        Object result = new SimpleSerDe().serialize(events);
-        assertTrue("2014-10-05 11:08:00.000".equals(result.toString()));
+
+        SimpleSerDe deser = new SimpleSerDe();
+        deser.setConfig(config);
+        deser.setSchema(schema2);
+        deser.initialize();
+
+        Object result = deser.serialize(events);
+        assertTrue("2014-10-05 11:08:00.000 +0800".equals(result.toString()));
     }
 
     /**
      * <testSerialize>
      * <功能详细描述>
-     * @throws StreamSerDeException StreamSerDeException
-     * @throws IOException IOException
-     * @throws StreamingException 参数构建异常
      */
     @Test
     public void testSerialize2()
@@ -195,12 +214,14 @@ public class SimpleSerdeTest
         StreamingConfig config = new StreamingConfig();
         config.put(StreamingConfig.SERDE_SIMPLESERDE_SEPARATOR,"---");
         serde.setConfig(config);
-        Object[] obj = {StreamingDataType.TIMESTAMP.createValue("2014-10-05 11:08:00"),"a"};
-        Object[] obj2 = {StreamingDataType.TIMESTAMP.createValue("2014-10-05 11:08:00"),"b"};
+        serde.setSchema(schema3);
+        serde.initialize();
+        Object[] obj = {new TimestampParser(config).createValue("2014-10-05 11:08:00"),"a"};
+        Object[] obj2 = {new TimestampParser(config).createValue("2014-10-05 11:08:00"),"b"};
         List<Object[]> events = new ArrayList<Object[]>();
         events.add(obj);
         events.add(obj2);
         Object result = serde.serialize(events);
-        assertTrue("2014-10-05 11:08:00.000---a\n2014-10-05 11:08:00.000---b".equals(result.toString()));
+        assertTrue("2014-10-05 11:08:00.000 +0800---a\n2014-10-05 11:08:00.000 +0800---b".equals(result.toString()));
     }
 }

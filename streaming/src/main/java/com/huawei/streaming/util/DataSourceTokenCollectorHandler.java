@@ -44,8 +44,6 @@ public class DataSourceTokenCollectorHandler implements TokenHandler, Serializab
     
     /**
      * <默认构造函数>
-     * @param openToken 开始标志
-     * @param closeToken 结束标志
      */
     public DataSourceTokenCollectorHandler(String openToken, String closeToken)
     {
@@ -69,7 +67,7 @@ public class DataSourceTokenCollectorHandler implements TokenHandler, Serializab
         {
             StreamingException exception =
                 new StreamingException(ErrorCode.SEMANTICANALYZE_DATASOURDE_NO_ARGUMENT, content);
-            LOG.error(exception.getMessage(), exception);
+            LOG.error(ErrorCode.SEMANTICANALYZE_DATASOURDE_NO_ARGUMENT.getFullMessage(content), exception);
             throw exception;
         }
 

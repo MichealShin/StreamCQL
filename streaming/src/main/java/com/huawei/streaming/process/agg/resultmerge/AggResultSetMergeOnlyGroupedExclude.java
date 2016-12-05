@@ -94,7 +94,6 @@ public class AggResultSetMergeOnlyGroupedExclude extends AggResultSetMergeOnlyGr
             //对新数据进行聚合操作
             for (int i = 0; i < newData.length; i++)
             {
-                theEvent = newData[i];
                 aggregator.setAggregatorForKey(newDataMultiKey[i]);
             }
         }
@@ -149,12 +148,10 @@ public class AggResultSetMergeOnlyGroupedExclude extends AggResultSetMergeOnlyGr
         
         if (newEvents != null)
         {
-            int count = 0;
             //对新数据进行聚合操作
-            for (MultiKey composed : newEvents)
+            for(int count = 0; count < newEvents.size(); count++)
             {
                 aggregator.setAggregatorForKey(newDataGroupByKeys[count]);
-                count++;
             }
         }
         

@@ -30,20 +30,15 @@ public class IllegalDataTypeException extends StreamingException
     /**
      * <默认构造函数>
      *
-     * @param errorCode 异常码
-     * @param errorArgs 异常参数
      */
     public IllegalDataTypeException(ErrorCode errorCode, String... errorArgs)
     {
-        this(null, errorCode, errorArgs);
+        super(errorCode, errorArgs);
     }
     
     /**
      * <默认构造函数>
      *
-     * @param cause 错误堆栈
-     * @param errorCode 异常码
-     * @param errorArgs 异常参数
      */
     public IllegalDataTypeException(Throwable cause, ErrorCode errorCode, String... errorArgs)
     {

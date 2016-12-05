@@ -78,7 +78,6 @@ public class AggregateMin extends AbstractAggregate
     
     /**
      * 添加数据进行计算
-     * @param value 计算数据
      */
     protected void enter(Object value)
     {
@@ -99,7 +98,6 @@ public class AggregateMin extends AbstractAggregate
     
     /**
      * 数据过期计算
-     * @param value 过期数据
      */
     protected void leave(Object value)
     {
@@ -131,7 +129,6 @@ public class AggregateMin extends AbstractAggregate
     
     /**
      * 深度clone
-     * @return clone的新对象
      */
     public IAggregate cloneAggregate()
     {

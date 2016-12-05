@@ -104,7 +104,6 @@ public class EventBasedWindow extends ViewImpl implements IBatch, IWindow, IRene
     
     /**
      * 返回窗口事件缓存集
-     * @return 窗口事件缓存集
      */
     public IDataCollection getIDataCollection()
     {

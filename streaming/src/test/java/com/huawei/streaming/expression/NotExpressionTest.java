@@ -71,7 +71,6 @@ public class NotExpressionTest
     
     /**
      * Test evaluate(IEvent).
-     * @throws StreamingException 异常
      */
     @Test
     public void testEvaluateIEvent()
@@ -92,7 +91,6 @@ public class NotExpressionTest
     
     /**
      * Test evaluate(IEvent[]).
-     * @throws StreamingException 异常
      */
     @Test
     public void testEvaluateIEventArray()
@@ -113,7 +111,6 @@ public class NotExpressionTest
     
     /**
      * Test getType().
-     * @throws StreamingException 异常
      */
     @Test
     public void testGetType()

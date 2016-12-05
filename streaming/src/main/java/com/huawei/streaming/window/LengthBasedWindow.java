@@ -72,7 +72,6 @@ public abstract class LengthBasedWindow extends ViewImpl implements IWindow, IRe
     
     /**
      * <获取窗口保持长度 >
-     * @return 窗口保持长度
      */
     public int getKeepLength()
     {
@@ -95,7 +94,6 @@ public abstract class LengthBasedWindow extends ViewImpl implements IWindow, IRe
     
     /**
      * 返回窗口事件缓存集
-     * @return 窗口事件缓存集
      */
     public IDataCollection getDataCollection()
     {

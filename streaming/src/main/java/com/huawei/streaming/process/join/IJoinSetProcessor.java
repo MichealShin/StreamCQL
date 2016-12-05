@@ -34,10 +34,6 @@ public interface IJoinSetProcessor
 {
     /**
      * <对执行Join后的新事件和旧事件进行计算，得到相应的结果集>
-     * @param newEvents 新事件集合
-     * @param oldEvents 旧事件集合
-     * @param type 输出类型
-     * @return 待输出的事件集合对
      */
     public Pair<IEvent[], IEvent[]> processJoinResult(Set<MultiKey> newEvents, 
         Set<MultiKey> oldEvents, OutputType type);
@@ -45,7 +41,6 @@ public interface IJoinSetProcessor
     /**
      * 设置是否为单向触发JOIN
      * <功能详细描述>
-     * @param uni 是否为单向
      */
     public void setUnidirection(boolean uni);
     

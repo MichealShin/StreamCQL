@@ -78,7 +78,6 @@ public class AggregateMax extends AbstractAggregate
     
     /**
      * 新增数据计算
-     * @param value 新增数据
      */
     protected void enter(Object value)
     {
@@ -92,7 +91,6 @@ public class AggregateMax extends AbstractAggregate
     
     /**
      * 过期数据计算
-     * @param value 过期数据
      */
     protected void leave(Object value)
     {
@@ -134,7 +132,6 @@ public class AggregateMax extends AbstractAggregate
     
     /**
      * 深度clone
-     * @return clone的新对象
      */
     public IAggregate cloneAggregate()
     {

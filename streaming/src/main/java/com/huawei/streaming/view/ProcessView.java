@@ -70,7 +70,6 @@ public class ProcessView implements IView
     
     /**
      * <获取逻辑处理器>
-     * @return 逻辑处理器
      */
     public IProcessor getProcessor()
     {
@@ -79,7 +78,6 @@ public class ProcessView implements IView
     
     /**
      * <设置逻辑处理器>
-     * @param processor 逻辑处理器
      */
     public void setProcessor(IProcessor processor)
     {

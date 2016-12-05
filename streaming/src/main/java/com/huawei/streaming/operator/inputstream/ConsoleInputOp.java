@@ -28,11 +28,15 @@ public class ConsoleInputOp implements IInputStreamOperator {
 	private TupleEventType schema;
 	
 	private long schemaLen;
-	
+
+	private StreamSerDe serde;
+
+    private StreamingConfig config;
+
 	@Override
 	public void setConfig(StreamingConfig conf) throws StreamingException {
 		// TODO Auto-generated method stub
-		
+		this.config = conf;
 	}
 
 	@Override
@@ -74,7 +78,26 @@ public class ConsoleInputOp implements IInputStreamOperator {
 		// TODO Auto-generated method stub
 		this.schema = serde.getSchema();
 		schemaLen = schema.getAllAttributes().length;
+		this.serde = serde;
 	}
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public StreamSerDe getSerDe()
+    {
+        return serde;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public StreamingConfig getConfig()
+    {
+        return config;
+    }
 
 	private class ReadThread implements Runnable{
 

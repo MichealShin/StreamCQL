@@ -28,7 +28,7 @@ import java.util.Map;
  * 多个字符串中，如果有一个为空，就都返回空
  * 
  */
-@UDFAnnotation(name = "concat")
+@UDFAnnotation("concat")
 public class StringConcat extends UDF
 {
     /**
@@ -38,7 +38,6 @@ public class StringConcat extends UDF
 
     /**
      * <默认构造函数>
-     * @param config udf函数中需要的参数，这些参数要在cql中通过全局变量进行设置。
      */
     public StringConcat(Map<String, String> config)
     {
@@ -47,9 +46,6 @@ public class StringConcat extends UDF
     
     /**
      * 字符串拼接
-     * @param arg1 待拼接字符串
-     * @param arg2 待拼接字符串
-     * @return 拼接好的字符串
      */
     public String evaluate(String arg1, String arg2)
     {
@@ -59,10 +55,6 @@ public class StringConcat extends UDF
     /**
      * 字符串拼接
      * 
-     * @param arg1 待拼接字符串
-     * @param arg2 待拼接字符串
-     * @param arg3 待拼接字符串
-     * @return 拼接好的字符串
      */
     public String evaluate(String arg1, String arg2, String arg3)
     {
@@ -72,11 +64,6 @@ public class StringConcat extends UDF
     /**
      * 字符串拼接
      * 
-     * @param arg1 待拼接字符串
-     * @param arg2 待拼接字符串
-     * @param arg3 待拼接字符串
-     * @param arg4 待拼接字符串
-     * @return 拼接好的字符串
      */
     public String evaluate(String arg1, String arg2, String arg3, String arg4)
     {
@@ -86,12 +73,6 @@ public class StringConcat extends UDF
     /**
      * 字符串拼接
      * 
-     * @param arg1 待拼接字符串
-     * @param arg2 待拼接字符串
-     * @param arg3 待拼接字符串
-     * @param arg4 待拼接字符串
-     * @param arg5 待拼接字符串
-     * @return 拼接好的字符串 拼接好的字符串
      */
     public String evaluate(String arg1, String arg2, String arg3, String arg4, String arg5)
     {
@@ -101,13 +82,6 @@ public class StringConcat extends UDF
     /**
      * 字符串拼接
      * 
-     * @param arg1 待拼接字符串
-     * @param arg2 待拼接字符串
-     * @param arg3 待拼接字符串
-     * @param arg4 待拼接字符串
-     * @param arg5 待拼接字符串
-     * @param arg6 待拼接字符串
-     * @return 拼接好的字符串
      */
     public String evaluate(String arg1, String arg2, String arg3, String arg4, String arg5, String arg6)
     {
@@ -117,14 +91,6 @@ public class StringConcat extends UDF
     /**
      * 字符串拼接
      * 
-     * @param arg1 待拼接字符串
-     * @param arg2 待拼接字符串
-     * @param arg3 待拼接字符串
-     * @param arg4 待拼接字符串
-     * @param arg5 待拼接字符串
-     * @param arg6 待拼接字符串
-     * @param arg7 待拼接字符串
-     * @return 拼接好的字符串
      */
     public String evaluate(String arg1, String arg2, String arg3, String arg4, String arg5, String arg6, String arg7)
     {
@@ -133,8 +99,6 @@ public class StringConcat extends UDF
     
     /**
      * 字符串拼接
-     * @param arguments 适合任意多字符串
-     * @return 拼接好的字符串 拼接好的字符串
      */
     private String evaluate(String[] arguments)
     {
@@ -148,6 +112,6 @@ public class StringConcat extends UDF
             }
             sb.append(val);
         }
-        return new String(sb.toString());
+        return sb.toString();
     }
 }

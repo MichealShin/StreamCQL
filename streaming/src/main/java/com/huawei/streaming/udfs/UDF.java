@@ -45,13 +45,12 @@ public abstract class UDF implements Serializable
     
     /**
      * <默认构造函数>
-     * @param config udf函数中需要的参数，这些参数要在cql中通过全局变量进行设置。
      */
-    public UDF(Map<String, String> config)
+    public UDF(Map<String, String> conf)
     {
-        if (config != null)
+        if (conf != null)
         {
-            config.putAll(config);
+            this.config.putAll(conf);
         }
     }
     

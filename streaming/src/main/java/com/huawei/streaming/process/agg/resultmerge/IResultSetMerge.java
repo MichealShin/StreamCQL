@@ -32,10 +32,6 @@ public interface IResultSetMerge extends Serializable
 {
     /**
      * <对新事件和旧事件进行计算，得到相应的结果集>
-     * @param newData 新事件集合
-     * @param oldData 旧事件集合
-     * @param type 输出类型
-     * @return 待输出的事件集合对
      */
     public Pair<IEvent[], IEvent[]> processResult(IEvent[] newData, IEvent[] oldData, OutputType type);
 }

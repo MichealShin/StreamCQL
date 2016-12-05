@@ -39,8 +39,6 @@ public class MethodResolverTest
     /**
      * 测试用例一：该用例测出151行一个问题 if (!method.getName().equals(methodName))
      * 构造不需要转型就可以匹配的函数（绝对匹配）
-     * @exception ClassNotFoundException 异常
-     * @exception NoSuchMethodException 异常
      */
     @Test
     public void testResolveMethod1()
@@ -61,8 +59,6 @@ public class MethodResolverTest
     
     /**
      * 测试用例二：测试基本类型的包装类型的匹配
-     * @exception ClassNotFoundException 异常
-     * @exception NoSuchMethodException 异常 
      */
     @Test
     public void testResolveMethod2()
@@ -83,8 +79,6 @@ public class MethodResolverTest
     
     /**
      * 测试用例三：没有匹配的函数
-     * @exception ClassNotFoundException 异常
-     * @exception NoSuchMethodException 异常
      */
     @Test
     public void testResolveMethod3()
@@ -106,8 +100,6 @@ public class MethodResolverTest
     /**
      * 该用例测出一个问题，将byte错误匹配为long
      * 测试用例四：支持byte类型自动转型为int
-     * @exception ClassNotFoundException 异常
-     * @exception NoSuchMethodException 异常 
      */
     @Test
     public void testResolveMethod4()
@@ -128,8 +120,6 @@ public class MethodResolverTest
     
     /**
      * 测试用例五：支持char类型自动转型为int
-     * @exception ClassNotFoundException 异常
-     * @exception NoSuchMethodException 异常
      */
     @Test
     public void testResolveMethod5()
@@ -150,8 +140,6 @@ public class MethodResolverTest
     
     /**
      * 测试用例六：支持int类型自动转型为float
-     * @exception ClassNotFoundException 异常
-     * @exception NoSuchMethodException 异常
      */
     @Test
     public void testResolveMethod6()
@@ -172,8 +160,6 @@ public class MethodResolverTest
     
     /**
      * 测试用例七：支持int类型自动转型为float
-     * @exception ClassNotFoundException 异常
-     * @exception NoSuchMethodException 异常
      */
     @Test
     public void testResolveMethod7()
@@ -194,8 +180,6 @@ public class MethodResolverTest
     
     /**
      * 测试用例八：支持int类型自动转型为double
-     * @exception ClassNotFoundException 异常
-     * @exception NoSuchMethodException 异常
      */
     @Test
     public void testResolveMethod8()
@@ -216,8 +200,6 @@ public class MethodResolverTest
     
     /**
      * 测试用例九：支持float类型自动转型为double
-     * @exception ClassNotFoundException 异常
-     * @exception NoSuchMethodException 异常
      */
     @Test
     public void testResolveMethod9()
@@ -238,8 +220,6 @@ public class MethodResolverTest
     
     /**
      * 测试用例十：子类转为父类(String转为Object)
-     * @exception ClassNotFoundException 异常
-     * @exception NoSuchMethodException 异常
      */
     @Test
     public void testResolveMethod10()
@@ -260,8 +240,6 @@ public class MethodResolverTest
     
     /**
      * 测试用例十一：int不能转换为Long，即实际参数类型为int，函数定义参数类型为Long，不能匹配该函数
-     * @exception ClassNotFoundException 异常
-     * @exception NoSuchMethodException 异常
      */
     @Test
     public void testResolveMethod11() throws ClassNotFoundException, NoSuchMethodException{
@@ -280,8 +258,6 @@ public class MethodResolverTest
     
     /**
      * 测试用例十二：Integer不能转换为Long，即实际参数类型为Integer，函数定义参数类型为Long，不能匹配该函数
-     * @exception ClassNotFoundException 异常
-     * @exception NoSuchMethodException 异常
      */
     @Test
     public void testResolveMethod12() throws ClassNotFoundException, NoSuchMethodException{
@@ -301,8 +277,6 @@ public class MethodResolverTest
     
     /**
      * 测试用例十三：包装类型测试，即实际类型为int，函数参数类型为Integer，能够匹配该函数
-     * @exception ClassNotFoundException 异常
-     * @exception NoSuchMethodException 异常
      */
     @Test
     public void testResolveMethod13() throws ClassNotFoundException, NoSuchMethodException{
@@ -321,8 +295,6 @@ public class MethodResolverTest
     
     /**
      * 测试用例十四：包装类型测试，即实际类型为Integer，函数参数类型为int，能够匹配该函数
-     * @exception ClassNotFoundException 异常
-     * @exception NoSuchMethodException 异常
      */
     @Test
     public void testResolveMethod14() throws ClassNotFoundException, NoSuchMethodException{

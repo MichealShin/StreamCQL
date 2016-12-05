@@ -80,7 +80,6 @@ public class CSVWriter implements Serializable
     /**
      * Constructs CSVWriter with supplied separator.
      *
-     * @param separator
      *            the delimiter to use for separating entries.
      */
     private CSVWriter(char separator)
@@ -91,9 +90,7 @@ public class CSVWriter implements Serializable
     /**
      * Constructs CSVWriter with supplied separator and quote char.
      *
-     * @param separator
      *            the delimiter to use for separating entries
-     * @param quotechar
      *            the character to use for quoted elements
      */
     private CSVWriter(char separator, char quotechar)
@@ -104,11 +101,8 @@ public class CSVWriter implements Serializable
     /**
      * Constructs CSVWriter with supplied separator, quote char, escape char.
      *
-     * @param separator
      *            the delimiter to use for separating entries
-     * @param quotechar
      *            the character to use for quoted elements
-     * @param escapechar
      *            the character to use for escaping quotechars or escapechars
      */
     private CSVWriter(char separator, char quotechar, char escapechar)
@@ -121,11 +115,8 @@ public class CSVWriter implements Serializable
     /**
      * Writes the next line to the file.
      *
-     * @param datas
      *            a string array with each comma-separated element as a separate
      *            entry.
-     * @return csv string           
-     * @throws StreamSerDeException 反序列化异常
      */
     public String createCSV(Object[] datas) 
     {
@@ -133,7 +124,18 @@ public class CSVWriter implements Serializable
         {
             return null;
         }
-        
+
+        String[] result = null;
+        try
+        {
+            result = baseSerDe.serializeRowToString(datas);
+        }
+        catch (StreamSerDeException e)
+        {
+            LOG.warn("One line is ignore.");
+            return null;
+        }
+
         StringBuilder sb = new StringBuilder(INITIAL_STRING_SIZE);
         for (int i = 0; i < datas.length; i++)
         {
@@ -143,18 +145,8 @@ public class CSVWriter implements Serializable
                 sb.append(separator);
             }
             
-            String nextElement = null;
-            try
-            {
-                nextElement = baseSerDe.serializeToString(datas[i]);
-            }
-            catch (StreamSerDeException e)
-            {
-                LOG.warn("One line is ignore.");
-                //单个数据toString失败，整行都失效
-                return null;
-            }
-            
+            String nextElement = result[i];
+
             if (nextElement == null)
             {
                 continue;

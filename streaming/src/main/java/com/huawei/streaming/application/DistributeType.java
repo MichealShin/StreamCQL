@@ -66,7 +66,6 @@ public enum DistributeType
     
     /**
      * <默认构造函数>
-     * @param desc 描述
      */
     private DistributeType(String desc)
     {

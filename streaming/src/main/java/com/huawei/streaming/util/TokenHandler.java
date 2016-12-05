@@ -25,9 +25,6 @@ public interface TokenHandler
 {
     /**
      * 处理记号
-     * @param content 记号内的文本内容
-     * @return 替换之后的内容
-     * @throws StreamingException 数据处理异常
      */
     String handleToken(String content)
         throws StreamingException;

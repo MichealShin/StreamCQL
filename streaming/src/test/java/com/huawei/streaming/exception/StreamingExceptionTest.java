@@ -19,7 +19,6 @@ public class StreamingExceptionTest
         StreamingException exp =
             new StreamingException(ErrorCode.SEMANTICANALYZE_EXPRESSION_DATATYPE_COMPARE, String.class.getName(),
                 Integer.class.getName());
-        System.out.println(exp.getMessage());
         assertTrue(exp.getErrorCode().equals(ErrorCode.SEMANTICANALYZE_EXPRESSION_DATATYPE_COMPARE));
     }
 }

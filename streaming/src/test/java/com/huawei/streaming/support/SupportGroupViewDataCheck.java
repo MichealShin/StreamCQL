@@ -39,9 +39,6 @@ public class SupportGroupViewDataCheck
     /**
      * <检测分组值对应窗口中的旧事件>
      * <功能详细描述>
-     * @param groupKey 分组值
-     * @param childView 分组窗口支持类
-     * @param events 旧事件
      */
     public static void checkOldData(Object groupKey, SupportGroupView childView, IEvent[] events)
     {
@@ -53,9 +50,6 @@ public class SupportGroupViewDataCheck
     /**
      * <检测分组值对应窗口中的新事件>
      * <功能详细描述>
-     * @param groupKey 分组值
-     * @param childView 分组窗口支持类
-     * @param events 新事件
      */
     public static void checkNewData(Object groupKey, SupportGroupView childView, IEvent[] events)
     {

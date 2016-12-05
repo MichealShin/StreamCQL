@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
  * 数据类型转换函数
  *
  */
-@UDFAnnotation(name = "tolong")
+@UDFAnnotation("tolong")
 public class ToLong extends UDF
 {
     private static final long serialVersionUID = -4516472038115224500L;
@@ -41,7 +41,6 @@ public class ToLong extends UDF
     /**
      * <默认构造函数>
      *
-     * @param config 参数
      */
     public ToLong(Map< String, String > config)
     {
@@ -51,8 +50,6 @@ public class ToLong extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Long evaluate(String s)
     {
@@ -65,7 +62,7 @@ public class ToLong extends UDF
         {
             return Long.valueOf(s);
         }
-        catch (Exception e)
+        catch (NumberFormatException e)
         {
             LOG.warn(EVALUATE_IGNORE_MESSAGE);
             return null;
@@ -75,8 +72,6 @@ public class ToLong extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Long evaluate(Integer s)
     {
@@ -84,22 +79,13 @@ public class ToLong extends UDF
         {
             return null;
         }
-        try
-        {
-            return Long.valueOf(s);
-        }
-        catch (Exception e)
-        {
-            LOG.warn(EVALUATE_IGNORE_MESSAGE);
-            return null;
-        }
+
+        return Long.valueOf(s);
     }
 
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Long evaluate(Long s)
     {
@@ -109,8 +95,6 @@ public class ToLong extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Long evaluate(Timestamp s)
     {
@@ -124,8 +108,6 @@ public class ToLong extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Long evaluate(BigDecimal s)
     {
@@ -139,8 +121,6 @@ public class ToLong extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Long evaluate(Date s)
     {
@@ -155,8 +135,6 @@ public class ToLong extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Long evaluate(Time s)
     {
@@ -170,8 +148,6 @@ public class ToLong extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Long evaluate(Float s)
     {
@@ -185,8 +161,6 @@ public class ToLong extends UDF
     /**
      * 类型转换实现
      *
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Long evaluate(Double s)
     {

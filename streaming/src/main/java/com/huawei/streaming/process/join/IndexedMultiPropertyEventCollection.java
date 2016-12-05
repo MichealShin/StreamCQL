@@ -189,8 +189,6 @@ public class IndexedMultiPropertyEventCollection implements IEventCollection, II
     /**
      * 查找与KEY相关的事件集合,集合可以为空
      * <功能详细描述>
-     * @param key key 
-     * @return 相关的事件集合
      */
     public Set<IEvent> lookup(MultiKey key)
     {

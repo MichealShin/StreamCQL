@@ -32,7 +32,6 @@ public class SupportHelper
     
     /**
      * Assert a condition is false.
-     * @param condition to assert
      */
     public static void assertFalse(boolean condition)
     {
@@ -41,7 +40,6 @@ public class SupportHelper
     
     /**
      * Assert a condition is true.
-     * @param condition to assert
      */
     public static void assertTrue(boolean condition)
     {
@@ -50,8 +48,6 @@ public class SupportHelper
     
     /**
      * Assert a condition is true.
-     * @param message an optional message
-     * @param condition to assert
      */
     public static void assertTrue(String message, boolean condition)
     {
@@ -63,8 +59,6 @@ public class SupportHelper
     
     /**
      * Assert a condition is false.
-     * @param message an optional message
-     * @param condition to assert
      */
     public static void assertFalse(String message, boolean condition)
     {
@@ -76,9 +70,6 @@ public class SupportHelper
     
     /**
      * Assert that two values equal.
-     * @param message an optional message
-     * @param expected expected value
-     * @param actual actual value
      */
     public static void assertEquals(String message, Object expected, Object actual)
     {
@@ -95,8 +86,6 @@ public class SupportHelper
     
     /**
      * Assert that two values equal.
-     * @param expected expected value
-     * @param actual actual value
      */
     public static void assertEquals(Object expected, Object actual)
     {
@@ -113,9 +102,6 @@ public class SupportHelper
     
     /**
      * Assert that two values are the same.
-     * @param message an optional message
-     * @param expected expected value
-     * @param actual actual value
      */
     public static void assertSame(String message, Object expected, Object actual)
     {
@@ -128,8 +114,6 @@ public class SupportHelper
     
     /**
      * Assert that two values are the same.
-     * @param expected expected value
-     * @param actual actual value
      */
     public static void assertSame(Object expected, Object actual)
     {
@@ -142,8 +126,6 @@ public class SupportHelper
     
     /**
      * Assert that a value is null.
-     * @param message an optional message
-     * @param object the object to check
      */
     public static void assertNull(String message, Object object)
     {
@@ -152,7 +134,6 @@ public class SupportHelper
     
     /**
      * Assert that a value is not null.
-     * @param object the object to check
      */
     public static void assertNotNull(Object object)
     {
@@ -161,7 +142,6 @@ public class SupportHelper
     
     /**
      * Assert that a value is null.
-     * @param object the object to check
      */
     public static void assertNull(Object object)
     {
@@ -170,9 +150,6 @@ public class SupportHelper
     
     /**
      * Fail assertion formatting a message for not-same.
-     * @param message an optional message
-     * @param expected expected value
-     * @param actual actual value
      */
     public static void failNotSame(String message, Object expected, Object actual)
     {
@@ -181,9 +158,6 @@ public class SupportHelper
     
     /**
      * Fail assertion formatting a message for not-equals.
-     * @param message an optional message
-     * @param expected expected value
-     * @param actual actual value
      */
     public static void failNotEquals(String message, Object expected, Object actual)
     {
@@ -192,7 +166,6 @@ public class SupportHelper
     
     /**
      * Fail assertion.
-     * @param message an optional message
      */
     public static void fail(String message)
     {

@@ -18,6 +18,11 @@
 
 package com.huawei.streaming.udfs;
 
+import java.util.Map;
+
+import com.google.common.collect.Maps;
+import com.huawei.streaming.config.StreamingConfig;
+import com.huawei.streaming.exception.StreamingException;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -33,12 +38,24 @@ public class WeekOfYearTest
      */
     @Test
     public void testEvaluate()
+        throws StreamingException
     {
-        WeekOfYear udf = new WeekOfYear(null);
+        Map<String, String> config = Maps.newHashMap();
+        StreamingConfig conf = new StreamingConfig();
+        for(Map.Entry<String, Object> et : conf.entrySet())
+        {
+            config.put(et.getKey(), et.getValue().toString());
+        }
+        WeekOfYear udf = new WeekOfYear(config);
         assertTrue(udf.evaluate("2013-01-01 09:58:00.111") == TestUDFCommon.I_1);
         assertTrue(udf.evaluate("2013-01-01 09:58:00") == TestUDFCommon.I_1);
+        assertTrue(udf.evaluate("2013-01-01 02:58:20 +0800") == TestUDFCommon.I_1);
+        assertTrue(udf.evaluate("2013-01-01 22:58:20 -0800") == TestUDFCommon.I_1);
+
+        udf = new WeekOfYear(config);
         assertTrue(udf.evaluate("2013-12-28") == TestUDFCommon.I_52);
         assertTrue(udf.evaluate("2013-12-52") == null);
+        udf = new WeekOfYear(config);
         assertTrue(udf.evaluate("2013-01-01 09:58:70") == null);
     }
 
@@ -46,10 +63,16 @@ public class WeekOfYearTest
      * 测试用例
      */
     @Test
-    public void testEvaluate2()
+    public void testEvaluate2() throws StreamingException
     {
-        WeekOfYear udf = new WeekOfYear(null);
-        ToDate todate = new ToDate(null);
+        Map<String, String> config = Maps.newHashMap();
+        StreamingConfig conf = new StreamingConfig();
+        for(Map.Entry<String, Object> et : conf.entrySet())
+        {
+            config.put(et.getKey(), et.getValue().toString());
+        }
+        WeekOfYear udf = new WeekOfYear(config);
+        ToDate todate = new ToDate(config);
         assertTrue(udf.evaluate(todate.evaluate("2013-1-1")) == TestUDFCommon.I_1);
         assertTrue(udf.evaluate(todate.evaluate("2013-01-01")) == TestUDFCommon.I_1);
         assertTrue(udf.evaluate(todate.evaluate("2013-12-28")) == TestUDFCommon.I_52);
@@ -60,13 +83,22 @@ public class WeekOfYearTest
      * 测试用例
      */
     @Test
-    public void testEvaluate3()
+    public void testEvaluate3() throws StreamingException
     {
-        WeekOfYear udf = new WeekOfYear(null);
-        ToTimeStamp toTimeStamp = new ToTimeStamp(null);
+        Map<String, String> config = Maps.newHashMap();
+        StreamingConfig conf = new StreamingConfig();
+        for(Map.Entry<String, Object> et : conf.entrySet())
+        {
+            config.put(et.getKey(), et.getValue().toString());
+        }
+
+        WeekOfYear udf = new WeekOfYear(config);
+        ToTimeStamp toTimeStamp = new ToTimeStamp(config);
         assertTrue(udf.evaluate(toTimeStamp.evaluate("2013-01-01 09:58:00.111")) == TestUDFCommon.I_1);
         assertTrue(udf.evaluate(toTimeStamp.evaluate("2013-01-01 09:58:00")) == TestUDFCommon.I_1);
         assertTrue(udf.evaluate(toTimeStamp.evaluate("2013-01-01 09:58:70")) == null);
+        assertTrue(udf.evaluate(toTimeStamp.evaluate("2013-01-01 02:58:20 +0800")) == TestUDFCommon.I_1);
+        assertTrue(udf.evaluate(toTimeStamp.evaluate("2013-01-01 22:58:20 -0800")) == TestUDFCommon.I_1);
     }
 
 }

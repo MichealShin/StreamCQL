@@ -45,7 +45,6 @@ public class AggregateCountFilter extends AggregateCount
     
     /**
      * 深度clone
-     * @return clone的新对象
      */
     public IAggregate cloneAggregate()
     {

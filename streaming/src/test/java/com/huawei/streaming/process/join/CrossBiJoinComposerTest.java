@@ -71,7 +71,6 @@ public class CrossBiJoinComposerTest
     
     /**
      * <setup>
-     * @throws Exception 异常
      */
     @Before
     public void setUp()
@@ -84,7 +83,6 @@ public class CrossBiJoinComposerTest
     
     /**
      * <cleanup>
-     * @throws Exception 异常
      */
     @After
     public void tearDown()

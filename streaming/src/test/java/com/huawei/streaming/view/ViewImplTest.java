@@ -54,7 +54,6 @@ public class ViewImplTest
     
     /**
      * <setup>
-     * @throws Exception 异常
      */
     @Before
     public void setUp()

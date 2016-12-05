@@ -135,9 +135,6 @@ public abstract class BiIndexedJoinComposer implements IJoinComposer
     /**
      * 将更新数据与窗口中的对方流数据,根据KEY（条件）进行匹配
      * 根据是否允许Join 空流，由具体的Composer进行操作
-     * @param events 更新数据
-     * @param streamIndex 更新数据流的ID
-     * @param result 组合结果
      */
     protected void compose(IEvent[] events, int streamIndex, Set<MultiKey> result)
     {
@@ -163,9 +160,6 @@ public abstract class BiIndexedJoinComposer implements IJoinComposer
     /**
      * 根据条件（有索引数据）进行JOIN，无匹配事件，不输出
      * <功能详细描述>
-     * @param lookupEvent 待匹配事件
-     * @param index 待匹配事件所在流ID
-     * @param result 匹配的双流事件
      */
     protected void perEventCompose(IEvent lookupEvent, int index, Collection<IEvent[]> result)
     {
@@ -194,9 +188,6 @@ public abstract class BiIndexedJoinComposer implements IJoinComposer
     /**
      * 获得对方流中匹配事件
      * <功能详细描述>
-     * @param lookupEvent 事件待匹配事件
-     * @param index 待匹配事件所在的流ID
-     * @return 对方流中匹配事件
      */
     protected abstract Set<IEvent> getMatchEvents(IEvent lookupEvent, int index);
     

@@ -18,6 +18,12 @@
 
 package com.huawei.streaming.udfs;
 
+import java.util.Map;
+
+import com.google.common.collect.Maps;
+import com.huawei.streaming.config.StreamingConfig;
+import com.huawei.streaming.exception.StreamingException;
+import com.huawei.streaming.util.datatype.TimeConstants;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -33,9 +39,15 @@ public class ToDateTest
      * 字符串类型时间转换
      */
     @Test
-    public void testEvaluate()
+    public void testEvaluate() throws StreamingException
     {
-        ToDate udf = new ToDate(null);
+        Map<String, String> config = Maps.newHashMap();
+        StreamingConfig conf = new StreamingConfig();
+        for(Map.Entry<String, Object> et : conf.entrySet())
+        {
+            config.put(et.getKey(), et.getValue().toString());
+        }
+        ToDate udf = new ToDate(config);
         assertNull(udf.evaluate("2014-09-25 17:07:00"));
         assertNotNull(udf.evaluate("2014-09-25"));
         assertNull(udf.evaluate("17:07:00"));
@@ -45,12 +57,18 @@ public class ToDateTest
      * 字符串类型时间转换
      */
     @Test
-    public void testEvaluateFormatted()
+    public void testEvaluateFormatted() throws StreamingException
     {
-        ToDate udf = new ToDate(null);
-        assertNotNull(udf.evaluate("2014-09-25 17:07:00", UDFConstants.TIMESTAMP_FORMAT));
-        assertNotNull(udf.evaluate("2014-09-25 17:07:01", UDFConstants.TIMESTAMP_FORMAT));
-        assertNotNull(new ToDate(null).evaluate("2014-09-25", UDFConstants.DATE_FORMAT));
+        Map<String, String> config = Maps.newHashMap();
+        StreamingConfig conf = new StreamingConfig();
+        for(Map.Entry<String, Object> et : conf.entrySet())
+        {
+            config.put(et.getKey(), et.getValue().toString());
+        }
+        ToDate udf = new ToDate(config);
+        assertNotNull(udf.evaluate("2014-09-25 17:07:00", TimeConstants.TIMESTAMP_FORMAT));
+        assertNotNull(udf.evaluate("2014-09-25 17:07:01", TimeConstants.TIMESTAMP_FORMAT));
+        assertNotNull(new ToDate(config).evaluate("2014-09-25", TimeConstants.DATE_FORMAT));
     }
     
     
@@ -58,10 +76,16 @@ public class ToDateTest
      * 字符串类型时间转换
      */
     @Test
-    public void testEvaluateFormatted2()
+    public void testEvaluateFormatted2() throws StreamingException
     {
+        Map<String, String> config = Maps.newHashMap();
+        StreamingConfig conf = new StreamingConfig();
+        for(Map.Entry<String, Object> et : conf.entrySet())
+        {
+            config.put(et.getKey(), et.getValue().toString());
+        }
         String s1 = "2014-09-29 14:17:00";
-        ToDate udf = new ToDate(null);
+        ToDate udf = new ToDate(config);
         assertNotNull(udf.evaluate(s1, "yyyy-MM-dd HH:mm:ss"));
     }
 
@@ -69,10 +93,16 @@ public class ToDateTest
      * 字符串类型时间转换
      */
     @Test
-    public void testEvaluateFormatted3()
+    public void testEvaluateFormatted3() throws StreamingException
     {
+        Map<String, String> config = Maps.newHashMap();
+        StreamingConfig conf = new StreamingConfig();
+        for(Map.Entry<String, Object> et : conf.entrySet())
+        {
+            config.put(et.getKey(), et.getValue().toString());
+        }
         String s1 = "2014-9-9";
-        ToDate udf = new ToDate(null);
+        ToDate udf = new ToDate(config);
         assertNotNull(udf.evaluate(s1));
     }
 

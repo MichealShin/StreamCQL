@@ -77,8 +77,6 @@ public class JoinSelectProcessor implements Serializable
     /**
      * 过滤处理
      * <功能详细描述>
-     * @param eventsPerStream JOIN结果
-     * @return 满足条件的事件
      */
     public IEvent[] process(Set<MultiKey> eventsPerStream)
     {

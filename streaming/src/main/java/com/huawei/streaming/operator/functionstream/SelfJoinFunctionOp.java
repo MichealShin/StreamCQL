@@ -18,6 +18,7 @@
 
 package com.huawei.streaming.operator.functionstream;
 
+import com.huawei.streaming.util.StreamingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -115,11 +116,6 @@ public class SelfJoinFunctionOp extends FunctionOperator
     
     /**
      * <默认构造函数>
-     * @param leftWindow     左流的窗口
-     * @param rightWindow    右流的窗口
-     * @param joinComposer   数据流关联服务
-     * @param filterProcess  结果过滤服务
-     * @param setProcessor   聚合服务
      */
     public SelfJoinFunctionOp(IWindow leftWindow, IWindow rightWindow, IJoinComposer joinComposer,
         JoinFilterProcessor filterProcess, IAggResultSetMerge setProcessor)
@@ -149,11 +145,6 @@ public class SelfJoinFunctionOp extends FunctionOperator
     
     /**
      * <默认构造函数>
-     * @param leftWindow     左流的窗口
-     * @param rightWindow    右流的窗口
-     * @param joinComposer   数据流关联服务
-     * @param filterProcess  结果过滤服务
-     * @param setProcessor   聚合服务
      */
     public SelfJoinFunctionOp(IWindow leftWindow, IWindow rightWindow, IJoinComposer joinComposer,
         JoinFilterProcessor filterProcess, IAggResultSetMerge setProcessor, OutputType type)
@@ -184,9 +175,9 @@ public class SelfJoinFunctionOp extends FunctionOperator
         }
         
         this.addInputSchema(leftStreamName,
-            (IEventType)config.get(StreamingConfig.OPERATOR_SELFJOIN_INNER_INPUT_SCHEMA));
+                StreamingUtils.deSerializeSchema((String)config.get(StreamingConfig.OPERATOR_SELFJOIN_INNER_INPUT_SCHEMA)));
         this.addInputSchema(rightStreamName,
-            (IEventType)config.get(StreamingConfig.OPERATOR_SELFJOIN_INNER_INPUT_SCHEMA));
+            StreamingUtils.deSerializeSchema((String)config.get(StreamingConfig.OPERATOR_SELFJOIN_INNER_INPUT_SCHEMA)));
         
     }
     

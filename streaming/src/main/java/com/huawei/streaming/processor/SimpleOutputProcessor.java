@@ -86,9 +86,6 @@ public class SimpleOutputProcessor extends ProcessorImpl
     
     /**
      * <得到选择结果>
-     * @param select 选择操作
-     * @param newData 事件
-     * @return 结果
      */
     private IEvent[] getSelectEvents(SelectSubProcess select, IEvent[] newData)
     {

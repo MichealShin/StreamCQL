@@ -30,7 +30,6 @@ public interface IWindow extends IView
     /**
      * <设置窗口数据缓存集>
      * <设置窗口数据缓存集，用于后续表达式访问窗口数据>
-     * @param dataCollection 数据缓存集
      */
     public void setDataCollection(IDataCollection dataCollection);
 }

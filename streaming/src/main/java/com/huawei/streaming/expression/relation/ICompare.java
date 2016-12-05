@@ -30,54 +30,36 @@ public interface ICompare extends Serializable
     /**
      * 相等关系运算
      * 
-     * @param left 左值
-     * @param right 右值
-     * @return 相等返回true， 否则返回false。其中一个空值，返回null。
      */
     public Boolean equals(Object left, Object right);
     
     /**
      * 不等关系运算
      * 
-     * @param left 左值
-     * @param right 右值
-     * @return 不等返回true， 否则返回false。其中一个空值，返回null。
      */
     public Boolean notEquals(Object left, Object right);
     
     /**
      * 小于关系运算
      * 
-     * @param left 左值
-     * @param right 右值
-     * @return 左值小于右值返回true， 否则返回false。其中一个空值，返回null。
      */
     public Boolean lessThan(Object left, Object right);
     
     /**
      * 大于关系运算
      * 
-     * @param left 左值
-     * @param right 右值
-     * @return 左值大于右值返回true， 否则返回false。其中一个空值，返回null。
      */
     public Boolean greaterThan(Object left, Object right);
     
     /**
      * 小于等于关系运算
      * 
-     * @param left 左值
-     * @param right 右值
-     * @return 左值小于等于右值返回true， 否则返回false。其中一个空值，返回null。
      */
     public Boolean lessOrEquals(Object left, Object right);
     
     /**
      * 大于等于关系运算
      * 
-     * @param left 左值
-     * @param right 右值
-     * @return 左值大于等于右值返回true， 否则返回false。其中一个空值，返回null。
      */
     public Boolean greaterOrEquals(Object left, Object right);
     

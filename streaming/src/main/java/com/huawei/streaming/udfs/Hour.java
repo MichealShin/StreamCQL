@@ -18,20 +18,25 @@
 
 package com.huawei.streaming.udfs;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
-
+import com.google.common.base.Strings;
+import com.huawei.streaming.config.StreamingConfig;
+import com.huawei.streaming.exception.StreamingException;
+import com.huawei.streaming.util.datatype.TimeConstants;
+import com.huawei.streaming.util.datatype.TimeParser;
+import com.huawei.streaming.util.datatype.TimestampParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Map;
+
 /**
  * 获取对应时间所在小时
- * 
+ *
  */
-@UDFAnnotation(name = "hour")
+@UDFAnnotation("hour")
 public class Hour extends UDF
 {
     /**
@@ -41,63 +46,90 @@ public class Hour extends UDF
 
     private static final Logger LOG = LoggerFactory.getLogger(Hour.class);
 
-    private SimpleDateFormat formatter1 = null;
-    
-    private SimpleDateFormat formatter2 = null;
-    
+    private TimeParser timeParser;
+
+    private TimestampParser timestampParser;
+
     private Calendar calendar = null;
-    
+
+    private Boolean isTimestampType = null;
+
     /**
      * <默认构造函数>
-     * @param config udf函数中需要的参数，这些参数要在cql中通过全局变量进行设置。
      */
     public Hour(Map<String, String> config)
+        throws StreamingException
     {
         super(config);
+        StreamingConfig conf = new StreamingConfig();
+        for (Map.Entry<String, String> et : config.entrySet())
+        {
+            conf.put(et.getKey(), et.getValue());
+        }
+        timeParser = new TimeParser(conf);
+        timestampParser = new TimestampParser(conf);
     }
-    
+
     /**
      * 计算函数
-     * @param dateString the dateString in the format of "yyyy-MM-dd HH:mm:ss" or HH:mm:ss".
-     * @return an int from 0 to 23. null if the dateString is not a valid date string
      */
     public Integer evaluate(String dateString)
     {
-        if (dateString == null)
+        if (Strings.isNullOrEmpty(dateString))
         {
             return null;
         }
-        
-        if (formatter1 == null)
+
+        if (isTimestampType == null)
         {
-            formatter1 = new SimpleDateFormat(UDFConstants.TIMESTAMP_FORMAT);
-            formatter2 = new SimpleDateFormat(UDFConstants.TIME_FORMAT);
+            initDataType(dateString);
             calendar = Calendar.getInstance();
-            /*
-             * 设置时间严格匹配
-             */
-            formatter1.setLenient(false);
-            formatter2.setLenient(false);
-        }
-        
-        try
-        {
-            Date date = null;
-            if (dateString.length() > UDFConstants.TIME_FORMAT.length())
+            if (isTimestampType)
             {
-                date = formatter1.parse(dateString);
+                calendar.setTimeZone(timestampParser.getTimeZone());
             }
             else
             {
-                date = formatter2.parse(dateString);
+                calendar.setTimeZone(timeParser.getTimeZone());
             }
-            calendar.setTime(date);
+        }
+
+        try
+        {
+            calendar.setTimeInMillis(getTime(dateString));
             return calendar.get(Calendar.HOUR_OF_DAY);
         }
-        catch (ParseException e)
+        catch (StreamingException e)
         {
             LOG.warn(EVALUATE_IGNORE_MESSAGE);
             return null;
+        }
+    }
+
+    private long getTime(String dateString)
+        throws StreamingException
+    {
+        if (isTimestampType)
+        {
+            Timestamp ts = (Timestamp)timestampParser.createValue(dateString);
+            return ts.getTime();
+        }
+        else
+        {
+            Time dt = (Time)timeParser.createValue(dateString);
+            return dt.getTime();
+        }
+    }
+
+    private void initDataType(String dateString)
+    {
+        if (dateString.length() > TimeConstants.DATE_FORMAT.length())
+        {
+            isTimestampType = true;
+        }
+        else
+        {
+            isTimestampType = false;
         }
     }
 }

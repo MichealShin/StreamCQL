@@ -19,43 +19,44 @@
 package com.huawei.streaming.udfs;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
+import com.huawei.streaming.config.StreamingConfig;
+import com.huawei.streaming.exception.StreamingException;
+import com.huawei.streaming.util.datatype.TimestampParser;
 
 /**
  * 数据类型转换函数
  * 
  */
-@UDFAnnotation(name = "totimestamp")
+@UDFAnnotation("totimestamp")
 public class ToTimeStamp extends UDF
 {
     private static final long serialVersionUID = -4516472038115224500L;
     
     private static final Logger LOG = LoggerFactory.getLogger(ToTimeStamp.class);
-    private final SimpleDateFormat formatter = new SimpleDateFormat(UDFConstants.TIMESTAMP_FORMAT);
+    private TimestampParser timestampParser = null;
 
     /**
      * <默认构造函数>
-     * @param config 参数
      */
-    public ToTimeStamp(Map<String, String> config)
+    public ToTimeStamp(Map<String, String> config) throws StreamingException
     {
         super(config);
-        /*
-         * 设置时间严格匹配
-         */
-        formatter.setLenient(false);
+        StreamingConfig conf = new StreamingConfig();
+        for(Map.Entry<String, String> et : config.entrySet())
+        {
+            conf.put(et.getKey(), et.getValue());
+        }
+        timestampParser = new TimestampParser(conf);
     }
     
     /**
      * 类型转换实现
-     * @param s 待转换数据
-     * @return 转换之后结果
      */
     public Timestamp evaluate(String s)
     {
@@ -66,10 +67,12 @@ public class ToTimeStamp extends UDF
         
         try
         {
-            formatter.parse(s);
-            return Timestamp.valueOf(s);
+            /**
+             *  更改该函数默认行为和输入一致
+             */
+            return (Timestamp)timestampParser.createValue(s);
         }
-        catch (Exception e)
+        catch (StreamingException e)
         {
             LOG.warn(EVALUATE_IGNORE_MESSAGE);
             return null;

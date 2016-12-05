@@ -25,7 +25,7 @@ import java.util.Map;
  * 将字符串转为小写
  * 
  */
-@UDFAnnotation(name = "lower")
+@UDFAnnotation("lower")
 public class StringToLower extends UDF
 {
     /**
@@ -35,7 +35,6 @@ public class StringToLower extends UDF
     
     /**
      * <默认构造函数>
-     * @param config udf函数中需要的参数，这些参数要在cql中通过全局变量进行设置。
      */
     public StringToLower(Map<String, String> config)
     {
@@ -44,8 +43,6 @@ public class StringToLower extends UDF
     
     /**
      * 字符串转为小写
-     * @param str 字符串
-     * @return 小写字符窜
      */
     public String evaluate(String str)
     {
@@ -53,6 +50,6 @@ public class StringToLower extends UDF
         {
             return null;
         }
-        return new String(str.toLowerCase(Locale.US));
+        return str.toLowerCase(Locale.US);
     }
 }

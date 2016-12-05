@@ -29,7 +29,6 @@ public interface StreamAdapter
 {
     /**
      * 设置流处理算子
-     * @param operator 流处理算子
      */
     void setOperator(IRichOperator operator);
 }

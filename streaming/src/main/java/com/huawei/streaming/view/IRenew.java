@@ -26,7 +26,6 @@ public interface IRenew
 {
     /**
      * <创建视图的副本>
-     * @return 视图副本
      */
     public IView renewView();
 }

@@ -34,9 +34,6 @@ public class CSVLineParser
     /**
      * <解析CVS一行数据>
      * <功能详细描述>
-     * @param obj 行数据
-     * @return 解析后诗句
-     * @throws IOException 异常
      */
     public static List<Object[]> parseCsv(String obj)
         throws IOException

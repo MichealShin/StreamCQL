@@ -25,7 +25,7 @@ import java.util.Map;
  * 将字符串全部转为大写
  * 
  */
-@UDFAnnotation(name = "upper")
+@UDFAnnotation("upper")
 public class StringToUpper extends UDF
 {
     /**
@@ -35,7 +35,6 @@ public class StringToUpper extends UDF
     
     /**
      * <默认构造函数>
-     * @param config udf函数中需要的参数，这些参数要在cql中通过全局变量进行设置。
      */
     public StringToUpper(Map<String, String> config)
     {
@@ -44,8 +43,6 @@ public class StringToUpper extends UDF
     
     /**
      * 字符串转为大写
-     * @param str 字符串
-     * @return 大写字符窜
      */
     public String evaluate(String str)
     {

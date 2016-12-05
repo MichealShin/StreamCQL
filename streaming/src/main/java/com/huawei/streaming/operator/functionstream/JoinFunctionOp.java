@@ -18,6 +18,7 @@
 
 package com.huawei.streaming.operator.functionstream;
 
+import com.huawei.streaming.util.StreamingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,8 +35,10 @@ import com.huawei.streaming.process.join.JoinFilterProcessor;
 import com.huawei.streaming.processor.JoinProcessor;
 import com.huawei.streaming.view.FirstLevelStream;
 import com.huawei.streaming.view.JoinProcessView;
+import com.huawei.streaming.view.MergeView;
 import com.huawei.streaming.window.IWindow;
 import com.huawei.streaming.window.LengthSlideWindow;
+import com.huawei.streaming.window.group.IGroupWindow;
 
 /**
  * join算子
@@ -112,11 +115,6 @@ public class JoinFunctionOp extends FunctionOperator
     /**
      * 
      * <默认构造函数>
-     * @param leftWindow     左流的窗口
-     * @param rightWindow    右流的窗口
-     * @param joinComposer   数据流关联服务
-     * @param filterProcess  结果过滤服务 having
-     * @param setProcessor   聚合服务 
      */
     public JoinFunctionOp(IWindow leftWindow, IWindow rightWindow, IJoinComposer joinComposer,
         JoinFilterProcessor filterProcess, IJoinSetProcessor setProcessor)
@@ -147,12 +145,6 @@ public class JoinFunctionOp extends FunctionOperator
     /**
      * 
      * <默认构造函数>
-     * @param leftWindow     左流的窗口
-     * @param rightWindow    右流的窗口
-     * @param joinComposer   数据流关联服务
-     * @param filterProcess  结果过滤服务 having
-     * @param setProcessor   聚合服务 
-     * @param type           输出类型
      */
     public JoinFunctionOp(IWindow leftWindow, IWindow rightWindow, IJoinComposer joinComposer,
         JoinFilterProcessor filterProcess, IJoinSetProcessor setProcessor, OutputType type)
@@ -166,7 +158,6 @@ public class JoinFunctionOp extends FunctionOperator
     
     /**
      * 从配置文件中获得算子本身需要的配置数据
-     * @param config 配置信息
      */
     @Override
     public void setConfig(StreamingConfig config) throws StreamingException
@@ -185,8 +176,8 @@ public class JoinFunctionOp extends FunctionOperator
         
         this.addInputStream(leftStreamName);
         this.addInputStream(rightStreamName);
-        this.addInputSchema(leftStreamName, (IEventType)config.get(StreamingConfig.OPERATOR_JOIN_INNER_LEFT_SCHEMA));
-        this.addInputSchema(rightStreamName, (IEventType)config.get(StreamingConfig.OPERATOR_JOIN_INNER_RIGHT_SCHEMA));
+        this.addInputSchema(leftStreamName, StreamingUtils.deSerializeSchema((String)config.get(StreamingConfig.OPERATOR_JOIN_INNER_LEFT_SCHEMA)));
+        this.addInputSchema(rightStreamName, StreamingUtils.deSerializeSchema((String)config.get(StreamingConfig.OPERATOR_JOIN_INNER_RIGHT_SCHEMA)));
         
     }
     
@@ -222,7 +213,17 @@ public class JoinFunctionOp extends FunctionOperator
     {
         if (window != null)
         {
-            window.addView(joinView);
+            //groupWindow后面需要先添加mergeView
+            if (window instanceof IGroupWindow)
+            {
+                MergeView mergeView = new MergeView();
+                mergeView.addView(joinView);
+                window.addView(mergeView);
+            }
+            else
+            {
+                window.addView(joinView);
+            }
             stream.addView(window);
         }
     }

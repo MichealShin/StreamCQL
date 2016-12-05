@@ -61,16 +61,7 @@ public class SimpleSerDe extends BaseSerDe
         super.setConfig(conf);
         separator = getConfig().getStringValue(StreamingConfig.SERDE_SIMPLESERDE_SEPARATOR);
     }
-    
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void initialize()
-        throws StreamSerDeException
-    {
-    }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -110,7 +101,7 @@ public class SimpleSerDe extends BaseSerDe
             LOG.info("Input event is null.");
             return null;
         }
-        
+
         sb.delete(0, sb.length());
         for (int i = 0; i < event.size(); i++)
         {
@@ -121,26 +112,32 @@ public class SimpleSerDe extends BaseSerDe
                 sb.append(result + LINE_SEPARATOR_UNIX);
             }
         }
-        
+
         return sb.substring(0, sb.length() - LINE_SEPARATOR_UNIX.length());
     }
     
     private String lineSerialize(Object[] vals)
     {
+        String[] result = null;
         try
         {
-            StringBuilder lineSb = new StringBuilder();
-            for (int j = 0; j < vals.length-1; j++)
-            {
-                lineSb.append(serializeToString(vals[j]) + separator);
-            }
-            lineSb.append(serializeToString(vals[vals.length - 1]));
-            return lineSb.toString();
+            result = serializeRowToString(vals);
         }
         catch (StreamSerDeException e)
         {
             LOG.warn("One line is ignore.");
             return null;
         }
+
+        StringBuilder lineSb = new StringBuilder();
+        for (int i = 0; i < result.length; i++)
+        {
+            lineSb.append(result[i]);
+            if (i != result.length - 1)
+            {
+                lineSb.append(separator);
+            }
+        }
+        return lineSb.toString();
     }
 }

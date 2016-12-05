@@ -118,13 +118,13 @@ public class StreamingTest
         {
             StringBuffer sb = new StringBuffer();
             
-            int UDFR_STREAMING_MESSAGE_MSISDN_OFFSET = 41;
-            int UDFR_STREAMING_MESSAGE_MSISDN_LENGTH = 16;
-            int UDFR_STREAMING_MESSAGE_HOST_OFFSET = 357;
-            int UDFR_STREAMING_MESSAGE_HOST_LENGTH = 64;
-            int UDFR_STREAMING_MESSAGE_CASEID_OFFSET = 842;
-            for (int i = UDFR_STREAMING_MESSAGE_MSISDN_OFFSET; i < UDFR_STREAMING_MESSAGE_MSISDN_OFFSET
-                + UDFR_STREAMING_MESSAGE_MSISDN_LENGTH; ++i)
+            int udfrStreamingMessageMsisdnOffset = 41;
+            int udfrStreamingMessageMsisdnLength = 16;
+            int udfrStreamingMessageHostOffset = 357;
+            int udfrStreamingMessageHostLength = 64;
+            int udfrStreamingMessageCaseIdOffset = 842;
+            for (int i = udfrStreamingMessageMsisdnOffset; i < udfrStreamingMessageMsisdnOffset
+                + udfrStreamingMessageMsisdnLength; ++i)
             {
                 if (bt[i] == 0x0)
                 {
@@ -134,8 +134,8 @@ public class StreamingTest
             }
             sb.append(",");
             
-            for (int i = UDFR_STREAMING_MESSAGE_HOST_OFFSET; i < UDFR_STREAMING_MESSAGE_HOST_OFFSET
-                + UDFR_STREAMING_MESSAGE_HOST_LENGTH; ++i)
+            for (int i = udfrStreamingMessageHostOffset; i < udfrStreamingMessageHostOffset
+                + udfrStreamingMessageHostLength; ++i)
             {
                 if (bt[i] == 0x0)
                 {
@@ -148,7 +148,7 @@ public class StreamingTest
             byte[] bytes = new byte[2];
             for (int i = 0; i < 2; ++i)
             {
-                bytes[i] = bt[UDFR_STREAMING_MESSAGE_CASEID_OFFSET + i];
+                bytes[i] = bt[udfrStreamingMessageCaseIdOffset + i];
             }
             int caseid = bytesToShort(bytes);
             sb.append(caseid);

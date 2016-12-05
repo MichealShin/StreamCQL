@@ -35,5 +35,5 @@ public @interface UDFAnnotation
      * 函数名称
      * 
      */
-    String name();
+    String value();
 }

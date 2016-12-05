@@ -78,7 +78,6 @@ public abstract class AbsOperator implements IRichOperator
     /**
      * 初始化
      *
-     * @throws StreamingException 初始化异常
      */
     public abstract void initialize()
         throws StreamingException;
@@ -104,8 +103,6 @@ public abstract class AbsOperator implements IRichOperator
     /**
      * 设置输入流名称
      *
-     * @param streamNames 输入流名称
-     * @throws StreamingException 算子处理异常
      */
     public abstract void setInputStream(List<String> streamNames)
         throws StreamingException;
@@ -113,8 +110,6 @@ public abstract class AbsOperator implements IRichOperator
     /**
      * 设置输出流名称
      *
-     * @param streamName 输出流名称
-     * @throws StreamingException 算子处理异常
      */
     public abstract void setOutputStream(String streamName)
         throws StreamingException;
@@ -122,8 +117,6 @@ public abstract class AbsOperator implements IRichOperator
     /**
      * 设置输入schema，和输入流名称一一对应
      *
-     * @param schemas 输入schema
-     * @throws StreamingException 算子处理异常
      */
     public abstract void setInputSchema(Map<String, IEventType> schemas)
         throws StreamingException;
@@ -131,8 +124,6 @@ public abstract class AbsOperator implements IRichOperator
     /**
      * 设置输出schema
      *
-     * @param schema 输出schema
-     * @throws StreamingException 算子处理异常
      */
     public abstract void setOutputSchema(IEventType schema)
         throws StreamingException;
@@ -149,7 +140,6 @@ public abstract class AbsOperator implements IRichOperator
     /**
      * 设置算子id
      *
-     * @param id 算子id
      */
     public void setOperatorId(String id)
     {
@@ -168,7 +158,6 @@ public abstract class AbsOperator implements IRichOperator
     /**
      * 设置算子并发度
      *
-     * @param number 并发度
      */
     public void setParallelNumber(int number)
     {
@@ -187,7 +176,6 @@ public abstract class AbsOperator implements IRichOperator
     /**
      * 设置算子分组信息
      *
-     * @param groups 分组信息
      */
     public void setGroupInfo(Map<String, GroupInfo> groups)
     {
@@ -197,9 +185,6 @@ public abstract class AbsOperator implements IRichOperator
     /**
      * 设置算子分组信息
      *
-     * @param streamName 流名称
-     * @param distributeType 数据分发类型
-     * @param fields 数据分发字段
      */
     public void setGroupInfo(String streamName, DistributeType distributeType, String[] fields)
     {
@@ -221,7 +206,6 @@ public abstract class AbsOperator implements IRichOperator
     /**
      * 通过流名称获取emitter
      *
-     * @return emitter
      */
     public Map<String, IEmitter> getEmitterMap()
     {
@@ -231,8 +215,6 @@ public abstract class AbsOperator implements IRichOperator
     /**
      * 通过流名称获取emitter
      *
-     * @param streamName 流名称
-     * @return emitter
      */
     public IEmitter getEmitter(String streamName)
     {
@@ -246,7 +228,6 @@ public abstract class AbsOperator implements IRichOperator
     /**
      * 通过流名称获取emitter
      *
-     * @return emitter
      */
     public IEmitter getEmitter()
     {
