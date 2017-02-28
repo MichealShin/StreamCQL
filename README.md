@@ -131,7 +131,7 @@ SINK kafkaOutput
 CREATE INPUT STREAM s3
     ( c1 STRING)
 SOURCE KafkaInput
-    PROPERTIES ("groupId" = "cqlClient", "topic" = "cqlInput",
+    PROPERTIES ("groupId" = "cqlClient", "topic" = "cqlOut",
         "zookeepers" = "127.0.0.1:2181", "brokers" = "127.0.0.1:9092" );
 
 CREATE OUTPUT STREAM s4
