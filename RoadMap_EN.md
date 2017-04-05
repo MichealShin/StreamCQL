@@ -13,17 +13,17 @@
 9. modify all configs , key and value must be string type now.
 
 # StreamCQL 1.1
-##New Feature
+## New Feature
 > * support group window. support group rows slide window, group rows batch window, group time slide window, group time batch window. window.
 > * support Active, Deactive、rebalance in StormAdapter.
 > * support in、like、case、between expression
 > * add RDBDatasource，read data  from data base using JDBC.
 > * [#13][1] support jstorm(uncertain)
 
-##Improvement
+## Improvement
 > * [#15][2] support storm local model in StreamCQL.
 
-##BUG
+## BUG
 > * [#19][3] Please add setting JAVA_HOME before launching cql to documentation
 
 
