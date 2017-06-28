@@ -103,6 +103,19 @@ public class OperatorTransition
         this.distributedFields = distributedFiles;
         this.schemaName = schema.getId();
     }
+
+    public OperatorTransition(String streamname, String fromOperatorId, String toOperatorId,
+                              DistributeType distributedType, String distributedFiles, String schemaId)
+    {
+        super();
+        this.id = streamname;
+        this.streamName = streamname;
+        this.fromOperatorId = fromOperatorId;
+        this.toOperatorId = toOperatorId;
+        this.distributedType = distributedType;
+        this.distributedFields = distributedFiles;
+        this.schemaName = schemaId;
+    }
     
     public String getId()
     {

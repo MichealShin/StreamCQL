@@ -18,6 +18,7 @@
 
 package com.huawei.streaming.cql.semanticanalyzer.analyzecontext.expressiondesc;
 
+import com.huawei.streaming.cql.CQLUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,29 +63,7 @@ public class ConstExpressionDesc implements ExpressionDescribe
     @Override
     public String toString()
     {
-	
-	    //对应常量值为null的场景
-        if (constValue == null)
-        {
-            return null;
-        }
-
-        StreamingDataType dataType = null;
-
-        try
-        {
-            dataType = StreamingDataType.getStreamingDataType(type);
-        }
-        catch (StreamingException e)
-        {
-            LOG.warn("Ignore an StreamingExpression.");
-            return "'" + constValue + "'";
-        }
-
-        String constStringValue = constValue.toString();
-        String postfix = getConstPostfix(dataType);
-        //没有时间类型的常量，统一按照字符串标准进行处理
-        return postfix == null ? "'" + constValue + "'" : constStringValue + postfix;
+        return CQLUtils.constantToString(type,constValue);
     }
 
     public Object getConstValue()

@@ -65,7 +65,7 @@ import com.huawei.streaming.serde.StreamSerDe;
  * 执行计划生成器
  *
  */
-public class ExecutorPlanGenerator
+public class ExecutorPlanGenerator implements IExecutorPlanGenerator
 {
     private static final Logger LOG = LoggerFactory.getLogger(ExecutorPlanGenerator.class);
     

@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import com.huawei.streaming.cql.exception.CQLException;
 import org.apache.commons.io.FileUtils;
 import org.apache.tools.ant.BuildException;
 import org.slf4j.Logger;
@@ -63,8 +64,8 @@ public class PhysicalPlanExecutor implements ExecutorHook
      */
     private static final long ONE_MB = ONE_KB * ONE_KB;
 
-    private ExecutorPlanGenerator generator = null;
-    
+    private IExecutorPlanGenerator generator = null;
+
     private ExecutorPlanChecker executorChecker = null;
     
     private List<ExecutorHook> executorHooks = null;
@@ -83,12 +84,13 @@ public class PhysicalPlanExecutor implements ExecutorHook
     /**
      * <默认构造函数>
      */
-    public PhysicalPlanExecutor()
-    {
+    public PhysicalPlanExecutor() throws CQLException {
+
         executorChecker = new ExecutorPlanChecker();
-        generator = new ExecutorPlanGenerator();
         executorHooks = Lists.newArrayList();
         config = new StreamingConfig();
+        generator = ExecutorPlanGeneratorFactory.create(config);
+
     }
 
     /**
