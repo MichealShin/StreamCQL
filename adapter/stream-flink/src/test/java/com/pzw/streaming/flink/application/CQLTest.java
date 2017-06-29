@@ -64,4 +64,10 @@ public class CQLTest extends CQLBaseTest {
         execSql("cql/splitter.cql");
         while (true);
     }
+
+    @Test
+    public void testRandom() throws Exception {
+        execSql("cql/random_input.cql");
+        while (true);
+    }
 }

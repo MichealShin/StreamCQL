@@ -14,8 +14,9 @@ public class SourcePlanRegistry {
     private static Map<String,Class<? extends ISourceFunction>> registry= Maps.newHashMap();
 
     static {
-        register("kafkainput",KafkaSource.class);
-        register("tcpclientinput",TcpSource.class);
+        register("KafkaInput".toLowerCase(),KafkaSource.class);
+        register("TcpClientInput".toLowerCase(),TcpSource.class);
+        register("RandomGen".toLowerCase(),RandomSource.class);
     }
 
     public static void register(String name,Class<? extends ISourceFunction> sourcePlan) {

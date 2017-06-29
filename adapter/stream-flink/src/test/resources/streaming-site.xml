@@ -5,21 +5,7 @@
         <value>true</value>
         <description></description>
     </property>
-    <property>
-        <name>stream.cql.debug.mode</name>
-        <value>false</value>
-        <description></description>
-    </property>
-    <property>
-        <name>stream.cql.debug.nodes</name>
-        <value>10.1.113.87,10.1.113.88</value>
-        <description></description>
-    </property>
-    <property>
-        <name>stream.cql.debug.index</name>
-        <value>comet_debug_preview_data</value>
-        <description></description>
-    </property>
+
     <property>
         <name>streaming.common.istestmodel</name>
         <value>false</value>
