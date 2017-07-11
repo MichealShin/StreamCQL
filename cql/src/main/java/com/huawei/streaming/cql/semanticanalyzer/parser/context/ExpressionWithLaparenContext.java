@@ -29,14 +29,14 @@ import com.huawei.streaming.cql.semanticanalyzer.parsecontextwalker.ParseContext
  */
 public class ExpressionWithLaparenContext extends BaseExpressionParseContext
 {
-    private ExpressionContext expression;
+    private BaseExpressionParseContext expression;
     
-    public ExpressionContext getExpression()
+    public BaseExpressionParseContext getExpression()
     {
         return expression;
     }
     
-    public void setExpression(ExpressionContext expression)
+    public void setExpression(BaseExpressionParseContext expression)
     {
         this.expression = expression;
     }
@@ -65,7 +65,11 @@ public class ExpressionWithLaparenContext extends BaseExpressionParseContext
     @Override
     public void walkChildAndReplace(ParseContextReplacer replacer)
     {
-        
+        if(replacer.isChildsReplaceable(expression)) {
+            expression =  replacer.createReplaceParseContext();
+        } else {
+            expression.walkChildAndReplace(replacer);
+        }
     }
     
     /**
