@@ -18,11 +18,8 @@
 
 package com.huawei.streaming.cql.semanticanalyzer.parser.context;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
 
+import com.huawei.streaming.cql.CQLUtils;
 import com.huawei.streaming.cql.exception.SemanticAnalyzerException;
 import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.expressiondesc.ConstExpressionDesc;
 import com.huawei.streaming.cql.semanticanalyzer.analyzecontext.expressiondesc.ExpressionDescribe;
@@ -76,60 +73,7 @@ public class ConstantContext extends BaseExpressionParseContext
     @Override
     public String toString()
     {
-        if (datatype == null)
-        {
-            return "NULL";
-        }
-        
-        if (datatype == Integer.class)
-        {
-            return value.toString();
-        }
-        
-        if (datatype == Long.class)
-        {
-            return value.toString() + "L";
-        }
-        
-        if (datatype == Float.class)
-        {
-            return value.toString() + "F";
-        }
-        
-        if (datatype == Double.class)
-        {
-            return value.toString() + "D";
-        }
-        
-        if (datatype == Date.class)
-        {
-            return value.toString() + "DT";
-        }
-        
-        if (datatype == Time.class)
-        {
-            return value.toString() + "TM";
-        }
-        
-        if (datatype == Timestamp.class)
-        {
-            return value.toString() + "TS";
-        }
-        
-        if (datatype == BigDecimal.class)
-        {
-            return value.toString() + "BD";
-        }
-        
-        if (datatype == Boolean.class)
-        {
-            return value.toString();
-        }
-        if (value.toString().contains("\""))
-        {
-            return "'" + value.toString() + "'";
-        }
-        return "\"" + value.toString() + "\"";
+        return CQLUtils.constantToString(datatype,value);
     }
     
     /**
