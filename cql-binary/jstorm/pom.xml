@@ -140,9 +140,9 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.storm</groupId>
-            <artifactId>storm-core</artifactId>
-            <version>0.10.2</version>
+            <groupId>com.alibaba.jstorm</groupId>
+            <artifactId>jstorm-core</artifactId>
+            <version>${jstorm.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.clojure</groupId>
@@ -229,12 +229,6 @@
                     <artifactId>log4j-over-slf4j</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.jstorm</groupId>
-            <artifactId>jstorm-core</artifactId>
-            <version>${jstorm.version}</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
